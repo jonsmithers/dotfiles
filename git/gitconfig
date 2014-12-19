@@ -1,0 +1,15 @@
+[core]
+  pager = less -+X -+F
+  # makes log and diff clear the screen when done
+  # http://linuxtips.manki.in/2012/02/making-git-commands-clear-screen-when.html
+[alias]
+  ad = add
+  fe = fetch
+  cm = commit
+  co = checkout
+  incoming = git log ..@{u}
+  outgoing = log @{u}..
+  tree = log --graph --oneline --all
+  treename = log --graph --all
+[push]
+  default = simple

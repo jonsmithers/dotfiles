@@ -1,0 +1,28 @@
+" this is the vimrc for the Vrapper plugin for eclipse
+
+set autoindent
+set ignorecase
+set smartcase
+set number
+
+"script to toggle syntax highlighting
+function! ToggleSyntax()
+   if exists("g:syntax_on")
+      syntax off
+   else
+      syntax enable
+   endif
+endfunction
+map <silent>  ;s  :call ToggleSyntax()<CR>
+
+" lazy initialization, which doesn't work for vrapper
+let @l='yiwiif (jjA == null) {}jja else {return jjpa;}jjkk'
+
+" faster escape key
+:imap jj <Esc>
+
+" easy the pinky pain
+nmap ; :
+nmap , ;
+
+:vmap jkjk 
