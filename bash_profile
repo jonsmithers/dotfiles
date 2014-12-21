@@ -44,8 +44,12 @@
     echo "I'm so sorry"
   fi
 # Machine specific stuff
+  ##### Home Laptop #####
+  if [ "$(hostname)" == "Zamperini" ]; then
+    alias open="xdg-open"
+
   ##### Work Laptop #####
-  if [ "$(hostname)" == "Smithers.local" ]; then
+  elif [ "$(hostname)" == "Smithers.local" ]; then
     ## Inserted programmatically
       [[ -s "$HOME/.profile" ]] && source "$HOME/.profile" # Load the default .profile
       [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
