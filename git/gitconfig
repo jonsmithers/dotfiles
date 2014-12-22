@@ -1,9 +1,9 @@
 [core]
   pager = less -+X -+F
-  excludesfile = /Users/smithers/.gitignore_global
   editor = vim
-  # makes log and diff clear the screen when done
-  # http://linuxtips.manki.in/2012/02/making-git-commands-clear-screen-when.html
+  excludesfile = /Users/smithers/.gitignore_global
+  # ^ makes log and diff clear the screen when done
+  #   http://linuxtips.manki.in/2012/02/making-git-commands-clear-screen-when.html
 [alias]
   ad = add
   br = branch
@@ -13,7 +13,7 @@
   lg = log
   df = diff
   sh = show
-  incoming = git log ..@{u}
+  incoming = log ..@{u}
   outgoing = log @{u}..
   tree = log --graph --oneline --all
   treename = log --graph --all
