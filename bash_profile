@@ -50,6 +50,7 @@
 
   ##### Work Laptop #####
   elif [ "$(hostname)" == "Smithers.local" ]; then
+    PATH=$PATH:~/programs/scala-2.11.4/bin
     ## Inserted programmatically
       [[ -s "$HOME/.profile" ]] && source "$HOME/.profile" # Load the default .profile
       [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
@@ -72,10 +73,14 @@
       }
     # Functions
       function uploadjars {
+        function dummy {
+          source ~/.bash_profile #alias scoping can be weird. http://superuser.com/questions/708462/alias-scoping-in-bash-functions
+        }
+        dummy
         echo -e " \e[36m ::::: \e[33m REMEMBER TO EXIT OUT OF .CLASS FILES \e[36m ::::: \e[39m" \
-        && leaf \
+        && jump leaf \
         && buildr test=no upload \
-        && asma  \
+        && jump asma  \
         && echo -e "\e[33m Deleting old jars \e[39m" \
         && rm -r ./lib/repository/com/leidos/dc2f \
         && buildr clean artifacts:sources eclipse
