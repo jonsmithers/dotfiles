@@ -4,6 +4,7 @@
     "./git/gitconfig": "~/.gitconfig",
     "./git/gitignore_global": "~/.gitignore_global",
     "./git/git-completion.sh": "~/.git-completion.sh",
+    "./slate.js": "~/.slate.js",
     "./vim/vimrc": "~/.vimrc",
     "./vim/vrapperrc": "~/.vrapperrc"
   }
