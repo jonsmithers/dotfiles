@@ -25,4 +25,8 @@ let @l='yiwiif (jjA == null) {}jja else {return jjpa;}jjkk'
 nmap ; :
 nmap , ;
 
+" timestamp
+nmap \t :r! date "+\%Y\%m\%d"<Enter>yiwk$pjddk$
+imap \t <Esc>:r! date "+\%Y\%m\%d"<Enter>yiwk$pjddk$
+
 :vmap jkjk 
