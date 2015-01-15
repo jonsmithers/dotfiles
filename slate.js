@@ -113,7 +113,7 @@ slate.bindAll({
   "j:ctrl,alt,cmd": function(win) { win.doOperation(halveHeight); win.doOperation(pushDown); },
   "k:ctrl,alt,cmd": function(win) { win.doOperation(halveHeight); win.doOperation(pushUp);   },
   "l:ctrl,alt,cmd": function(win) { win.doOperation(pushRight); },
-  "f:ctrl,alt":     function(win) { win.doOperation(fullscreen); },
+  "f:ctrl,alt,cmd":     function(win) { win.doOperation(fullscreen); },
   "a:alt": focusAsma,
   "i:alt": focusChrome,
   "e:alt": focusEclipse,
