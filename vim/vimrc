@@ -1,7 +1,7 @@
 " allegedly necessary for cool vim things
 set nocompatible
 
-"# Misc basics
+" Misc basics
   set foldmethod=indent
   syntax on
   set number
@@ -9,7 +9,7 @@ set nocompatible
   set smartindent
   set showcmd	  " show more info about what you're doing
 
-"# Tabs
+" Tabs
   set expandtab     " spaces are better than tab characters
   set smarttab      " don't know
   set tabstop=2     " for when you press tab
@@ -22,19 +22,18 @@ set nocompatible
 "# GUI customization
   if has('gui_running')
     syntax enable
-    set background=light
+    set background=dark
     colorscheme solarized
   endif
   
-"# Highlighting overlength
-highlight OverLength ctermbg=red ctermfg=white guibg=#592929
-"uncomment to actually perform the highlight
-"match OverLength /\%81v.\+/
+" Highlighting overlength
+  " highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+  " match OverLength /\%81v.\+/
 
-"# Macros
-  "## lazy initialization
+" Macros
+  " lazy initialization
     let @l="yiwiif (jjA == null) {^M}jja else {^Mreturn jjpa;^M}jjkk"
-    " vimscript to toggle syntax highlighting
+  " vimscript to toggle syntax highlighting
     function! ToggleSyntax()
        if exists("g:syntax_on")
           syntax off
@@ -54,14 +53,16 @@ highlight OverLength ctermbg=red ctermfg=white guibg=#592929
   " auto-resize a window to 80+4 cols
   :nmap <leader>Width :vertical resize 84
 
-  :nnoremap <F2> :set invpaste paste?<CR>
-  :set pastetoggle=<F2>
-  :set showmode
-  "The first line sets a mapping so that pressing F2 in normal mode will invert 
+" Pasting
+  "The first line sets a mapping so that pressing \p in normal mode will invert 
   "the 'paste' option, and will then show the value of that option. The second 
-  "line allows you to press F2 when in insert mode, to toggle 'paste' on and 
+  "line allows you to press \\ppp when in insert mode, to toggle 'paste' on and 
   "off. The third line enables displaying whether 'paste' is turned on in 
   "insert mode.
   "source: http://vim.wikia.com/wiki/Toggle_auto-indenting_for_code_paste
+  :nnoremap \p :set invpaste paste?<CR>
+  :set pastetoggle=\\ppp
+  :set showmode
+
 
 
