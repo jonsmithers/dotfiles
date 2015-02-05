@@ -57,6 +57,7 @@
     ## Aliases
       alias dc2f='jump dc2f'
       alias asma='jump asma'
+      alias uc2='jump uc2'
       alias leaf='jump leaf'
       alias risc2='jump risc2'
       alias slatetail='tail -f /var/log/system.log | grep --line-buffered "Slate" | sed "s/.*.local Slate\[[0-9]*\]:/> /"' 
