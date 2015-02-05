@@ -26,7 +26,7 @@ nmap ; :
 nnoremap , ;
 
 " timestamp
-nmap \t :r! date "+\%Y\%m\%d"<Enter>yiwk$pjddk$
-imap \t <Esc>:r! date "+\%Y\%m\%d"<Enter>yiwk$pjddk$A
+nmap \t :r! date "+\%Y\%m\%d"<Enter>yiwk$pjddkA<Space><Esc>
+imap \t <Esc>:r! date "+\%Y\%m\%d"<Enter>yiwk$pjddkA<Space>
 
 :vmap jkjk 
