@@ -98,6 +98,7 @@ var focusITerm   = function() { slate.log("enter function"); if (!iterateApp("iT
 var focusMail    = function() { slate.log("enter function"); if (!iterateApp("Mail")) S.shell('/usr/bin/open -a /Applications/Mail.app'); };
 var focusOutlook = function() { slate.log("enter function"); showOrOpen("Microsoft Outlook", "/Applications/Microsoft Office 2011/Microsoft Outlook.app"); };
 var focusSublime = function() { slate.log("enter function"); showOrOpen("Sublime Text", "/Applications/Sublime Text.app"); };
+var focusLync    = function() { slate.log("enter function"); if (!iterateApp("Slate")) S.shell('/usr/bin/open -a "/Applications/Microsoft Lync.app/"'); };
 var relaunchSlate = slate.operation("relaunch");
 var testDelay = function() {S.log("Executing now"); };
 /*
@@ -115,14 +116,15 @@ slate.bindAll({
   "l:ctrl,alt,cmd": function(win) { win.doOperation(pushRight); },
   "f:ctrl,alt,cmd":     function(win) { win.doOperation(fullscreen); },
   "a:alt": focusAsma,
-  "i:alt": focusChrome,
   "e:alt": focusEclipse,
   "f:alt": focusFinder,
-  "t:alt": focusITerm,
+  "i:alt": focusChrome,
+  "l:alt": focusLync,
   "m:alt": focusMail,
   "o:alt": focusOutlook,
-  "s:alt": focusSublime,
   "r:alt": relaunchSlate,
+  "s:alt": focusSublime,
+  "t:alt": focusITerm,
   "d:alt": testDelay,
 });
 
