@@ -22,12 +22,14 @@
 # Platform specific stuff
   ##### APPLE #####
   if [ "$(uname)" == "Darwin" ]; then
+    echo "bash_profile: apple init"
     # Filesystem navigation
       function marks {
         \ls -l "$MARKPATH" | tail -n +2 | sed 's/  / /g' | cut -d' ' -f9- | awk -F ' -> ' '{printf "%-10s -> %s\n", $1, $2}'
       } 
   ###### LINUX #####
   elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+    echo "bash_profile: linux init"
     function download {
       # let's you download a file over a spotty connection.
       # wget not available on Mac, and I think curl works pretty well 
@@ -46,10 +48,12 @@
 # Machine specific stuff
   ##### Home Laptop #####
   if [ "$(hostname)" == "Zamperini" ]; then
+    echo "bash_profile: zamperini init"
     alias open="xdg-open"
 
   ##### Work Laptop #####
-  elif [ "$(hostname)" == "Smithers.local" ]; then
+  elif [[ "$(hostname)" =~ Smithers(\.local)? ]]; then
+    echo "bash_profile: work laptop init"
     PATH=$PATH:~/programs/scala-2.11.4/bin
     ## Inserted programmatically
       [[ -s "$HOME/.profile" ]] && source "$HOME/.profile" # Load the default .profile
@@ -102,6 +106,7 @@
       {
         /usr/local/git/libexec/git-core/git-gui "$@"
       }
+  else echo "No machine intialization $(hostname)"
   fi
 
 ## aliases
