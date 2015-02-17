@@ -117,6 +117,7 @@
   alias gim='g -c vim'
   alias todos='grep -r -I --ignore-case -E "smithers|JJS" . | grep --ignore-case TODO'
   alias doge='echo "DOGE HERE. MUCH BASH. SUCH TERMINAL"'
+  alias shortgrep='grep --invert-match -E ".{200}"'
 
   alias dsk='jump dsk'
   alias dls='jump dls'
