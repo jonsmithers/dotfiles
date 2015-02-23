@@ -9,7 +9,7 @@
   # http://jeroenjanssens.com/2013/08/16/quickly-navigate-your-filesystem-from-the-command-line.html
   export MARKPATH=$HOME/.marks
   function jump {
-      cd -P "$MARKPATH/$1" 2>/dev/null || echo "No such mark: $1"
+      cd -P "$MARKPATH/$1" 2>/dev/null || return 1; #echo "No such mark: $1"
   }
   function mark {
       mkdir -p "$MARKPATH"; ln -s "$(pwd)" "$MARKPATH/$1"
@@ -85,10 +85,12 @@
         echo -e " \e[36m ::::: \e[33m REMEMBER TO EXIT OUT OF .CLASS FILES \e[36m ::::: \e[39m" \
         && jump leaf \
         && buildr test=no upload \
-        && jump asma  \
+        && echo "jumping to $1" \
+        && jump $1 \
         && echo -e "\e[33m Deleting old jars \e[39m" \
         && rm -r ./lib/repository/com/leidos/dc2f \
-        && buildr clean artifacts:sources eclipse
+        && buildr clean artifacts:sources eclipse \
+        || echo "something went wrong?"
       }
       function subl() {
         "/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl" "$@"
