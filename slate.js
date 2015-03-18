@@ -89,8 +89,18 @@ var throwNextFullscreen = slate.operation("throw", {
   "height": "screenSizeY",
   "screen": "next"
 });
-
-
+var focusDown = slate.operation("focus", {
+  "direction": "down"
+});
+var focusUp = slate.operation("focus", {
+  "direction": "up"
+});
+var focusRight = slate.operation("focus", {
+  "direction": "right"
+});
+var focusLeft = slate.operation("focus", {
+  "direction": "left"
+});
 var showOrOpen = function(appName, appPath) {
   if (!iterateApp(appName)) {
     S.shell('/usr/bin/open -a "' + appPath + '"');
@@ -118,12 +128,16 @@ var focusChrome2 = slate.operation("focus", { "app" : "Google Chrome" });
 
 // BIND THEM TO KEYS
 slate.bindAll({
-  "h:ctrl,alt,cmd": function(win) { win.doOperation(pushLeft); },
-  "j:ctrl,alt,cmd": function(win) { win.doOperation(halveHeight); win.doOperation(pushDown); },
-  "k:ctrl,alt,cmd": function(win) { win.doOperation(halveHeight); win.doOperation(pushUp);   },
-  "l:ctrl,alt,cmd": function(win) { win.doOperation(pushRight); },
-  "f:ctrl,alt,cmd":     function(win) { win.doOperation(fullscreen); },
-  "p:ctrl,alt,cmd": function(win) { win.doOperation(throwNextFullscreen); },
+  "h:alt,shift": function(win) { win.doOperation(pushLeft); },
+  "j:alt,shift": function(win) { win.doOperation(halveHeight); win.doOperation(pushDown); },
+  "k:alt,shift": function(win) { win.doOperation(halveHeight); win.doOperation(pushUp);   },
+  "l:alt,shift": function(win) { win.doOperation(pushRight); },
+  "f:alt,shift": function(win) { win.doOperation(fullscreen); },
+  "t:alt,shift": function(win) { win.doOperation(throwNextFullscreen); },
+  "k:ctrl,alt,cmd": function(win) {win.doOperation(focusUp); },
+  "j:ctrl,alt,cmd": function(win) {win.doOperation(focusDown); },
+  "h:ctrl,alt,cmd": function(win) {win.doOperation(focusLeft); },
+  "l:ctrl,alt,cmd": function(win) {win.doOperation(focusRight); },
   "a:alt": focusAsma,
   "e:alt": focusEclipse,
   "f:alt": focusFinder,
