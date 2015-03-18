@@ -82,6 +82,14 @@ var fullscreen = slate.operation("move", {
   "width" : "screenSizeX",
   "height" : "screenSizeY"
 });
+var throwNextFullscreen = slate.operation("throw", {
+  "x": "screenOriginX",
+  "y": "screenOriginY",
+  "width": "screenSizeX",
+  "height": "screenSizeY",
+  "screen": "next"
+});
+
 
 var showOrOpen = function(appName, appPath) {
   if (!iterateApp(appName)) {
@@ -115,6 +123,7 @@ slate.bindAll({
   "k:ctrl,alt,cmd": function(win) { win.doOperation(halveHeight); win.doOperation(pushUp);   },
   "l:ctrl,alt,cmd": function(win) { win.doOperation(pushRight); },
   "f:ctrl,alt,cmd":     function(win) { win.doOperation(fullscreen); },
+  "p:ctrl,alt,cmd": function(win) { win.doOperation(throwNextFullscreen); },
   "a:alt": focusAsma,
   "e:alt": focusEclipse,
   "f:alt": focusFinder,
