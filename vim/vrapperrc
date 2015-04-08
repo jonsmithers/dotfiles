@@ -18,15 +18,27 @@ map <silent>  ;s  :call ToggleSyntax()<CR>
 " lazy initialization, which doesn't work for vrapper
 let @l='yiwiif (jjA == null) {}jja else {return jjpa;}jjkk'
 
-" faster escape key
+" insert mode shortcuts
 :imap jj <Esc>
+:inoremap II <Esc>I
+:inoremap AA <Esc>A
+:inoremap OO <Esc>O
+:inoremap CC <Esc>C
+:inoremap SS <Esc>S
+:inoremap DD <Esc>dd
+:inoremap UU <Esc>u
+:inoremap :: <Esc>:
+"http://vim.wikia.com/wiki/Quick_command_in_insert_mode
+
 
 " easy the pinky pain
-nmap ; :
-nnoremap , ;
+" (I decided I don't want to give up ";" default functionality)
+"nmap ; :
+"nnoremap , ;
 
 " timestamp
 nmap \t :r! date "+\%Y\%m\%d"<Enter>yiwk$pjddkA<Space><Esc>
 imap \t <Esc>:r! date "+\%Y\%m\%d"<Enter>yiwk$pjddkA<Space>
+inamp todo TODO jsmithers \t
 
 :vmap jkjk 

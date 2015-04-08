@@ -43,12 +43,16 @@ set nocompatible
     endfunction
     
 "# Keyboard keys
-  " pinky pain
-    nnoremap , ;
-    nmap ; :
+  " insert mode shortcuts
   :imap jj 
+  :inoremap II <Esc>I
+  :inoremap AA <Esc>A
+  :inoremap OO <Esc>O
+  :inoremap Oo <Esc>o
+  :inoremap :: <Esc>:
+  :inoremap jl <Esc>:
 
-  " wrap overlength text
+" wrap overlength text
   :nmap <leader>w 080lF<Space>a
   " auto-resize a window to 80+4 cols
   :nmap <leader>Width :vertical resize 84
@@ -63,6 +67,4 @@ set nocompatible
   :nnoremap \p :set invpaste paste?<CR>
   :set pastetoggle=\\ppp
   :set showmode
-
-
 
