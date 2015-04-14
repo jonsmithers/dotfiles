@@ -5,6 +5,9 @@ set ignorecase
 set smartcase
 set number
 
+set noexpandtab
+" do nut substitute spaces for tabs
+
 "script to toggle syntax highlighting
 function! ToggleSyntax()
    if exists("g:syntax_on")
