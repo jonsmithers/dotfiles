@@ -44,7 +44,7 @@ set nocompatible
     
 "# Keyboard keys
   " insert mode shortcuts
-  :imap jj 
+  :imap jk 
   :inoremap II <Esc>I
   :inoremap AA <Esc>A
   :inoremap OO <Esc>O
