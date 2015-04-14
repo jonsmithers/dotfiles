@@ -117,6 +117,7 @@
   alias g='git number'
   alias gn='git number'
   alias gim='g -c vim'
+  alias gatom='g -c atom'
   alias todos='git grep -I --ignore-case -E "todo.*(smithers|JJS)"'
   alias doge='echo "DOGE HERE. MUCH BASH. SUCH TERMINAL"'
   alias shortgrep='grep --invert-match -E ".{200}"'
