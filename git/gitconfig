@@ -22,3 +22,5 @@
 [user]
 	name = Jon Smithers
 	email = Jonathan.J.Smithers@leidos.com
+[credential]
+	helper = cache --timeout 28800
