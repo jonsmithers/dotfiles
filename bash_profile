@@ -118,13 +118,15 @@
   alias gn='git number'
   alias gim='g -c vim'
   alias gatom='g -c atom'
-  alias todos='git grep -I --ignore-case -E "todo.*(smithers|JJS)"'
+  alias todos='agl "(TODO|todo).*(smithers|JJS)" -A 2 -B 2'
+  alias todosgrep='git grep -I --ignore-case -E "todo.*(smithers|JJS)"'
   alias doge='echo "DOGE HERE. MUCH BASH. SUCH TERMINAL"'
   alias shortgrep='grep --invert-match -E ".{200}"'
 
   alias dsk='jump dsk'
   alias dls='jump dls'
 
+  alias agl='ag --pager="less -R"'
   alias grep='grep --color=auto -I'
   #                              ^ ignore binary files
   #                  ^ highlight matches
