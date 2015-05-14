@@ -15,6 +15,9 @@ set nocompatible
   set tabstop=2     " for when you press tab
   set shiftwidth=2  " for autoindent, I think
 
+" Prose
+  set nojoinspaces
+
 " Wrap gitcommit file types at the appropriate length
   " filetype indent plugin on
   " filetype on
