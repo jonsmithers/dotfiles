@@ -117,6 +117,7 @@
   alias g='git number'
   alias gn='git number'
   alias gim='g -c vim'
+  alias tim='vim -c NERDTreeToggle'
   alias gatom='g -c atom'
   alias todos='agl "(TODO|todo).*(smithers|JJS)" -A 2 -B 2'
   alias todosgrep='git grep -I --ignore-case -E "todo.*(smithers|JJS)"'
