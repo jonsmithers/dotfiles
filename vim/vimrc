@@ -91,8 +91,9 @@ let g:airline_symbols.space = "\ua0"
   :inoremap AA <Esc>A
   :inoremap OO <Esc>O
   :inoremap Oo <Esc>o
-  :inoremap :: <Esc>:
   :inoremap jl <Esc>:
+  :nnoremap \	 :e#
+
 
 " wrap overlength text
   :nmap <leader>w 080lF<Space>a
