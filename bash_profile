@@ -55,6 +55,9 @@
   elif [[ "$(hostname)" =~ Smithers(\.local)? ]]; then
     echo "bash_profile: work laptop init"
     PATH=$PATH:~/programs/scala-2.11.4/bin
+    export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_72.jdk/Contents/Home/ #needed for buildr to work on dev 20150514
+    export CLICOLOR=1
+    export LSCOLORS="Gxfxcxdxbxegedabagacad"
     ## Inserted programmatically
       [[ -s "$HOME/.profile" ]] && source "$HOME/.profile" # Load the default .profile
       [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
@@ -119,7 +122,7 @@
   alias gim='g -c vim'
   alias tim='vim -c NERDTreeToggle'
   alias gatom='g -c atom'
-  alias todos='agl "(TODO|todo).*(smithers|JJS)" -A 2 -B 2'
+  alias todos='agl "(TODO|todo).*(([sS](mithers|MITHERS))|JJS|jjs)" -A 2 -B 2'
   alias todosgrep='git grep -I --ignore-case -E "todo.*(smithers|JJS)"'
   alias doge='echo "DOGE HERE. MUCH BASH. SUCH TERMINAL"'
   alias shortgrep='grep --invert-match -E ".{200}"'
