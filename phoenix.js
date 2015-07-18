@@ -130,33 +130,44 @@ api.bind( 'i', ['alt'], function() {
   } else {
     var curWin = Window.focusedWindow();
     var index = -1;
+    if (app.allWindows().length==0) {
+      api.launch('Google Chrome');
+    }
     app.allWindows().forEach(function(element, index2, array) {
       if (element.title() == curWin.title()) {
         index = index2;   
       }
     });
-    //api.alert("current index " + index);
 
+    var finalIndex=index;
     index++;
     if (index == app.allWindows().length) {
       index = 0;
     }
-    while ( ! app.allWindows()[index].title() || app.allWindows()[index].title().indexOf('Hangouts -')==0) {
-      index++
+    while ( ((!app.allWindows()[index].title()) && (index!=finalIndex)) || (app.allWindows()[index].title().indexOf('Hangouts')==0) ) {
+      index++;
+      if (index == app.allWindows().length) {
+        index = 0;
+      }
     }
-    //api.alert("focusing " + index + app.allWindows()[index].title());
     app.allWindows()[index].focusWindow();
   }
 });
 api.bind( 'y', ['alt'], function() { api.alert(Window.focusedWindow().title()) })
+api.bind( 'h', ['alt'], function() {
+  Window.allWindows().forEach(function(element, index, array) {
+    if (element.title().indexOf('Hangouts') == 0) {
+      element.focusWindow();
+    }
+  });
+});
 api.bind( 't', ['alt'], function() {
   var app = App.findByTitle('iTerm');
-  if (!app) {
+  if (!app || !app.firstWindow()) {
     api.launch('iTerm');
   } else {
-    app.firstWindow().focusWindow();
+    var win = app.firstWindow().focusWindow();
   }
-
 });
 api.bind( 'o', ['alt'], function() {
   var app = App.findByTitle('Microsoft Outlook');
