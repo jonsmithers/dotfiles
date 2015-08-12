@@ -83,18 +83,26 @@
       }
     # Functions
       function uploadjars {
+        if [ -z "$2" ]; then
+          echo "Upload [source] to [target]"
+          return;
+        else
+          echo "Uploading $1 to $1"
+        fi
+
         function dummy {
           source ~/.bash_profile #alias scoping can be weird. http://superuser.com/questions/708462/alias-scoping-in-bash-functions
         }
         dummy
         echo -e " \e[36m ::::: \e[33m REMEMBER TO EXIT OUT OF .CLASS FILES \e[36m ::::: \e[39m" \
-        && jump leaf \
-        && buildr test=no upload \
-        && echo "jumping to $1" \
         && jump $1 \
+        && buildr test=no upload \
+        && echo "jumping to $2" \
+        && jump $2 \
         && echo -e "\e[33m Deleting old jars \e[39m" \
         && rm -r ./lib/repository/com/leidos/dc2f \
-        && buildr clean artifacts:sources eclipse \
+        && buildr artifacts:sources \
+        && buildr clean eclipse \
         || echo "something went wrong?"
       }
       function subl() {
