@@ -123,78 +123,156 @@ bind( 'down', mShift, function() {
 // ############################################################################
 //
 
-api.bind( 'i', ['alt'], function() {
-  var app = App.findByTitle('Google Chrome');
-  if (!app) {
-    api.launch('Google Chrome');
-  } else {
-    var curWin = Window.focusedWindow();
-    var index = -1;
-    if (app.allWindows().length==0) {
-      api.launch('Google Chrome');
-    }
-    app.allWindows().forEach(function(element, index2, array) {
-      if (element.title() == curWin.title()) {
-        index = index2;   
-      }
-    });
-
-    var finalIndex=index;
-    index++;
-    if (index == app.allWindows().length) {
-      index = 0;
-    }
-    while ( ((!app.allWindows()[index].title()) && (index!=finalIndex)) || (app.allWindows()[index].title().indexOf('Hangouts')==0) ) {
-      index++;
-      if (index == app.allWindows().length) {
-        index = 0;
-      }
-    }
-    app.allWindows()[index].focusWindow();
-  }
-});
-api.bind( 'y', ['alt'], function() { api.alert(Window.focusedWindow().title()) })
-api.bind( 'h', ['alt'], function() {
+var focusTitle = function(title) {
   Window.allWindows().forEach(function(element, index, array) {
-    if (element.title().indexOf('Hangouts') == 0) {
+    if (element.title().indexOf(title) == 0) {
       element.focusWindow();
     }
   });
-});
-api.bind( 't', ['alt'], function() {
-  var app = App.findByTitle('iTerm');
-  if (!app || !app.firstWindow()) {
-    api.launch('iTerm');
-  } else {
-    var win = app.firstWindow().focusWindow();
+}
+var cycle = function(appName) {
+  //api.alert(curWin.title());
+
+  var exclusions = new Array();
+  for (var i = 1; i < arguments.length; i++) {
+    exclusions.push(arguments[i]);
   }
-});
-api.bind( 'o', ['alt'], function() {
-  var app = App.findByTitle('Microsoft Outlook');
+  var app = App.findByTitle(appName);
   if (!app) {
-    api.launch('Microsoft Outlook')
-  } else {
-    var win = app.firstWindow();
-    win.focusWindow();
+    api.alert("app is null");
+    api.launch(appName);
+    return;
   }
-});
-api.bind( 'e', ['alt'], function() {
-  var app = App.findByTitle('Eclipse');
-  if (!app) {
-    api.launch('Eclipse');
-  } else {
-    var win = app.firstWindow();
-    win.focusWindow();
+
+  var appWindowsTemp = app.allWindows();
+  var appWindows = new Array();
+
+  for (var i = 0; i < appWindowsTemp.length; i++) {
+    if (appWindowsTemp[i].title()) {
+      appWindows.push(appWindowsTemp[i]);
+    }
   }
-});
-api.bind( 'f', ['alt'], function() {
-  var app = App.findByTitle('Finder');
-  if (!app || !app.firstWindow()) {
-    api.launch('Finder');
-  } else {
-    app.firstWindow().focusWindow();
+
+  if (appWindows.length==0) {
+    api.alert("app has no titled windows");
+    api.launch(appName);
+    return;
   }
-});
+
+  var curWin = Window.focusedWindow();
+  var curWinBelongsToApp = false;
+  for (var i = 0; i < appWindows.length; i++) {
+    if (curWin.title() == appWindows[i].title()) {
+      curWinBelongsToApp = true;
+      break;
+    }
+  }
+
+  var index = 0;
+  if (curWinBelongsToApp) {
+    if (appWindows.length == 1) {
+      api.alert("no other windows");
+      return;
+    }
+
+    index++; // do not focus already-focused window
+  }
+
+  while (shouldBeExcluded(appWindows[index].title())) {
+    api.alert("exclude " + appWindows[index].title());
+    index++;
+    if (index == appWindows.length) {
+      break;
+    }
+  }
+  if (index == appWindows.length) {
+    api.alert("no real windows to switch to");
+    return;
+  }
+  api.alert('Go To "' + appWindows[index].title() +'"');
+  appWindows[index].focusWindow();
+  return;
+
+  function shouldBeExcluded(title) {
+    for (var i = 0; i < exclusions.length; i++) {
+      if (title.indexOf(exclusions[i]) != -1) {
+        return true;
+      }
+    }
+    return false;
+  }
+}
+api.bind( 'i', ['alt'], function() { api.alert(""); cycle('Google Chrome', 'Hangouts') })
+api.bind( 'h', ['alt'], function() { api.alert(""); focusTitle('Hangouts') });
+api.bind( 't', ['alt'], function() { api.alert(""); cycle('iTerm') });
+api.bind( 'o', ['alt'], function() { api.alert(""); cycle('Microsoft Outlook') });
+api.bind( 'l', ['alt'], function() { api.alert(""); cycle('Microsoft Lync') });
+api.bind( 'e', ['alt'], function() { api.alert(""); cycle('Eclipse') });
+api.bind( 'f', ['alt'], function() { api.alert(""); cycle('Finder') });
+// api.bind( 'i', ['alt'], function() {
+//   var app = App.findByTitle('Google Chrome');
+//   if (!app) {
+//     api.launch('Google Chrome');
+//   } else {
+//     var curWin = Window.focusedWindow();
+//     var index = -1;
+//     if (app.allWindows().length==0) {
+//       api.launch('Google Chrome');
+//     }
+//     app.allWindows().forEach(function(element, index2, array) {
+//       if (element.title() == curWin.title()) {
+//         index = index2;   
+//       }
+//     });
+// 
+//     var finalIndex=index;
+//     index++;
+//     if (index == app.allWindows().length) {
+//       index = 0;
+//     }
+//     while ( ((!app.allWindows()[index].title()) && (index!=finalIndex)) || (app.allWindows()[index].title().indexOf('Hangouts')==0) ) {
+//       index++;
+//       if (index == app.allWindows().length) {
+//         index = 0;
+//       }
+//     }
+//     app.allWindows()[index].focusWindow();
+//   }
+// });
+// api.bind( 't', ['alt'], function() {
+//   var app = App.findByTitle('iTerm');
+//   if (!app || !app.firstWindow()) {
+//     api.launch('iTerm');
+//   } else {
+//     var win = app.firstWindow().focusWindow();
+//   }
+// });
+// api.bind( 'o', ['alt'], function() {
+//   var app = App.findByTitle('Microsoft Outlook');
+//   if (!app) {
+//     api.launch('Microsoft Outlook')
+//   } else {
+//     var win = app.firstWindow();
+//     win.focusWindow();
+//   }
+// });
+// api.bind( 'e', ['alt'], function() {
+//   var app = App.findByTitle('Eclipse');
+//   if (!app) {
+//     api.launch('Eclipse');
+//   } else {
+//     var win = app.firstWindow();
+//     win.focusWindow();
+//   }
+// });
+// api.bind( 'f', ['alt'], function() {
+//   var app = App.findByTitle('Finder');
+//   if (!app || !app.firstWindow()) {
+//     api.launch('Finder');
+//   } else {
+//     app.firstWindow().focusWindow();
+//   }
+// });
 bind( 'f', mNone, function() {
   Window.focusedWindow().toFullScreen();
   disableKeys();
