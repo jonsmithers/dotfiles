@@ -141,6 +141,8 @@
   alias dls='jump dls'
 
   alias agl='ag --pager="less -R"'
+  alias agjava='ag -G .*java'
+  alias agxml='ag -G .*xml'
   alias grep='grep --color=auto -I'
   #                              ^ ignore binary files
   #                  ^ highlight matches
