@@ -56,6 +56,8 @@ let g:airline_symbols.space = "\ua0"
 
 " Prose
   set nojoinspaces
+  set flp=^\\s*\\(-\\\\|\\d\\+\\.\\)\\s*
+      "formtlistpat=^\s*\(-\|\d\+\.\)\s*
 
 " Wrap gitcommit file types at the appropriate length
   " filetype indent plugin on
