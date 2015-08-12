@@ -25,7 +25,6 @@ let @l='yiwiif (jjA == null) {}jja else {return jjpa;}jjkk'
 :imap jk <Esc>
 :imap II <Esc>I
 :imap AA <Esc>A
-:imap UU <Esc>u
 :imap ZZ <Esc>zzi
 "http://vim.wikia.com/wiki/Quick_command_in_insert_mode
 
