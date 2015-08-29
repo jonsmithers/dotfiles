@@ -56,8 +56,33 @@ let g:airline_symbols.space = "\ua0"
 
 " Prose
   set nojoinspaces
-  set flp=^\\s*\\(-\\\\|\\d\\+\\.\\)\\s*
-      "formtlistpat=^\s*\(-\|\d\+\.\)\s*
+  func! WriteMode()
+    set fo=ant
+    set flp=^\\s*\\(-\\\\|\\d\\+\\.\\)\\s*
+        "formtlistpat=^\s*\(-\|\d\+\.\)\s*
+    set formatprg=par\ -jw80
+    set nosmartindent
+    set foldmethod=indent
+    " ^ this only affects gqip, NOTHING ELSE
+    " see [help gq]
+  endfu
+  com! WP call WriteMode()
+
+  "I don't use the below function because scrolling is really funky. A
+  "paragraph is either all-visible or all-hidden. Nothing in between.
+  func! SoftWrappedProcessorMode() 
+    setlocal noexpandtab 
+    setlocal wrap 
+    setlocal linebreak 
+    setlocal breakindent
+    map j gj
+    map k gk
+    set formatprg=par -jw80
+    "setlocal spell spelllang=en_us 
+    "set thesaurus+=/Users/sbrown/.vim/thesaurus/mthesaur.txt
+    "set complete+=s
+  endfu 
+com! SoftWrapProcessor call SoftWrappedProcessorMode()
 
 " Wrap gitcommit file types at the appropriate length
   " filetype indent plugin on
