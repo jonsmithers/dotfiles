@@ -137,6 +137,7 @@
   alias todosgrep='git grep -I --ignore-case -E "todo.*(smithers|JJS)"'
   alias doge='echo "DOGE HERE. MUCH BASH. SUCH TERMINAL"'
   alias shortgrep='grep --invert-match -E ".{200}"'
+  alias ll='ls -lhAS'
 
   alias dsk='jump dsk'
   alias dls='jump dls'
