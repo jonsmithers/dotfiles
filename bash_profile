@@ -77,6 +77,7 @@
       alias sdone='(echo -e "\e[0;36myus!" && terminal-notifier -title "Success" -message "It worked!" && mplayer -msglevel all=-1 "/Applications/Wunderlist.app/Contents/Resources/WLCompletionSound.mp3")'
       alias notify='getLastExitStatus && sdone || sfail'
       alias notifyp='getLastExitStatus && sdonep || sfailp'
+      alias buildtomcat='buildr clean test=no package && make tomcat'
       alias n='notify'
       alias np='notifyp'
       function getLastExitStatus {
