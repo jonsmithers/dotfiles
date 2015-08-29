@@ -62,6 +62,7 @@
       [[ -s "$HOME/.profile" ]] && source "$HOME/.profile" # Load the default .profile
       [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
     ## Aliases
+      alias git-gui='/usr/local/git/libexec/git-core/git-gui'
       alias dc2f='jump dc2f'
       alias asma='jump asma'
       alias uc2='jump uc2'
@@ -125,7 +126,6 @@
   fi
 
 ## aliases
-  alias git-gui='/usr/local/git/libexec/git-core/git-gui'
 
   alias g='git number'
   alias gn='git number'
