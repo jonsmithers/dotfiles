@@ -22,6 +22,6 @@
   default = simple
 [user]
 	name = Jon Smithers
-	email = Jonathan.J.Smithers@leidos.com
+	email = jsmithe2@gmu.edu
 [credential]
 	helper = cache --timeout 28800
