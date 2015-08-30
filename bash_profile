@@ -30,6 +30,9 @@
   ###### LINUX #####
   elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
     echo "bash_profile: linux init"
+
+    alias open="xdg-open"
+
     function download {
       # let's you download a file over a spotty connection.
       # wget not available on Mac, and I think curl works pretty well 
@@ -47,9 +50,12 @@
   fi
 # Machine specific stuff
   ##### Home Laptop #####
-  if [ "$(hostname)" == "Zamperini" ]; then
-    echo "bash_profile: zamperini init"
-    alias open="xdg-open"
+  if [ "$(hostname)" == "zamperini2" ]; then
+    echo "bash_profile: zamperini2 init"
+    alias journal="gnome-terminal --command='wordsafe j' --title='Journal' --full-screen --hide-menubar"
+
+    alias dsk='jump dsk'
+    alias dls='jump dls'
 
   ##### Work Laptop #####
   elif [[ "$(hostname)" =~ Smithers(\.local)? ]]; then
