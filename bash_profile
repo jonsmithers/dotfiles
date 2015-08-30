@@ -3,6 +3,7 @@
     source ~/.git-completion.sh
     PS1='[\[$(tput setaf 5)\]\u \[$(tput setaf 2)\]\w\[$(tput setaf 1)\]$(__git_ps1 " (%s)")\[$(tput sgr0)\]]$ '
     PS1='\[$(tput setaf 2)\]\w\[$(tput setaf 1)\]$(__git_ps1 " (%s)")\[$(tput sgr0)\]$ '
+    # Note: this terminal prompt is currently prone to be overwritten by factory bashrc
   fi
 
 # Filesystem navigation
