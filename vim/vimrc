@@ -66,7 +66,7 @@ let g:airline_symbols.space = "\ua0"
     " ^ this only affects gqip, NOTHING ELSE
     " see [help gq]
   endfu
-  com! WP call WriteMode()
+  com! WM call WriteMode()
 
   "I don't use the below function because scrolling is really funky. A
   "paragraph is either all-visible or all-hidden. Nothing in between.
