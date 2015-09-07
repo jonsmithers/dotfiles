@@ -116,10 +116,10 @@ com! SoftWrapProcessor call SoftWrappedProcessorMode()
   :imap jk 
   :inoremap II <Esc>I
   :inoremap AA <Esc>A
-  :inoremap OO <Esc>O
-  :inoremap Oo <Esc>o
   :inoremap jl <Esc>:
   :nnoremap \	 :e#
+  :nmap \t :r! date "+\%Y\%m\%d"<Enter>kJ
+  :imap \t <Esc>:r! date "+\%Y\%m\%d"<Enter>kJA
 
 
 " wrap overlength text
