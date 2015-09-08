@@ -202,8 +202,10 @@ var cycle = function(appName) {
     return false;
   }
 }
-api.bind( 'i', ['alt'], function() { api.alert(""); cycle('Google Chrome', 'Hangouts') })
+api.bind( 'a', ['alt'], function() { api.alert(""); cycle('Atom') });
+api.bind( 'i', ['alt'], function() { api.alert(""); cycle('Google Chrome', 'Hangouts', 'Pushbullet') })
 api.bind( 'h', ['alt'], function() { api.alert(""); focusTitle('Hangouts') });
+api.bind( 'p', ['alt'], function() { api.alert(""); focusTitle('Pushbullet') });
 api.bind( 't', ['alt'], function() { api.alert(""); cycle('iTerm') });
 api.bind( 'o', ['alt'], function() { api.alert(""); cycle('Microsoft Outlook') });
 api.bind( 'l', ['alt'], function() { api.alert(""); cycle('Microsoft Lync') });
