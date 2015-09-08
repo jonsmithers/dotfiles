@@ -85,6 +85,7 @@
       alias notify='getLastExitStatus && sdone || sfail'
       alias notifyp='getLastExitStatus && sdonep || sfailp'
       alias buildtomcat='buildr clean test=no package && make tomcat'
+      alias maketomcat='buildr clean test=no package && make tomcat'
       alias n='notify'
       alias np='notifyp'
       function getLastExitStatus {
