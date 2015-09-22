@@ -211,6 +211,20 @@ api.bind( 'o', ['alt'], function() { api.alert(""); cycle('Microsoft Outlook') }
 api.bind( 'l', ['alt'], function() { api.alert(""); cycle('Microsoft Lync') });
 api.bind( 'e', ['alt'], function() { api.alert(""); cycle('Eclipse') });
 api.bind( 'f', ['alt'], function() { api.alert(""); cycle('Finder') });
+bind( 't', mNone, function() {
+  api.alert("throwing");
+  var focusedWindow = Window.focusedWindow();
+  var nextScreen = focusedWindow.screen().nextScreen()
+  if (!nextScreen) {
+    api.alert("no other screen");
+  } else {
+    var screenFrame = nextScreen.frameWithoutDockOrMenu();
+    var windowFrame = focusedWindow.topLeft();
+    Window.focusedWindow().setTopLeft({x: screenFrame.x, y: screenFrame.y});
+    api.alert("threw window");
+  }
+  disableKeys();
+});
 // api.bind( 'i', ['alt'], function() {
 //   var app = App.findByTitle('Google Chrome');
 //   if (!app) {
