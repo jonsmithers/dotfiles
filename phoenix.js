@@ -124,11 +124,21 @@ bind( 'down', mShift, function() {
 //
 
 var focusTitle = function(title) {
+  var winToFocus
   Window.allWindows().forEach(function(element, index, array) {
     if (element.title().indexOf(title) == 0) {
-      element.focusWindow();
+      if (!winToFocus) {
+        winToFocus = element;
+      }
     }
   });
+
+  if (winToFocus) {
+    winToFocus.focusWindow();
+    api.alert("focused");
+  } else {
+    api.alert("No window has title '"+title+"'");
+  }
 }
 var cycle = function(appName) {
   //api.alert(curWin.title());
@@ -204,8 +214,8 @@ var cycle = function(appName) {
 }
 api.bind( 'a', ['alt'], function() { api.alert(""); cycle('Atom') });
 api.bind( 'i', ['alt'], function() { api.alert(""); cycle('Google Chrome', 'Hangouts', 'Pushbullet') })
-api.bind( 'h', ['alt'], function() { api.alert(""); focusTitle('Hangouts') });
-api.bind( 'p', ['alt'], function() { api.alert(""); focusTitle('Pushbullet') });
+api.bind( 'h', ['alt'], function() { api.alert("focus"); focusTitle('Hangouts') });
+api.bind( 'p', ['alt'], function() { api.alert("focus"); focusTitle('Pushbullet') });
 api.bind( 't', ['alt'], function() { api.alert(""); cycle('iTerm') });
 api.bind( 'o', ['alt'], function() { api.alert(""); cycle('Microsoft Outlook') });
 api.bind( 'l', ['alt'], function() { api.alert(""); cycle('Microsoft Lync') });
