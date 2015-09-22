@@ -171,10 +171,12 @@ var cycle = function(appName) {
 
   var curWin = Window.focusedWindow();
   var curWinBelongsToApp = false;
-  for (var i = 0; i < appWindows.length; i++) {
-    if (curWin.title() == appWindows[i].title()) {
-      curWinBelongsToApp = true;
-      break;
+  if (curWin) { // some window is focused
+    for (var i = 0; i < appWindows.length; i++) {
+      if (curWin.title() == appWindows[i].title()) {
+        curWinBelongsToApp = true;
+        break;
+      }
     }
   }
 
