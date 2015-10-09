@@ -207,7 +207,7 @@ var cycle = function(appName) {
 
   function shouldBeExcluded(title) {
     for (var i = 0; i < exclusions.length; i++) {
-      if (title.indexOf(exclusions[i]) != -1) {
+      if (title.indexOf(exclusions[i]) == 0) {
         return true;
       }
     }
@@ -215,7 +215,7 @@ var cycle = function(appName) {
   }
 }
 api.bind( 'a', ['alt'], function() { api.alert(""); cycle('Atom') });
-api.bind( 'i', ['alt'], function() { api.alert(""); cycle('Google Chrome', 'Hangouts', 'Pushbullet') })
+api.bind( 'i', ['alt'], function() { api.alert(""); cycle('Google Chrome', 'Hangouts', 'Pushbullet', 'Google Play Music') })
 api.bind( 'h', ['alt'], function() { api.alert("focus"); focusTitle('Hangouts') });
 api.bind( 'p', ['alt'], function() { api.alert("focus"); focusTitle('Pushbullet') });
 api.bind( 't', ['alt'], function() { api.alert(""); cycle('iTerm') });
