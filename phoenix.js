@@ -126,12 +126,14 @@ bind( 'down', mShift, function() {
 var focusTitle = function(title) {
   var winToFocus
   Window.allWindows().forEach(function(element, index, array) {
+    api.alert("...");
     if (element.title().indexOf(title) == 0) {
       if (!winToFocus) {
         winToFocus = element;
       }
     }
   });
+  api.alert("set winToFocus");
 
   if (winToFocus) {
     winToFocus.focusWindow();
