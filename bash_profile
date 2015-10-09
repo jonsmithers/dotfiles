@@ -100,15 +100,39 @@
       alias risc2='jump risc2'
       alias tomcat='~/programs/runBranch.sh'
       alias debugmeteor="env NODE_OPTIONS='--debug' meteor run"
-      alias slatetail='tail -f /var/log/system.log | grep --line-buffered "Slate" | sed "s/.*.local Slate\[[0-9]*\]:/> /"' 
-      alias sfailp='(echo -e "\e[0;31muh oh!" && pushbullet push all note "Failure" "Something went wrong." && mplayer -msglevel all=-1 "/Applications/iMovie.app/Contents/Resources/iMovie Sound Effects/Crowd Boo.mp3")'
-      alias sdonep='(echo -e "\e[0;36myus!" && pushbullet push all note "Success" "It worked!" && mplayer -msglevel all=-1 "/Applications/Wunderlist.app/Contents/Resources/WLCompletionSound.mp3")' 
-      alias sfail='(echo -e "\e[0;31muh oh!" && terminal-notifier -title "Failure" -message "Something went wrong." && mplayer -msglevel all=-1 "/Applications/iMovie.app/Contents/Resources/iMovie Sound Effects/Crowd Boo.mp3")'
-      alias sdone='(echo -e "\e[0;36myus!" && terminal-notifier -title "Success" -message "It worked!" && mplayer -msglevel all=-1 "/Applications/Wunderlist.app/Contents/Resources/WLCompletionSound.mp3")'
-      alias notify='getLastExitStatus && sdone || sfail'
-      alias notifyp='getLastExitStatus && sdonep || sfailp'
+      alias slatetail='tail -f /var/log/system.log | grep --line-buffered "Slate" | sed "s/.*.local Slate\[[0-9]*\]:/> /"'
       alias buildtomcat='buildr clean test=no package && make tomcat'
       alias maketomcat='buildr clean test=no package && make tomcat'
+      alias formatMetadata='/Users/smithers/git/formatMetadata/formatXml'
+
+      function sfailp {
+        echo -e "\e[0;31muh oh!"
+        pushbullet push all note "Failure" "Something went wrong."
+        mplayer -msglevel all=-1 "/Applications/iMovie.app/Contents/Resources/iMovie Sound Effects/Crowd Boo.mp3"
+        return 1
+      }
+      function sdonep {
+        echo -e "\e[0;36myus!"
+        pushbullet push all note "Success" "It worked!"
+        mplayer -msglevel all=-1 "/Applications/Wunderlist.app/Contents/Resources/WLCompletionSound.mp3"
+      }
+      function sfail {
+        echo -e "\e[0;31muh oh!"
+        terminal-notifier -title "Failure" -message "Something went wrong."
+        mplayer -msglevel all=-1 "/Applications/iMovie.app/Contents/Resources/iMovie Sound Effects/Crowd Boo.mp3"
+        return 1
+      }
+      function sdone {
+        echo -e "\e[0;36myus!"
+        terminal-notifier -title "Success" -message "It worked!"
+        mplayer -msglevel all=-1 "/Applications/Wunderlist.app/Contents/Resources/WLCompletionSound.mp3"
+      }
+      function notify {
+        getLastExitStatus && sdone || sfail
+      }
+      function notifyp {
+        getLastExitStatus && sdonep || sfailp
+      }
       alias n='notify'
       alias np='notifyp'
       function getLastExitStatus {
