@@ -42,6 +42,7 @@ let g:airline_symbols.space = "\ua0"
 
 " Misc basics
   set foldmethod=indent
+  set foldlevelstart=20
   syntax on
   set number
   set autoindent
