@@ -32,18 +32,18 @@ set nocompatible
 
   "I don't use the below function because scrolling is really funky. A
   "paragraph is either all-visible or all-hidden. Nothing in between.
-  func! SoftWrappedProcessorMode() 
-    setlocal noexpandtab 
-    setlocal wrap 
-    setlocal linebreak 
+  func! SoftWrappedProcessorMode()
+    setlocal noexpandtab
+    setlocal wrap
+    setlocal linebreak
     setlocal breakindent
     map j gj
     map k gk
     set formatprg=par -jw80
-    "setlocal spell spelllang=en_us 
+    "setlocal spell spelllang=en_us
     "set thesaurus+=/Users/sbrown/.vim/thesaurus/mthesaur.txt
     "set complete+=s
-  endfu 
+  endfu
 com! SoftWrapProcessor call SoftWrappedProcessorMode()
 
 " Wrap gitcommit file types at the appropriate length
@@ -56,7 +56,7 @@ com! SoftWrapProcessor call SoftWrappedProcessorMode()
     set background=dark
     colorscheme solarized
   endif
-  
+
 " Highlighting overlength
   " highlight OverLength ctermbg=red ctermfg=white guibg=#592929
   " match OverLength /\%81v.\+/
@@ -72,7 +72,7 @@ com! SoftWrapProcessor call SoftWrappedProcessorMode()
           syntax enable
        endif
     endfunction
-    
+
 "# Keyboard keys
   " insert mode shortcuts
   :imap jk 
@@ -90,10 +90,10 @@ com! SoftWrapProcessor call SoftWrappedProcessorMode()
   :nmap <leader>Width :vertical resize 84
 
 " Pasting
-  "The first line sets a mapping so that pressing \p in normal mode will invert 
-  "the 'paste' option, and will then show the value of that option. The second 
-  "line allows you to press \\ppp when in insert mode, to toggle 'paste' on and 
-  "off. The third line enables displaying whether 'paste' is turned on in 
+  "The first line sets a mapping so that pressing \p in normal mode will invert
+  "the 'paste' option, and will then show the value of that option. The second
+  "line allows you to press \\ppp when in insert mode, to toggle 'paste' on and
+  "off. The third line enables displaying whether 'paste' is turned on in
   "insert mode.
   "source: http://vim.wikia.com/wiki/Toggle_auto-indenting_for_code_paste
   :nnoremap \p :set invpaste paste?<CR>
