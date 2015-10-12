@@ -49,7 +49,7 @@
     # Filesystem navigation
       function marks {
         \ls -l "$MARKPATH" | tail -n +2 | sed 's/  / /g' | cut -d' ' -f9- | awk -F ' -> ' '{printf "%-10s -> %s\n", $1, $2}'
-      } 
+      }
 
   ###### LINUX #####
   elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
@@ -59,17 +59,17 @@
 
     function download {
       # let's you download a file over a spotty connection.
-      # wget not available on Mac, and I think curl works pretty well 
+      # wget not available on Mac, and I think curl works pretty well
       wget --continue --progress=dot:mega --tries=0 "$1"
-      
+
       wget --continue --progress=dot:mega --tries=0 "$1"
     }
     # Filesytem navigation
       function marks {
           ls -l "$MARKPATH" | sed 's/  / /g' | cut -d' ' -f9- | sed 's/ -/  -/g' && echo
-      } 
+      }
   ##### WINDOWS #####
-  elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then 
+  elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then
     echo "I'm so sorry"
   fi
 # Machine specific stuff
@@ -239,16 +239,16 @@
   function decrypt {
        openssl aes-256-cbc -d -a -in "$1" -out "$2"
   }
-  
+
   function searchfortext {
       grep -r -I "$1" .
   }
-  function d() { cd "$@" && ls;} 
+  function d() { cd "$@" && ls;}
   function statsfor {
     git log --author="$1" --pretty=tformat: --numstat | awk '{ add += $1 ; subs += $2 ; loc += $1 - $2 } END \
     { printf "added lines: %s removed lines : %s total lines: %s\n",add,subs,loc }'
   }
-  
+
 shopt -s globstar # HAIL THE GLOBSTAR
 shopt -s cdspell # cd ignores minor spelling mistakes
 shopt -s autocd # omit cd and just put a directory
