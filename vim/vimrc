@@ -4,6 +4,7 @@ set nocompatible
 " Misc basics
   set foldmethod=indent
   set foldlevelstart=20
+  set nowrap
   syntax on
   set number
   set autoindent
