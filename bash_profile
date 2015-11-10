@@ -24,10 +24,33 @@
   ##### APPLE #####
   if [ "$(uname)" == "Darwin" ]; then
     echo "bash_profile: apple init"
+
+    function mostRam {
+      ps xmo rss=,pmem=,comm= | while read rss pmem comm; ((n++<5)); do
+
+      size="$[rss/1024]";
+      short=$[4-${#size}];
+      size="(${size}M)";
+      i=0;
+      while ((i++ < short)); do size=" $size"; done;
+
+      pmem="${pmem%%.*}"
+      if   (($pmem >= 20)); then color=$'\e[31m';
+      elif (($pmem >= 10)); then color=$'\e[33m';
+      else                       color=$'\e[32m ';
+      fi;
+
+      echo "$color$pmem% $size $(basename "$comm")"$'\e[0m'"";
+      done
+    }
+    function mostCpu {
+      ps xro %cpu=,comm= | while read cpu comm; ((i++<5)); do echo $cpu% $(basename "$comm"); done
+    }
     # Filesystem navigation
       function marks {
         \ls -l "$MARKPATH" | tail -n +2 | sed 's/  / /g' | cut -d' ' -f9- | awk -F ' -> ' '{printf "%-10s -> %s\n", $1, $2}'
-      } 
+      }
+
   ###### LINUX #####
   elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
     echo "bash_profile: linux init"
@@ -36,17 +59,17 @@
 
     function download {
       # let's you download a file over a spotty connection.
-      # wget not available on Mac, and I think curl works pretty well 
+      # wget not available on Mac, and I think curl works pretty well
       wget --continue --progress=dot:mega --tries=0 "$1"
-      
+
       wget --continue --progress=dot:mega --tries=0 "$1"
     }
     # Filesytem navigation
       function marks {
           ls -l "$MARKPATH" | sed 's/  / /g' | cut -d' ' -f9- | sed 's/ -/  -/g' && echo
-      } 
+      }
   ##### WINDOWS #####
-  elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then 
+  elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then
     echo "I'm so sorry"
   fi
 # Machine specific stuff
@@ -77,14 +100,39 @@
       alias risc2='jump risc2'
       alias tomcat='~/programs/runBranch.sh'
       alias debugmeteor="env NODE_OPTIONS='--debug' meteor run"
-      alias slatetail='tail -f /var/log/system.log | grep --line-buffered "Slate" | sed "s/.*.local Slate\[[0-9]*\]:/> /"' 
-      alias sfailp='(echo -e "\e[0;31muh oh!" && pushbullet push all note "Failure" "Something went wrong." && mplayer -msglevel all=-1 "/Applications/iMovie.app/Contents/Resources/iMovie Sound Effects/Crowd Boo.mp3")'
-      alias sdonep='(echo -e "\e[0;36myus!" && pushbullet push all note "Success" "It worked!" && mplayer -msglevel all=-1 "/Applications/Wunderlist.app/Contents/Resources/WLCompletionSound.mp3")' 
-      alias sfail='(echo -e "\e[0;31muh oh!" && terminal-notifier -title "Failure" -message "Something went wrong." && mplayer -msglevel all=-1 "/Applications/iMovie.app/Contents/Resources/iMovie Sound Effects/Crowd Boo.mp3")'
-      alias sdone='(echo -e "\e[0;36myus!" && terminal-notifier -title "Success" -message "It worked!" && mplayer -msglevel all=-1 "/Applications/Wunderlist.app/Contents/Resources/WLCompletionSound.mp3")'
-      alias notify='getLastExitStatus && sdone || sfail'
-      alias notifyp='getLastExitStatus && sdonep || sfailp'
+      alias slatetail='tail -f /var/log/system.log | grep --line-buffered "Slate" | sed "s/.*.local Slate\[[0-9]*\]:/> /"'
       alias buildtomcat='buildr clean test=no package && make tomcat'
+      alias maketomcat='buildr clean test=no package && make tomcat'
+      alias formatMetadata='/Users/smithers/git/formatMetadata/formatXml'
+
+      function sfailp {
+        echo -e "\e[0;31muh oh!"
+        pushbullet push all note "Failure" "Something went wrong."
+        mplayer -msglevel all=-1 "/Applications/iMovie.app/Contents/Resources/iMovie Sound Effects/Crowd Boo.mp3"
+        return 1
+      }
+      function sdonep {
+        echo -e "\e[0;36myus!"
+        pushbullet push all note "Success" "It worked!"
+        mplayer -msglevel all=-1 "/Applications/Wunderlist.app/Contents/Resources/WLCompletionSound.mp3"
+      }
+      function sfail {
+        echo -e "\e[0;31muh oh!"
+        terminal-notifier -title "Failure" -message "Something went wrong."
+        mplayer -msglevel all=-1 "/Applications/iMovie.app/Contents/Resources/iMovie Sound Effects/Crowd Boo.mp3"
+        return 1
+      }
+      function sdone {
+        echo -e "\e[0;36myus!"
+        terminal-notifier -title "Success" -message "It worked!"
+        mplayer -msglevel all=-1 "/Applications/Wunderlist.app/Contents/Resources/WLCompletionSound.mp3"
+      }
+      function notify {
+        getLastExitStatus && sdone || sfail
+      }
+      function notifyp {
+        getLastExitStatus && sdonep || sfailp
+      }
       alias n='notify'
       alias np='notifyp'
       function getLastExitStatus {
@@ -191,16 +239,16 @@
   function decrypt {
        openssl aes-256-cbc -d -a -in "$1" -out "$2"
   }
-  
+
   function searchfortext {
       grep -r -I "$1" .
   }
-  function d() { cd "$@" && ls;} 
+  function d() { cd "$@" && ls;}
   function statsfor {
     git log --author="$1" --pretty=tformat: --numstat | awk '{ add += $1 ; subs += $2 ; loc += $1 - $2 } END \
     { printf "added lines: %s removed lines : %s total lines: %s\n",add,subs,loc }'
   }
-  
+
 shopt -s globstar # HAIL THE GLOBSTAR
 shopt -s cdspell # cd ignores minor spelling mistakes
 shopt -s autocd # omit cd and just put a directory

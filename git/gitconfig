@@ -13,6 +13,7 @@
   lg = log
   df = diff
   sh = show
+  cp = cherry-pick
   dfs = diff --staged
   incoming = log ..@{u}
   outgoing = log @{u}..

@@ -124,11 +124,23 @@ bind( 'down', mShift, function() {
 //
 
 var focusTitle = function(title) {
+  var winToFocus
   Window.allWindows().forEach(function(element, index, array) {
+    api.alert("...");
     if (element.title().indexOf(title) == 0) {
-      element.focusWindow();
+      if (!winToFocus) {
+        winToFocus = element;
+      }
     }
   });
+  api.alert("set winToFocus");
+
+  if (winToFocus) {
+    winToFocus.focusWindow();
+    api.alert("focused");
+  } else {
+    api.alert("No window has title '"+title+"'");
+  }
 }
 var cycle = function(appName) {
   //api.alert(curWin.title());
@@ -161,10 +173,12 @@ var cycle = function(appName) {
 
   var curWin = Window.focusedWindow();
   var curWinBelongsToApp = false;
-  for (var i = 0; i < appWindows.length; i++) {
-    if (curWin.title() == appWindows[i].title()) {
-      curWinBelongsToApp = true;
-      break;
+  if (curWin) { // some window is focused
+    for (var i = 0; i < appWindows.length; i++) {
+      if (curWin.title() == appWindows[i].title()) {
+        curWinBelongsToApp = true;
+        break;
+      }
     }
   }
 
@@ -195,20 +209,36 @@ var cycle = function(appName) {
 
   function shouldBeExcluded(title) {
     for (var i = 0; i < exclusions.length; i++) {
-      if (title.indexOf(exclusions[i]) != -1) {
+      if (title.indexOf(exclusions[i]) == 0) {
         return true;
       }
     }
     return false;
   }
 }
-api.bind( 'i', ['alt'], function() { api.alert(""); cycle('Google Chrome', 'Hangouts') })
-api.bind( 'h', ['alt'], function() { api.alert(""); focusTitle('Hangouts') });
+api.bind( 'a', ['alt'], function() { api.alert(""); cycle('Atom') });
+api.bind( 'i', ['alt'], function() { api.alert(""); cycle('Google Chrome', 'Hangouts', 'Pushbullet', 'Google Play Music') })
+api.bind( 'h', ['alt'], function() { api.alert("focus"); focusTitle('Hangouts') });
+api.bind( 'p', ['alt'], function() { api.alert("focus"); focusTitle('Pushbullet') });
 api.bind( 't', ['alt'], function() { api.alert(""); cycle('iTerm') });
 api.bind( 'o', ['alt'], function() { api.alert(""); cycle('Microsoft Outlook') });
 api.bind( 'l', ['alt'], function() { api.alert(""); cycle('Microsoft Lync') });
 api.bind( 'e', ['alt'], function() { api.alert(""); cycle('Eclipse') });
 api.bind( 'f', ['alt'], function() { api.alert(""); cycle('Finder') });
+bind( 't', mNone, function() {
+  api.alert("throwing");
+  var focusedWindow = Window.focusedWindow();
+  var nextScreen = focusedWindow.screen().nextScreen()
+  if (!nextScreen) {
+    api.alert("no other screen");
+  } else {
+    var screenFrame = nextScreen.frameWithoutDockOrMenu();
+    var windowFrame = focusedWindow.topLeft();
+    Window.focusedWindow().setTopLeft({x: screenFrame.x, y: screenFrame.y});
+    api.alert("threw window");
+  }
+  disableKeys();
+});
 // api.bind( 'i', ['alt'], function() {
 //   var app = App.findByTitle('Google Chrome');
 //   if (!app) {

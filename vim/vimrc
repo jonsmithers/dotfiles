@@ -1,6 +1,106 @@
 " allegedly necessary for cool vim things
 set nocompatible
 
+" Misc basics
+  set foldmethod=indent
+  set foldlevelstart=20
+  set nowrap
+  syntax on
+  set number
+  set autoindent
+  set smartindent
+  set showcmd	  " show more info about what you're doing
+
+" Tabs
+  set expandtab     " spaces are better than tab characters
+  set smarttab      " don't know
+  set tabstop=2     " for when you press tab
+  set shiftwidth=2  " for autoindent, I think
+
+" Prose
+  set nojoinspaces
+  func! WriteMode()
+    set fo=ant
+    set flp=^\\s*\\(-\\\\|\\d\\+\\.\\)\\s*
+        "formtlistpat=^\s*\(-\|\d\+\.\)\s*
+    set formatprg=par\ -jw80
+    set nosmartindent
+    set foldmethod=indent
+    " ^ this only affects gqip, NOTHING ELSE
+    " see [help gq]
+  endfu
+  com! WM call WriteMode()
+
+  "I don't use the below function because scrolling is really funky. A
+  "paragraph is either all-visible or all-hidden. Nothing in between.
+  func! SoftWrappedProcessorMode()
+    setlocal noexpandtab
+    setlocal wrap
+    setlocal linebreak
+    setlocal breakindent
+    map j gj
+    map k gk
+    set formatprg=par -jw80
+    "setlocal spell spelllang=en_us
+    "set thesaurus+=/Users/sbrown/.vim/thesaurus/mthesaur.txt
+    "set complete+=s
+  endfu
+com! SoftWrapProcessor call SoftWrappedProcessorMode()
+
+" Wrap gitcommit file types at the appropriate length
+  " filetype indent plugin on
+  " filetype on
+
+"# GUI customization
+  if has('gui_running')
+    syntax enable
+    set background=dark
+    colorscheme solarized
+  endif
+
+" Highlighting overlength
+  " highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+  " match OverLength /\%81v.\+/
+
+" Macros
+  " lazy initialization
+    let @l="yiwiif (jjA == null) {^M}jja else {^Mreturn jjpa;^M}jjkk"
+  " vimscript to toggle syntax highlighting
+    function! ToggleSyntax()
+       if exists("g:syntax_on")
+          syntax off
+       else
+          syntax enable
+       endif
+    endfunction
+
+"# Keyboard keys
+  " insert mode shortcuts
+  :imap jk 
+  :inoremap II <Esc>I
+  :inoremap AA <Esc>A
+  :inoremap jl <Esc>:
+  :nnoremap \	 :e#
+  :nmap \t :r! date "+\%Y\%m\%d"<Enter>kJ
+  :imap \t <Esc>:r! date "+\%Y\%m\%d"<Enter>kJA
+
+
+" wrap overlength text
+  :nmap <leader>w 080lF<Space>a
+  " auto-resize a window to 80+4 cols
+  :nmap <leader>Width :vertical resize 84
+
+" Pasting
+  "The first line sets a mapping so that pressing \p in normal mode will invert
+  "the 'paste' option, and will then show the value of that option. The second
+  "line allows you to press \\ppp when in insert mode, to toggle 'paste' on and
+  "off. The third line enables displaying whether 'paste' is turned on in
+  "insert mode.
+  "source: http://vim.wikia.com/wiki/Toggle_auto-indenting_for_code_paste
+  :nnoremap \p :set invpaste paste?<CR>
+  :set pastetoggle=\\ppp
+  :set showmode
+
 call plug#begin('~/.vim/plugged')
 Plug 'junegunn/goyo.vim'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
@@ -31,110 +131,12 @@ filetype off                 " vundle required
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 "Plugin 'gmarik/Vundle.vim'
-"Plugin 'bling/vim-airline'
+Plugin 'bling/vim-airline'
+Plugin 'tpope/vim-fugitive'
 call vundle#end()            " vundle required
 filetype plugin indent on    " vundle required
-let g:airline_powerline_fonts = 1 
-if !exists('g:airline_symbols')
-  let g:airline_symbols = {}
-endif
-let g:airline_symbols.space = "\ua0"
 
-" Misc basics
-  set foldmethod=indent
-  syntax on
-  set number
-  set autoindent
-  set smartindent
-  set showcmd	  " show more info about what you're doing
-
-" Tabs
-  set expandtab     " spaces are better than tab characters
-  set smarttab      " don't know
-  set tabstop=2     " for when you press tab
-  set shiftwidth=2  " for autoindent, I think
-
-" Prose
-  set nojoinspaces
-  func! WriteMode()
-    set fo=ant
-    set flp=^\\s*\\(-\\\\|\\d\\+\\.\\)\\s*
-        "formtlistpat=^\s*\(-\|\d\+\.\)\s*
-    set formatprg=par\ -jw80
-    set nosmartindent
-    set foldmethod=indent
-    " ^ this only affects gqip, NOTHING ELSE
-    " see [help gq]
-  endfu
-  com! WM call WriteMode()
-
-  "I don't use the below function because scrolling is really funky. A
-  "paragraph is either all-visible or all-hidden. Nothing in between.
-  func! SoftWrappedProcessorMode() 
-    setlocal noexpandtab 
-    setlocal wrap 
-    setlocal linebreak 
-    setlocal breakindent
-    map j gj
-    map k gk
-    set formatprg=par -jw80
-    "setlocal spell spelllang=en_us 
-    "set thesaurus+=/Users/sbrown/.vim/thesaurus/mthesaur.txt
-    "set complete+=s
-  endfu 
-com! SoftWrapProcessor call SoftWrappedProcessorMode()
-
-" Wrap gitcommit file types at the appropriate length
-  " filetype indent plugin on
-  " filetype on
-
-"# GUI customization
-  if has('gui_running')
-    syntax enable
-    set background=dark
-    colorscheme solarized
-  endif
-  
-" Highlighting overlength
-  " highlight OverLength ctermbg=red ctermfg=white guibg=#592929
-  " match OverLength /\%81v.\+/
-
-" Macros
-  " lazy initialization
-    let @l="yiwiif (jjA == null) {^M}jja else {^Mreturn jjpa;^M}jjkk"
-  " vimscript to toggle syntax highlighting
-    function! ToggleSyntax()
-       if exists("g:syntax_on")
-          syntax off
-       else
-          syntax enable
-       endif
-    endfunction
-    
-"# Keyboard keys
-  " insert mode shortcuts
-  :imap jk 
-  :inoremap II <Esc>I
-  :inoremap AA <Esc>A
-  :inoremap jl <Esc>:
-  :nnoremap \	 :e#
-  :nmap \t :r! date "+\%Y\%m\%d"<Enter>kJ
-  :imap \t <Esc>:r! date "+\%Y\%m\%d"<Enter>kJA
-
-
-" wrap overlength text
-  :nmap <leader>w 080lF<Space>a
-  " auto-resize a window to 80+4 cols
-  :nmap <leader>Width :vertical resize 84
-
-" Pasting
-  "The first line sets a mapping so that pressing \p in normal mode will invert 
-  "the 'paste' option, and will then show the value of that option. The second 
-  "line allows you to press \\ppp when in insert mode, to toggle 'paste' on and 
-  "off. The third line enables displaying whether 'paste' is turned on in 
-  "insert mode.
-  "source: http://vim.wikia.com/wiki/Toggle_auto-indenting_for_code_paste
-  :nnoremap \p :set invpaste paste?<CR>
-  :set pastetoggle=\\ppp
-  :set showmode
-
+"for airline
+set laststatus=2     "always show airline, instead of only after splitview
+let g:airline_powerline_fonts = 1
+set t_Co=256 "needed for airline to show colors
