@@ -29,6 +29,7 @@ set nocompatible
     set foldmethod=indent
     " ^ this only affects gqip, NOTHING ELSE
     " see [help gq]
+    set whichwrap+=h,l
   endfu
   com! WM call WriteMode()
 
