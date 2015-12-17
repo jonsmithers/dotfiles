@@ -2,6 +2,7 @@
 set nocompatible
 
 " Misc basics
+  set ttimeoutlen=0 "timeout instantly when pressing esc during visual mode
   set foldmethod=indent
   set foldlevelstart=20
   set nowrap
