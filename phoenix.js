@@ -1,7 +1,59 @@
-// This is my configuration for Phoenix <https://github.com/sdegutis/Phoenix>,
-// a super-lightweight OS X window manager that can be configured and
-// scripted through Javascript.
+var VimMode = {}
+VimMode._keys = [];
+VimMode.modals = [];
+VimMode._showLabels = function() {
+  this._modals = [];
+  var modals = this._modals;
+  try {
+    _(Screen.screens()).each(function(screen) {
+      var m = new Modal();
+      m.message = "Managing Windows";
 
+      // this coordinate calculation is not universal
+      var rect = screen.frameInRectangle();
+      Phoenix.log("screen::: x:" + rect.x + ", y:" + rect.y + ", width:" + rect.width + ", height:" + rect.height);
+      var x = rect.x + rect.width/2;
+      var y = rect.y + rect.height/2;
+      if (screen.hash() != Screen.mainScreen().hash()) {
+        y = -rect.height/2;
+      }
+      m.origin = {x:x, y:y};
+
+      m.show();
+      modals.push(m);
+    });
+  }
+  catch(e) {
+    Phoenix.log(e);
+  }
+};
+VimMode._hideLabels = function () {
+  _(this._modals).each(function(modal) {
+    modal.close();
+  });
+};
+VimMode.disable = function() {
+  this._active = false;
+  _(this._keys).each(function(key) {
+    key.disable();
+  });
+  this._hideLabels();
+}
+VimMode.enable = function() {
+  this._active = true;
+  _(this._keys).each(function(key) {
+    key.enable();
+  });
+  this._showLabels();
+}
+VimMode.bind = function(key, mods, callback) {
+  keyhandler = Phoenix.bind(key, mods, callback);
+  if (keyhandler) {
+    this._keys.push(keyhandler);
+  } else {
+    toast(key + " binding failed");
+  }
+};
  
 var mNone = [],
   mCmd = ['cmd'],
@@ -9,17 +61,6 @@ var mNone = [],
   nudgePixels = 10,
   padding = 0,
   previousSizes = {};
- 
-// Remembers hotkey bindings.
-var keys = [];
-function bind(key, mods, callback) {
-  keyhandler = Phoenix.bind(key, mods, callback);
-  if (keyhandler) {
-    keys.push(keyhandler);
-  } else {
-    Phoenix.notify(key + " handler failed");
-  }
-}
  
 // ############################################################################
 // Modal activation
@@ -30,19 +71,18 @@ function bind(key, mods, callback) {
 var active = false;
 var alt_w = Phoenix.bind('w', ['alt'], function() {
   if (!active) {
-    enableKeys();
+    VimMode.enable();
   } else {
-    disableKeys();
+    VimMode.disable();
   }
 });
  
 // These keys end Phoenix mode.
-bind('escape', [], function() {
-  Phoenix.log('escape');
-  disableKeys();
+VimMode.bind('escape', [], function() {
+  VimMode.disable();
 });
-bind('return', [], function() {
-  disableKeys();
+VimMode.bind('return', [], function() {
+  VimMode.disable();
 });
  
 // ############################################################################
@@ -52,7 +92,7 @@ bind('return', [], function() {
 // ### General key configurations
 //
 // Space toggles the focussed between full screen and its initial size and position.
-bind( 'space', mNone, function() {
+VimMode.bind( 'space', mNone, function() {
   Window.focusedWindow().toggleFullscreen();
 });
 
@@ -65,7 +105,7 @@ function toast(str) {
 }
  
 // Center window.
-bind( 'c', mNone, function() {
+VimMode.bind( 'c', mNone, function() {
     var m = new Modal();
     m.message = "hey";
     m.origin = {x: 50, y: 90};
@@ -83,7 +123,7 @@ bind( 'c', mNone, function() {
 );
 
 
-bind( ".", mNone, function() {
+VimMode.bind( ".", mNone, function() {
   try {
     var rect = Window.focusedWindow().frame();
     rect.width = rect.width*.9;
@@ -95,36 +135,36 @@ bind( ".", mNone, function() {
 });
  
 // The cursor keys move the focussed window.
-bind( 'up', mNone, function() {
+VimMode.bind( 'up', mNone, function() {
   Window.focusedWindow().nudgeUp( 5 );
 });
  
-bind( 'right', mNone, function() {
+VimMode.bind( 'right', mNone, function() {
   Window.focusedWindow().nudgeRight( 5 );
 });
  
-bind( 'down', mNone, function() {
+VimMode.bind( 'down', mNone, function() {
   Window.focusedWindow().nudgeDown( 5 );
 });
  
-bind( 'left', mNone, function() {
+VimMode.bind( 'left', mNone, function() {
   Window.focusedWindow().nudgeLeft( 5 );
 });
  
 // <SHIFT> + cursor keys grows/shrinks the focussed window.
-bind( 'right', mShift, function() {
+VimMode.bind( 'right', mShift, function() {
   Window.focusedWindow().growWidth();
 });
  
-bind( 'left', mShift, function() {
+VimMode.bind( 'left', mShift, function() {
   Window.focusedWindow().shrinkWidth();
 });
  
-bind( 'up', mShift, function() {
+VimMode.bind( 'up', mShift, function() {
   Window.focusedWindow().shrinkHeight();
 });
  
-bind( 'down', mShift, function() {
+VimMode.bind( 'down', mShift, function() {
   Window.focusedWindow().growHeight();
 });
  
@@ -134,22 +174,24 @@ bind( 'down', mShift, function() {
 //
 
 var focusTitle = function(title) {
-  var winToFocus
-  Window.allWindows().forEach(function(element, index, array) {
-    Phoenix.notify("...");
-    if (element.title().indexOf(title) == 0) {
-      if (!winToFocus) {
-        winToFocus = element;
+  try {
+    var winToFocus
+    Window.windows().forEach(function(element, index, array) {
+      if (element.title().indexOf(title) == 0) {
+        if (!winToFocus) {
+          winToFocus = element;
+        }
       }
-    }
-  });
-  Phoenix.log("set winToFocus");
+    });
 
-  if (winToFocus) {
-    winToFocus.focus();
-    Phoenix.log("focused");
-  } else {
-    Phoenix.log("No window has title '"+title+"'");
+    if (winToFocus) {
+      winToFocus.focus();
+      toast("focused");
+    } else {
+      toast("No window has title '"+title+"'");
+    }
+  } catch (e) {
+    toast(e);
   }
 }
 var cycle = function(appName) {
@@ -163,9 +205,7 @@ var cycle = function(appName) {
       Phoenix.log("app is null");
       var result = App.launch(appName);
       if (result) {
-        toast('focus1');
         result.focus();
-        toast('focus2');
       }
       Phoenix.log('result of launch: ' + result);
       return;
@@ -247,7 +287,7 @@ var x08 = Phoenix.bind( 'l', ['alt'], function() { Phoenix.notify(""); cycle('Mi
 var x09 = Phoenix.bind( 'm', ['alt'], function() { Phoenix.notify(""); cycle('MacVim') });
 var x10 = Phoenix.bind( 'e', ['alt'], function() { Phoenix.notify(""); cycle('Eclipse') });
 var x11 = Phoenix.bind( 'f', ['alt'], function() { Phoenix.notify(""); cycle('Finder') });
-bind( 't', mNone, function() {
+VimMode.bind( 't', mNone, function() {
   try {
   var focusedWindow = Window.focusedWindow();
   var otherScreen = Screen.mainScreen().next();
@@ -271,24 +311,24 @@ bind( 't', mNone, function() {
   }
   disableKeys();
 });
-bind( 'f', mNone, function() {
+VimMode.bind( 'f', mNone, function() {
   var rect = Window.focusedWindow().screen().visibleFrameInRectangle();
   Window.focusedWindow().setFrame(rect);
-  disableKeys();
+  VimMode.disable();
 });
-bind ('l', mNone, function() {
-    var rect = Screen.mainScreen().visibleFrameInRectangle();
-    rect.width = rect.width/2;
-    rect.x = rect.width;
-    Window.focusedWindow().setFrame(rect);
-  disableKeys();
+VimMode.bind ('l', mNone, function() {
+  var rect = Screen.mainScreen().visibleFrameInRectangle();
+  rect.width = rect.width/2;
+  rect.x = rect.width;
+  Window.focusedWindow().setFrame(rect);
+  VimMode.disable();
 });
-bind ('h', mNone, function() {
+VimMode.bind ('h', mNone, function() {
   try {
     var rect = Screen.mainScreen().visibleFrameInRectangle();
     rect.width = rect.width/2;
     Window.focusedWindow().setFrame(rect);
-    disableKeys();
+    VimMode.disable();
   } catch (e) {
     Phoenix.log(e)
   }
@@ -299,7 +339,7 @@ bind ('h', mNone, function() {
 // When checking HTML/JS in Chrome I want to have my browsing window to the
 // East and my Chrome devtools window to the W, the latter not quite on full
 // height.
-bind( 'd', mNone, function() {
+VimMode.bind( 'd', mNone, function() {
   var chrome = App.findByTitle('Google Chrome'),
   browseWindow = chrome.findWindowNotMatchingTitle('^Developer Tools -'),
   devToolsWindow = chrome.findWindowMatchingTitle('^Developer Tools -');
@@ -314,7 +354,7 @@ bind( 'd', mNone, function() {
   devToolsWindow.toGrid( 0, 0, 0.5, 1 );
   }
  
-  disableKeys();
+  VimMode.disable();
 });
  
  
@@ -338,24 +378,6 @@ function cycleCalls(fn, argsList) {
 
 var windowModal = new Modal();
 windowModal.message = "Managing Windows";
- 
-// Disables all remembered keys.
-function disableKeys() {
-  active = false;
-  _(keys).each(function(key) {
-    key.disable();
-  });
-  windowModal.close();
-}
- 
-// Enables all remembered keys.
-function enableKeys() {
-  active = true;
-  _(keys).each(function(key) {
-    key.enable();
-  });
-  windowModal.show();
-}
  
 Window.prototype.shrinkWidth = function() {
   var win = this,
@@ -435,10 +457,5 @@ App.prototype.firstWindow = function() {
   return this.visibleWindows()[ 0 ];
 };
  
-// ############################################################################
-// Init
-// ############################################################################
- 
-// Initially disable all hotkeys
-disableKeys();
-
+VimMode.disable();
+toast("reloaded");
