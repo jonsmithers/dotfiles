@@ -284,17 +284,17 @@ var cycle = function(appName) {
 }
 
 var x00 = Phoenix.bind( 'a', ['alt'], function() { Phoenix.log("a"); cycle('Atom') });
-var x01 = Phoenix.bind( 'b', ['alt'], function() { Phoenix.notify(""); cycle('Brackets') });
-var x02 = Phoenix.bind( 'i', ['alt'], function() { Phoenix.notify(""); cycle('Google Chrome', 'Hangouts', 'Pushbullet', 'Google Play Music') })
-var x03 = Phoenix.bind( 'h', ['alt'], function() { Phoenix.notify("focus"); focusTitle('Hangouts') });
-var x04 = Phoenix.bind( 'p', ['alt'], function() { Phoenix.notify("focus"); focusTitle('Pushbullet') });
-var x05 = Phoenix.bind( 't', ['alt'], function() { Phoenix.notify(""); cycle('iTerm') });
-var x06 = Phoenix.bind( 'r', ['alt'], function() { Phoenix.notify(""); cycle('Rocket.Chat') });
-var x07 = Phoenix.bind( 'o', ['alt'], function() { Phoenix.notify(""); cycle('Microsoft Outlook') });
-var x08 = Phoenix.bind( 'l', ['alt'], function() { Phoenix.notify(""); cycle('Microsoft Lync') });
-var x09 = Phoenix.bind( 'm', ['alt'], function() { Phoenix.notify(""); cycle('MacVim') });
-var x10 = Phoenix.bind( 'e', ['alt'], function() { Phoenix.notify(""); cycle('Eclipse') });
-var x11 = Phoenix.bind( 'f', ['alt'], function() { Phoenix.notify(""); cycle('Finder') });
+var x01 = Phoenix.bind( 'b', ['alt'], function() { cycle('Brackets') });
+var x02 = Phoenix.bind( 'i', ['alt'], function() { cycle('Google Chrome', 'Hangouts', 'Pushbullet', 'Google Play Music') })
+var x03 = Phoenix.bind( 'h', ['alt'], function() { focusTitle('Hangouts') });
+var x04 = Phoenix.bind( 'p', ['alt'], function() { focusTitle('Pushbullet') });
+var x05 = Phoenix.bind( 't', ['alt'], function() { cycle('iTerm') });
+var x06 = Phoenix.bind( 'r', ['alt'], function() { cycle('Rocket.Chat') });
+var x07 = Phoenix.bind( 'o', ['alt'], function() { cycle('Microsoft Outlook') });
+var x08 = Phoenix.bind( 'l', ['alt'], function() { cycle('Microsoft Lync') });
+var x09 = Phoenix.bind( 'm', ['alt'], function() { cycle('MacVim') });
+var x10 = Phoenix.bind( 'e', ['alt'], function() { cycle('Eclipse') });
+var x11 = Phoenix.bind( 'f', ['alt'], function() { cycle('Finder') });
 VimMode.bind( 't', mNone, function() {
   try {
   var focusedWindow = Window.focusedWindow();
