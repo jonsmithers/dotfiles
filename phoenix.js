@@ -182,6 +182,11 @@ VimMode.bind( 'down', mShift, function() {
 //
 
 var focusTitle = function(title) {
+
+  var m = new Modal();
+  m.message = "Focusing...";
+  m.show();
+
   try {
     var winToFocus
     Window.windows().forEach(function(element, index, array) {
@@ -194,12 +199,13 @@ var focusTitle = function(title) {
 
     if (winToFocus) {
       winToFocus.focus();
-      toast("focused");
     } else {
       toast("No window has title '"+title+"'");
     }
   } catch (e) {
     toast(e);
+  } finally {
+    m.close();
   }
 }
 var cycle = function(appName) {
