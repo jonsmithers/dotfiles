@@ -47,7 +47,15 @@ VimMode.enable = function() {
   this._showLabels();
 }
 VimMode.bind = function(key, mods, callback) {
-  keyhandler = Phoenix.bind(key, mods, callback);
+  var callback2 = function() {
+    try {
+      callback();
+    } catch (e) {
+      toast(e);
+      VimMode.disable();
+    }
+  }
+  keyhandler = Phoenix.bind(key, mods, callback2);
   if (keyhandler) {
     this._keys.push(keyhandler);
   } else {
