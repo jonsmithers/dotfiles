@@ -245,7 +245,6 @@ var cycle = function(appName) {
       toast("no real windows to switch to");
       return;
     }
-    toast('Go To "' + appWindows[index].title() +'"');
     appWindows[index].focus();
     return;
 
