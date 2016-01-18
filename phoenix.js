@@ -93,17 +93,6 @@ VimMode.bind('return', [], function() {
   VimMode.disable();
 });
  
-// ############################################################################
-// Bindings
-// ############################################################################
- 
-// ### General key configurations
-//
-// Space toggles the focussed between full screen and its initial size and position.
-VimMode.bind( 'space', mNone, function() {
-  Window.focusedWindow().toggleFullscreen();
-});
-
 function toast(str) {
    var m = new Modal();
    m.message = str;
@@ -111,35 +100,15 @@ function toast(str) {
    m.duration = 3;
    m.show();
 }
- 
-// Center window.
-VimMode.bind( 'c', mNone, function() {
-    var m = new Modal();
-    m.message = "hey";
-    m.origin = {x: 50, y: 90};
-    m.duration = 3;
-    m.show();
-    //setTimeout(function() { m.close() }, 1000);
-  }
 
-  //cycleCalls(
-  //toGrid,
-  //[
-  //  [0.22, 0.025, 0.56, 0.95],
-  //  [0.1, 0, 0.8, 1]
-  //]
-);
-
+// ############################################################################
+// Bindings
+// ############################################################################
 
 VimMode.bind( ".", mNone, function() {
-  try {
-    var rect = Window.focusedWindow().frame();
-    rect.width = rect.width*.9;
-    Window.focusedWindow().setFrame(rect);
-  }
-  catch(e) {
-    Phoenix.notify(e);
-  }
+  var rect = Window.focusedWindow().frame();
+  rect.width = rect.width*.9;
+  Window.focusedWindow().setFrame(rect);
 });
  
 // The cursor keys move the focussed window.
@@ -216,12 +185,13 @@ var cycle = function(appName) {
     }
     var app = App.get(appName);
     if (!app) {
-      Phoenix.log("app is null");
       var result = App.launch(appName);
       if (result) {
         result.focus();
+        toast(appName + " launched");
+      } else {
+        toast("couldn't launch " + appName);
       }
-      Phoenix.log('result of launch: ' + result);
       return;
     }
 
@@ -235,8 +205,11 @@ var cycle = function(appName) {
     }
 
     if (appWindows.length==0) {
-      Phoenix.log("app has no titled windows");
-      Phoenix.launch(appName);
+      var launched = App.launch(appName);
+      if (launched) {
+        launched.focus();
+      }
+      toast(appName + " had no titled windows");
       return;
     }
 
@@ -254,7 +227,7 @@ var cycle = function(appName) {
     var index = 0;
     if (curWinBelongsToApp) {
       if (appWindows.length == 1) {
-        Phoenix.log("no other windows");
+        toast(appName + " only has 1 window");
         return;
       }
 
@@ -269,10 +242,10 @@ var cycle = function(appName) {
       }
     }
     if (index == appWindows.length) {
-      Phoenix.log("no real windows to switch to");
+      toast("no real windows to switch to");
       return;
     }
-    Phoenix.log('Go To "' + appWindows[index].title() +'"');
+    toast('Go To "' + appWindows[index].title() +'"');
     appWindows[index].focus();
     return;
 
@@ -285,7 +258,7 @@ var cycle = function(appName) {
       return false;
     }
   } catch (e) {
-    Phoenix.log(e);
+    toast(e);
   }
 }
 
@@ -302,7 +275,6 @@ var x09 = Phoenix.bind( 'm', ['alt'], function() { cycle('MacVim') });
 var x10 = Phoenix.bind( 'e', ['alt'], function() { cycle('Eclipse') });
 var x11 = Phoenix.bind( 'f', ['alt'], function() { cycle('Finder') });
 VimMode.bind( 't', mNone, function() {
-  try {
   var focusedWindow = Window.focusedWindow();
   var otherScreen = Screen.mainScreen().next();
   Phoenix.log(Screen.mainScreen().hash());
@@ -320,10 +292,6 @@ VimMode.bind( 't', mNone, function() {
 
     Phoenix.notify("threw window");
   }
-  } catch (e) {
-    Phoenix.log(e)
-  }
-  disableKeys();
 });
 VimMode.bind( 'f', mNone, function() {
   var rect = Window.focusedWindow().screen().visibleFrameInRectangle();
