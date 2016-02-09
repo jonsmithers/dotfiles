@@ -268,11 +268,12 @@ var x03 = Phoenix.bind( 'h', ['alt'], function() { focusTitle('Hangouts') });
 var x04 = Phoenix.bind( 'p', ['alt'], function() { focusTitle('Pushbullet') });
 var x05 = Phoenix.bind( 't', ['alt'], function() { cycle('iTerm') });
 var x06 = Phoenix.bind( 'r', ['alt'], function() { cycle('Rocket.Chat') });
-var x07 = Phoenix.bind( 'o', ['alt'], function() { cycle('Microsoft Outlook') });
-var x08 = Phoenix.bind( 'l', ['alt'], function() { cycle('Microsoft Lync') });
-var x09 = Phoenix.bind( 'm', ['alt'], function() { cycle('MacVim') });
-var x10 = Phoenix.bind( 'e', ['alt'], function() { cycle('Eclipse') });
-var x11 = Phoenix.bind( 'f', ['alt'], function() { cycle('Finder') });
+var x07 = Phoenix.bind( 's', ['alt'], function() { cycle('WebStorm') });
+var x08 = Phoenix.bind( 'o', ['alt'], function() { cycle('Microsoft Outlook') });
+var x09 = Phoenix.bind( 'l', ['alt'], function() { cycle('Microsoft Lync') });
+var x10 = Phoenix.bind( 'm', ['alt'], function() { cycle('MacVim') });
+var x11 = Phoenix.bind( 'e', ['alt'], function() { cycle('Eclipse') });
+var x12 = Phoenix.bind( 'f', ['alt'], function() { cycle('Finder') });
 VimMode.bind( 't', mNone, function() {
   var focusedWindow = Window.focusedWindow();
   var otherScreen = Screen.mainScreen().next();
