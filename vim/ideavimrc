@@ -1,0 +1,2 @@
+  :imap jk 
+  :nmap \t :r! date "+\%Y\%m\%d"<Enter>kJ
