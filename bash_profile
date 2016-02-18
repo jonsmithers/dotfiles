@@ -101,9 +101,10 @@
       alias tomcat='~/programs/runBranch.sh'
       alias debugmeteor="env NODE_OPTIONS='--debug' meteor run"
       alias slatetail='tail -f /var/log/system.log | grep --line-buffered "Slate" | sed "s/.*.local Slate\[[0-9]*\]:/> /"'
-      alias buildtomcat='buildr clean test=no package && make tomcat'
+      alias buildtomcat='buildr clean test=no package && ./support/scripts/runTomcat.sh'
       alias maketomcat='buildr clean test=no package && make tomcat'
-      alias formatMetadata='/Users/smithers/git/formatMetadata/formatXml'
+      alias wfs='/Users/smithers/git/UC2/uc2-app/support/scripts/waitForServer.sh'
+      alias metadata='/Users/smithers/git/metadata/metadata'
 
       function sfailp {
         echo -e "\e[0;31muh oh!"
