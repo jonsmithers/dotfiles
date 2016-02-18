@@ -294,26 +294,37 @@ VimMode.bind( 't', mNone, function() {
   }
 });
 VimMode.bind( 'f', mNone, function() {
+  if (!Window.focusedWindow()) {
+    toast("No focused window");
+    VimMode.disable();
+    return;
+  }
   var rect = Window.focusedWindow().screen().visibleFrameInRectangle();
   Window.focusedWindow().setFrame(rect);
   VimMode.disable();
 });
 VimMode.bind ('l', mNone, function() {
+  if (!Window.focusedWindow()) {
+    toast("No focused window");
+    VimMode.disable();
+    return;
+  }
   var rect = Screen.mainScreen().visibleFrameInRectangle();
+  rect.x = rect.width/2;
   rect.width = rect.width/2;
-  rect.x = rect.width;
   Window.focusedWindow().setFrame(rect);
   VimMode.disable();
 });
 VimMode.bind ('h', mNone, function() {
-  try {
-    var rect = Screen.mainScreen().visibleFrameInRectangle();
-    rect.width = rect.width/2;
-    Window.focusedWindow().setFrame(rect);
+  if (!Window.focusedWindow()) {
+    toast("No focused window");
     VimMode.disable();
-  } catch (e) {
-    Phoenix.log(e)
+    return;
   }
+  var rect = Screen.mainScreen().visibleFrameInRectangle();
+  rect.width = rect.width/2;
+  Window.focusedWindow().setFrame(rect);
+  VimMode.disable();
 });
  
 // Chrome Devtools
