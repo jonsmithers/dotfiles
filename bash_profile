@@ -201,6 +201,8 @@
   alias agl='ag --pager="less -R"'
   alias agjava='ag -G .*java'
   alias agxml='ag -G .*xml'
+  alias aghtml='ag -G .*html'
+  alias agjs='ag -G .*js'
   alias grep='grep --color=auto -I'
   #                              ^ ignore binary files
   #                  ^ highlight matches
