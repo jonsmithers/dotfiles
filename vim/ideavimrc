@@ -4,3 +4,4 @@
 :inoremap AA <Esc>A
 :nmap \t :r! date "+\%Y\%m\%d"<Enter>kJ
 :imap \t <Esc>:r! date "+\%Y\%m\%d"<Enter>kJA
+:nmap \l oconsole.log('%c', 'font-size:15px');F,hi
