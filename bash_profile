@@ -85,6 +85,8 @@
   elif [[ "$(hostname)" =~ Smithers(\.local)? ]]; then
     echo "bash_profile: work laptop init"
     PATH=$PATH:~/programs/scala-2.11.4/bin
+
+    export GOPATH=/Users/smithers/gocode
     export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_72.jdk/Contents/Home/ #needed for buildr to work on dev 20150514
     export CLICOLOR=1
     export LSCOLORS="Gxfxcxdxbxegedabagacad"
