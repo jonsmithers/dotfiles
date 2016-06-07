@@ -246,6 +246,7 @@ var cycle = function(appName) {
       return;
     }
     appWindows[index].focus();
+    toast(appWindows[index].title())
     return;
 
     function shouldBeExcluded(title) {
@@ -263,11 +264,12 @@ var cycle = function(appName) {
 
 var x00 = Phoenix.bind( 'a', ['alt'], function() { Phoenix.log("a"); cycle('Atom') });
 var x01 = Phoenix.bind( 'b', ['alt'], function() { cycle('Brackets') });
-var x02 = Phoenix.bind( 'i', ['alt'], function() { cycle('Google Chrome', 'Hangouts', 'Pushbullet', 'Google Play Music') })
-var x03 = Phoenix.bind( 'h', ['alt'], function() { focusTitle('Hangouts') });
+var x02 = Phoenix.bind( 'i', ['alt'], function() { cycle('Google Chrome', 'Google Hangouts', 'Developer Tools', 'Hangouts', 'Pushbullet', 'Google Play Music') })
+var x03 = Phoenix.bind( 'h', ['alt'], function() { focusTitle('Google Hangouts') });
 var x04 = Phoenix.bind( 'p', ['alt'], function() { focusTitle('Pushbullet') });
+var x04 = Phoenix.bind( 'd', ['alt'], function() { focusTitle('Developer Tools') });
 var x05 = Phoenix.bind( 't', ['alt'], function() { cycle('iTerm') });
-var x06 = Phoenix.bind( 'r', ['alt'], function() { cycle('Rocket.Chat') });
+var x06 = Phoenix.bind( 'r', ['alt'], function() { cycle('Rocket.Chat+') });
 var x07 = Phoenix.bind( 's', ['alt'], function() { cycle('WebStorm') });
 var x08 = Phoenix.bind( 'o', ['alt'], function() { cycle('Microsoft Outlook') });
 var x09 = Phoenix.bind( 'l', ['alt'], function() { cycle('Microsoft Lync') });
@@ -280,18 +282,17 @@ VimMode.bind( 't', mNone, function() {
   Phoenix.log(Screen.mainScreen().hash());
   Phoenix.log(Window.focusedWindow().screen().hash());
   if (!otherScreen) {
-    Phoenix.notify("no other screen");
-  } else {
-    var screenFrame = otherScreen.visibleFrameInRectangle();
-    Phoenix.log(otherScreen.hash())
-
-    var w = Window.focusedWindow();
-    Phoenix.log("old " + w.screen().hash());
-    w.setTopLeft({x: screenFrame.x, y: screenFrame.y});
-    Phoenix.log("new " + w.screen().hash());
-
-    Phoenix.notify("threw window");
+    toast("no other screen");
+    return;
   }
+  var screenFrame = otherScreen.visibleFrameInRectangle();
+  Phoenix.log(otherScreen.hash())
+
+  var w = Window.focusedWindow();
+  Phoenix.log("old " + w.screen().hash());
+  w.setTopLeft({x: screenFrame.x, y: screenFrame.y});
+  Phoenix.log("new " + w.screen().hash());
+  VimMode.disable();
 });
 VimMode.bind( 'f', mNone, function() {
   if (!Window.focusedWindow()) {
