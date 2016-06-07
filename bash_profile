@@ -108,6 +108,13 @@
       alias wfs='/Users/smithers/git/UC2/uc2-app/support/scripts/waitForServer.sh'
       alias metadata='/Users/smithers/git/metadata/metadata'
 
+      function killMicrosoft {
+        kill $(ps -ef | grep Microsoft\ Database | tr -s ' ' | cut -d' ' -f 3)
+        kill $(ps -ef | grep Microsoft\ Outlook | tr -s ' ' | cut -d' ' -f 3)
+        kill $(ps -ef | grep Microsoft\ Alerts | tr -s ' ' | cut -d' ' -f 3)
+        kill $(ps -ef | grep Microsoft\ AU | tr -s ' ' | cut -d' ' -f 3)
+      }
+
       function sfailp {
         echo -e "\e[0;31muh oh!"
         pushbullet push all note "Failure" "Something went wrong."
