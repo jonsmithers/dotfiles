@@ -84,6 +84,10 @@ export NOTI_PUSHBULLET_TOK=o.5RKGbICfF91y9S6zifyMPs6YTLdM0tdp
 
   ##### Work Laptop #####
   elif [[ "$(hostname)" =~ Smithers(\.local)? ]]; then
+
+    # iTerm2 added this
+    test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
+
     echo "bash_profile: work laptop init"
     PATH=$PATH:~/programs/scala-2.11.4/bin
 
