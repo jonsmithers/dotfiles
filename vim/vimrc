@@ -63,6 +63,8 @@ com! SoftWrapProcessor call SoftWrappedProcessorMode()
     syntax enable
     set background=dark
     colorscheme solarized
+    set gfn=Monaco\ for\ Powerline:h14
+    set autoread
   endif
 
 " Highlighting overlength
