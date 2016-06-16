@@ -1,3 +1,4 @@
+export NOTI_PUSHBULLET_TOK=o.5RKGbICfF91y9S6zifyMPs6YTLdM0tdp
 # Git Completion
   if [ -f ~/.git-completion.sh ]; then
     source ~/.git-completion.sh
@@ -117,24 +118,24 @@
 
       function sfailp {
         echo -e "\e[0;31muh oh!"
-        pushbullet push all note "Failure" "Something went wrong."
+        noti -p -t "Failure" -m "Something went wrong."
         mplayer -msglevel all=-1 "/Applications/iMovie.app/Contents/Resources/iMovie Sound Effects/Crowd Boo.mp3"
         return 1
       }
       function sdonep {
         echo -e "\e[0;36myus!"
-        pushbullet push all note "Success" "It worked!"
+        noti -p -t "Success" -m "It worked!"
         mplayer -msglevel all=-1 "/Applications/Wunderlist.app/Contents/Resources/WLCompletionSound.mp3"
       }
       function sfail {
         echo -e "\e[0;31muh oh!"
-        terminal-notifier -title "Failure" -message "Something went wrong."
+        noti -t "Failure" -m "Something went wrong."
         mplayer -msglevel all=-1 "/Applications/iMovie.app/Contents/Resources/iMovie Sound Effects/Crowd Boo.mp3"
         return 1
       }
       function sdone {
         echo -e "\e[0;36myus!"
-        terminal-notifier -title "Success" -message "It worked!"
+        noti -p -t "Success" -m "It worked!"
         mplayer -msglevel all=-1 "/Applications/Wunderlist.app/Contents/Resources/WLCompletionSound.mp3"
       }
       function notify {
