@@ -114,6 +114,7 @@ com! SoftWrapProcessor call SoftWrappedProcessorMode()
 
 call plug#begin('~/.vim/plugged')
 Plug 'junegunn/goyo.vim'
+Plug 'fatih/vim-go'
 Plug 'kien/ctrlp.vim'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 call plug#end()
