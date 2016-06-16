@@ -1,9 +1,9 @@
 [core]
   excludesfile = /Users/smithers/.gitignore_global
   editor = vim
-  pager = /Users/smithers/.dotfiles/git/diff-highlight | less -+X -+F -S  
-  #                                                           ^ makes log and diff clear the screen when done
-  #                                                           http://linuxtips.manki.in/2012/02/making-git-commands-clear-screen-when.html
+  pager = diff-highlight | less -+X -+F -S
+  #                             ^ makes log and diff clear the screen when done
+  #                             http://linuxtips.manki.in/2012/02/making-git-commands-clear-screen-when.html
 [alias]
   ad = add
   br = branch
