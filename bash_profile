@@ -103,6 +103,7 @@ export NOTI_PUSHBULLET_TOK=o.5RKGbICfF91y9S6zifyMPs6YTLdM0tdp
       alias dc2f='jump dc2f'
       alias asma='jump asma'
       alias uc2='jump uc2'
+      alias uc2js='jump uc2js'
       alias leaf='jump leaf'
       alias risc2='jump risc2'
       alias tomcat='~/programs/runBranch.sh'
