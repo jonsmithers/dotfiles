@@ -28,3 +28,5 @@
 	email = mail@jonsmithers.link
 [credential]
 	helper = cache --timeout 28800
+[diff]
+	compactionHeuristic = true
