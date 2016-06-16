@@ -114,8 +114,15 @@ com! SoftWrapProcessor call SoftWrappedProcessorMode()
 
 call plug#begin('~/.vim/plugged')
 Plug 'junegunn/goyo.vim'
+Plug 'kien/ctrlp.vim'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 call plug#end()
+
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+  \ 'file': '\v\.(exe|so|dll|class)$',
+  \ 'link': 'some_bad_symbolic_links',
+  \ }
 
 " make vim close the First time you do :quit
 " https://github.com/junegunn/goyo.vim/wiki/Customization
