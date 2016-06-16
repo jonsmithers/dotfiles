@@ -17,6 +17,11 @@ set nocompatible
   set smarttab      " don't know
   set tabstop=2     " for when you press tab
   set shiftwidth=2  " for autoindent, I think
+  func! SetTabSizeFour()
+    set tabstop=4
+    set shiftwidth=4
+  endfu
+  com! Tab4 call SetTabSizeFour()
 
 " Prose
   set nojoinspaces
