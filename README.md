@@ -1,7 +1,14 @@
 # dotfiles
 
-Note to self: Store all your dotfiles in here so they can be in source control.
-Execute `dotphile` to link things up. Edit `config.json` to change how things
-are things get linked.
+Dear self,
 
-At some point, I need to transfer everything in `bash_profile` into a `bashrc`.
+Herein lie all your dotfiles. Execute `dotphile` to link things up. Edit
+`config.json` to change how things are things get linked.
+
+When you're on a new computer, you will probably have to run additional setup
+scripts.
+
+```sh
+bash vim/vim_setup.sh
+bash git/git_setup.sh
+```
