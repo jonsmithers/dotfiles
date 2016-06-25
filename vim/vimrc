@@ -125,15 +125,22 @@ call plug#begin('~/.vim/plugged')
 Plug 'junegunn/goyo.vim'
 Plug 'fatih/vim-go'
 Plug 'kien/ctrlp.vim'
+Plug 'scrooloose/syntastic'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 call plug#end()
+" run :PlugInstall to install new plugins
 
+" SYNTASTIC PLUGIN config
+let g:syntastic_html_checkers = ['tidy']
+
+" CTRLP PLUGIN config
 let g:ctrlp_custom_ignore = {
   \ 'dir':  '\v[\/]\.(git|hg|svn)$',
   \ 'file': '\v\.(exe|so|dll|class)$',
   \ 'link': 'some_bad_symbolic_links',
   \ }
 
+" GOYO PLUGIN config
 " make vim close the First time you do :quit
 " https://github.com/junegunn/goyo.vim/wiki/Customization
 function! s:goyo_enter()
