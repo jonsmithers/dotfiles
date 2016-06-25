@@ -1,4 +1,4 @@
-var VimMode = {}
+var VimMode = {};
 VimMode._keys = [];
 VimMode.modals = [];
 VimMode._showLabels = function() {
@@ -38,14 +38,14 @@ VimMode.disable = function() {
     key.disable();
   });
   this._hideLabels();
-}
+};
 VimMode.enable = function() {
   this._active = true;
   _(this._keys).each(function(key) {
     key.enable();
   });
   this._showLabels();
-}
+};
 VimMode.bind = function(key, mods, callback) {
   var callback2 = function() {
     try {
@@ -54,7 +54,7 @@ VimMode.bind = function(key, mods, callback) {
       toast(e);
       VimMode.disable();
     }
-  }
+  };
   keyhandler = Phoenix.bind(key, mods, callback2);
   if (keyhandler) {
     this._keys.push(keyhandler);
@@ -107,7 +107,7 @@ function toast(str) {
 
 VimMode.bind( ".", mNone, function() {
   var rect = Window.focusedWindow().frame();
-  rect.width = rect.width*.9;
+  rect.width = rect.width*0.9;
   Window.focusedWindow().setFrame(rect);
 });
  
@@ -157,9 +157,9 @@ var focusTitle = function(title) {
   m.show();
 
   try {
-    var winToFocus
+    var winToFocus;
     Window.windows().forEach(function(element, index, array) {
-      if (element.title().indexOf(title) == 0) {
+      if (element.title().indexOf(title) === 0) {
         if (!winToFocus) {
           winToFocus = element;
         }
@@ -176,10 +176,10 @@ var focusTitle = function(title) {
   } finally {
     m.close();
   }
-}
+};
 var cycle = function(appName) {
   try {
-    var exclusions = new Array();
+    var exclusions = [];
     for (var i = 1; i < arguments.length; i++) {
       exclusions.push(arguments[i]);
     }
@@ -196,15 +196,15 @@ var cycle = function(appName) {
     }
 
     var appWindowsTemp = app.windows();
-    var appWindows = new Array();
+    var appWindows = [];
 
-    for (var i = 0; i < appWindowsTemp.length; i++) {
+    for (i = 0; i < appWindowsTemp.length; i++) {
       if (appWindowsTemp[i].title()) {
         appWindows.push(appWindowsTemp[i]);
       }
     }
 
-    if (appWindows.length==0) {
+    if (appWindows.length === 0) {
       var launched = App.launch(appName);
       if (launched) {
         launched.focus();
@@ -216,7 +216,7 @@ var cycle = function(appName) {
     var curWin = Window.focusedWindow();
     var curWinBelongsToApp = false;
     if (curWin) { // some window is focused
-      for (var i = 0; i < appWindows.length; i++) {
+      for (i = 0; i < appWindows.length; i++) {
         if (curWin.title() == appWindows[i].title()) {
           curWinBelongsToApp = true;
           break;
@@ -234,6 +234,16 @@ var cycle = function(appName) {
       index++; // do not focus already-focused window
     }
 
+
+    var shouldBeExcluded = function(title) {
+      for (var i = 0; i < exclusions.length; i++) {
+        if (title.indexOf(exclusions[i]) === 0) {
+          return true;
+        }
+      }
+      return false;
+    };
+
     while (shouldBeExcluded(appWindows[index].title())) {
       Phoenix.log("exclude " + appWindows[index].title());
       index++;
@@ -246,36 +256,27 @@ var cycle = function(appName) {
       return;
     }
     appWindows[index].focus();
-    toast(appWindows[index].title())
+    toast(appWindows[index].title());
     return;
-
-    function shouldBeExcluded(title) {
-      for (var i = 0; i < exclusions.length; i++) {
-        if (title.indexOf(exclusions[i]) == 0) {
-          return true;
-        }
-      }
-      return false;
-    }
   } catch (e) {
     toast(e);
   }
-}
+};
 
-var x00 = Phoenix.bind( 'a', ['alt'], function() { Phoenix.log("a"); cycle('Atom') });
-var x01 = Phoenix.bind( 'b', ['alt'], function() { cycle('Brackets') });
-var x02 = Phoenix.bind( 'i', ['alt'], function() { cycle('Google Chrome', 'Google Hangouts', 'Developer Tools', 'Hangouts', 'Pushbullet', 'Google Play Music') })
-var x03 = Phoenix.bind( 'h', ['alt'], function() { cycle('YakYak') });
-var x04 = Phoenix.bind( 'p', ['alt'], function() { focusTitle('Pushbullet') });
-var x04 = Phoenix.bind( 'd', ['alt'], function() { focusTitle('Developer Tools') });
-var x05 = Phoenix.bind( 't', ['alt'], function() { cycle('iTerm') });
-var x06 = Phoenix.bind( 'r', ['alt'], function() { cycle('Rocket.Chat+') });
-var x07 = Phoenix.bind( 's', ['alt'], function() { cycle('WebStorm') });
-var x08 = Phoenix.bind( 'o', ['alt'], function() { cycle('Microsoft Outlook') });
-var x09 = Phoenix.bind( 'l', ['alt'], function() { cycle('Microsoft Lync') });
-var x10 = Phoenix.bind( 'm', ['alt'], function() { cycle('MacVim') });
-var x11 = Phoenix.bind( 'e', ['alt'], function() { cycle('Eclipse') });
-var x12 = Phoenix.bind( 'f', ['alt'], function() { cycle('Finder') });
+var x00 = Phoenix.bind( 'a', ['alt'], function() { Phoenix.log("a"); cycle('Atom'); });
+var x01 = Phoenix.bind( 'b', ['alt'], function() { cycle('Brackets'); });
+var x02 = Phoenix.bind( 'i', ['alt'], function() { cycle('Google Chrome', 'Google Hangouts', 'Developer Tools', 'Hangouts', 'Pushbullet', 'Google Play Music'); });
+var x03 = Phoenix.bind( 'h', ['alt'], function() { cycle('YakYak'); });
+var x04 = Phoenix.bind( 'p', ['alt'], function() { focusTitle('Pushbullet'); });
+var x04 = Phoenix.bind( 'd', ['alt'], function() { focusTitle('Developer Tools'); });
+var x05 = Phoenix.bind( 't', ['alt'], function() { cycle('iTerm'); });
+var x06 = Phoenix.bind( 'r', ['alt'], function() { cycle('Rocket.Chat+'); });
+var x07 = Phoenix.bind( 's', ['alt'], function() { cycle('WebStorm'); });
+var x08 = Phoenix.bind( 'o', ['alt'], function() { cycle('Microsoft Outlook'); });
+var x09 = Phoenix.bind( 'l', ['alt'], function() { cycle('Microsoft Lync'); });
+var x10 = Phoenix.bind( 'm', ['alt'], function() { cycle('MacVim'); });
+var x11 = Phoenix.bind( 'e', ['alt'], function() { cycle('Eclipse'); });
+var x12 = Phoenix.bind( 'f', ['alt'], function() { cycle('Finder'); });
 VimMode.bind( 't', mNone, function() {
   var focusedWindow = Window.focusedWindow();
   var otherScreen = Screen.mainScreen().next();
@@ -286,7 +287,7 @@ VimMode.bind( 't', mNone, function() {
     return;
   }
   var screenFrame = otherScreen.visibleFrameInRectangle();
-  Phoenix.log(otherScreen.hash())
+  Phoenix.log(otherScreen.hash());
 
   var w = Window.focusedWindow();
   Phoenix.log("old " + w.screen().hash());
