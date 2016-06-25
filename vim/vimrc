@@ -37,6 +37,15 @@ set nocompatible
     set whichwrap+=h,l
   endfu
   com! WM call WriteMode()
+  func! NoWriteMode()
+    set fo=croql
+    set flp=^\s*\d\+[\]:.)}\t ]\s*
+    "set formatprg
+    "set smartindent
+    set foldmethod=indent
+    set whichwrap=b,s
+  endfu
+  com! WMoff call NoWriteMode()
 
   "I don't use the below function because scrolling is really funky. A
   "paragraph is either all-visible or all-hidden. Nothing in between.
