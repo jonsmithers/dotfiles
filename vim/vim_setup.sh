@@ -6,3 +6,9 @@ curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
 # Install Vundle
 
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+
+# Tern Plugin Setup
+echo "please run:"
+echo ":   :PlugInstall (inside vim)"
+echo "    cd ~/.vim/**/tern_for_vim;"
+echo "    npm install"
