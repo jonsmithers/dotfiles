@@ -8,6 +8,7 @@
     "./phoenix.js": "~/.phoenix.js",
     "./vim/vimrc": "~/.vimrc",
     "./vim/vrapperrc": "~/.vrapperrc",
-    "./vim/ideavimrc": "~/.ideavimrc"
+    "./vim/ideavimrc": "~/.ideavimrc",
+    "./vim/tern-config": "~/.tern-config"
   }
 }
