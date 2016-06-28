@@ -139,6 +139,7 @@ let g:ctrlp_custom_ignore = {
   \ 'file': '\v\.(exe|so|dll|class)$',
   \ 'link': 'some_bad_symbolic_links',
   \ }
+let g:ctrlp_by_filename = 1
 
 " GOYO PLUGIN config
 " make vim close the First time you do :quit
