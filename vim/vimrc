@@ -74,6 +74,11 @@ com! SoftWrapProcessor call SoftWrappedProcessorMode()
     colorscheme solarized
     set gfn=Monaco\ for\ Powerline:h14
     set autoread
+
+    :set guioptions-=m  "remove menu bar
+    :set guioptions-=T  "remove toolbar
+    :set guioptions-=r  "remove right-hand scroll bar
+    :set guioptions-=L  "remove left-hand scroll bar
   endif
 
 " Highlighting overlength
