@@ -72,13 +72,14 @@ com! SoftWrapProcessor call SoftWrappedProcessorMode()
     syntax enable
     set background=dark
     colorscheme solarized
-    set gfn=Monaco\ for\ Powerline:h14
+    set gfn=Fira\ Mono\ Medium\ for\ Powerline\ Medium\ 10,\ Monaco\ for\ Powerline:h14
     set autoread
 
     :set guioptions-=m  "remove menu bar
     :set guioptions-=T  "remove toolbar
     :set guioptions-=r  "remove right-hand scroll bar
     :set guioptions-=L  "remove left-hand scroll bar
+    :set go+=m " I think I want to keep the menu actually
   endif
 
 " Highlighting overlength
