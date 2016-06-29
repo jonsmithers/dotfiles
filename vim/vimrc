@@ -94,8 +94,8 @@ com! SoftWrapProcessor call SoftWrappedProcessorMode()
 
 "# Keyboard keys
   " insert mode shortcuts
-  :inoremap <C-Space> <C-x><C-o>
-  :inoremap <C-@> <C-Space> "http://stackoverflow.com/questions/7722177/how-do-i-map-ctrl-x-ctrl-o-to-ctrl-space-in-terminal-vim
+  :imap <C-@> <C-Space>
+  :imap <C-Space> <C-x><C-o>
   :imap jk 
   :inoremap II <Esc>I
   :inoremap AA <Esc>A
