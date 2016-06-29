@@ -7,8 +7,15 @@ curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
 
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 
+# Install solarized colorscheme
+
+curl --create-dirs https://raw.githubusercontent.com/altercation/vim-colors-solarized/master/colors/solarized.vim -o ~/.vim/colors/solarized.vim
+
 # Tern Plugin Setup
-echo "please run:"
-echo ":   :PlugInstall (inside vim)"
+echo ""
+echo "To install Plug pluggins"
+echo "    :PlugInstall (inside vim)"
+echo ""
+echo "To finalize tern_for_vim plugin (this might be unnecessary)"
 echo "    cd ~/.vim/**/tern_for_vim;"
 echo "    npm install"
