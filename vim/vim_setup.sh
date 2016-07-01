@@ -16,6 +16,8 @@ curl --create-dirs https://raw.githubusercontent.com/altercation/vim-colors-sola
 
 # Install Powerline fonts
 
+git submodule init
+git submodule update
 powerline-fonts/install.sh
 
 # Tern Plugin Setup
