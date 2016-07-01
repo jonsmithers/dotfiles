@@ -107,24 +107,16 @@
 
 " VIM PLUG
   call plug#begin('~/.vim/plugged')
+    Plug 'bling/vim-airline'
     Plug 'fatih/vim-go'
     Plug 'junegunn/goyo.vim'
     Plug 'kien/ctrlp.vim'
     Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
     Plug 'scrooloose/syntastic'
     Plug 'ternjs/tern_for_vim'
+    Plug 'tpope/vim-fugitive'
     "run :PlugInstall to install new plugins
   call plug#end()
-
-" VUNDLE
-  filetype off                 " vundle required
-  set rtp+=~/.vim/bundle/Vundle.vim
-  call vundle#begin()
-    Plugin 'bling/vim-airline'
-    Plugin 'tpope/vim-fugitive'
-    "run :PluginInstall to install new plugins
-  call vundle#end()            " vundle required
-  filetype plugin indent on    " vundle required
 
 " AIRLINE PLUGIN config
   set laststatus=2     "always show airline, instead of only after splitview
