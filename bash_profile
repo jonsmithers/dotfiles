@@ -114,6 +114,11 @@ export NOTI_PUSHBULLET_TOK=o.5RKGbICfF91y9S6zifyMPs6YTLdM0tdp
       alias wfs='/Users/smithers/git/UC2/uc2-app/support/scripts/waitForServer.sh'
       alias metadata='/Users/smithers/git/metadata/metadata'
 
+      function copyIP {
+        ifconfig | grep 192 | sed -E 's/.*inet ([0-9.]+).*/http:\/\/\1:8000/' | pbcopy
+        echo 'copied '
+      }
+
       function killMicrosoft {
         kill $(ps -ef | grep Microsoft\ Database | tr -s ' ' | cut -d' ' -f 3)
         kill $(ps -ef | grep Microsoft\ Outlook | tr -s ' ' | cut -d' ' -f 3)
