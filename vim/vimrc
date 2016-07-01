@@ -1,12 +1,9 @@
-" allegedly necessary for cool vim things
-set nocompatible
-
-" Misc basics
+" Basics
   set ttimeoutlen=0 "timeout instantly when pressing esc during visual mode
   set foldmethod=indent
   set foldlevelstart=20
   set nowrap
-  syntax on
+  syntax enable
   set number
   set autoindent
   set smartindent
@@ -24,7 +21,7 @@ set nocompatible
   com! Tab4 call SetTabSizeFour()
 
 " Prose
-  set nojoinspaces
+  set nojoinspaces  " prevent vim from inserting 2 spaces after periods.
   func! WriteMode()
     set fo=ant
     set flp=^\\s*\\(-\\\\|\\d\\+\\.\\)\\s*
@@ -61,19 +58,14 @@ set nocompatible
     "set thesaurus+=/Users/sbrown/.vim/thesaurus/mthesaur.txt
     "set complete+=s
   endfu
-com! SoftWrapProcessor call SoftWrappedProcessorMode()
-
-" Wrap gitcommit file types at the appropriate length
-  " filetype indent plugin on
-  " filetype on
+  com! SoftWrapProcessor call SoftWrappedProcessorMode()
 
 "# GUI customization
   if has('gui_running')
-    syntax enable
     set background=dark
     colorscheme solarized
     set gfn=Fira\ Mono\ Medium\ for\ Powerline\ Medium\ 10,\ Monaco\ for\ Powerline:h14
-    set autoread
+    set autoread        "auto-load changes from disk
 
     :set guioptions-=m  "remove menu bar
     :set guioptions-=T  "remove toolbar
@@ -82,42 +74,25 @@ com! SoftWrapProcessor call SoftWrappedProcessorMode()
     :set go+=m " I think I want to keep the menu actually
   endif
 
-" Highlighting overlength
-  " highlight OverLength ctermbg=red ctermfg=white guibg=#592929
-  " match OverLength /\%81v.\+/
-
-" Macros
-  " lazy initialization
-    let @l="yiwiif (jjA == null) {^M}jja else {^Mreturn jjpa;^M}jjkk"
-  " vimscript to toggle syntax highlighting
-    function! ToggleSyntax()
-       if exists("g:syntax_on")
-          syntax off
-       else
-          syntax enable
-       endif
-    endfunction
-
 "# Keyboard keys
   " insert mode shortcuts
-  :imap <C-@> <C-Space>
-  :imap <C-Space> <C-x><C-o>
-  :imap jk 
-  :inoremap II <Esc>I
-  :inoremap AA <Esc>A
-  :inoremap jl <Esc>:
-  :imap \t <Esc>:r! date "+\%Y\%m\%d"<Enter>kJA
+    :imap <C-@> <C-Space>
+    :imap <C-Space> <C-x><C-o>
+    :imap jk 
+    :inoremap II <Esc>I
+    :inoremap AA <Esc>A
+    :inoremap jl <Esc>:
+    :imap \t <Esc>:r! date "+\%Y\%m\%d"<Enter>kJA
 
   " normal mode shortucts
-  :nnoremap \	 :e#
-  :nmap \t :r! date "+\%Y\%m\%d"<Enter>kJ
-  :nmap  zh
-  :nmap  zl
+    :nnoremap \	 :e#
+    :nmap \t :r! date "+\%Y\%m\%d"<Enter>kJ
+    :nmap  zh
+    :nmap  zl
 
-
-" wrap overlength text
-  :nmap <leader>w 080lF<Space>a
-  " auto-resize a window to 80+4 cols
+" Highlighting overlength
+  "highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+  "match OverLength /\%81v.\+/
   :nmap <leader>Width :vertical resize 84
 
 " Pasting
@@ -129,7 +104,6 @@ com! SoftWrapProcessor call SoftWrappedProcessorMode()
   "source: http://vim.wikia.com/wiki/Toggle_auto-indenting_for_code_paste
   :nnoremap \p :set invpaste paste?<CR>
   :set pastetoggle=\\ppp
-  :set showmode
 
 call plug#begin('~/.vim/plugged')
 Plug 'junegunn/goyo.vim'
