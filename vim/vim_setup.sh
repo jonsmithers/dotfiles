@@ -14,6 +14,10 @@ git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 
 curl --create-dirs https://raw.githubusercontent.com/altercation/vim-colors-solarized/master/colors/solarized.vim -o ~/.vim/colors/solarized.vim
 
+# Install Powerline fonts
+
+powerline-fonts/install.sh
+
 # Tern Plugin Setup
 echo ""
 echo "To install Plug pluggins"
