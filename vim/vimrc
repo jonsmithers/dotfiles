@@ -20,6 +20,22 @@
   endfu
   com! Tab4 call SetTabSizeFour()
 
+" Key Bindings
+  " insert mode shortcuts
+    :imap <C-@> <C-Space>
+    :imap <C-Space> <C-x><C-o>
+    :imap jk 
+    :inoremap II <Esc>I
+    :inoremap AA <Esc>A
+    :inoremap jl <Esc>:
+    :imap \t <Esc>:r! date "+\%Y\%m\%d"<Enter>kJA
+
+  " normal mode shortucts
+    :nnoremap \	 :e#
+    :nmap \t :r! date "+\%Y\%m\%d"<Enter>kJ
+    :nmap  zh
+    :nmap  zl
+
 " Prose
   set nojoinspaces  " prevent vim from inserting 2 spaces after periods.
   func! WriteMode()
@@ -60,7 +76,7 @@
   endfu
   com! SoftWrapProcessor call SoftWrappedProcessorMode()
 
-"# GUI customization
+"# GUI Customization
   if has('gui_running')
     set background=dark
     colorscheme solarized
@@ -74,23 +90,7 @@
     :set go+=m " I think I want to keep the menu actually
   endif
 
-"# Keyboard keys
-  " insert mode shortcuts
-    :imap <C-@> <C-Space>
-    :imap <C-Space> <C-x><C-o>
-    :imap jk 
-    :inoremap II <Esc>I
-    :inoremap AA <Esc>A
-    :inoremap jl <Esc>:
-    :imap \t <Esc>:r! date "+\%Y\%m\%d"<Enter>kJA
-
-  " normal mode shortucts
-    :nnoremap \	 :e#
-    :nmap \t :r! date "+\%Y\%m\%d"<Enter>kJ
-    :nmap  zh
-    :nmap  zl
-
-" Highlighting overlength
+" Highlighting Overlength
   "highlight OverLength ctermbg=red ctermfg=white guibg=#592929
   "match OverLength /\%81v.\+/
   :nmap <leader>Width :vertical resize 84
@@ -105,19 +105,31 @@
   :nnoremap \p :set invpaste paste?<CR>
   :set pastetoggle=\\ppp
 
-call plug#begin('~/.vim/plugged')
-  Plug 'junegunn/goyo.vim'
-  Plug 'fatih/vim-go'
-  Plug 'kien/ctrlp.vim'
-  Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-  Plug 'scrooloose/syntastic'
-  Plug 'ternjs/tern_for_vim'
-call plug#end()
-" run :PlugInstall to install new plugins
+" VIM PLUG
+  call plug#begin('~/.vim/plugged')
+    Plug 'fatih/vim-go'
+    Plug 'junegunn/goyo.vim'
+    Plug 'kien/ctrlp.vim'
+    Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+    Plug 'scrooloose/syntastic'
+    Plug 'ternjs/tern_for_vim'
+    "run :PlugInstall to install new plugins
+  call plug#end()
 
-" SYNTASTIC PLUGIN config
-  let g:syntastic_html_checkers = []
-  let g:syntastic_javascript_checkers = ['jshint']
+" VUNDLE
+  filetype off                 " vundle required
+  set rtp+=~/.vim/bundle/Vundle.vim
+  call vundle#begin()
+    Plugin 'bling/vim-airline'
+    Plugin 'tpope/vim-fugitive'
+    "run :PluginInstall to install new plugins
+  call vundle#end()            " vundle required
+  filetype plugin indent on    " vundle required
+
+" AIRLINE PLUGIN config
+  set laststatus=2     "always show airline, instead of only after splitview
+  let g:airline_powerline_fonts = 1
+  set t_Co=256         "needed for airline to show colors
 
 " CTRLP PLUGIN config
   let g:ctrlp_custom_ignore = {
@@ -128,8 +140,8 @@ call plug#end()
   let g:ctrlp_by_filename = 1
 
 " GOYO PLUGIN config
-" make vim close the First time you do :quit
-" https://github.com/junegunn/goyo.vim/wiki/Customization
+  " make vim close the First time you do :quit
+  " https://github.com/junegunn/goyo.vim/wiki/Customization
   function! s:goyo_enter()
     let b:quitting = 0
     let b:quitting_bang = 0
@@ -149,15 +161,6 @@ call plug#end()
   autocmd User GoyoEnter call <SID>goyo_enter()
   autocmd User GoyoLeave call <SID>goyo_leave()
 
-filetype off                 " vundle required
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-  Plugin 'bling/vim-airline'
-  Plugin 'tpope/vim-fugitive'
-call vundle#end()            " vundle required
-filetype plugin indent on    " vundle required
-
-" AIRLINE PLUGIN config
-set laststatus=2     "always show airline, instead of only after splitview
-let g:airline_powerline_fonts = 1
-set t_Co=256         "needed for airline to show colors
+" SYNTASTIC PLUGIN config
+  let g:syntastic_html_checkers = []
+  let g:syntastic_javascript_checkers = ['jshint']
