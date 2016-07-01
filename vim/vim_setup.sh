@@ -1,3 +1,6 @@
+#!/bin/bash
+cd "$(dirname "$0")"
+
 # Install Vim-Plug
 
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
