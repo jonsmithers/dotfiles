@@ -111,6 +111,8 @@ com! SoftWrapProcessor call SoftWrappedProcessorMode()
   " normal mode shortucts
   :nnoremap \	 :e#
   :nmap \t :r! date "+\%Y\%m\%d"<Enter>kJ
+  :nmap  zh
+  :nmap  zl
 
 
 " wrap overlength text
