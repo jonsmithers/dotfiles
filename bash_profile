@@ -82,6 +82,8 @@ export NOTI_PUSHBULLET_TOK=o.5RKGbICfF91y9S6zifyMPs6YTLdM0tdp
     alias dsk='jump dsk'
     alias dls='jump dls'
 
+    alias lamemp3='lame -V0 -h -b 160 --vbr-new'
+
   ##### Work Laptop #####
   elif [[ "$(hostname)" =~ Smithers(\.local)? ]]; then
 
