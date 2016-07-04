@@ -130,7 +130,7 @@
   call plug#begin('~/.vim/plugged')
     Plug 'bling/vim-airline'
     Plug 'fatih/vim-go'
-    Plug 'junegunn/goyo.vim'
+    Plug 'junegunn/goyo.vim'       " distraction-free mode
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
     Plug 'junegunn/fzf.vim'
     Plug 'othree/csscomplete.vim'  " css completion
@@ -140,7 +140,7 @@
     Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
     Plug 'scrooloose/syntastic'
     Plug 'tpope/vim-fugitive'
-    "Plug 'ternjs/tern_for_vim'    " NOT WORKING IN NEOVIM BECAUSE PYTHON
+    "Plug 'ternjs/tern_for_vim'
 
     " colorschemes
     Plug 'mhartington/oceanic-next'
