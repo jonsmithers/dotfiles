@@ -24,6 +24,11 @@
   endif
   "(source: http://nerditya.com/code/guide-to-neovim/)
 
+  com! Deoplete call deoplete#enable() " use this to start deoplete
+  let g:python3_host_prog='/usr/bin/python3' "used by deocomplete
+  let g:deoplete#file#enable_buffer_path=1   "path completion is relative
+
+  " required by deoplete
 
 " Tabs
   set expandtab     " spaces are better than tab characters
@@ -140,6 +145,7 @@
     Plug 'othree/yajs.vim'         " js syntax
     Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
     Plug 'scrooloose/syntastic'
+    Plug 'Shougo/deoplete.nvim'
     Plug 'tpope/vim-fugitive'
     "Plug 'ternjs/tern_for_vim'
 
