@@ -110,14 +110,20 @@
 " VIM PLUG
   call plug#begin('~/.vim/plugged')
     Plug 'bling/vim-airline'
+    Plug 'ctrlpvim/ctrlp.vim'
     Plug 'fatih/vim-go'
     Plug 'junegunn/goyo.vim'
-    Plug 'kien/ctrlp.vim'
-    Plug 'mhartington/oceanic-next'
+    Plug 'othree/yajs.vim'
     Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
     Plug 'scrooloose/syntastic'
     Plug 'ternjs/tern_for_vim'
     Plug 'tpope/vim-fugitive'
+
+    " colorschemes
+    Plug 'mhartington/oceanic-next'
+    Plug 'morhetz/gruvbox'
+    Plug 'nanotech/jellybeans.vim'
+
     "run :PlugInstall to install new plugins
   call plug#end()
 
