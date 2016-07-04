@@ -4,6 +4,9 @@
   set foldmethod=indent
   set foldlevelstart=20
   set nowrap
+  set nohlsearch    "don't highlight search results
+  set ignorecase    "search ignores case
+  set smartcase     "unless there's a capital letter
   syntax enable
   set number
   set autoindent
