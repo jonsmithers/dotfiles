@@ -1,7 +1,9 @@
 #!/bin/bash
 cd "$(dirname "$0")"
 
-mkdir -p ~/.config/nvim
+mkdir -p ~/.vim
+mkdir -p ${XDG_CONFIG_HOME:=$HOME/.config}
+ln -s ~/.vim $XDG_CONFIG_HOME/nvim
 
 # Install Vim-Plug
 
