@@ -35,6 +35,7 @@
     :nmap \t :r! date "+\%Y\%m\%d"<Enter>kJ
     :nmap  zh
     :nmap  zl
+    :nnoremap Q <nop>
 
 " Prose
   set nojoinspaces  " prevent vim from inserting 2 spaces after periods.
