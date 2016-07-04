@@ -36,6 +36,7 @@
     :nmap \t :r! date "+\%Y\%m\%d"<Enter>kJ
     :nmap  zh
     :nmap  zl
+    :nmap  :FZF
     :nnoremap Q <nop>
 
 " Prose
@@ -110,9 +111,10 @@
 " VIM PLUG
   call plug#begin('~/.vim/plugged')
     Plug 'bling/vim-airline'
-    Plug 'ctrlpvim/ctrlp.vim'
     Plug 'fatih/vim-go'
     Plug 'junegunn/goyo.vim'
+    Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+    Plug 'junegunn/fzf.vim'
     Plug 'othree/yajs.vim'
     Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
     Plug 'scrooloose/syntastic'
