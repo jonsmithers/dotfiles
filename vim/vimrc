@@ -47,13 +47,15 @@
     :imap \t <Esc>:r! date "+\%Y\%m\%d"<Enter>kJA
 
   " normal mode shortucts
-    :nnoremap \	 :e#
-    :nmap \t :r! date "+\%Y\%m\%d"<Enter>kJ
+    :let mapleader = " "
+    :nmap <Leader>it :r! date "+\%Y\%m\%d"<Enter>kJ
     :nmap  zh
     :nmap  zl
+    :nnoremap Q <nop>
+
+    " fzf stuff
     :nmap  :FZF
     :nmap <Leader>fh :History:
-    :nnoremap Q <nop>
 
 " Prose
   set nojoinspaces  " prevent vim from inserting 2 spaces after periods.
