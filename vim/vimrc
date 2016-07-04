@@ -147,7 +147,7 @@
     Plug 'scrooloose/syntastic'
     Plug 'Shougo/deoplete.nvim'
     Plug 'tpope/vim-fugitive'
-    "Plug 'ternjs/tern_for_vim'
+    Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
 
     " colorschemes
     Plug 'mhartington/oceanic-next'
