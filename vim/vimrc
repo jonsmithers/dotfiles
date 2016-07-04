@@ -56,6 +56,7 @@
     " fzf stuff
     :nmap  :FZF
     :nmap <Leader>fh :History:
+    :nmap <Leader>f~ :FZF ~
 
 " Prose
   set nojoinspaces  " prevent vim from inserting 2 spaces after periods.
