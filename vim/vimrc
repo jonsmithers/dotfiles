@@ -52,6 +52,7 @@
     :nmap  zh
     :nmap  zl
     :nmap  :FZF
+    :nmap <Leader>fh :History:
     :nnoremap Q <nop>
 
 " Prose
