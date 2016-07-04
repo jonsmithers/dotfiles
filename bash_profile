@@ -21,6 +21,32 @@ export NOTI_PUSHBULLET_TOK=o.5RKGbICfF91y9S6zifyMPs6YTLdM0tdp
   }
   #function marks() is created in OS-specific section
 
+## global aliases
+
+  alias g='git number'
+  alias gn='git number'
+  alias gim='g -c vim'
+  alias tim='vim -c NERDTreeToggle'
+  alias gatom='g -c atom'
+  alias todos='agl "(TODO|todo).*(([sS](mithers|MITHERS))|JJS|jjs)" -A 2 -B 2'
+  alias todosgrep='git grep -I --ignore-case -E "todo.*(smithers|JJS)"'
+  alias doge='echo "DOGE HERE. MUCH BASH. SUCH TERMINAL"'
+  alias shortgrep='grep --invert-match -E ".{200}"'
+  alias ll='ls -lhAS'
+
+  alias dsk='jump dsk'
+  alias dls='jump dls'
+
+  alias agl='ag --pager="less -R"'
+  alias agjava='ag -G .*java'
+  alias agxml='ag -G .*xml'
+  alias aghtml='ag -G .*html'
+  alias agjs='ag -G .*js'
+  alias grep='grep --color=auto -I'
+  #                              ^ ignore binary files
+  #                  ^ highlight matches
+  alias igrep='grep --invert-match'
+
 # Platform specific stuff
   ##### APPLE #####
   if [ "$(uname)" == "Darwin" ]; then
@@ -203,32 +229,6 @@ export NOTI_PUSHBULLET_TOK=o.5RKGbICfF91y9S6zifyMPs6YTLdM0tdp
       }
   else echo "No machine intialization $(hostname)"
   fi
-
-## aliases
-
-  alias g='git number'
-  alias gn='git number'
-  alias gim='g -c vim'
-  alias tim='vim -c NERDTreeToggle'
-  alias gatom='g -c atom'
-  alias todos='agl "(TODO|todo).*(([sS](mithers|MITHERS))|JJS|jjs)" -A 2 -B 2'
-  alias todosgrep='git grep -I --ignore-case -E "todo.*(smithers|JJS)"'
-  alias doge='echo "DOGE HERE. MUCH BASH. SUCH TERMINAL"'
-  alias shortgrep='grep --invert-match -E ".{200}"'
-  alias ll='ls -lhAS'
-
-  alias dsk='jump dsk'
-  alias dls='jump dls'
-
-  alias agl='ag --pager="less -R"'
-  alias agjava='ag -G .*java'
-  alias agxml='ag -G .*xml'
-  alias aghtml='ag -G .*html'
-  alias agjs='ag -G .*js'
-  alias grep='grep --color=auto -I'
-  #                              ^ ignore binary files
-  #                  ^ highlight matches
-  alias igrep='grep --invert-match'
 
 ## functions
   extract () {
