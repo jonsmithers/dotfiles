@@ -153,6 +153,7 @@
 " AIRLINE PLUGIN config
   set laststatus=2     "always show airline, instead of only after splitview
   let g:airline_powerline_fonts = 1
+  let g:airline_theme='oceanicnext'
   set t_Co=256         "needed for airline to show colors
 
 " CTRLP PLUGIN config
