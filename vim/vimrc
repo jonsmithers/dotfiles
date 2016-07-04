@@ -13,6 +13,18 @@
   set smartindent
   set showcmd	  " show more info about what you're doing
 
+  set splitbelow    " more natural split behavior
+  set splitright    " more natural split behavior
+
+  if !&scrolloff
+    set scrolloff=3 " Show next 3 lines while scrolling.
+  endif
+  if !&sidescrolloff
+    set sidescrolloff=5 " Show next 5 columns while side-scrolling.
+  endif
+  "(source: http://nerditya.com/code/guide-to-neovim/)
+
+
 " Tabs
   set expandtab     " spaces are better than tab characters
   set smarttab      " don't know
