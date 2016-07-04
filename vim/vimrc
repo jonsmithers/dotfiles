@@ -9,11 +9,6 @@
   set autoindent
   set smartindent
   set showcmd	  " show more info about what you're doing
-  if has('nvim')
-    let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-    set t_Co=256
-    colorscheme solarized
-  end
 
 " Tabs
   set expandtab     " spaces are better than tab characters
@@ -118,6 +113,7 @@
     Plug 'fatih/vim-go'
     Plug 'junegunn/goyo.vim'
     Plug 'kien/ctrlp.vim'
+    Plug 'mhartington/oceanic-next'
     Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
     Plug 'scrooloose/syntastic'
     Plug 'ternjs/tern_for_vim'
@@ -163,3 +159,9 @@
 " SYNTASTIC PLUGIN config
   let g:syntastic_html_checkers = []
   let g:syntastic_javascript_checkers = ['jshint']
+
+  if has('nvim')
+    let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+    colorscheme OceanicNext
+    set background=dark
+  end
