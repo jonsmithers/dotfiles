@@ -1,3 +1,4 @@
+
 " Basics
   set ttimeoutlen=0 "timeout instantly when pressing esc during visual mode
   set foldmethod=indent
@@ -8,6 +9,11 @@
   set autoindent
   set smartindent
   set showcmd	  " show more info about what you're doing
+  if has('nvim')
+    let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+    set t_Co=256
+    colorscheme solarized
+  end
 
 " Tabs
   set expandtab     " spaces are better than tab characters
