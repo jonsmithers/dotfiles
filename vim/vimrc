@@ -24,9 +24,14 @@
   endif
   "(source: http://nerditya.com/code/guide-to-neovim/)
 
-  com! Deoplete call deoplete#enable() " use this to start deoplete
-  let g:python3_host_prog='/usr/bin/python3' "used by deocomplete
-  let g:deoplete#file#enable_buffer_path=1   "path completion is relative
+  let hostname = substitute(system('hostname'), '\n', '', '')
+  if (hostname == "Smithers.local")
+    let g:python3_host_prog='/usr/local/bin/python3'
+  elseif (hostname == "zamperini2")
+    let g:python3_host_prog='/usr/bin/python3'
+  endif
+
+
 
   " required by deoplete
 
@@ -163,13 +168,9 @@
   let g:airline_theme='oceanicnext'
   set t_Co=256         "needed for airline to show colors
 
-" CTRLP PLUGIN config
-  let g:ctrlp_custom_ignore = {
-    \ 'dir':  '\v[\/]\.(git|hg|svn)$',
-    \ 'file': '\v\.(exe|so|dll|class)$',
-    \ 'link': 'some_bad_symbolic_links',
-    \ }
-  let g:ctrlp_by_filename = 1
+" DEOPLETE PLUGIN config
+  com! Deoplete call deoplete#enable() " use this to start deoplete
+  let g:deoplete#file#enable_buffer_path=1   "path completion is relative
 
 " GOYO PLUGIN config
   " make vim close the First time you do :quit
