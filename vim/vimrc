@@ -68,6 +68,11 @@
     :nmap <Leader>fh :History:
     :nmap <Leader>f~ :FZF ~
 
+  " terminal mode shortcuts
+    if has('nvim')
+      :tnoremap <C-w> <C-\><C-n><C-w>
+    endif
+
 " Prose
   set nojoinspaces  " prevent vim from inserting 2 spaces after periods.
   func! WriteMode()
