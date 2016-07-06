@@ -16,6 +16,8 @@ curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
 # Install FZF
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 ~/.fzf/install
+ln -s ~/.fzf/bin/fzf /usr/local/bin/fzf
+ln -s ~/.fzf/bin/fzf-tmux /usr/local/bin/fzf-tmux
 
 # Install solarized colorscheme
 
