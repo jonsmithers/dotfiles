@@ -58,7 +58,10 @@
 
   " normal mode shortucts
     :let mapleader = " "
+    "insert time:
     :nmap <Leader>it :r! date "+\%Y\%m\%d"<Enter>kJ
+    "insert LOG:
+    :nmap <Leader>iL oconsole.log('%c', 'font-size:15px');F,hi
     :nmap  zh
     :nmap  zl
     :nnoremap Q <nop>
