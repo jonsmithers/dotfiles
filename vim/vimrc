@@ -62,6 +62,11 @@
     :nmap  zh
     :nmap  zl
     :nnoremap Q <nop>
+    :nmap <Leader>T :enew<cr>
+    :nmap <Leader>k :bnext
+    :nmap <Leader>j :bprevious
+    :nmap <Leader>x :bd
+    :nmap <Leader>X :bd!
 
     " fzf stuff
     :nmap  :FZF
