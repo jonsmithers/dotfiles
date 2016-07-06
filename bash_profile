@@ -175,7 +175,7 @@ export NOTI_PUSHBULLET_TOK=o.5RKGbICfF91y9S6zifyMPs6YTLdM0tdp
       }
       function sdone {
         echo -e "\e[0;36myus!"
-        noti -p -t "Success" -m "It worked!"
+        noti -t "Success" -m "It worked!"
         mplayer -msglevel all=-1 "/Applications/Wunderlist.app/Contents/Resources/WLCompletionSound.mp3"
       }
       function notify {
