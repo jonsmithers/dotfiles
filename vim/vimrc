@@ -65,7 +65,7 @@
 
     " fzf stuff
     :nmap  :FZF
-    :nmap <Leader>fh :History:
+    :nmap <Leader><C-r> :History:
     :nmap <Leader>f~ :FZF ~
 
   " terminal mode shortcuts
