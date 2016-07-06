@@ -146,7 +146,6 @@
     Plug 'junegunn/fzf.vim'
     Plug 'othree/csscomplete.vim'  " css completion
     Plug 'othree/html5.vim'        " html5 completion
-    Plug 'othree/jspc.vim'         " js param completion
     Plug 'othree/yajs.vim'         " js syntax
     Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
     Plug 'scrooloose/syntastic'
