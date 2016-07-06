@@ -25,7 +25,7 @@ export NOTI_PUSHBULLET_TOK=o.5RKGbICfF91y9S6zifyMPs6YTLdM0tdp
 
   alias g='git number'
   alias gn='git number'
-  alias gim='g -c vim'
+  alias gim='g -c nvim'
   alias tim='vim -c NERDTreeToggle'
   alias gatom='g -c atom'
   alias todos='agl "(TODO|todo).*(([sS](mithers|MITHERS))|JJS|jjs)" -A 2 -B 2'
