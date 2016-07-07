@@ -78,6 +78,9 @@
     :nmap <Leader><C-r> :History:
     :nmap <Leader>f~ :FZF ~
 
+    " tcomment stuff
+    :nmap <Leader>/ gcc
+
   " terminal mode shortcuts
     if has('nvim')
       :tnoremap <C-w> <C-\><C-n><C-w>
@@ -167,6 +170,7 @@
     Plug 'Shougo/deoplete.nvim'
     Plug 'tpope/vim-fugitive'
     Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
+    Plug 'tomtom/tcomment_vim'
 
     " colorschemes
     Plug 'mhartington/oceanic-next'
