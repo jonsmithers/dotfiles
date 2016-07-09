@@ -1,27 +1,40 @@
+" VIM PLUG
+  call plug#begin('~/.vim/plugged')
+    Plug 'bling/vim-airline'
+    Plug 'fatih/vim-go'
+    Plug 'junegunn/goyo.vim'       " distraction-free mode
+    Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+    Plug 'junegunn/fzf.vim'
+    Plug 'othree/csscomplete.vim'  " css completion
+    Plug 'othree/html5.vim'        " html5 completion
+    Plug 'othree/yajs.vim'         " js syntax
+    Plug 'scrooloose/nerdtree'
+    Plug 'scrooloose/syntastic'
+    Plug 'Shougo/deoplete.nvim'
+    Plug 'tpope/vim-fugitive'
+    Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
+    Plug 'tomtom/tcomment_vim'
+    Plug 'SirVer/ultisnips'
 
-" Basics
-  set ttimeoutlen=0 "timeout instantly when pressing esc during visual mode
-  set foldmethod=indent
-  set foldlevelstart=20
-  set nowrap
-  set nohlsearch    "don't highlight search results
-  set ignorecase    "search ignores case
-  set smartcase     "unless there's a capital letter
-  syntax enable
-  set number
-  set autoindent
-  set smartindent
+    " colorschemes
+    Plug 'mhartington/oceanic-next'
+    Plug 'morhetz/gruvbox'
+    Plug 'nanotech/jellybeans.vim'
 
-  set splitbelow    " more natural split behavior
-  set splitright    " more natural split behavior
+    "run :PlugInstall to install new plugins
+  call plug#end()
 
-  if !&scrolloff
-    set scrolloff=3 " Show next 3 lines while scrolling.
-  endif
-  if !&sidescrolloff
-    set sidescrolloff=5 " Show next 5 columns while side-scrolling.
-  endif
-  "(source: http://nerditya.com/code/guide-to-neovim/)
+" AIRLINE PLUGIN config
+  set laststatus=2                                 "always show airline, instead of only after splitview
+  let g:airline_powerline_fonts = 1
+  let g:airline#extensions#tabline#enabled = 1     "show buffers on top
+  let g:airline#extensions#tabline#fnamemod = ':t' "show just the filename
+  let g:airline_theme='oceanicnext'
+  set t_Co=256                                     "help airline show colors
+
+" DEOPLETE PLUGIN config
+  com! Deoplete call deoplete#enable() " use this to start deoplete
+  let g:deoplete#file#enable_buffer_path=1   "path completion is relative
 
   let hostname = substitute(system('hostname'), '\n', '', '')
   if (hostname == "Smithers.local")
@@ -30,20 +43,35 @@
     let g:python3_host_prog='/usr/bin/python3'
   endif
 
+" GOYO PLUGIN config
+  " make vim close the First time you do :quit
+  " https://github.com/junegunn/goyo.vim/wiki/Customization
+  function! s:goyo_enter()
+    let b:quitting = 0
+    let b:quitting_bang = 0
+    autocmd QuitPre <buffer> let b:quitting = 1
+    cabbrev <buffer> q! let b:quitting_bang = 1 <bar> q!
+  endfunction
+  function! s:goyo_leave()
+    " Quit Vim if this is the only remaining buffer
+    if b:quitting && len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1
+      if b:quitting_bang
+        qa!
+      else
+        qa
+      endif
+    endif
+  endfunction
+  autocmd User GoyoEnter call <SID>goyo_enter()
+  autocmd User GoyoLeave call <SID>goyo_leave()
 
+" SYNTASTIC PLUGIN config
+  let g:syntastic_html_checkers = []
+  let g:syntastic_javascript_checkers = ['jshint']
 
-  " required by deoplete
-
-" Tabs
-  set expandtab     " spaces are better than tab characters
-  set smarttab      " don't know
-  set tabstop=2     " for when you press tab
-  set shiftwidth=2  " for autoindent, I think
-  func! SetTabSizeFour()
-    set tabstop=4
-    set shiftwidth=4
-  endfu
-  com! Tab4 call SetTabSizeFour()
+" ULTISNIPS PLUGIN config
+  " workaround bug https://github.com/SirVer/ultisnips/issues/711
+  let g:UltiSnipsSnippetDirectories = ['~/.vim/UltiSnips', 'UltiSnips']
 
 " Key Bindings
   " insert mode shortcuts
@@ -143,89 +171,55 @@
     :set go+=m " I think I want to keep the menu actually
   endif
 
-" Highlighting Overlength
-  "highlight OverLength ctermbg=red ctermfg=white guibg=#592929
-  "match OverLength /\%81v.\+/
-  :nmap <leader>Width :vertical resize 84
+" Rare Tools
+  func! HighlightOverlength()
+    highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+    match OverLength /\%81v.\+/
+  endfu
+  func! SetWidthEightyFour()
+    :vertical resize 84
+  endfu
 
-" Pasting
-  "The first line sets a mapping so that pressing \p in normal mode will invert
-  "the 'paste' option, and will then show the value of that option. The second
-  "line allows you to press \\ppp when in insert mode, to toggle 'paste' on and
-  "off. The third line enables displaying whether 'paste' is turned on in
-  "insert mode.
-  "source: http://vim.wikia.com/wiki/Toggle_auto-indenting_for_code_paste
-  :nnoremap \p :set invpaste paste?<CR>
-  :set pastetoggle=\\ppp
+" Basics
+  set ttimeoutlen=0 "timeout instantly when pressing esc during visual mode
+  set foldmethod=indent
+  set foldlevelstart=20
+  set nowrap
+  set nohlsearch    "don't highlight search results
+  set ignorecase    "search ignores case
+  set smartcase     "unless there's a capital letter
+  syntax enable
+  set number
+  set autoindent
+  set smartindent
 
-" VIM PLUG
-  call plug#begin('~/.vim/plugged')
-    Plug 'bling/vim-airline'
-    Plug 'fatih/vim-go'
-    Plug 'junegunn/goyo.vim'       " distraction-free mode
-    Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-    Plug 'junegunn/fzf.vim'
-    Plug 'othree/csscomplete.vim'  " css completion
-    Plug 'othree/html5.vim'        " html5 completion
-    Plug 'othree/yajs.vim'         " js syntax
-    Plug 'scrooloose/nerdtree'
-    Plug 'scrooloose/syntastic'
-    Plug 'Shougo/deoplete.nvim'
-    Plug 'tpope/vim-fugitive'
-    Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
-    Plug 'tomtom/tcomment_vim'
-    Plug 'SirVer/ultisnips'
+  set splitbelow    " more natural split behavior
+  set splitright    " more natural split behavior
 
-    " colorschemes
-    Plug 'mhartington/oceanic-next'
-    Plug 'morhetz/gruvbox'
-    Plug 'nanotech/jellybeans.vim'
+  if !&scrolloff
+    set scrolloff=3 " Show next 3 lines while scrolling.
+  endif
+  if !&sidescrolloff
+    set sidescrolloff=5 " Show next 5 columns while side-scrolling.
+  endif
+  "(source: http://nerditya.com/code/guide-to-neovim/)
 
-    "run :PlugInstall to install new plugins
-  call plug#end()
+" Tabs
+  set expandtab     " spaces are better than tab characters
+  set smarttab      " don't know
+  func! SetTabSizeFour()
+    set tabstop=4     " for when you press tab
+    set shiftwidth=4  " for autoindent, I think
+  endfu
+  com! Tab4 call SetTabSizeFour()
+  func! SetTabSizeTwo()
+    set tabstop=2     " for when you press tab
+    set shiftwidth=2  " for autoindent, I think
+  endfu
+  com! Tab2 call SetTabSizeTwo()
+  :Tab2
 
-" AIRLINE PLUGIN config
-  set laststatus=2                                 "always show airline, instead of only after splitview
-  let g:airline_powerline_fonts = 1
-  let g:airline#extensions#tabline#enabled = 1     "show buffers on top
-  let g:airline#extensions#tabline#fnamemod = ':t' "show just the filename
-  let g:airline_theme='oceanicnext'
-  set t_Co=256                                     "help airline show colors
-
-" DEOPLETE PLUGIN config
-  com! Deoplete call deoplete#enable() " use this to start deoplete
-  let g:deoplete#file#enable_buffer_path=1   "path completion is relative
-
-" GOYO PLUGIN config
-  " make vim close the First time you do :quit
-  " https://github.com/junegunn/goyo.vim/wiki/Customization
-  function! s:goyo_enter()
-    let b:quitting = 0
-    let b:quitting_bang = 0
-    autocmd QuitPre <buffer> let b:quitting = 1
-    cabbrev <buffer> q! let b:quitting_bang = 1 <bar> q!
-  endfunction
-  function! s:goyo_leave()
-    " Quit Vim if this is the only remaining buffer
-    if b:quitting && len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1
-      if b:quitting_bang
-        qa!
-      else
-        qa
-      endif
-    endif
-  endfunction
-  autocmd User GoyoEnter call <SID>goyo_enter()
-  autocmd User GoyoLeave call <SID>goyo_leave()
-
-" SYNTASTIC PLUGIN config
-  let g:syntastic_html_checkers = []
-  let g:syntastic_javascript_checkers = ['jshint']
-
-" ULTISNIPS PLUGIN config
-  " workaround bug https://github.com/SirVer/ultisnips/issues/711
-  let g:UltiSnipsSnippetDirectories = ['~/.vim/UltiSnips', 'UltiSnips']
-
+" Neovim specific
   if has('nvim')
     let $NVIM_TUI_ENABLE_TRUE_COLOR=1
     colorscheme OceanicNext
