@@ -11,7 +11,6 @@
   set number
   set autoindent
   set smartindent
-  set nofixeol      " don't insert EOL at end of file
 
   set splitbelow    " more natural split behavior
   set splitright    " more natural split behavior
@@ -227,6 +226,7 @@
     let $NVIM_TUI_ENABLE_TRUE_COLOR=1
     colorscheme OceanicNext
     set background=dark
+    set nofixeol      " don't insert EOL at end of file
   end
 
 " ULTISNIPS PLUGIN config
