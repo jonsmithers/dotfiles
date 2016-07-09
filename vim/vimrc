@@ -222,13 +222,13 @@
   let g:syntastic_html_checkers = []
   let g:syntastic_javascript_checkers = ['jshint']
 
+" ULTISNIPS PLUGIN config
+  " workaround bug https://github.com/SirVer/ultisnips/issues/711
+  let g:UltiSnipsSnippetDirectories = ['~/.vim/UltiSnips', 'UltiSnips']
+
   if has('nvim')
     let $NVIM_TUI_ENABLE_TRUE_COLOR=1
     colorscheme OceanicNext
     set background=dark
     set nofixeol      " don't insert EOL at end of file
   end
-
-" ULTISNIPS PLUGIN config
-  " workaround bug https://github.com/SirVer/ultisnips/issues/711
-  let g:UltiSnipsSnippetDirectories = ['~/.vim/UltiSnips', 'UltiSnips']
