@@ -97,8 +97,13 @@
     :nmap <Leader>T :enew<cr>
     :nmap <Leader>k :bnext
     :nmap <Leader>j :bprevious
+    let g:BASH_Ctrl_j = 'off' "this is undocumented!
+    :nmap <c-j> :bprevious
+    :nmap <c-k> :bnext
     :nmap <Leader>x :bd
     :nmap <Leader>X :bd!
+    :nmap <Leader><Tab> :b#
+          "most recent buffer
 
     " fzf stuff
     :nmap  :FZF
