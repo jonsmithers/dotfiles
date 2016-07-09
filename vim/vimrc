@@ -11,7 +11,7 @@
   set number
   set autoindent
   set smartindent
-  set noeol         " don't insert EOL at end of file
+  set nofixeol      " don't insert EOL at end of file
 
   set splitbelow    " more natural split behavior
   set splitright    " more natural split behavior
