@@ -169,7 +169,7 @@
     Plug 'othree/csscomplete.vim'  " css completion
     Plug 'othree/html5.vim'        " html5 completion
     Plug 'othree/yajs.vim'         " js syntax
-    Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+    Plug 'scrooloose/nerdtree'
     Plug 'scrooloose/syntastic'
     Plug 'Shougo/deoplete.nvim'
     Plug 'tpope/vim-fugitive'
