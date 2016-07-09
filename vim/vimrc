@@ -81,6 +81,9 @@
     " tcomment stuff
     :nmap <Leader>/ gcc
 
+    :nmap <Leader>tt :NERDTreeToggle
+    :nmap <Leader>tf :NERDTreeFind
+
   " terminal mode shortcuts
     if has('nvim')
       :tnoremap <C-w> <C-\><C-n><C-w>
