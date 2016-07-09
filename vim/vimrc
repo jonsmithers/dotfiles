@@ -175,6 +175,7 @@
     Plug 'tpope/vim-fugitive'
     Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
     Plug 'tomtom/tcomment_vim'
+    Plug 'SirVer/ultisnips'
 
     " colorschemes
     Plug 'mhartington/oceanic-next'
@@ -227,3 +228,7 @@
     colorscheme OceanicNext
     set background=dark
   end
+
+" ULTISNIPS PLUGIN config
+  " workaround bug https://github.com/SirVer/ultisnips/issues/711
+  let g:UltiSnipsSnippetDirectories = ['~/.vim/UltiSnips', 'UltiSnips']
