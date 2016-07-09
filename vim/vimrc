@@ -196,6 +196,8 @@
   set splitbelow    " more natural split behavior
   set splitright    " more natural split behavior
 
+  set hidden        " leave buffers without saving
+
   if !&scrolloff
     set scrolloff=3 " Show next 3 lines while scrolling.
   endif
