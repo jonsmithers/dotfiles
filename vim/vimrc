@@ -76,6 +76,7 @@
     " fzf stuff
     :nmap  :FZF
     :nmap <Leader><C-r> :History:
+    " histdel("cmd", "regexp") to delete mistaken history items
     :nmap <Leader>f~ :FZF ~
 
     " tcomment stuff
