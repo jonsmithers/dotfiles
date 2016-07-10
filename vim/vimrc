@@ -82,6 +82,7 @@
     :inoremap AA <Esc>A
     :inoremap jl <Esc>:
     :imap \t <Esc>:r! date "+\%Y\%m\%d"<Enter>kJA
+    :imap <c-x><c-f> <plug>(fzf-complete-file)
 
   " normal mode shortucts
     :let mapleader = " "
