@@ -26,6 +26,7 @@ export NOTI_PUSHBULLET_TOK=o.5RKGbICfF91y9S6zifyMPs6YTLdM0tdp
   alias g='git number'
   alias gn='git number'
   alias gim='g -c nvim'
+  alias deletemergedbranches='git branch --merged | grep -v "\*" | grep -v master | grep -v dev | xargs -n 1 git branch -d'
   alias gatom='g -c atom'
   alias todos='agl "(TODO|todo).*(([sS](mithers|MITHERS))|JJS|jjs)" -A 2 -B 2'
   alias todosgrep='git grep -I --ignore-case -E "todo.*(smithers|JJS)"'
