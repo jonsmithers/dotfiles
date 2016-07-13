@@ -241,4 +241,5 @@
     colorscheme OceanicNext
     set background=dark
     set nofixeol      " don't insert EOL at end of file
+    Deoplete
   end
