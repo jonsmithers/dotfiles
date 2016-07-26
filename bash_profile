@@ -150,6 +150,7 @@ cdf() {
     alias dls='jump dls'
     alias vim='nvim'
     alias gim='g -c nvim'
+    alias tourweb='open https://github.com/jonsmithers/TourApp'
 
     alias lamemp3='lame -V0 -h -b 160 --vbr-new'
 
