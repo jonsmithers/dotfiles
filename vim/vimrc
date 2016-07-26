@@ -94,8 +94,8 @@
     :nmap <Leader>il oconsole.log();F)i
     "insert js LOG:
     :nmap <Leader>iL oconsole.log('%c', 'font-size:15px');F,hi
-    :nmap  zh
-    :nmap  zl
+    :nmap  2zh
+    :nmap  2zl
     :nnoremap Q <nop>
     :nmap <Leader>T :enew<cr>
     :nmap <Leader>k :bnext
