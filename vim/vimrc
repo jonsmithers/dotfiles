@@ -171,6 +171,24 @@
   endfu
   com! SoftWrapProcessor call SoftWrappedProcessorMode()
 
+" visor style terminal buffer
+  " https://www.reddit.com/r/neovim/comments/3cu8fl/quick_visor_style_terminal_buffer/
+  let s:termbuf = 0
+  function! ToggleTerm()
+      topleft 30 split
+      try
+          exe 'buffer' . s:termbuf
+          startinsert
+      catch
+          terminal
+          let s:termbuf=bufnr('%')
+          tnoremap <buffer> <A-t>  <C-\><C-n>:close<cr>
+      endtry
+  endfunction
+  com! ToggleTerm call ToggleTerm()
+  nnoremap <A-t> :ToggleTerm<cr>
+
+
 "# GUI Customization
   if has('gui_running')
     set background=dark
