@@ -43,6 +43,11 @@ export NOTI_PUSHBULLET_TOK=o.5RKGbICfF91y9S6zifyMPs6YTLdM0tdp
   #                  ^ highlight matches
   alias igrep='grep --invert-match'
 
+  howtousexargs() {
+    echo "ls | tr '\n' '\0' | xargs -0 -n1 -p"
+    echo "ls | sed '/s/.*/\"&\"/'"
+  }
+
 # FZF stuff
 fzfhelp() {
 echo ' fd  - cd to selected directory'
