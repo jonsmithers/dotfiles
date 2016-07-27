@@ -127,6 +127,9 @@
     :nmap <Leader>tt :NERDTreeToggle
     :nmap <Leader>tf :NERDTreeFind
 
+    " ternjs stuf
+    :nmap <Leader>td :TernDoc<cr>
+
   " terminal mode shortcuts
     if has('nvim')
       :tnoremap <C-w> <C-\><C-n><C-w>
