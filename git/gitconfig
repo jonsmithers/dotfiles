@@ -21,7 +21,8 @@
   outgoing = log @{u}..
   tree = log --graph --oneline
   treename = log --graph --all
-  website = ! python -mwebbrowser `git remote --verbose | grep fetch | sed -r 's/.*?\\/\\/(\\S+).git.*/http:\\/\\/\\1/'`
+  seewebsite = !             echo `git remote --verbose | grep fetch | sed -E 's/origin.([^ ]+).git.*/\\1/'`
+  website = ! python -mwebbrowser `git remote --verbose | grep fetch | sed -E 's/origin.([^ ]+).git.*/\\1/'`
 [push]
 	default = simple
 [user]
