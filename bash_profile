@@ -214,6 +214,9 @@ fco() {
   ##### Work Laptop #####
   elif [[ "$(hostname)" =~ Smithers(\.local)? ]]; then
 
+    # For some reason I have to source this manually on my mac
+    source ~/.fzf.bash
+
     # iTerm2 added this
     test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
 
