@@ -255,7 +255,11 @@
     set shiftwidth=2  " for autoindent, I think
   endfu
   com! Tab2 call SetTabSizeTwo()
-  :Tab2
+  if (hostname == "Smithers.local")
+    :Tab4
+  elseif (hostname == "zamperini2")
+    :Tab2
+  endif
 
 " Neovim specific
   if has('nvim')
