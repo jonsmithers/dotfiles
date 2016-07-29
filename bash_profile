@@ -58,6 +58,7 @@ echo ' cdf    - cd into the directory of the selected file'
 echo ' fstash - manage git stash. enter to see contents, C-d to diff against HEAD, C-b to checkout as branch'
 echo ' fshow  - git commit browser'
 echo ' fco    - checkout branch or tag'
+echo ' fbr    - fuzzy find branch'
 }
 # fd - cd to selected directory
 fd() {
@@ -143,6 +144,12 @@ fco() {
     (echo "$tags"; echo "$branches") |
     fzf-tmux -l30 -- --no-hscroll --ansi +m -d "\t" -n 2) || return
   git checkout $(echo "$target" | awk '{print $2}')
+}
+# fbr - fuzzy find branch. I made this myself
+fbr() {
+    git branch --all | grep -v HEAD             |
+    sed "s/.* //"    | sed "s#remotes/##"       |
+    sort -u          | fzf
 }
 
 # Platform specific stuff
