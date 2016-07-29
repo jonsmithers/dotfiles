@@ -243,7 +243,7 @@ fco() {
       alias slatetail='tail -f /var/log/system.log | grep --line-buffered "Slate" | sed "s/.*.local Slate\[[0-9]*\]:/> /"'
       alias buildtomcat='buildr clean test=no package && ./support/scripts/runTomcat.sh'
       alias maketomcat='buildr clean test=no package && make tomcat'
-      alias wfs='/Users/smithers/git/UC2/uc2-app/support/scripts/waitForServer.sh'
+      alias wfs='/Users/smithers/git/UC2/uc2-app/support/scripts/waitForServer.js'
       alias metadata='/Users/smithers/git/metadata/metadata'
 
       function copyIP {
