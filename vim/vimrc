@@ -1,10 +1,11 @@
 " VIM PLUG
   call plug#begin('~/.vim/plugged')
     Plug 'bling/vim-airline'
+    Plug 'Shougo/deoplete.nvim'
     Plug 'fatih/vim-go'
-    Plug 'junegunn/goyo.vim'       " distraction-free mode
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
     Plug 'junegunn/fzf.vim'
+    Plug 'junegunn/goyo.vim'       " distraction-free mode
     Plug 'junegunn/vim-easy-align'
     Plug 'junegunn/vim-peekaboo'
     Plug 'othree/csscomplete.vim'  " css completion
@@ -12,10 +13,9 @@
     Plug 'othree/yajs.vim'         " js syntax
     Plug 'scrooloose/nerdtree'
     Plug 'scrooloose/syntastic'
-    Plug 'Shougo/deoplete.nvim'
-    Plug 'tpope/vim-fugitive'
     Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
     Plug 'tomtom/tcomment_vim'
+    Plug 'tpope/vim-fugitive'
     Plug 'SirVer/ultisnips'
 
     " colorschemes
