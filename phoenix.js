@@ -14,7 +14,7 @@ VimMode._showLabels = function() {
       Phoenix.log("screen::: x:" + rect.x + ", y:" + rect.y + ", width:" + rect.width + ", height:" + rect.height);
       var x = rect.x + rect.width/2;
       var y = rect.y + rect.height/2;
-      if (screen.hash() != Screen.mainScreen().hash()) {
+      if (screen.hash() != Screen.main().hash()) {
         y = -rect.height/2;
       }
       m.origin = {x:x, y:y};
@@ -55,7 +55,7 @@ VimMode.bind = function(key, mods, callback) {
       VimMode.disable();
     }
   };
-  keyhandler = Phoenix.bind(key, mods, callback2);
+  keyhandler = new Key(key, mods, callback2);
   if (keyhandler) {
     this._keys.push(keyhandler);
   } else {
@@ -77,7 +77,7 @@ var mNone = [],
 // Modal activator
 // This hotkey enables/disables all other hotkeys.
 var active = false;
-var alt_w = Phoenix.bind('w', ['alt'], function() {
+var alt_w = new Key('w', ['alt'], function() {
   if (!active) {
     VimMode.enable();
   } else {
@@ -106,43 +106,43 @@ function toast(str) {
 // ############################################################################
 
 VimMode.bind( ".", mNone, function() {
-  var rect = Window.focusedWindow().frame();
+  var rect = Window.focused().frame();
   rect.width = rect.width*0.9;
-  Window.focusedWindow().setFrame(rect);
+  Window.focused().setFrame(rect);
 });
  
 // The cursor keys move the focussed window.
 VimMode.bind( 'up', mNone, function() {
-  Window.focusedWindow().nudgeUp( 5 );
+  Window.focused().nudgeUp( 5 );
 });
  
 VimMode.bind( 'right', mNone, function() {
-  Window.focusedWindow().nudgeRight( 5 );
+  Window.focused().nudgeRight( 5 );
 });
  
 VimMode.bind( 'down', mNone, function() {
-  Window.focusedWindow().nudgeDown( 5 );
+  Window.focused().nudgeDown( 5 );
 });
  
 VimMode.bind( 'left', mNone, function() {
-  Window.focusedWindow().nudgeLeft( 5 );
+  Window.focused().nudgeLeft( 5 );
 });
  
 // <SHIFT> + cursor keys grows/shrinks the focussed window.
 VimMode.bind( 'right', mShift, function() {
-  Window.focusedWindow().growWidth();
+  Window.focused().growWidth();
 });
  
 VimMode.bind( 'left', mShift, function() {
-  Window.focusedWindow().shrinkWidth();
+  Window.focused().shrinkWidth();
 });
  
 VimMode.bind( 'up', mShift, function() {
-  Window.focusedWindow().shrinkHeight();
+  Window.focused().shrinkHeight();
 });
  
 VimMode.bind( 'down', mShift, function() {
-  Window.focusedWindow().growHeight();
+  Window.focused().growHeight();
 });
  
 // ############################################################################
@@ -213,7 +213,7 @@ var cycle = function(appName) {
       return;
     }
 
-    var curWin = Window.focusedWindow();
+    var curWin = Window.focused();
     var curWinBelongsToApp = false;
     if (curWin) { // some window is focused
       for (i = 0; i < appWindows.length; i++) {
@@ -263,25 +263,25 @@ var cycle = function(appName) {
   }
 };
 
-var x00 = Phoenix.bind( 'a', ['alt'], function() { Phoenix.log("a"); cycle('Atom'); });
-var x01 = Phoenix.bind( 'b', ['alt'], function() { cycle('Brackets'); });
-var x02 = Phoenix.bind( 'i', ['alt'], function() { cycle('Google Chrome', 'Google Hangouts', 'Developer Tools', 'Hangouts', 'Pushbullet', 'Google Play Music'); });
-var x03 = Phoenix.bind( 'h', ['alt'], function() { cycle('YakYak'); });
-var x04 = Phoenix.bind( 'p', ['alt'], function() { focusTitle('Pushbullet'); });
-var x04 = Phoenix.bind( 'd', ['alt'], function() { focusTitle('Developer Tools'); });
-var x05 = Phoenix.bind( 't', ['alt'], function() { cycle('iTerm'); });
-var x06 = Phoenix.bind( 'r', ['alt'], function() { cycle('Rocket.Chat+'); });
-var x07 = Phoenix.bind( 's', ['alt'], function() { cycle('WebStorm'); });
-var x08 = Phoenix.bind( 'o', ['alt'], function() { cycle('Microsoft Outlook'); });
-var x09 = Phoenix.bind( 'l', ['alt'], function() { cycle('Microsoft Lync'); });
-var x10 = Phoenix.bind( 'm', ['alt'], function() { cycle('MacVim'); });
-var x11 = Phoenix.bind( 'e', ['alt'], function() { cycle('Eclipse'); });
-var x12 = Phoenix.bind( 'f', ['alt'], function() { cycle('Finder'); });
+var x00 = new Key( 'a', ['alt'], function() { Phoenix.log("a"); cycle('Atom'); });
+var x01 = new Key( 'b', ['alt'], function() { cycle('Brackets'); });
+var x02 = new Key( 'i', ['alt'], function() { cycle('Google Chrome', 'Google Hangouts', 'Developer Tools', 'Hangouts', 'Pushbullet', 'Google Play Music'); });
+var x03 = new Key( 'h', ['alt'], function() { cycle('YakYak'); });
+var x04 = new Key( 'p', ['alt'], function() { focusTitle('Pushbullet'); });
+var x04 = new Key( 'd', ['alt'], function() { focusTitle('Developer Tools'); });
+var x05 = new Key( 't', ['alt'], function() { cycle('iTerm'); });
+var x06 = new Key( 'r', ['alt'], function() { cycle('Rocket.Chat+'); });
+var x07 = new Key( 's', ['alt'], function() { cycle('WebStorm'); });
+var x08 = new Key( 'o', ['alt'], function() { cycle('Microsoft Outlook'); });
+var x09 = new Key( 'l', ['alt'], function() { cycle('Microsoft Lync'); });
+var x10 = new Key( 'm', ['alt'], function() { cycle('MacVim'); });
+var x11 = new Key( 'e', ['alt'], function() { cycle('Eclipse'); });
+var x12 = new Key( 'f', ['alt'], function() { cycle('Finder'); });
 VimMode.bind( 't', mNone, function() {
-  var focusedWindow = Window.focusedWindow();
-  var otherScreen = Screen.mainScreen().next();
-  Phoenix.log(Screen.mainScreen().hash());
-  Phoenix.log(Window.focusedWindow().screen().hash());
+  var focusedWindow = Window.focused();
+  var otherScreen = Screen.main().next();
+  Phoenix.log(Screen.main().hash());
+  Phoenix.log(Window.focused().screen().hash());
   if (!otherScreen) {
     toast("no other screen");
     return;
@@ -289,43 +289,43 @@ VimMode.bind( 't', mNone, function() {
   var screenFrame = otherScreen.visibleFrameInRectangle();
   Phoenix.log(otherScreen.hash());
 
-  var w = Window.focusedWindow();
+  var w = Window.focused();
   Phoenix.log("old " + w.screen().hash());
   w.setTopLeft({x: screenFrame.x, y: screenFrame.y});
   Phoenix.log("new " + w.screen().hash());
   VimMode.disable();
 });
 VimMode.bind( 'f', mNone, function() {
-  if (!Window.focusedWindow()) {
+  if (!Window.focused()) {
     toast("No focused window");
     VimMode.disable();
     return;
   }
-  var rect = Window.focusedWindow().screen().visibleFrameInRectangle();
-  Window.focusedWindow().setFrame(rect);
+  var rect = Window.focused().screen().visibleFrameInRectangle();
+  Window.focused().setFrame(rect);
   VimMode.disable();
 });
 VimMode.bind ('l', mNone, function() {
-  if (!Window.focusedWindow()) {
+  if (!Window.focused()) {
     toast("No focused window");
     VimMode.disable();
     return;
   }
-  var rect = Screen.mainScreen().visibleFrameInRectangle();
+  var rect = Screen.main().visibleFrameInRectangle();
   rect.x = rect.width/2;
   rect.width = rect.width/2;
-  Window.focusedWindow().setFrame(rect);
+  Window.focused().setFrame(rect);
   VimMode.disable();
 });
 VimMode.bind ('h', mNone, function() {
-  if (!Window.focusedWindow()) {
+  if (!Window.focused()) {
     toast("No focused window");
     VimMode.disable();
     return;
   }
-  var rect = Screen.mainScreen().visibleFrameInRectangle();
+  var rect = Screen.main().visibleFrameInRectangle();
   rect.width = rect.width/2;
-  Window.focusedWindow().setFrame(rect);
+  Window.focused().setFrame(rect);
   VimMode.disable();
 });
  
@@ -414,7 +414,7 @@ Window.prototype.shrinkHeight = function() {
 // instance or `undefined`.  If there are several windows with the same title,
 // the first found instance is returned.
 App.findByTitle = function( title ) {
-  return _( this.runningApps() ).find( function( app ) {
+  return _( this.all() ).find( function( app ) {
   if ( app.title() === title ) {
     app.show();
     return true;
