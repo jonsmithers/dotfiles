@@ -10,6 +10,7 @@
     "./vim/vimrc": "~/.config/nvim/init.vim",
     "./vim/vrapperrc": "~/.vrapperrc",
     "./vim/ideavimrc": "~/.ideavimrc",
-    "./vim/tern-config": "~/.tern-config"
+    "./vim/tern-config": "~/.tern-config",
+    "./fish": "~/.config/fish"
   }
 }
