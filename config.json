@@ -11,6 +11,7 @@
     "./vim/vrapperrc": "~/.vrapperrc",
     "./vim/ideavimrc": "~/.ideavimrc",
     "./vim/tern-config": "~/.tern-config",
+    "./vim/UltiSnips": "~/.config/nvim/UltiSnips",
     "./fish": "~/.config/fish"
   }
 }
