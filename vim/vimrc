@@ -199,7 +199,6 @@
 "# GUI Customization
   if has('gui_running')
     set background=dark
-    colorscheme solarized
     set gfn=Fira\ Mono\ Medium\ for\ Powerline\ Medium\ 10,\ Monaco\ for\ Powerline:h14
     set autoread        "auto-load changes from disk
 
