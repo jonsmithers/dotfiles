@@ -39,11 +39,10 @@
   com! Deoplete call deoplete#enable() " use this to start deoplete
   let g:deoplete#file#enable_buffer_path=1   "path completion is relative
 
-  let hostname = substitute(system('hostname'), '\n', '', '')
-  if (hostname == "Smithers.local")
+  if (hostname() == "Smithers.local")
     let g:python3_host_prog='/usr/local/bin/python3'
-  elseif (hostname == "zamperini2")
-    let g:python3_host_prog='/usr/bin/python3'
+  " elseif (hostname == "zamperini2")
+  "   let g:python3_host_prog='/usr/bin/python3'
   endif
 
 " GOYO PLUGIN config
@@ -259,9 +258,9 @@
     set shiftwidth=2  " for autoindent, I think
   endfu
   com! Tab2 call SetTabSizeTwo()
-  if (hostname == "Smithers.local")
+  if (hostname() == "Smithers.local")
     :Tab4
-  elseif (hostname == "zamperini2")
+  elseif (hostname() == "zamperini2")
     :Tab2
   endif
 
