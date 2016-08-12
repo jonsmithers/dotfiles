@@ -132,6 +132,7 @@
 
     " ternjs stuf
     :nmap <Leader>td :TernDoc<cr>
+    :autocmd CompleteDone * pclose
 
   " terminal mode shortcuts
     if has('nvim')
