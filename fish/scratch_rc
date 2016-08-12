@@ -1,6 +1,8 @@
 export NOTI_PUSHBULLET_TOK=o.5RKGbICfF91y9S6zifyMPs6YTLdM0tdp
 export FZF_DEFAULT_COMMAND='ag -g ""'
 
+fish_vi_key_bindings
+
 set fish_greeting ""
 # function fish_greeting
 #	set -l cows_dir /usr/local/Cellar/cowsay/3.04/share/cows
