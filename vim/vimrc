@@ -108,6 +108,8 @@
     :nmap <c-k> :bnext
     :nmap <Leader>x :bd
     :nmap <Leader>X :bd!
+    :nmap <Leader>w :bd
+    :nmap <Leader>W :bd!
     :nmap <Leader><Tab> :b#
           "most recent buffer
 
