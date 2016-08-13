@@ -97,7 +97,7 @@ function toast(str) {
    var m = new Modal();
    m.message = str;
    m.origin = {x: 50, y: 90};
-   m.duration = 3;
+   m.duration = 0.6;
    m.show();
 }
 
@@ -269,7 +269,7 @@ var x02 = new Key( 'i', ['alt'], function() { cycle('Google Chrome', 'Google Han
 var x03 = new Key( 'h', ['alt'], function() { cycle('YakYak'); });
 var x04 = new Key( 'p', ['alt'], function() { focusTitle('Pushbullet'); });
 var x04 = new Key( 'd', ['alt'], function() { focusTitle('Developer Tools'); });
-var x05 = new Key( 'n', ['alt'], function() { cycle('Electron'); }); // NyaoVim
+var x05 = new Key( 'n', ['alt'], function() { cycle('iTerm'); }); // NyaoVim
 // var x06 = new Key( 't', ['alt'], function() { cycle('iTerm'); });
 var x07 = new Key( 'r', ['alt'], function() { cycle('Rocket.Chat+'); });
 var x08 = new Key( 's', ['alt'], function() { cycle('WebStorm'); });

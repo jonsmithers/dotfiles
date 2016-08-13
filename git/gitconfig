@@ -1,6 +1,6 @@
 [core]
   excludesfile = /Users/smithers/.gitignore_global
-  editor = git-vim
+  editor = nvim -c startinsert!
   pager = diff-highlight | less -+X -+F -S
   #                             ^ makes log and diff clear the screen when done
   #                             http://linuxtips.manki.in/2012/02/making-git-commands-clear-screen-when.html
