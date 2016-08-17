@@ -209,14 +209,20 @@ set fish_greeting ""
   #function fd
   #  find . -type d | fzf | read tmp; and cd $tmp
   #end
-  #function fco
-  #  local tags branches target
-  #  set tags (git tag | awk '{print "\x1b[31;1mtag\x1b[m\t" $1}'); or return
-  #  set branches (git branch --all | grep -v HEAD             | \
-  #                sed "s/.* //"    | sed "s#remotes/[^/]*/##" | \
-  #                sort -u          | awk '{print "\x1b[34;1mbranch\x1b[m\t" $1}'); or return
-  #  set target (
-  #    (echo $tags; echo $branches) | \
-  #    fzf-tmux -l30 -- --no-hscroll --ansi +m -d "\t" -n 2); or return
-  #  git checkout (echo "$target" | awk '{print $2}')
-  #end
+  function fco
+    # If we assign results to a local var, newlines are converted to spaces.
+    # That's no good. Instead we store in a local file.
+
+    git branch --all | grep -v HEAD | sed "s/.* //" | sed "s#remotes/[^/]*/##" | sort -u | fzf > $TMPDIR/fzf.result;
+    echo  git checkout (cat $TMPDIR/fzf.result)
+    git checkout (cat $TMPDIR/fzf.result)
+
+    # TODO: use tmp file instead of local var for the following code
+    # set -l tags branches target
+    # set tags (git tag | awk '{print "\x1b[31;1mtag\x1b[m\t" $1}'); or return 1
+    # set branches (git branch --all | grep -v HEAD | sed "s/.* //" | sed "s#remotes/[^/]*/##" | sort -u | awk '{print "\x1b[34;1mbranch\x1b[m\t" $1}' ) # | \
+    # set target (
+    #   (echo $tags; echo $branches) | \
+    #   fzf-tmux -l30 -- --no-hscroll --ansi +m -d "\t" -n 2); or return
+    # git checkout (echo "$target" | awk '{print $2}')
+  end
