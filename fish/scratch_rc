@@ -219,7 +219,7 @@ set fish_greeting ""
 
     git branch --all | grep -v HEAD | sed "s/.* //" | sed "s#remotes/[^/]*/##" | sort -u | fzf > $TMPDIR/fzf.result;
     echo  git checkout (cat $TMPDIR/fzf.result)
-    git checkout (cat $TMPDIR/fzf.result)
+    spin "git checkout (cat $TMPDIR/fzf.result)"
 
     # TODO: use tmp file instead of local var for the following code
     # set -l tags branches target
