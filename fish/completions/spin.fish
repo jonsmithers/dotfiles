@@ -1,0 +1,1 @@
+/Users/smithers/.config/fisherman/spin/completions/spin.fish

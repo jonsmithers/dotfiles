@@ -154,11 +154,14 @@ var focusTitle = function(title) {
 
   var m = new Modal();
   m.message = "Focusing...";
+  m.origin = {x: 50, y: 90};
   m.show();
 
   try {
     var winToFocus;
-    Window.windows().forEach(function(element, index, array) {
+    var allWindows = Window.all({visible: true});
+    Phoenix.log("Searching " + allWindows.length + " windows");
+    allWindows.forEach(function(element, index, array) {
       if (element.title().indexOf(title) === 0) {
         if (!winToFocus) {
           winToFocus = element;
@@ -172,6 +175,8 @@ var focusTitle = function(title) {
       toast("No window has title '"+title+"'");
     }
   } catch (e) {
+    Phoenix.log('error');
+    Phoenix.log(e);
     toast(e);
   } finally {
     m.close();
@@ -266,7 +271,7 @@ var cycle = function(appName) {
 var x00 = new Key( 'a', ['alt'], function() { Phoenix.log("a"); cycle('Atom'); });
 var x01 = new Key( 'b', ['alt'], function() { cycle('Brackets'); });
 var x02 = new Key( 'i', ['alt'], function() { cycle('Google Chrome', 'Google Hangouts', 'Developer Tools', 'Hangouts', 'Pushbullet', 'Google Play Music'); });
-var x03 = new Key( 'h', ['alt'], function() { cycle('YakYak'); });
+var x03 = new Key( 'h', ['alt'], function() { focusTitle('Google Hangouts'); });
 var x04 = new Key( 'p', ['alt'], function() { focusTitle('Pushbullet'); });
 var x04 = new Key( 'd', ['alt'], function() { focusTitle('Developer Tools'); });
 var x05 = new Key( 'n', ['alt'], function() { cycle('iTerm'); }); // NyaoVim

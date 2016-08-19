@@ -3,6 +3,10 @@ export FZF_DEFAULT_COMMAND='ag -g ""'
 
 fish_vi_key_bindings
 
+function init_echo
+	# echo $argv
+end
+
 set fish_greeting ""
 # function fish_greeting
 #	set -l cows_dir /usr/local/Cellar/cowsay/3.04/share/cows
@@ -12,6 +16,37 @@ set fish_greeting ""
 #	echo $avatar
 #	cowsay -f $avatar 'Le chat miaule, what should I do?'
 #end
+
+# temporary experimental stuff
+	function disable_vi_mode
+		set -g fish_key_bindings fish_default_key_bindings
+	end
+	function powerline
+		function fish_prompt
+			~/git/powerline-shell/powerline-shell.py $status --shell bare ^/dev/null --cwd-max-depth 1 --cwd-mode dironly --mode patched
+		end
+	end
+	function changeModeIndicator
+		function fish_mode_prompt --description 'Displays the current mode'
+			if [ $fish_key_bindings != 'fish_vi_key_bindings' ]
+				return
+			end
+			switch $fish_bind_mode
+			case default
+				set_color --bold --background red white
+			echo 'normal'
+				case insert
+			set_color normal
+				echo 'insert'
+			case visual
+				set_color --bold --background magenta white
+				echo 'visual'
+			end
+			set_color normal
+			echo -n ' '
+		end
+	end
+	changeModeIndicator
 
 # Filesystem navigation
   # http://jeroenjanssens.com/2013/08/16/quickly-navigate-your-filesystem-from-the-command-line.html
@@ -28,12 +63,12 @@ set fish_greeting ""
 
   switch (uname)
     case Darwin
-      echo "Mac init"
+      init_echo "Mac init"
       function marks
         ls -l "$MARKPATH" | tail -n +2 | sed 's/  / /g' | cut -d' ' -f9- | awk -F ' -> ' '{printf "%-10s -> %s\n", $1, $2}'
       end
     case Linux
-      echo "Linux init"
+      init_echo "Linux init"
       function marks
           ls -l "$MARKPATH" | sed 's/  / /g' | cut -d' ' -f9- | sed 's/ -/  -/g'; and echo
       end
@@ -48,7 +83,7 @@ set fish_greeting ""
   end
   switch (hostname)
     case zamperini2
-      echo "bash_profile: zamperini2 init"
+      init_echo "bash_profile: zamperini2 init"
       alias journal="gnome-terminal --command='wordsafe j' --title='Journal' --full-screen --hide-menubar"
       #wordsafe editor = "vim -c Goyo -c WM -c 'set nofoldenable'"
 
@@ -60,7 +95,7 @@ set fish_greeting ""
 
       alias lamemp3='lame -V0 -h -b 160 --vbr-new'
     case Smithers.local
-      echo "Work Lappy init"
+      init_echo "Work Lappy init"
 
       # source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
       set PATH /Users/smithers/.rvm/gems/ruby-2.2.2/bin/ $PATH
@@ -180,14 +215,20 @@ set fish_greeting ""
   #function fd
   #  find . -type d | fzf | read tmp; and cd $tmp
   #end
-  #function fco
-  #  local tags branches target
-  #  set tags (git tag | awk '{print "\x1b[31;1mtag\x1b[m\t" $1}'); or return
-  #  set branches (git branch --all | grep -v HEAD             | \
-  #                sed "s/.* //"    | sed "s#remotes/[^/]*/##" | \
-  #                sort -u          | awk '{print "\x1b[34;1mbranch\x1b[m\t" $1}'); or return
-  #  set target (
-  #    (echo $tags; echo $branches) | \
-  #    fzf-tmux -l30 -- --no-hscroll --ansi +m -d "\t" -n 2); or return
-  #  git checkout (echo "$target" | awk '{print $2}')
-  #end
+  function fco
+    # If we assign results to a local var, newlines are converted to spaces.
+    # That's no good. Instead we store in a local file.
+
+    git branch --all | grep -v HEAD | sed "s/.* //" | sed "s#remotes/[^/]*/##" | sort -u | fzf > $TMPDIR/fzf.result;
+    echo  git checkout (cat $TMPDIR/fzf.result)
+    spin "git checkout (cat $TMPDIR/fzf.result)"
+
+    # TODO: use tmp file instead of local var for the following code
+    # set -l tags branches target
+    # set tags (git tag | awk '{print "\x1b[31;1mtag\x1b[m\t" $1}'); or return 1
+    # set branches (git branch --all | grep -v HEAD | sed "s/.* //" | sed "s#remotes/[^/]*/##" | sort -u | awk '{print "\x1b[34;1mbranch\x1b[m\t" $1}' ) # | \
+    # set target (
+    #   (echo $tags; echo $branches) | \
+    #   fzf-tmux -l30 -- --no-hscroll --ansi +m -d "\t" -n 2); or return
+    # git checkout (echo "$target" | awk '{print $2}')
+  end
