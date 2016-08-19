@@ -1,17 +1,18 @@
 {
   "links": {
     "./bash_profile": "~/.bash_profile",
+    "./fish": "~/.config/",
+    "./git/git-completion.sh": "~/.git-completion.sh",
     "./git/gitconfig": "~/.gitconfig",
     "./git/gitignore_global": "~/.gitignore_global",
-    "./git/git-completion.sh": "~/.git-completion.sh",
-    "./slate.js": "~/.slate.js",
     "./phoenix.js": "~/.phoenix.js",
-    "./vim/vimrc": "~/.vimrc",
-    "./vim/vimrc": "~/.config/nvim/init.vim",
-    "./vim/vrapperrc": "~/.vrapperrc",
+    "./slate.js": "~/.slate.js",
+    "./tmux.conf": "~/.tmux.conf",
+    "./vim/UltiSnips": "~/.config/nvim/UltiSnips",
     "./vim/ideavimrc": "~/.ideavimrc",
     "./vim/tern-config": "~/.tern-config",
-    "./vim/UltiSnips": "~/.config/nvim/UltiSnips",
-    "./fish": "~/.config/"
+    "./vim/vimrc": "~/.config/nvim/init.vim",
+    "./vim/vimrc": "~/.vimrc",
+    "./vim/vrapperrc": "~/.vrapperrc"
   }
 }
