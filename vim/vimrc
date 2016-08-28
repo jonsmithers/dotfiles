@@ -99,8 +99,8 @@
     :nmap <Leader>iL oconsole.log('%c', 'font-size:15px');F,hi
     "insert jsdoc comment in html
     :nmap <Leader>ihjd O/****/kA 
-    :nmap  2zh
-    :nmap  2zl
+    :nmap <C-h> 2zh
+    :nmap <C-l> 2zl
     :nnoremap Q <nop>
     :nmap <Leader>T :enew<cr>
     :nmap <Leader>k :bnext
@@ -120,7 +120,7 @@
     :nmap ga <Plug>(EasyAlign)
 
     " fzf stuff
-    :nmap  :FZF
+    :nmap  :Files
     :nmap <Leader>or :History
     " ^ open recent file
     :nmap <Leader><C-r> :History:
