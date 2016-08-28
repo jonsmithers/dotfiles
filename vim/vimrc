@@ -155,6 +155,7 @@
     " ^ this only affects gqip, NOTHING ELSE
     " see [help gq]
     set whichwrap+=h,l
+    let g:deoplete#disable_auto_complete = 1
   endfu
   com! WM call WriteMode()
   func! NoWriteMode()
@@ -164,6 +165,7 @@
     "set smartindent
     set foldmethod=indent
     set whichwrap=b,s
+    let g:deoplete#disable_auto_complete = 0
   endfu
   com! WMoff call NoWriteMode()
 
