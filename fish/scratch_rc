@@ -134,24 +134,24 @@ set fish_greeting ""
       function sfailp
         echo -e "\e[0;31muh oh!"
         noti -p -t "Failure" -m "Something went wrong."
-        mplayer -msglevel all=-1 "/Applications/iMovie.app/Contents/Resources/iMovie Sound Effects/Crowd Boo.mp3"
+        # mplayer -msglevel all=-1 "/Applications/iMovie.app/Contents/Resources/iMovie Sound Effects/Crowd Boo.mp3"
         return 1
       end
       function sdonep
         echo -e "\e[0;36myus!"
         noti -p -t "Success" -m "It worked!"
-        mplayer -msglevel all=-1 "/Applications/Wunderlist.app/Contents/Resources/WLCompletionSound.mp3"
+        # mplayer -msglevel all=-1 "/Applications/Wunderlist.app/Contents/Resources/WLCompletionSound.mp3"
       end
       function sfail
         echo -e "\e[0;31muh oh!"
         noti -t "Failure" -m "Something went wrong."
-        mplayer -msglevel all=-1 "/Applications/iMovie.app/Contents/Resources/iMovie Sound Effects/Crowd Boo.mp3"
+        # mplayer -msglevel all=-1 "/Applications/iMovie.app/Contents/Resources/iMovie Sound Effects/Crowd Boo.mp3"
         return 1
       end
       function sdone
         echo -e "\e[0;36myus!"
         noti -t "Success" -m "It worked!"
-        mplayer -msglevel all=-1 "/Applications/Wunderlist.app/Contents/Resources/WLCompletionSound.mp3"
+        # mplayer -msglevel all=-1 "/Applications/Wunderlist.app/Contents/Resources/WLCompletionSound.mp3"
       end
       function notify
         getLastExitStatus; and sdone; or sfail
