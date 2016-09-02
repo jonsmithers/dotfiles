@@ -9,9 +9,7 @@
     Plug 'junegunn/goyo.vim'       " distraction-free mode
     Plug 'junegunn/vim-easy-align'
     " Plug 'junegunn/vim-peekaboo'
-    Plug 'othree/csscomplete.vim'  " css completion
-    Plug 'othree/html5.vim'        " html5 completion
-    Plug 'othree/yajs.vim'         " js syntax
+    Plug 'pangloss/vim-javascript'
     Plug 'scrooloose/nerdtree'
     Plug 'scrooloose/syntastic'
     Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
@@ -69,6 +67,9 @@
 
 " MARKDOWN PLUGIN config
   let g:mkdp_path_to_chrome = "open -a Google\\ Chrome"
+
+" VIM-JAVASCRIPT PLUGIN conifg
+  let g:javascript_plugin_jsdoc = 1
 
 " SYNTASTIC PLUGIN config
   let g:syntastic_html_checkers = []
