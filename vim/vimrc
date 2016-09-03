@@ -46,6 +46,7 @@
   endif
 
 " GOYO PLUGIN config
+  let g:goyo_width = 81
   " make vim close the First time you do :quit
   " https://github.com/junegunn/goyo.vim/wiki/Customization
   function! s:goyo_enter()
