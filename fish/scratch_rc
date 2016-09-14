@@ -74,6 +74,8 @@ set fish_greeting ""
       end
 
       alias open="xdg-open"
+      alias pbcopy='xsel --clipboard --input'
+      alias pbpaste='xsel --clipboard --output'
 
       function download
         # let's you download a file over a spotty connection.
