@@ -1,6 +1,7 @@
 export NOTI_PUSHBULLET_TOK=o.5RKGbICfF91y9S6zifyMPs6YTLdM0tdp
 export FZF_DEFAULT_COMMAND='ag -g ""'
 
+source $HOME/.config/fish/functions/fish_user_key_bindings.fish
 fish_vi_key_bindings
 
 function init_echo
