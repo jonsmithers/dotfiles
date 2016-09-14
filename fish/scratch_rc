@@ -86,7 +86,7 @@ set fish_greeting ""
   switch (hostname)
     case zamperini2
       init_echo "bash_profile: zamperini2 init"
-      alias journal="gnome-terminal --command='wordsafe j' --title='Journal' --full-screen --hide-menubar"
+      alias journal="guake -t; gnome-terminal --command='wordsafe j' --title='Journal' --full-screen --hide-menubar"
       #wordsafe editor = "vim -c Goyo -c WM -c 'set nofoldenable'"
 
       alias dsk='jump dsk'
