@@ -99,6 +99,9 @@ set fish_greeting ""
     case Smithers.local
       init_echo "Work Lappy init"
 
+      # iterm2 integration
+      test -e {$HOME}/.iterm2_shell_integration.fish ; and source {$HOME}/.iterm2_shell_integration.fish
+
       # source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
       set PATH /Users/smithers/.rvm/gems/ruby-2.2.2/bin/ $PATH
       alias bash='bash --init-file ~/.bash_startup'
