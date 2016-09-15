@@ -201,8 +201,6 @@ set fish_greeting ""
 
 #FZF 
   function fzfhelp
-  echo ' fd     - cd to selected directory'
-  echo ' fda    - including hidden directories'
   echo ' fdr    - cd to selected parent directory'
   echo ' cdf    - cd into the directory of the selected file'
   echo ' fstash - manage git stash. enter to see contents, C-d to diff against HEAD, C-b to checkout as branch'
@@ -211,10 +209,6 @@ set fish_greeting ""
   echo ' fbr    - fuzzy find branch'
   end
   
-  ## fd - cd to selected directory
-  #function fd
-  #  find . -type d | fzf | read tmp; and cd $tmp
-  #end
   function fco
     # If we assign results to a local var, newlines are converted to spaces.
     # That's no good. Instead we store in a local file.
@@ -231,4 +225,12 @@ set fish_greeting ""
     #   (echo $tags; echo $branches) | \
     #   fzf-tmux -l30 -- --no-hscroll --ansi +m -d "\t" -n 2); or return
     # git checkout (echo "$target" | awk '{print $2}')
+  end
+
+  function cpbr
+    # If we assign results to a local var, newlines are converted to spaces.
+    # That's no good. Instead we store in a local file.
+
+    git branch --all | grep -v HEAD | sed "s/.* //" | sed "s#remotes/[^/]*/##" | sort -u | fzf > $TMPDIR/fzf.result;
+    echo (cat $TMPDIR/fzf.result) | pbcopy
   end
