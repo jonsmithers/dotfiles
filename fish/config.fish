@@ -97,6 +97,8 @@ set fish_greeting ""
       alias tourweb='open https://github.com/jonsmithers/TourApp'
 
       alias lamemp3='lame -V0 -h -b 160 --vbr-new'
+
+      set PATH /usr/local/go/bin/ $PATH
     case Smithers.local
       init_echo "Work Lappy init"
 
