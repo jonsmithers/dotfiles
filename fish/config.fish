@@ -99,6 +99,8 @@ set fish_greeting ""
       alias lamemp3='lame -V0 -h -b 160 --vbr-new'
 
       set PATH /usr/local/go/bin/ $PATH
+      set -x GOPATH /home/smithers/.gopath
+
     case Smithers.local
       init_echo "Work Lappy init"
 
