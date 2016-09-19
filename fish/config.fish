@@ -1,8 +1,7 @@
+fish_user_key_bindings
+
 export NOTI_PUSHBULLET_TOK=o.5RKGbICfF91y9S6zifyMPs6YTLdM0tdp
 export FZF_DEFAULT_COMMAND='ag -g ""'
-
-source $HOME/.config/fish/functions/fish_user_key_bindings.fish
-fish_vi_key_bindings
 
 function init_echo
 	# echo $argv
@@ -87,9 +86,6 @@ set fish_greeting ""
   switch (hostname)
     case zamperini3
       echo hello z3
-      fzf_key_bindings
-      echo ran key bindings
-      set PATH /home/smithers/.linuxbrew/bin $PATH
     case zamperini2
       init_echo "bash_profile: zamperini2 init"
       alias journal="guake -t; gnome-terminal --command='wordsafe j' --title='Journal' --full-screen --hide-menubar"
