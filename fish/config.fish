@@ -85,6 +85,11 @@ set fish_greeting ""
       end
   end
   switch (hostname)
+    case zamperini3
+      echo hello z3
+      fzf_key_bindings
+      echo ran key bindings
+      set PATH /home/smithers/.linuxbrew/bin $PATH
     case zamperini2
       init_echo "bash_profile: zamperini2 init"
       alias journal="guake -t; gnome-terminal --command='wordsafe j' --title='Journal' --full-screen --hide-menubar"
