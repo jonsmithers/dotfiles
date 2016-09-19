@@ -1,8 +1,7 @@
+fish_user_key_bindings
+
 export NOTI_PUSHBULLET_TOK=o.5RKGbICfF91y9S6zifyMPs6YTLdM0tdp
 export FZF_DEFAULT_COMMAND='ag -g ""'
-
-source $HOME/.config/fish/functions/fish_user_key_bindings.fish
-fish_vi_key_bindings
 
 function init_echo
 	# echo $argv
@@ -85,18 +84,33 @@ set fish_greeting ""
       end
   end
   switch (hostname)
+    case zamperini3
+      init_echo "bash_profile: zamperini3 init"
+      alias dsk='jump dsk'
+      alias dls='jump dls'
+      alias vim='nvim'
+      alias journal="guake -t; gnome-terminal --command='wordsafe j' --title='Journal' --full-screen --hide-menubar"
+      #wordsafe -E "nvim -c Goyo -c WM -c 'set nofoldenable'"
+
+      set NODEJS_HOME /usr/lib/nodejs/node-v6.6.0
+      set PATH $NODEJS_HOME/bin $PATH    # because node and npm are here
+      set PATH ~/.npm-packages/bin $PATH # because ~/.npmrc has: "prefix = ${HOME}/.npm-packages"
+
     case zamperini2
       init_echo "bash_profile: zamperini2 init"
       alias journal="guake -t; gnome-terminal --command='wordsafe j' --title='Journal' --full-screen --hide-menubar"
-      #wordsafe editor = "vim -c Goyo -c WM -c 'set nofoldenable'"
 
       alias dsk='jump dsk'
       alias dls='jump dls'
       alias vim='nvim'
-      alias gim='g -c nvim'
       alias tourweb='open https://github.com/jonsmithers/TourApp'
 
       alias lamemp3='lame -V0 -h -b 160 --vbr-new'
+
+      set PATH /usr/local/go/bin/ $PATH
+      set PATH /home/smithers/.gopath/bin $PATH
+      set -x GOPATH /home/smithers/.gopath
+
     case Smithers.local
       init_echo "Work Lappy init"
 
@@ -174,7 +188,7 @@ set fish_greeting ""
         "/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl" $argv
       end
     case '*'
-      echo "No machine installation (hostname)"
+      echo No machine installation for (hostname)
   end
 
 

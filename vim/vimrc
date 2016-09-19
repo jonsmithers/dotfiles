@@ -272,6 +272,8 @@
     :Tab4
   elseif (hostname() == "zamperini2")
     :Tab2
+  elseif (hostname() == "zamperini3")
+    :Tab2
   endif
 
 " Neovim specific
