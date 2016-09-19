@@ -91,6 +91,11 @@ set fish_greeting ""
       alias vim='nvim'
       alias journal="guake -t; gnome-terminal --command='wordsafe j' --title='Journal' --full-screen --hide-menubar"
       #wordsafe -E "nvim -c Goyo -c WM -c 'set nofoldenable'"
+
+      set NODEJS_HOME /usr/lib/nodejs/node-v6.6.0
+      set PATH $NODEJS_HOME/bin $PATH    # because node and npm are here
+      set PATH ~/.npm-packages/bin $PATH # because ~/.npmrc has: "prefix = ${HOME}/.npm-packages"
+
     case zamperini2
       init_echo "bash_profile: zamperini2 init"
       alias journal="guake -t; gnome-terminal --command='wordsafe j' --title='Journal' --full-screen --hide-menubar"
