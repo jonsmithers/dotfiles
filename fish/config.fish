@@ -179,7 +179,7 @@ set fish_greeting ""
         "/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl" $argv
       end
     case '*'
-      echo "No machine installation (hostname)"
+      echo No machine installation for (hostname)
   end
 
 
