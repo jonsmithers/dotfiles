@@ -2,7 +2,7 @@
   "links": {
     "./bash_profile": "~/.bash_profile",
 
-    "./fish/config/fish":                           "~/.config/fish/config.fish",
+    "./fish/config.fish":                           "~/.config/fish/config.fish",
     "./fish/fishfile":                              "~/.config/fish/fishfile",
     "./fish/functions/bind_bang.fish":              "~/.config/fish/functions/bind_bang.fish",
     "./fish/functions/bind_dollar.fish":            "~/.config/fish/functions/bind_dollar.fish",
