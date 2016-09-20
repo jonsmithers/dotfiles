@@ -127,12 +127,11 @@
     :nmap  :Files
     :nmap <Leader>or :History
     " ^ open recent file
+    :nmap <Leader>/ :History/
     :nmap <Leader><C-r> :History:
     " call histdel("cmd", "regexp") to delete mistaken history items
     :nmap <Leader>f~ :FZF ~
 
-    " tcomment stuff
-    :nmap <Leader>/ gcc
 
     " nerdtree stuff
     :nmap <Leader>tt :NERDTreeToggle
