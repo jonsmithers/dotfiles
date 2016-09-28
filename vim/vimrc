@@ -114,7 +114,7 @@
     :nmap <c-k> :bnext
     :nmap <Leader>x :NERDTreeClose<enter>:bd
     :nmap <Leader>X :bd!
-    :nmap <Leader>w :bd
+    :nmap <Leader>w :NERDTreeClose<enter>:bd
     :nmap <Leader>W :bd!
     :nmap <Leader><Tab> :b#
           "most recent buffer
@@ -233,6 +233,7 @@
   set foldmethod=indent
   set foldlevelstart=20
   set nowrap
+  set incsearch     "incremental search (something else also turns this on)
   set ignorecase    "search ignores case
   set smartcase     "unless there's a capital letter
   syntax enable
