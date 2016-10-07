@@ -274,6 +274,9 @@
   elseif (hostname() == "zamperini3")
     :Tab2
   endif
+  func! JSFormatting()
+    autocmd FileType javascript setlocal equalprg=js-beautify\ --stdin
+  endfu
 
 " Neovim specific
   if has('nvim')
