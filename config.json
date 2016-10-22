@@ -13,6 +13,7 @@
     "./git/gitconfig": "~/.gitconfig",
     "./git/gitignore_global": "~/.gitignore_global",
     "./phoenix.js": "~/.phoenix.js",
+    "./run-or-raise": "~/bin/run-or-raise",
     "./slate.js": "~/.slate.js",
     "./tmux.conf": "~/.tmux.conf",
     "./vim/UltiSnips": "~/.config/nvim/UltiSnips",
