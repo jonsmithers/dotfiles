@@ -159,16 +159,19 @@
     " see [help gq]
     set whichwrap+=h,l
     let g:deoplete#disable_auto_complete = 1
+    set sidescrolloff=0
   endfu
   com! WM call WriteMode()
   func! NoWriteMode()
     set fo=croql
-    set flp=^\s*\d\+[\]:.)}\t ]\s*
+    " set flp=^\s*\d\+[\]:.)}\t ]\s*
     "set formatprg
     "set smartindent
     set foldmethod=indent
     set whichwrap=b,s
     let g:deoplete#disable_auto_complete = 0
+
+    set sidescrolloff=5 " Show next 5 columns while side-scrolling.
   endfu
   com! WMoff call NoWriteMode()
 
