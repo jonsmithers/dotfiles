@@ -90,6 +90,7 @@ set fish_greeting ""
       alias dls='jump dls'
       alias vim='nvim'
       alias journal="guake -t; gnome-terminal --command='wordsafe j' --title='Journal' --full-screen --hide-menubar"
+      alias lamemp3='lame -V0 -h -b 160 --vbr-new'
       #wordsafe -E "nvim -c Goyo -c WM -c 'set nofoldenable'"
 
       set NODEJS_HOME /usr/lib/nodejs/node-v6.6.0
