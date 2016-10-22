@@ -96,6 +96,8 @@ set fish_greeting ""
       set NODEJS_HOME /usr/lib/nodejs/node-v6.6.0
       set PATH $NODEJS_HOME/bin $PATH    # because node and npm are here
       set PATH ~/.npm-packages/bin $PATH # because ~/.npmrc has: "prefix = ${HOME}/.npm-packages"
+      set PATH /usr/local/go/bin $PATH
+      set -x GOPATH ~/go-workspace
 
     case zamperini2
       init_echo "bash_profile: zamperini2 init"
