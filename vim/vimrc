@@ -14,6 +14,7 @@
     Plug 'scrooloose/nerdtree'
     Plug 'scrooloose/syntastic'
     Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
+    Plug 'terryma/vim-multiple-cursors'
     Plug 'tomtom/tcomment_vim'
     Plug 'tpope/vim-fugitive'
     Plug 'tpope/vim-rhubarb'
