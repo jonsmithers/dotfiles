@@ -194,6 +194,9 @@
   endfu
   com! SoftWrapProcessor call SoftWrappedProcessorMode()
 
+" open url on current line
+  com OpenUrl exec "!python -mwebbrowser ".(matchstr (getline("."), "https\\?://\\S\\+[^.) ]"))
+
 " visor style terminal buffer
   " https://www.reddit.com/r/neovim/comments/3cu8fl/quick_visor_style_terminal_buffer/
   let s:termbuf = 0
