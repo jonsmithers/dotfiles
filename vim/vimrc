@@ -120,6 +120,8 @@
     :nmap <Leader><Tab> :b#
           "most recent buffer
 
+    :let html_wrong_comments=1 "be lenient with html comment syntax. This is a must-have for documented Polymer code.
+
     "easy-align-vim stuff
     :xmap ga <Plug>(EasyAlign)
     :nmap ga <Plug>(EasyAlign)
