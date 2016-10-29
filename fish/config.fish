@@ -142,6 +142,10 @@ set fish_greeting ""
       alias wfs='/Users/smithers/git/UC2/uc2-app/support/scripts/waitForServer.js'
       alias metadata='/Users/smithers/git/metadata/metadata'
 
+      function uc2b
+        echo (wfs; and ~/bin/browseUc2) &
+      end
+
       function copyIP
         ifconfig | grep 192 | sed -E 's/.*inet ([0-9.]+).*/http:\/\/\1:8000/' | pbcopy
         echo 'copied '
