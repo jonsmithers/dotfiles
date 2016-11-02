@@ -168,8 +168,8 @@
   func! NoWriteMode()
     set fo=croql
     " set flp=^\s*\d\+[\]:.)}\t ]\s*
-    "set formatprg
-    "set smartindent
+    set formatprg=""
+    set smartindent
     set foldmethod=indent
     set whichwrap=b,s
     let g:deoplete#disable_auto_complete = 0
