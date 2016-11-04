@@ -7,6 +7,12 @@ function init_echo
 	# echo $argv
 end
 
+function fish_title
+    # user can set "use_title" to override default title
+    set resulting_title $use_title $_
+    echo $resulting_title[1]
+end
+
 set fish_greeting ""
 # function fish_greeting
 #	set -l cows_dir /usr/local/Cellar/cowsay/3.04/share/cows
