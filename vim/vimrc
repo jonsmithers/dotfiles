@@ -98,6 +98,8 @@
     :let mapleader = " "
     "insert time:
     :nmap <Leader>it :r! date "+\%Y\%m\%d"<Enter>kJ
+    "search for word in working directory
+    :nmap <Leader>s "zyiw:Ag z
     "insert js log
     :nmap <Leader>il oconsole.log();F)i
     "insert js LOG:
