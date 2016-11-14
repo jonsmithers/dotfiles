@@ -126,8 +126,11 @@ set fish_greeting ""
       # iterm2 integration
       test -e {$HOME}/.iterm2_shell_integration.fish ; and source {$HOME}/.iterm2_shell_integration.fish
 
-      # source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+      # make buildr work
       set PATH /Users/smithers/.rvm/gems/ruby-2.2.2/bin/ $PATH
+      rvm default
+
+      # shortcut in case I need bash
       alias bash='bash --init-file ~/.bash_startup'
 
       source ~/.iterm2_shell_integration.fish
