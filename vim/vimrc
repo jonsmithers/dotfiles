@@ -250,8 +250,8 @@
 
 " Basics
   set ttimeoutlen=0 "timeout instantly when pressing esc during visual mode
-  set foldmethod=indent
-  set foldlevelstart=20
+  set foldmethod=syntax
+  set foldlevelstart=99
   set nowrap
   set incsearch     "incremental search (something else also turns this on)
   set ignorecase    "search ignores case
