@@ -151,6 +151,15 @@
       :tnoremap <C-w> <C-\><C-n><C-w>
     endif
 
+" Viewer
+  func! Reader()
+      :AnsiEsc
+      :AirlineToggle
+      let g:airline#extensions#tabline#enabled = 0
+      set laststatus=0
+      set nonu
+  endfu
+
 " Prose
   set nojoinspaces  " prevent vim from inserting 2 spaces after periods.
   func! WriteMode()
