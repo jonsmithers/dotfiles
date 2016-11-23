@@ -95,7 +95,7 @@ set fish_greeting ""
       alias dsk='jump dsk'
       alias dls='jump dls'
       alias vim='nvim'
-      alias journal="guake -t; gnome-terminal --command='wordsafe j' --title='Journal' --full-screen --hide-menubar"
+      alias journal="guake -t; gnome-terminal --command='wordsafe j' --full-screen --hide-menubar"
       alias lamemp3='lame -V0 -h -b 160 --vbr-new'
       #wordsafe -E "nvim -c Goyo -c WM -c 'set nofoldenable'"
 
