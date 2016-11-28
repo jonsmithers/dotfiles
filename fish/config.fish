@@ -235,7 +235,7 @@ set fish_greeting ""
     echo "ls | sed '/s/.*/\"&\"/'"
   end
 
-#FZF 
+#FZF
   function fzfhelp
   echo ' fdr    - cd to selected parent directory'
   echo ' cdf    - cd into the directory of the selected file'
@@ -244,7 +244,7 @@ set fish_greeting ""
   echo ' fco    - checkout branch or tag'
   echo ' fbr    - fuzzy find branch'
   end
-  
+
   function fco
     # If we assign results to a local var, newlines are converted to spaces.
     # That's no good. Instead we store in a local file.
