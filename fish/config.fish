@@ -4,7 +4,7 @@ export NOTI_PUSHBULLET_TOK=o.5RKGbICfF91y9S6zifyMPs6YTLdM0tdp
 export FZF_DEFAULT_COMMAND='ag -g ""'
 
 function init_echo
-	# echo $argv
+  # echo $argv
 end
 
 function fish_title
@@ -15,44 +15,44 @@ end
 
 set fish_greeting ""
 # function fish_greeting
-#	set -l cows_dir /usr/local/Cellar/cowsay/3.04/share/cows
+#  set -l cows_dir /usr/local/Cellar/cowsay/3.04/share/cows
 #        set -l perms (ls $cows_dir/*.cow | gshuf -n1)
 #        echo $perms
-#	set -l avatar (ls $cows_dir | gshuf -n1|cut -d'.' -f1)
-#	echo $avatar
-#	cowsay -f $avatar 'Le chat miaule, what should I do?'
+#  set -l avatar (ls $cows_dir | gshuf -n1|cut -d'.' -f1)
+#  echo $avatar
+#  cowsay -f $avatar 'Le chat miaule, what should I do?'
 #end
 
 # temporary experimental stuff
-	function disable_vi_mode
-		set -g fish_key_bindings fish_default_key_bindings
-	end
-	function powerline
-		function fish_prompt
-			~/git/powerline-shell/powerline-shell.py $status --shell bare ^/dev/null --cwd-max-depth 1 --cwd-mode dironly --mode patched
-		end
-	end
-	function changeModeIndicator
-		function fish_mode_prompt --description 'Displays the current mode'
-			if [ $fish_key_bindings != 'fish_vi_key_bindings' ]
-				return
-			end
-			switch $fish_bind_mode
-			case default
-				set_color --bold --background red white
-			echo 'normal'
-				case insert
-			set_color normal
-				echo 'insert'
-			case visual
-				set_color --bold --background magenta white
-				echo 'visual'
-			end
-			set_color normal
-			echo -n ' '
-		end
-	end
-	changeModeIndicator
+  function disable_vi_mode
+    set -g fish_key_bindings fish_default_key_bindings
+  end
+  function powerline
+    function fish_prompt
+      ~/git/powerline-shell/powerline-shell.py $status --shell bare ^/dev/null --cwd-max-depth 1 --cwd-mode dironly --mode patched
+    end
+  end
+  function changeModeIndicator
+    function fish_mode_prompt --description 'Displays the current mode'
+      if [ $fish_key_bindings != 'fish_vi_key_bindings' ]
+        return
+      end
+      switch $fish_bind_mode
+      case default
+        set_color --bold --background red white
+      echo 'normal'
+        case insert
+      set_color normal
+        echo 'insert'
+      case visual
+        set_color --bold --background magenta white
+        echo 'visual'
+      end
+      set_color normal
+      echo -n ' '
+    end
+  end
+  changeModeIndicator
 
 # Filesystem navigation
   # http://jeroenjanssens.com/2013/08/16/quickly-navigate-your-filesystem-from-the-command-line.html
