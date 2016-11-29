@@ -151,6 +151,10 @@
       :tnoremap <C-w> <C-\><C-n><C-w>
     endif
 
+" Miscellanious commands
+  com! Uc2js exec "cd /Users/smithers/git/UC2/uc2-app/uc2/src/main/web/"
+  com! Uc2 exec "cd /Users/smithers/git/UC2/uc2-app/"
+
 " Viewer
   func! Reader()
       :AnsiEsc
