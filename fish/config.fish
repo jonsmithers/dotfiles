@@ -128,7 +128,7 @@ set fish_greeting ""
 
       # make buildr work
       set PATH /Users/smithers/.rvm/gems/ruby-2.2.2/bin/ $PATH
-      rvm default
+      # rvm default # shows an annoying warning in some contexts (like vim's :! shell execution)
 
       # shortcut in case I need bash
       alias bash='bash --init-file ~/.bash_startup'
