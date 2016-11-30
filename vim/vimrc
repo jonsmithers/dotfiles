@@ -275,24 +275,15 @@
   "(source: http://nerditya.com/code/guide-to-neovim/)
 
 " Tabs
-  set expandtab     " spaces are better than tab characters
-  set smarttab      " don't know
-  func! SetTabSizeFour()
-    set tabstop=4     " for when you press tab
-    set shiftwidth=4  " for autoindent, I think
-  endfu
-  com! Tab4 call SetTabSizeFour()
-  func! SetTabSizeTwo()
-    set tabstop=2     " for when you press tab
-    set shiftwidth=2  " for autoindent, I think
-  endfu
-  com! Tab2 call SetTabSizeTwo()
+  set expandtab     " SPACES over TABS
+  set smarttab      " delete multiple spaces at once (as if deleting a tab character)
+  com! -nargs=1 Tab set tabstop=<args> | set shiftwidth=<args> "| set softtabstop=<args>
   if (hostname() == "Smithers.local")
-    :Tab4
+    :Tab 4
   elseif (hostname() == "zamperini2")
-    :Tab2
+    :Tab 2
   elseif (hostname() == "zamperini3")
-    :Tab2
+    :Tab 2
   endif
   func! JSFormatting()
     autocmd FileType javascript setlocal equalprg=js-beautify\ --stdin
