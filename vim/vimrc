@@ -3,7 +3,6 @@
     Plug 'bling/vim-airline'
     Plug 'Shougo/deoplete.nvim'
     Plug 'fatih/vim-go'
-    Plug 'iamcco/markdown-preview.vim'
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
     Plug 'junegunn/fzf.vim'
     Plug 'junegunn/goyo.vim'       " distraction-free mode
@@ -68,9 +67,6 @@
   endfunction
   autocmd User GoyoEnter call <SID>goyo_enter()
   autocmd User GoyoLeave call <SID>goyo_leave()
-
-" MARKDOWN PLUGIN config
-  let g:mkdp_path_to_chrome = "open -a Google\\ Chrome"
 
 " VIM-JAVASCRIPT PLUGIN conifg
   let g:javascript_plugin_jsdoc = 1
