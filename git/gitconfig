@@ -4,6 +4,7 @@
   pager = diff-highlight | less -+X -+F -S
   #                             ^ makes log and diff clear the screen when done
   #                             http://linuxtips.manki.in/2012/02/making-git-commands-clear-screen-when.html
+  # pager = diff-highlight | nvim -R -c 'call Reader()' -
 [alias]
   ad = add
   br = branch

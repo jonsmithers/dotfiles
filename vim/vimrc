@@ -3,7 +3,6 @@
     Plug 'bling/vim-airline'
     Plug 'Shougo/deoplete.nvim'
     Plug 'fatih/vim-go'
-    Plug 'iamcco/markdown-preview.vim'
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
     Plug 'junegunn/fzf.vim'
     Plug 'junegunn/goyo.vim'       " distraction-free mode
@@ -67,9 +66,6 @@
   endfunction
   autocmd User GoyoEnter call <SID>goyo_enter()
   autocmd User GoyoLeave call <SID>goyo_leave()
-
-" MARKDOWN PLUGIN config
-  let g:mkdp_path_to_chrome = "open -a Google\\ Chrome"
 
 " VIM-JAVASCRIPT PLUGIN conifg
   let g:javascript_plugin_jsdoc = 1
@@ -149,6 +145,19 @@
     if has('nvim')
       :tnoremap <C-w> <C-\><C-n><C-w>
     endif
+
+" Miscellanious commands
+  com! Uc2js exec "cd /Users/smithers/git/UC2/uc2-app/uc2/src/main/web/"
+  com! Uc2 exec "cd /Users/smithers/git/UC2/uc2-app/"
+
+" Viewer
+  func! Reader()
+      :AnsiEsc
+      :AirlineToggle
+      let g:airline#extensions#tabline#enabled = 0
+      set laststatus=0
+      set nonu
+  endfu
 
 " Prose
   set nojoinspaces  " prevent vim from inserting 2 spaces after periods.
@@ -240,8 +249,8 @@
 
 " Basics
   set ttimeoutlen=0 "timeout instantly when pressing esc during visual mode
-  set foldmethod=indent
-  set foldlevelstart=20
+  set foldmethod=syntax
+  set foldlevelstart=99
   set nowrap
   set incsearch     "incremental search (something else also turns this on)
   set ignorecase    "search ignores case
@@ -265,24 +274,15 @@
   "(source: http://nerditya.com/code/guide-to-neovim/)
 
 " Tabs
-  set expandtab     " spaces are better than tab characters
-  set smarttab      " don't know
-  func! SetTabSizeFour()
-    set tabstop=4     " for when you press tab
-    set shiftwidth=4  " for autoindent, I think
-  endfu
-  com! Tab4 call SetTabSizeFour()
-  func! SetTabSizeTwo()
-    set tabstop=2     " for when you press tab
-    set shiftwidth=2  " for autoindent, I think
-  endfu
-  com! Tab2 call SetTabSizeTwo()
+  set expandtab     " SPACES over TABS
+  set smarttab      " delete multiple spaces at once (as if deleting a tab character)
+  com! -nargs=1 Tab set tabstop=<args> | set shiftwidth=<args> "| set softtabstop=<args>
   if (hostname() == "Smithers.local")
-    :Tab4
+    :Tab 4
   elseif (hostname() == "zamperini2")
-    :Tab2
+    :Tab 2
   elseif (hostname() == "zamperini3")
-    :Tab2
+    :Tab 2
   endif
   func! JSFormatting()
     autocmd FileType javascript setlocal equalprg=js-beautify\ --stdin
