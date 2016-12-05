@@ -112,9 +112,9 @@
     :nmap <c-j> :bprevious
     :nmap <c-k> :bnext
     :nmap <Leader>x :NERDTreeClose<enter>:bd
-    :nmap <Leader>X :bd!
-    :nmap <Leader>w :NERDTreeClose<enter>:bd
-    :nmap <Leader>W :bd!
+    :nmap <Leader>X :NERDTreeClose<enter>:bd!
+    :nmap <Leader>w :w<Enter>
+    " :nmap <Leader>W :bd!\
     :nmap <Leader><Tab> :b#
           "most recent buffer
 
