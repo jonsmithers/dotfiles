@@ -32,7 +32,6 @@
   let g:airline_powerline_fonts = 1
   let g:airline#extensions#tabline#enabled = 1     "show buffers on top
   let g:airline#extensions#tabline#fnamemod = ':t' "show just the filename
-  let g:airline_theme='gruvbox'
   set t_Co=256                                     "help airline show colors
 
 " DEOPLETE PLUGIN config
@@ -293,7 +292,13 @@
   if has('nvim')
     let $NVIM_TUI_ENABLE_TRUE_COLOR=1
     colorscheme gruvbox
+    let g:airline_theme='gruvbox'
     set background=dark
     set nofixeol      " don't insert EOL at end of file
     Deoplete
+  else
+    colorscheme OceanicNext
+    let g:airline_theme='oceanicnext'
+    set background=dark
   end
+
