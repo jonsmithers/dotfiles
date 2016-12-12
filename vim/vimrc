@@ -18,6 +18,7 @@
     Plug 'tpope/vim-fugitive'
     Plug 'tpope/vim-rhubarb'
     Plug 'SirVer/ultisnips'
+    Plug 'vimwiki/vimwiki'
     Plug 'jeetsukumaran/vim-indentwise'
 
     " colorschemes
@@ -78,6 +79,9 @@
 " ULTISNIPS PLUGIN config
   " workaround bug https://github.com/SirVer/ultisnips/issues/711
   let g:UltiSnipsSnippetDirectories = ['~/.vim/UltiSnips', 'UltiSnips']
+
+" VIMWIKI PLUGIN config
+  let g:vimwiki_list = [{'path': '$HOME/Dropbox/vimwiki'}]
 
 " Key Bindings
   " insert mode shortcuts
