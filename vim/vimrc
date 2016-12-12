@@ -18,6 +18,7 @@
     Plug 'tpope/vim-fugitive'
     Plug 'tpope/vim-rhubarb'
     Plug 'SirVer/ultisnips'
+    Plug 'jeetsukumaran/vim-indentwise'
 
     " colorschemes
     Plug 'mhartington/oceanic-next'
