@@ -139,7 +139,6 @@
     " call histdel("cmd", "regexp") to delete mistaken history items
     :nmap <Leader>f~ :FZF ~
 
-
     " nerdtree stuff
     :nmap <Leader>tt :NERDTreeToggle
     :nmap <Leader>tf :NERDTreeFind
@@ -330,6 +329,6 @@
       echo "No session loaded."
     endif
   endfunction
-  au VimEnter * nested :call LoadSession()
+  " au VimEnter * nested :call LoadSession()
   au VimLeave * :call MakeSession()
 
