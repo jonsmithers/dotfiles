@@ -95,13 +95,14 @@
     "insert time:
     :nmap <Leader>it :r! date "+\%Y\%m\%d"<Enter>kJ
     "search for word in working directory
-    :nmap <Leader>s "zyiw:Ag z
+    :nmap <Leader>sw "zyiw:Ag z
     "insert js log
     :nmap <Leader>il oconsole.log();F)i
     "insert js LOG:
     :nmap <Leader>iL oconsole.log('%c', 'font-size:15px');F,hi
     "insert jsdoc comment in html
-    :nmap <Leader>ihjd O/****/kA 
+    " :nmap <Leader>ihjd :syntax sync fromstart\O/**\*/^XO€kb * 
+    " :nmap <Leader>ihjd O/**\*\*/kA
     :nmap <C-h> 2zh
     :nmap <C-l> 2zl
     :nnoremap Q <nop>
@@ -117,6 +118,7 @@
     " :nmap <Leader>W :bd!\
     :nmap <Leader><Tab> :b#
           "most recent buffer
+    :nmap <Leader>ss :syntax sync fromstart<enter>
 
     :let html_wrong_comments=1 "be lenient with html comment syntax. This is a must-have for documented Polymer code.
 
