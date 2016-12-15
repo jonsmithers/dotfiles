@@ -81,7 +81,7 @@
   let g:UltiSnipsSnippetDirectories = ['~/.vim/UltiSnips', 'UltiSnips']
 
 " VIMWIKI PLUGIN config
-  let g:vimwiki_list = [{'path': '$HOME/Dropbox/vimwiki'}]
+  let g:vimwiki_list = [{'path': '$HOME/Dropbox/vimwiki'}] " 'syntax': 'markdown', 'ext': '.md'}]
 
 " Key Bindings
   " insert mode shortcuts
@@ -118,7 +118,7 @@
     :nmap <c-k> :bnext
     :nmap <Leader>x :NERDTreeClose<enter>:bd
     :nmap <Leader>X :NERDTreeClose<enter>:bd!
-    :nmap <Leader>w :w<Enter>
+    :nmap <Leader><Leader> :w<Enter>
     " :nmap <Leader>W :bd!\
     :nmap <Leader><Tab> :b#
           "most recent buffer
