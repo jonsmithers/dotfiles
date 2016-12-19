@@ -167,6 +167,7 @@ set fish_greeting ""
         kill (ps -ef | grep Microsoft\ Outlook | tr -s ' ' | cut -d' ' -f 3)
         kill (ps -ef | grep Microsoft\ Alerts | tr -s ' ' | cut -d' ' -f 3)
         kill (ps -ef | grep Microsoft\ AU | tr -s ' ' | cut -d' ' -f 3)
+        open "https://qpm.leidos.com/"
       end
 
       function sfailp
