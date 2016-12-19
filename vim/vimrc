@@ -153,6 +153,8 @@
     endif
 
 " Miscellanious commands
+  com! JJ exec "cd /Users/smithers/git/UC2/uc2-app/uc2/src/main/web/"
+  com! JU exec "cd /Users/smithers/git/UC2/uc2-app/"
   com! Uc2js exec "cd /Users/smithers/git/UC2/uc2-app/uc2/src/main/web/"
   com! Uc2 exec "cd /Users/smithers/git/UC2/uc2-app/"
 
