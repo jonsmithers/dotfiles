@@ -1,6 +1,7 @@
 " VIM PLUG
   call plug#begin('~/.vim/plugged')
     Plug 'bling/vim-airline'
+    Plug 'dag/vim-fish'
     Plug 'Shougo/deoplete.nvim'
     Plug 'fatih/vim-go'
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
