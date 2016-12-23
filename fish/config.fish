@@ -96,6 +96,7 @@ set fish_greeting ""
       alias dls='jump dls'
       alias jl='jump l'
       alias jt='jump t'
+      alias jm='jump m'
       alias vim='nvim'
       alias journal="guake -t; gnome-terminal --command='wordsafe j' --full-screen --hide-menubar"
       alias lamemp3='lame -V0 -h -b 160 --vbr-new'
