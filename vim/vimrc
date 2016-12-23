@@ -155,6 +155,9 @@
 " Miscellanious commands
   com! Uc2js exec "cd /Users/smithers/git/UC2/uc2-app/uc2/src/main/web/"
   com! Uc2 exec "cd /Users/smithers/git/UC2/uc2-app/"
+  com! JL exec "cd /home/smithers/git/lambda"
+  com! JM exec "cd /home/smithers/git/mailman"
+  com! JT exec "cd /home/smithers/git/TourApp/app"
 
 " Viewer
   func! Reader()
