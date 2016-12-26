@@ -1,8 +1,9 @@
 " VIM PLUG
   call plug#begin('~/.vim/plugged')
     Plug 'bling/vim-airline'
-    Plug 'Shougo/deoplete.nvim'
+    Plug 'dag/vim-fish'
     Plug 'fatih/vim-go'
+    Plug 'jeetsukumaran/vim-indentwise'
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
     Plug 'junegunn/fzf.vim'
     Plug 'junegunn/goyo.vim'       " distraction-free mode
@@ -12,14 +13,14 @@
     Plug 'pangloss/vim-javascript'
     Plug 'scrooloose/nerdtree'
     Plug 'scrooloose/syntastic'
+    Plug 'Shougo/deoplete.nvim'
+    Plug 'SirVer/ultisnips'
     Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
     Plug 'terryma/vim-multiple-cursors'
     Plug 'tomtom/tcomment_vim'
     Plug 'tpope/vim-fugitive'
     Plug 'tpope/vim-rhubarb'
-    Plug 'SirVer/ultisnips'
     Plug 'vimwiki/vimwiki'
-    Plug 'jeetsukumaran/vim-indentwise'
 
     " colorschemes
     Plug 'mhartington/oceanic-next'
@@ -153,6 +154,8 @@
     endif
 
 " Miscellanious commands
+  com! JJ exec "cd /Users/smithers/git/UC2/uc2-app/uc2/src/main/web/"
+  com! JU exec "cd /Users/smithers/git/UC2/uc2-app/"
   com! Uc2js exec "cd /Users/smithers/git/UC2/uc2-app/uc2/src/main/web/"
   com! Uc2 exec "cd /Users/smithers/git/UC2/uc2-app/"
   com! JL exec "cd /home/smithers/git/lambda"
