@@ -239,6 +239,18 @@ set fish_greeting ""
     echo "ls | sed '/s/.*/\"&\"/'"
   end
 
+#Screen
+  alias killallscreensessions='screen -ls | grep Detached | cut -d. -f1 | xargs kill'
+  function starttourd
+    jt
+    screen -d -m -S t gulp serve
+    jl
+    screen -d -m -S l nodemon server-index.js
+    jm
+    screen -d -m -S m nodemon
+    jt
+  end
+
 #FZF
   function fzfhelp
   echo ' fdr    - cd to selected parent directory'
