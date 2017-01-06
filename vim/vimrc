@@ -144,6 +144,9 @@
     :nmap <Leader>tt :NERDTreeToggle
     :nmap <Leader>tf :NERDTreeFind
 
+    " git stuff
+    " :nmap <Leader>gb :Gblame<Enter>
+
     " ternjs stuf
     :nmap <Leader>td :TernDoc<cr>
     :autocmd CompleteDone * pclose
