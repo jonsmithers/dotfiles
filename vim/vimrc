@@ -1,5 +1,6 @@
 " VIM PLUG
   call plug#begin('~/.vim/plugged')
+    Plug 'airblade/vim-gitgutter'
     Plug 'bling/vim-airline'
     Plug 'dag/vim-fish'
     Plug 'fatih/vim-go'
