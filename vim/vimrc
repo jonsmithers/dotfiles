@@ -149,7 +149,7 @@
     :nmap <Leader>gb :Gblame<Enter>
 
     " GitGutter stuff
-    :nmap <Leader>gu :GitGutterUndeoHunk<Enter>
+    :nmap <Leader>gu :GitGutterUndoHunk<Enter>
     :nmap <Leader>gs :GitGutterStageHunk<Enter>
     :nmap <Leader>gP :GitGutterPreviewHunk<Enter>
     :nmap <Leader>gH :GitGutterLineHighlightsToggle<Enter>
