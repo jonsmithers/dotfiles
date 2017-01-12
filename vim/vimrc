@@ -146,7 +146,7 @@
     :nmap <Leader>tf :NERDTreeFind
 
     " git stuff
-    " :nmap <Leader>gb :Gblame<Enter>
+    :nmap <Leader>gb :Gblame<Enter>
 
     " GitGutter stuff
     :nmap <Leader>gu :GitGutterUndeoHunk<Enter>
