@@ -107,6 +107,7 @@
     :nmap <Leader>il oconsole.log();F)i
     "insert js LOG:
     :nmap <Leader>iL oconsole.log('%c', 'font-size:15px');F,hi
+    :nmap <Leader>liw yiwoconsole.log('0', 0);<Esc>
     "insert jsdoc comment in html
     " :nmap <Leader>ihjd :syntax sync fromstart\O/**\*/^XO€kb * 
     " :nmap <Leader>ihjd O/**\*\*/kA
@@ -147,7 +148,15 @@
     :nmap <Leader>tf :NERDTreeFind
 
     " git stuff
-    " :nmap <Leader>gb :Gblame<Enter>
+    :nmap <Leader>gb :Gblame<Enter>
+
+    " GitGutter stuff
+    :nmap <Leader>ga :GitGutterStageHunk<Enter>
+    :nmap <Leader>gH :GitGutterLineHighlightsToggle<Enter>
+    :nmap <Leader>gn :GitGutterNextHunk<Enter>
+    :nmap <Leader>gN :GitGutterPrevHunk<Enter>
+    :nmap <Leader>gP :GitGutterPreviewHunk<Enter>
+    :nmap <Leader>gu :GitGutterUndoHunk<Enter>
 
     " ternjs stuf
     :nmap <Leader>td :TernDoc<cr>
