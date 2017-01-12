@@ -149,12 +149,12 @@
     :nmap <Leader>gb :Gblame<Enter>
 
     " GitGutter stuff
-    :nmap <Leader>gu :GitGutterUndoHunk<Enter>
-    :nmap <Leader>gs :GitGutterStageHunk<Enter>
-    :nmap <Leader>gP :GitGutterPreviewHunk<Enter>
+    :nmap <Leader>ga :GitGutterStageHunk<Enter>
     :nmap <Leader>gH :GitGutterLineHighlightsToggle<Enter>
-    :nmap <Leader>gj :GitGutterNextHunk<Enter>
-    :nmap <Leader>gk :GitGutterPrevHunk<Enter>
+    :nmap <Leader>gn :GitGutterNextHunk<Enter>
+    :nmap <Leader>gN :GitGutterPrevHunk<Enter>
+    :nmap <Leader>gP :GitGutterPreviewHunk<Enter>
+    :nmap <Leader>gu :GitGutterUndoHunk<Enter>
 
     " ternjs stuf
     :nmap <Leader>td :TernDoc<cr>
