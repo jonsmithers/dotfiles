@@ -106,6 +106,7 @@
     :nmap <Leader>il oconsole.log();F)i
     "insert js LOG:
     :nmap <Leader>iL oconsole.log('%c', 'font-size:15px');F,hi
+    :nmap <Leader>liw yiwoconsole.log('0', 0);<Esc>
     "insert jsdoc comment in html
     " :nmap <Leader>ihjd :syntax sync fromstart\O/**\*/^XO€kb * 
     " :nmap <Leader>ihjd O/**\*\*/kA
