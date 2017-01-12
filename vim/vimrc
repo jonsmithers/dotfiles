@@ -11,6 +11,7 @@
     Plug 'junegunn/vim-easy-align'
     " Plug 'junegunn/vim-peekaboo'
     Plug 'mattn/emmet-vim'
+    " Plug 'othree/html5.vim'
     Plug 'pangloss/vim-javascript'
     Plug 'scrooloose/nerdtree'
     Plug 'scrooloose/syntastic'
