@@ -4,6 +4,7 @@
     Plug 'bling/vim-airline'
     Plug 'dag/vim-fish'
     Plug 'fatih/vim-go'
+    Plug 'jeetsukumaran/vim-filebeagle'
     Plug 'jeetsukumaran/vim-indentwise'
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
     Plug 'junegunn/fzf.vim'
