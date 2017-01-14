@@ -240,7 +240,7 @@ set fish_greeting ""
   end
 
 #Screen
-  alias killallscreensessions='screen -ls | grep Detached | cut -d. -f1 | xargs kill'
+  alias killallscreens='screen -ls | grep Detached | cut -d. -f1 | xargs kill'
   function starttourd
     jt
     screen -d -m -S t gulp serve
