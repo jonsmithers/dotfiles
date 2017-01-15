@@ -91,14 +91,15 @@ set fish_greeting ""
   end
   switch (hostname)
     case zamperini3
-      init_echo "bash_profile: zamperini3 init"
+      init_echo "zamperini3 init"
       alias dsk='jump dsk'
       alias dls='jump dls'
       alias jl='jump l'
       alias jt='jump t'
       alias jm='jump m'
       alias vim='nvim'
-      alias journal="guake -t; gnome-terminal --command='wordsafe j' --full-screen --hide-menubar"
+      alias journal="gnome-terminal --command='wordsafe j' --full-screen --hide-menubar"
+      #alias journal="guake -t; gnome-terminal --command='wordsafe j' --full-screen --hide-menubar"
       alias lamemp3='lame -V0 -h -b 160 --vbr-new'
       #wordsafe -E "nvim -c Goyo -c WM -c 'set nofoldenable'"
 
@@ -240,7 +241,8 @@ set fish_greeting ""
   end
 
 #Screen
-  alias killallscreensessions='screen -ls | grep Detached | cut -d. -f1 | xargs kill'
+  alias killallscreens='screen -ls | grep Detached | cut -d. -f1 | xargs kill'
+  # screen -RR to attach to most recent session
   function starttourd
     jt
     screen -d -m -S t gulp serve
