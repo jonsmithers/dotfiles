@@ -242,6 +242,7 @@ set fish_greeting ""
 
 #Screen
   alias killallscreens='screen -ls | grep Detached | cut -d. -f1 | xargs kill'
+  # screen -RR to attach to most recent session
   function starttourd
     jt
     screen -d -m -S t gulp serve
