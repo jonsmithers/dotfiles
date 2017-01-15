@@ -177,6 +177,12 @@
   com! JM exec "cd /home/smithers/git/mailman"
   com! JT exec "cd /home/smithers/git/TourApp/app"
 
+  " open url on current line
+  com! OpenUrl exec "!python -mwebbrowser ".(matchstr (getline("."), "https\\?://\\S\\+[^.) ]"))
+  " toggle plugins and syntax to make vim really fast
+  com! Fast :GitGutterToggle | :AirlineToggle | :SyntasticToggleMode | :call deoplete#toggle() | :if exists("g:syntax_on") | syntax off | else | syntax enable | endif
+
+
 " Viewer
   func! Reader()
       :AnsiEsc
@@ -230,9 +236,6 @@
     "set complete+=s
   endfu
   com! SoftWrapProcessor call SoftWrappedProcessorMode()
-
-" open url on current line
-  com! OpenUrl exec "!python -mwebbrowser ".(matchstr (getline("."), "https\\?://\\S\\+[^.) ]"))
 
 " visor style terminal buffer
   " https://www.reddit.com/r/neovim/comments/3cu8fl/quick_visor_style_terminal_buffer/
