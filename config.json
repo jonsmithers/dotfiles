@@ -21,6 +21,7 @@
     "./vim/tern-config": "~/.tern-config",
     "./vim/vimrc": "~/.config/nvim/init.vim",
     "./vim/vimrc": "~/.vimrc",
-    "./vim/vrapperrc": "~/.vrapperrc"
+    "./vim/vrapperrc": "~/.vrapperrc",
+    "./screenrc": "~/.screenrc"
   }
 }
