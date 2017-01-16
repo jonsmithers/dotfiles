@@ -168,6 +168,8 @@
   " terminal mode shortcuts
     if has('nvim')
       :tnoremap <C-w> <C-\><C-n><C-w>
+      :tnoremap <C-j> <C-\><C-n>:bprevious<Enter>
+      :tnoremap <C-k> <C-\><C-n>:bnext<Enter>
     endif
 
 " Miscellanious commands
