@@ -364,5 +364,5 @@
     endif
   endfunction
   " au VimEnter * nested :call LoadSession()
+  au VimEnter * nested if argc() == 0 | :call LoadSession() | endif
   au VimLeave * :call MakeSession()
-
