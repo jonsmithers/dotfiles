@@ -127,8 +127,8 @@
     :nmap <Leader>k :bnext
     :nmap <Leader>j :bprevious
     let g:BASH_Ctrl_j = 'off' "this is undocumented!
-    :nmap <c-j> :bprevious
-    :nmap <c-k> :bnext
+    :nmap <C-j> :bprevious
+    :nmap <C-k> :bnext
     :nmap <Leader>x :NERDTreeClose<enter>:bd
     :nmap <Leader>X :NERDTreeClose<enter>:bd!
     :nmap <Leader><Leader> :w<Enter>
