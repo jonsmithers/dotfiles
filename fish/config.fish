@@ -102,6 +102,7 @@ set fish_greeting ""
       #alias journal="guake -t; gnome-terminal --command='wordsafe j' --full-screen --hide-menubar"
       alias lamemp3='lame -V0 -h -b 160 --vbr-new'
       #wordsafe -E "nvim -c Goyo -c WM -c 'set nofoldenable'"
+      #wordsafe -E "nvim -c Goyo -c WM -c 'set nofoldenable' + -c 'normal o' -c 'normal o\t' -c 'normal o' -c 'normal o' -c 'normal zt' +startinsert"
 
       set NODEJS_HOME /usr/lib/nodejs/node-v6.6.0
       set PATH $NODEJS_HOME/bin $PATH    # because node and npm are here
