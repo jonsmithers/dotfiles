@@ -331,20 +331,23 @@
     autocmd FileType javascript setlocal equalprg=js-beautify\ --stdin
   endfu
 
+" Theme shortcuts
+  com! DarkGruv   set background=dark  | :AirlineTheme gruvbox     | colorscheme gruvbox
+  com! DarkOcean  set background=dark  | :AirlineTheme oceanicnext | colorscheme OceanicNext
+  com! DarkPaper  set background=dark  | :AirlineTheme papercolor  | colorscheme papercolor
+  com! LightOcean set background=light | :AirlineTheme oceanicnext | colorscheme OceanicNextLight
+  com! LightPaper set background=light | :AirlineTheme papercolor  | colorscheme papercolor
+
 " Neovim specific
   if has('nvim')
     let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-    colorscheme gruvbox
-    let g:airline_theme='gruvbox'
-    set background=dark
+    set background=dark | let g:airline_theme='gruvbox' | colorscheme gruvbox
     set nofixeol      " don't insert EOL at end of file
     Deoplete
   else
     colorscheme OceanicNext
-    let g:airline_theme='oceanicnext'
-    set background=dark
+    set background=dark | let g:airline_theme='oceanicnext' | colorscheme OceanicNext
   end
-
 
 " simple session restoration http://vim.wikia.com/wiki/Go_away_and_come_back
   function! MakeSession()
