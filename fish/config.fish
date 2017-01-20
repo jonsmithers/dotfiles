@@ -253,6 +253,10 @@ set fish_greeting ""
     screen -d -m -S m nodemon
     jt
   end
+  function startuc2
+    uc2js
+    screen -d -m -S http http-server -p 8000 -c-1
+  end
 
 #FZF
   function fzfhelp
