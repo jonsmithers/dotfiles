@@ -1,7 +1,6 @@
 " VIM PLUG
   call plug#begin('~/.vim/plugged')
     Plug 'airblade/vim-gitgutter'
-    Plug 'bling/vim-airline'
     Plug 'dag/vim-fish'
     Plug 'fatih/vim-go'
     Plug 'jeetsukumaran/vim-filebeagle'
@@ -25,8 +24,11 @@
     Plug 'tpope/vim-fugitive'
     Plug 'tpope/vim-rhubarb'
     Plug 'vimwiki/vimwiki'
+    Plug 'vim-airline/vim-airline'
+    Plug 'vim-airline/vim-airline-themes'
 
     " colorschemes
+    Plug 'NLKNguyen/papercolor-theme'
     Plug 'mhartington/oceanic-next'
     Plug 'morhetz/gruvbox'
     Plug 'nanotech/jellybeans.vim'
