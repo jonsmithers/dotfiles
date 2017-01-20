@@ -153,6 +153,21 @@
     :nmap <Leader><C-r> :History:
     " call histdel("cmd", "regexp") to delete mistaken history items
     :nmap <Leader>f~ :FZF ~
+    command! AirlineThemes call fzf#run({
+                \ 'source':  map(split(globpath(&rtp, 'autoload/airline/themes/*.vim'), "\n"),
+                \               "substitute(fnamemodify(v:val, ':t'), '\\..\\{-}$', '', '')"),
+                \ 'sink':    'AirlineTheme',
+                \ 'options': '+m --prompt="Airline Themes> "',
+                \ 'down':    '~40%'
+                \})
+    command! -bang -nargs=* Rg
+                \ call fzf#vim#grep(
+                \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
+                \   <bang>0 ? fzf#vim#with_preview('up:60%')
+                \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+                \   <bang>0)
+    tmap <C-u> <C-k><C-k><C-k><C-k><C-k><C-k><C-k><C-k><C-k><C-k><C-k><C-k><C-k>
+    tmap <C-d> <C-j><C-j><C-j><C-j><C-j><C-j><C-j><C-j><C-j><C-j><C-j><C-j><C-j>
 
     " nerdtree stuff
     :nmap <Leader>tt :NERDTreeToggle
