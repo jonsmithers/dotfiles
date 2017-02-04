@@ -23,9 +23,9 @@
     Plug 'tomtom/tcomment_vim'
     Plug 'tpope/vim-fugitive'
     Plug 'tpope/vim-rhubarb'
-    Plug 'vimwiki/vimwiki'
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
+    Plug 'vimwiki/vimwiki'
 
     " colorschemes
     Plug 'NLKNguyen/papercolor-theme'
