@@ -110,7 +110,6 @@
     :inoremap AA <Esc>A
     :inoremap jl <Esc>:
     :imap \t <Esc>:r! date "+\%Y\%m\%d"<Enter>kJA
-    :imap <c-x><c-f> <plug>(fzf-complete-file)
 
   " normal mode shortucts
     :let mapleader = " "
@@ -150,6 +149,14 @@
     :nmap ga <Plug>(EasyAlign)
 
     " fzf stuff
+    " :imap <c-x><c-f> <plug>(fzf-complete-file)
+    inoremap <expr> <c-x><c-f> CompleteRelativePath()
+    func! CompleteRelativePath()
+        :cd %:h
+        call fzf#vim#complete#path("find . -path '*/\.*' -prune -o -print \| sed '1d;s:^..::'")
+        return ""
+    endfu
+    :set shell=/usr/local/bin/bash " for <C-X><C-F> file completion
     :nmap  :Files
     :nmap <Leader>or :History
     " ^ open recent file
