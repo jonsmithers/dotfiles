@@ -170,8 +170,11 @@
                 \   <bang>0 ? fzf#vim#with_preview('up:60%')
                 \           : fzf#vim#with_preview('right:50%:hidden', '?'),
                 \   <bang>0)
-    tmap <C-u> <C-k><C-k><C-k><C-k><C-k><C-k><C-k><C-k><C-k><C-k><C-k><C-k><C-k>
-    tmap <C-d> <C-j><C-j><C-j><C-j><C-j><C-j><C-j><C-j><C-j><C-j><C-j><C-j><C-j>
+
+    if has('nvim')
+      tmap <C-u> <C-k><C-k><C-k><C-k><C-k><C-k><C-k><C-k><C-k><C-k><C-k><C-k><C-k>
+      tmap <C-d> <C-j><C-j><C-j><C-j><C-j><C-j><C-j><C-j><C-j><C-j><C-j><C-j><C-j>
+    endif
 
     " nerdtree stuff
     :nmap <Leader>tt :NERDTreeToggle
