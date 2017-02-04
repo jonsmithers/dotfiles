@@ -220,6 +220,23 @@
       set nonu
   endfu
 
+" Experimental scroll mode
+  nmap zs zz:call ToggleScrollMode()<Enter>
+  function! ToggleScrollMode()
+    if exists("s:scroll_mode")
+      unmap k
+      unmap j
+      unlet s:scroll_mode
+      echom "scroll mode off"
+    else
+      nnoremap j <C-e>j
+      nnoremap k <C-y>k
+      let s:scroll_mode = 1
+      echom "scroll mode on"
+    endif
+  endfunction
+
+
 " Prose
   set nojoinspaces  " prevent vim from inserting 2 spaces after periods.
   func! WriteMode()
