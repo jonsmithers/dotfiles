@@ -1,3 +1,7 @@
+" Note to self: I downloaded
+" https://github.com/neovim/neovim/blob/master/runtime/indent/html.vim as
+" vim-javascript/indent/html.vim
+
 " VIM PLUG
   call plug#begin('~/.vim/plugged')
     Plug 'airblade/vim-gitgutter'
