@@ -17,6 +17,7 @@
     Plug 'mattn/emmet-vim'
     " Plug 'othree/html5.vim'
     Plug 'pangloss/vim-javascript'
+    Plug 'posva/vim-vue'
     Plug 'ryanoasis/vim-devicons'
     Plug 'scrooloose/nerdtree'
     Plug 'scrooloose/syntastic'
