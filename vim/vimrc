@@ -206,6 +206,8 @@
 " Miscellanious commands
   com! JJ exec "cd /Users/smithers/git/UC2/uc2-app/uc2/src/main/web/"
   com! JU exec "cd /Users/smithers/git/UC2/uc2-app/"
+  com! JA exec "cd /Users/smithers/git/estatfstat/"
+  com! JAJ exec "cd /Users/smithers/git/estatfstat/airstat/src/main/web/"
   com! Uc2js exec "cd /Users/smithers/git/UC2/uc2-app/uc2/src/main/web/"
   com! Uc2 exec "cd /Users/smithers/git/UC2/uc2-app/"
   com! JL exec "cd /home/smithers/git/lambda"
