@@ -144,6 +144,8 @@ set fish_greeting ""
       export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_72.jdk/Contents/Home/ #needed for buildr to work on dev 20150514
       export CLICOLOR=1
       export LSCOLORS="Gxfxcxdxbxegedabagacad"
+      alias asj='jump aj'
+      alias as='jump a'
       alias dc2f='jump dc2f'
       alias asma='jump asma'
       alias uc2='jump uc2'

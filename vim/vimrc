@@ -1,3 +1,7 @@
+" Note to self: I downloaded
+" https://github.com/neovim/neovim/blob/master/runtime/indent/html.vim as
+" vim-javascript/indent/html.vim
+
 " VIM PLUG
   call plug#begin('~/.vim/plugged')
     Plug 'airblade/vim-gitgutter'
@@ -13,6 +17,7 @@
     Plug 'mattn/emmet-vim'
     " Plug 'othree/html5.vim'
     Plug 'pangloss/vim-javascript'
+    Plug 'posva/vim-vue'
     Plug 'ryanoasis/vim-devicons'
     Plug 'scrooloose/nerdtree'
     Plug 'scrooloose/syntastic'
@@ -23,9 +28,9 @@
     Plug 'tomtom/tcomment_vim'
     Plug 'tpope/vim-fugitive'
     Plug 'tpope/vim-rhubarb'
-    Plug 'vimwiki/vimwiki'
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
+    Plug 'vimwiki/vimwiki'
 
     " colorschemes
     Plug 'NLKNguyen/papercolor-theme'
@@ -106,7 +111,6 @@
     :inoremap AA <Esc>A
     :inoremap jl <Esc>:
     :imap \t <Esc>:r! date "+\%Y\%m\%d"<Enter>kJA
-    :imap <c-x><c-f> <plug>(fzf-complete-file)
 
   " normal mode shortucts
     :let mapleader = " "
@@ -146,6 +150,14 @@
     :nmap ga <Plug>(EasyAlign)
 
     " fzf stuff
+    " :imap <c-x><c-f> <plug>(fzf-complete-file)
+    inoremap <expr> <c-x><c-f> CompleteRelativePath()
+    func! CompleteRelativePath()
+        :cd %:h
+        call fzf#vim#complete#path("find . -path '*/\.*' -prune -o -print \| sed '1d;s:^..::'")
+        return ""
+    endfu
+    :set shell=/usr/local/bin/bash " for <C-X><C-F> file completion
     :nmap  :Files
     :nmap <Leader>or :History
     " ^ open recent file
@@ -166,8 +178,11 @@
                 \   <bang>0 ? fzf#vim#with_preview('up:60%')
                 \           : fzf#vim#with_preview('right:50%:hidden', '?'),
                 \   <bang>0)
-    tmap <C-u> <C-k><C-k><C-k><C-k><C-k><C-k><C-k><C-k><C-k><C-k><C-k><C-k><C-k>
-    tmap <C-d> <C-j><C-j><C-j><C-j><C-j><C-j><C-j><C-j><C-j><C-j><C-j><C-j><C-j>
+
+    if has('nvim')
+      tmap <C-u> <C-k><C-k><C-k><C-k><C-k><C-k><C-k><C-k><C-k><C-k><C-k><C-k><C-k>
+      tmap <C-d> <C-j><C-j><C-j><C-j><C-j><C-j><C-j><C-j><C-j><C-j><C-j><C-j><C-j>
+    endif
 
     " nerdtree stuff
     :nmap <Leader>tt :NERDTreeToggle
@@ -199,6 +214,8 @@
 " Miscellanious commands
   com! JJ exec "cd /Users/smithers/git/UC2/uc2-app/uc2/src/main/web/"
   com! JU exec "cd /Users/smithers/git/UC2/uc2-app/"
+  com! JA exec "cd /Users/smithers/git/estatfstat/"
+  com! JAJ exec "cd /Users/smithers/git/estatfstat/airstat/src/main/web/"
   com! Uc2js exec "cd /Users/smithers/git/UC2/uc2-app/uc2/src/main/web/"
   com! Uc2 exec "cd /Users/smithers/git/UC2/uc2-app/"
   com! JL exec "cd /home/smithers/git/lambda"
@@ -364,21 +381,25 @@
   endfu
 
 " Theme shortcuts
-  com! DarkGruv   set background=dark  | :AirlineTheme gruvbox     | colorscheme gruvbox
-  com! DarkOcean  set background=dark  | :AirlineTheme oceanicnext | colorscheme OceanicNext
-  com! DarkPaper  set background=dark  | :AirlineTheme papercolor  | colorscheme papercolor
-  com! LightOcean set background=light | :AirlineTheme oceanicnext | colorscheme OceanicNextLight
-  com! LightPaper set background=light | :AirlineTheme papercolor  | colorscheme papercolor
+  com! DarkGruv   set background=dark  | colorscheme gruvbox          | let g:airline_theme='gruvbox'     "| if exists(":AirlineTheme") | :AirlineTheme gruvbox     | endif
+  com! DarkOcean  set background=dark  | colorscheme OceanicNext      | let g:airline_theme='oceanicnext' | if exists(":AirlineTheme") | :AirlineTheme oceanicnext | endif
+  com! DarkPaper  set background=dark  | colorscheme papercolor       | let g:airline_theme='papercolor'  | if exists(":AirlineTheme") | :AirlineTheme papercolor  | endif
+  com! LightGruv  set background=light | colorscheme gruvbox          | let g:airline_theme='gruvbox'     | if exists(":AirlineTheme") | :AirlineTheme gruvbox     | endif
+  com! LightOcean set background=light | colorscheme OceanicNextLight | let g:airline_theme='oceanicnext' | if exists(":AirlineTheme") | :AirlineTheme oceanicnext | endif
+  com! LightPaper set background=light | colorscheme papercolor       | let g:airline_theme='papercolor'  | if exists(":AirlineTheme") | :AirlineTheme papercolor  | endif
+
+" problem: using :AirlineTheme in vimrc causes errors. setting g:airline_theme outside
+" of vimrc has no effect
 
 " Neovim specific
   if has('nvim')
     let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-    set background=dark | let g:airline_theme='gruvbox' | colorscheme gruvbox
+    :DarkGruv
     set nofixeol      " don't insert EOL at end of file
     Deoplete
   else
-    colorscheme OceanicNext
-    set background=dark | let g:airline_theme='oceanicnext' | colorscheme OceanicNext
+    "dark ocean
+    set background=dark | colorscheme OceanicNext | let g:airline_theme='oceanicnext'
   end
 
 " simple session restoration http://vim.wikia.com/wiki/Go_away_and_come_back
