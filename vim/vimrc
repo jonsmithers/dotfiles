@@ -356,21 +356,25 @@
   endfu
 
 " Theme shortcuts
-  com! DarkGruv   set background=dark  | :AirlineTheme gruvbox     | colorscheme gruvbox
-  com! DarkOcean  set background=dark  | :AirlineTheme oceanicnext | colorscheme OceanicNext
-  com! DarkPaper  set background=dark  | :AirlineTheme papercolor  | colorscheme papercolor
-  com! LightOcean set background=light | :AirlineTheme oceanicnext | colorscheme OceanicNextLight
-  com! LightPaper set background=light | :AirlineTheme papercolor  | colorscheme papercolor
+  com! DarkGruv   set background=dark  | colorscheme gruvbox          | let g:airline_theme='gruvbox'     "| if exists(":AirlineTheme") | :AirlineTheme gruvbox     | endif
+  com! DarkOcean  set background=dark  | colorscheme OceanicNext      | let g:airline_theme='oceanicnext' | if exists(":AirlineTheme") | :AirlineTheme oceanicnext | endif
+  com! DarkPaper  set background=dark  | colorscheme papercolor       | let g:airline_theme='papercolor'  | if exists(":AirlineTheme") | :AirlineTheme papercolor  | endif
+  com! LightGruv  set background=light | colorscheme gruvbox          | let g:airline_theme='gruvbox'     | if exists(":AirlineTheme") | :AirlineTheme gruvbox     | endif
+  com! LightOcean set background=light | colorscheme OceanicNextLight | let g:airline_theme='oceanicnext' | if exists(":AirlineTheme") | :AirlineTheme oceanicnext | endif
+  com! LightPaper set background=light | colorscheme papercolor       | let g:airline_theme='papercolor'  | if exists(":AirlineTheme") | :AirlineTheme papercolor  | endif
+
+" problem: using :AirlineTheme in vimrc causes errors. setting g:airline_theme outside
+" of vimrc has no effect
 
 " Neovim specific
   if has('nvim')
     let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-    set background=dark | let g:airline_theme='gruvbox' | colorscheme gruvbox
+    :DarkGruv
     set nofixeol      " don't insert EOL at end of file
     Deoplete
   else
-    colorscheme OceanicNext
-    set background=dark | let g:airline_theme='oceanicnext' | colorscheme OceanicNext
+    "dark ocean
+    set background=dark | colorscheme OceanicNext | let g:airline_theme='oceanicnext'
   end
 
 " simple session restoration http://vim.wikia.com/wiki/Go_away_and_come_back
