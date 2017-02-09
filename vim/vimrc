@@ -376,6 +376,9 @@
   elseif (hostname() == "zamperini3")
     :Tab 2
   endif
+
+  autocmd Filetype vimrc setlocal expandtab tabstop=2 shiftwidth=2 softtabstop=2
+
   func! JSFormatting()
     autocmd FileType javascript setlocal equalprg=js-beautify\ --stdin
   endfu
