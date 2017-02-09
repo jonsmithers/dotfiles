@@ -259,6 +259,10 @@ set fish_greeting ""
     uc2js
     screen -d -m -S http http-server -p 8000 -c-1
   end
+  function startairstat
+    screen -d -m -S geo fish -c 'rvm default; and buildr geoserver'
+    screen -d -m -S mq  fish -c 'rvm default; and buildr activemq'
+  end
 
 #FZF
   function fzfhelp
