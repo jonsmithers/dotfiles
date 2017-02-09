@@ -428,3 +428,9 @@
   " au VimEnter * nested :call LoadSession()
   au VimEnter * nested if argc() == 0 | :call LoadSession() | endif
   au VimLeave *        if argc() == 0 | :call MakeSession() | endif
+
+" reload vimrc whenever I save it
+  augroup reload_vimrc " {
+    autocmd!
+    autocmd BufWritePost .vimrc,*.vim source $MYVIMRC
+  augroup END " }
