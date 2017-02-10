@@ -438,3 +438,11 @@
     autocmd!
     autocmd BufWritePost .vimrc,*.vim source $MYVIMRC
   augroup END " }
+
+" disable syntax highlighting on massive files
+  augroup big_files
+    autocmd!
+    autocmd Filetype * if (getfsize(@%) > 1000000) | setlocal syntax=OFF | endif
+    " autocmd Filetype * :echom "a"
+  augroup END
+
