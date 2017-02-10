@@ -157,7 +157,12 @@
         call fzf#vim#complete#path("find . -path '*/\.*' -prune -o -print \| sed '1d;s:^..::'")
         return ""
     endfu
-    :set shell=/usr/local/bin/bash " for <C-X><C-F> file completion
+    " set bash as shell so <C-X><C-F> file completion works
+    if (hostname() == "Smithers.local")
+      :set shell=/usr/local/bin/bash "
+    elseif (hostname() == "zamperini3")
+      " :set shell=/bin/bash "
+    endif
     :nmap  :Files
     :nmap <Leader>or :History
     " ^ open recent file
@@ -226,7 +231,6 @@
   com! OpenUrl exec "!python -mwebbrowser ".(matchstr (getline("."), "https\\?://\\S\\+[^.) ]"))
   " toggle plugins and syntax to make vim really fast
   com! Fast :GitGutterToggle | :AirlineToggle | :SyntasticToggleMode | :call deoplete#toggle() | :if exists("g:syntax_on") | syntax off | else | syntax enable | endif
-
 
 " Viewer
   func! Reader()
