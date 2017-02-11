@@ -73,6 +73,8 @@ set fish_greeting ""
       function marks
         ls -l "$MARKPATH" | tail -n +2 | sed 's/  / /g' | cut -d' ' -f9- | awk -F ' -> ' '{printf "%-10s -> %s\n", $1, $2}'
       end
+      alias dropthebass="osascript -e 'set volume 10'"
+      alias stfu="osascript -e 'set volume output muted true'"
     case Linux
       init_echo "Linux init"
       function marks
