@@ -2,6 +2,8 @@
 " https://github.com/neovim/neovim/blob/master/runtime/indent/html.vim as
 " vim-javascript/indent/html.vim
 
+let s:vimrcIsExecuting = 1
+
 " VIM PLUG
   call plug#begin('~/.vim/plugged')
     Plug 'airblade/vim-gitgutter'
@@ -396,15 +398,14 @@
   endfu
 
 " Theme shortcuts
-  com! DarkGruv   set background=dark  | colorscheme gruvbox          | let g:airline_theme='gruvbox'     "| if exists(":AirlineTheme") | :AirlineTheme gruvbox     | endif
-  com! DarkOcean  set background=dark  | colorscheme OceanicNext      | let g:airline_theme='oceanicnext' | if exists(":AirlineTheme") | :AirlineTheme oceanicnext | endif
-  com! DarkPaper  set background=dark  | colorscheme papercolor       | let g:airline_theme='papercolor'  | if exists(":AirlineTheme") | :AirlineTheme papercolor  | endif
-  com! LightGruv  set background=light | colorscheme gruvbox          | let g:airline_theme='gruvbox'     | if exists(":AirlineTheme") | :AirlineTheme gruvbox     | endif
-  com! LightOcean set background=light | colorscheme OceanicNextLight | let g:airline_theme='oceanicnext' | if exists(":AirlineTheme") | :AirlineTheme oceanicnext | endif
-  com! LightPaper set background=light | colorscheme papercolor       | let g:airline_theme='papercolor'  | if exists(":AirlineTheme") | :AirlineTheme papercolor  | endif
-
-" problem: using :AirlineTheme in vimrc causes errors. setting g:airline_theme outside
-" of vimrc has no effect
+  com! DarkGruv   set background=dark  | colorscheme gruvbox          | let g:airline_theme='gruvbox'     | if (!s:vimrcIsExecuting) | execute(":AirlineTheme gruvbox")     | endif
+  com! DarkOcean  set background=dark  | colorscheme OceanicNext      | let g:airline_theme='oceanicnext' | if (!s:vimrcIsExecuting) | execute(":AirlineTheme oceanicnext") | endif
+  com! DarkPaper  set background=dark  | colorscheme papercolor       | let g:airline_theme='papercolor'  | if (!s:vimrcIsExecuting) | execute(":AirlineTheme papercolor")  | endif
+  com! DarkOne    set background=dark  | colorscheme one              | let g:airline_theme='one'         | if (!s:vimrcIsExecuting) | execute(":AirlineTheme one")         | endif
+  com! LightOne   set background=light | colorscheme one              | let g:airline_theme='one'         | if (!s:vimrcIsExecuting) | execute(":AirlineTheme one")         | endif
+  com! LightGruv  set background=light | colorscheme gruvbox          | let g:airline_theme='gruvbox'     | if (!s:vimrcIsExecuting) | execute(":AirlineTheme gruvbox")     | endif
+  com! LightOcean set background=light | colorscheme OceanicNextLight | let g:airline_theme='oceanicnext' | if (!s:vimrcIsExecuting) | execute(":AirlineTheme oceanicnext") | endif
+  com! LightPaper set background=light | colorscheme papercolor       | let g:airline_theme='papercolor'  | if (!s:vimrcIsExecuting) | execute(":AirlineTheme papercolor")  | endif
 
 " Neovim specific
   if has('nvim')
@@ -453,3 +454,5 @@
     autocmd Filetype * if (getfsize(@%) > 1000000) | setlocal syntax=OFF | endif
     " autocmd Filetype * :echom "a"
   augroup END
+
+let s:vimrcIsExecuting = 0
