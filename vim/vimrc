@@ -443,7 +443,7 @@
 " reload vimrc whenever I save it
   augroup reload_vimrc " {
     autocmd!
-    autocmd BufWritePost .vimrc,*.vim source $MYVIMRC
+    autocmd BufWritePost vimrc,.vimrc,*.vim source $MYVIMRC
   augroup END " }
 
 " disable syntax highlighting on massive files
@@ -452,4 +452,3 @@
     autocmd Filetype * if (getfsize(@%) > 1000000) | setlocal syntax=OFF | endif
     " autocmd Filetype * :echom "a"
   augroup END
-
