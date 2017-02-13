@@ -38,6 +38,7 @@
     Plug 'mhartington/oceanic-next'
     Plug 'morhetz/gruvbox'
     Plug 'nanotech/jellybeans.vim'
+    Plug 'rakr/vim-one'
 
     "run :PlugInstall to install new plugins
   call plug#end()
