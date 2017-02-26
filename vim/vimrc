@@ -40,7 +40,6 @@
 
     "run :PlugInstall to install new plugins
   call plug#end()
-  let g:webdevicons_enable_airline_tabline = 1
 
 " AIRLINE PLUGIN config
   set laststatus=2                                 "always show airline, instead of only after splitview
@@ -64,6 +63,11 @@
   " elseif (hostname == "zamperini2")
   "   let g:python3_host_prog='/usr/bin/python3'
   endif
+
+" DEVICONS PLUGIN config
+  let g:webdevicons_enable_airline_tabline = 1
+  let g:webdevicons_enable = 1
+
 
 " GOYO PLUGIN config
   let g:goyo_width = 81
