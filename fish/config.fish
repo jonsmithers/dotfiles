@@ -73,6 +73,8 @@ set fish_greeting ""
       function marks
         ls -l "$MARKPATH" | tail -n +2 | sed 's/  / /g' | cut -d' ' -f9- | awk -F ' -> ' '{printf "%-10s -> %s\n", $1, $2}'
       end
+      alias dropthebass="osascript -e 'set volume 10'"
+      alias stfu="osascript -e 'set volume output muted true'"
     case Linux
       init_echo "Linux init"
       function marks
@@ -153,19 +155,17 @@ set fish_greeting ""
       export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_72.jdk/Contents/Home/ #needed for buildr to work on dev 20150514
       export CLICOLOR=1
       export LSCOLORS="Gxfxcxdxbxegedabagacad"
-      alias asj='jump aj'
-      alias as='jump a'
-      alias dc2f='jump dc2f'
+      alias ja='jump a'
+      alias jaj='jump aj'
+      alias ju='jump uc2'
+      alias juj='jump uc2js'
       alias asma='jump asma'
       alias uc2='jump uc2'
-      alias uc2js='jump uc2js'
       alias leaf='jump leaf'
-      alias risc2='jump risc2'
       alias tomcat='~/programs/runBranch.sh'
       alias debugmeteor="env NODE_OPTIONS='--debug' meteor run"
       alias slatetail='tail -f /var/log/system.log | grep --line-buffered "Slate" | sed "s/.*.local Slate\[[0-9]*\]:/> /"'
       alias wfs='/Users/smithers/git/UC2/uc2-app/support/scripts/waitForServer.js'
-      alias metadata='/Users/smithers/git/metadata/metadata'
 
       function uc2b
         echo (wfs; and ~/bin/browseUc2) &
