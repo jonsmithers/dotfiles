@@ -163,8 +163,8 @@ set fish_greeting ""
       end
 
       function copyIP
-        ifconfig | grep 192 | sed -E 's/.*inet ([0-9.]+).*/http:\/\/\1:8000/' | pbcopy
-        echo 'copied '
+        ifconfig | grep 192 | sed -E 's/.*inet ([0-9.]+).*/http:\/\/\1:7770\/src\//' | pbcopy
+        echo 'copied '(pbpaste)
       end
 
       function killMicrosoft
