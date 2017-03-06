@@ -1,4 +1,8 @@
 defaults write -g ApplePressAndHoldEnabled -bool false
+launchctl unload -w /System/Library/LaunchAgents/com.apple.rcd.plist # don't open iTunes when pressing media buttons
+
+# https://github.com/herrbischoff/awesome-osx-command-line/
+
 # Disable press-and-hold for keys in favor of key repeat.
 # I need this to use the vim plugin in sublime (Dec 2014)
 
