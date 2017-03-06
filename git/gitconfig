@@ -22,8 +22,8 @@
   outgoing = log @{u}..
   tree = log --graph --oneline
   treename = log --graph --all
-  worddiff = diff --color-words='\\w+|.'
-  worddiffstandard = diff --word-diff=color
+  dfw = diff --word-diff=color
+  dfwMin = diff --color-words='\\w+|.'
   seewebsite = !             echo `git remote --verbose | grep origin | grep fetch | sed -E 's/origin.([^ ]+).git.*/\\1/'`
   # launch the website for the current repo
   website = ! python -mwebbrowser `git remote --verbose | grep origin | grep fetch | sed -E 's/origin.([^ ]+).git.*/\\1/'`
