@@ -92,6 +92,15 @@ set fish_greeting ""
       end
   end
   switch (hostname)
+    case zamperini4
+      init_echo "zamperini4 init"
+      alias dsk='jump dsk'
+      alias dls='jump dls'
+      alias jl='jump l'
+      alias jt='jump t'
+      alias jm='jump m'
+      alias journal="gnome-terminal --command='wordsafe j' --full-screen --hide-menubar"
+      #alias journal="guake -t; gnome-terminal --command='wordsafe j' --full-screen --hide-menubar"
     case zamperini3
       init_echo "zamperini3 init"
       alias dsk='jump dsk'

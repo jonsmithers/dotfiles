@@ -44,7 +44,6 @@ let s:vimrcIsExecuting = 1
 
     "run :PlugInstall to install new plugins
   call plug#end()
-  let g:webdevicons_enable_airline_tabline = 1
 
 " AIRLINE PLUGIN config
   set laststatus=2                                 "always show airline, instead of only after splitview
@@ -74,6 +73,19 @@ let s:vimrcIsExecuting = 1
   " elseif (hostname == "zamperini2")
   "   let g:python3_host_prog='/usr/bin/python3'
   endif
+
+" TERN PLUGIN config
+  " let tern#is_show_argument_hints_enabled = "on_move"
+  let tern_show_signature_in_pum          = 1
+  let tern_show_argument_hints            = "on_hold"
+  set updatetime=1000
+  set noshowmode " requested for tern_show_argument_hints
+  :cabbrev h vert h
+
+" DEVICONS PLUGIN config
+  let g:webdevicons_enable_airline_tabline = 1
+  let g:webdevicons_enable = 1
+
 
 " GOYO PLUGIN config
   let g:goyo_width = 81
