@@ -129,8 +129,8 @@ let s:vimrcIsExecuting = 1
     :imap <C-@> <C-Space>
     :imap <C-Space> <C-x><C-o>
     :imap jk 
-    :inoremap II <Esc>I
-    :inoremap AA <Esc>A
+    " :inoremap II <Esc>I
+    " :inoremap AA <Esc>A
     :inoremap jl <Esc>:
     :imap \t <Esc>:r! date "+\%Y\%m\%d"<Enter>kJA
 
