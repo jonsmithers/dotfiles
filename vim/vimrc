@@ -372,6 +372,7 @@ let s:vimrcIsExecuting = 1
   set foldlevelstart=99
   set nowrap
   set incsearch     "incremental search (something else also turns this on)
+  set wildmenu      "show suggestions for vim commands
   set ignorecase    "search ignores case
   set smartcase     "unless there's a capital letter
   syntax enable
