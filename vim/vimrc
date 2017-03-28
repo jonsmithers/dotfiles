@@ -140,7 +140,9 @@ let s:vimrcIsExecuting = 1
     "insert time:
     :nmap <Leader>it :r! date "+\%Y\%m\%d"<Enter>kJ
     "search for word in working directory
-    :nmap <Leader>sw "zyiw:Ag z
+    :nmap <Leader>sw :Ag 
+    :vmap <Leader>s  y:Ag "<Enter>
+
     "insert js log
     :nmap <Leader>il oconsole.log();F)i
     "insert js LOG:
