@@ -462,7 +462,8 @@ let s:vimrcIsExecuting = 1
 " reload vimrc whenever I save it
   augroup reload_vimrc " {
     autocmd!
-    autocmd BufWritePost vimrc,.vimrc,*.vim source $MYVIMRC
+    autocmd BufWritePost vimrc,.vimrc,*.vim source $MYVIMRC | AirlineToggle | AirlineToggle | AirlineRefresh
+    "                                                         ^ not entirely sure why all this craziness is necessary
   augroup END " }
 
 " disable syntax highlighting on massive files
