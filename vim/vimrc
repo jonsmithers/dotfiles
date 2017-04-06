@@ -168,6 +168,7 @@ let s:vimrcIsExecuting = 1
     :nmap <Leader><Tab> :b#
           "most recent buffer
     :nmap <Leader>ss :syntax sync fromstart<enter>
+    :nmap <Leader>BD :bufdo bd<enter>
 
     :let html_wrong_comments=1 "be lenient with html comment syntax. This is a must-have for documented Polymer code.
 
