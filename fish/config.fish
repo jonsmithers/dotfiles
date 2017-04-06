@@ -166,13 +166,15 @@ set fish_greeting ""
       alias debugmeteor="env NODE_OPTIONS='--debug' meteor run"
       alias slatetail='tail -f /var/log/system.log | grep --line-buffered "Slate" | sed "s/.*.local Slate\[[0-9]*\]:/> /"'
       alias wfs='/Users/smithers/git/UC2/uc2-app/support/scripts/waitForServer.js'
+      alias buildandruntomcat='rvm default; and buildr test=no clean gulp package; and support/scripts/runTomcat.sh'
+      alias buildforopenshift='buildr clean gulp package -e production bundle; n'
 
       function uc2b
         echo (wfs; and ~/bin/browseUc2) &
       end
 
       function copyIP
-        ifconfig | grep 192 | sed -E 's/.*inet ([0-9.]+).*/http:\/\/\1:7770\/src\//' | pbcopy
+        ifconfig | grep 192 | sed -E 's/.*inet ([0-9.]+).*/http:\/\/\1:7770\/dist\//' | pbcopy
         echo 'copied '(pbpaste)
       end
 
