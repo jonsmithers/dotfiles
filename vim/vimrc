@@ -70,8 +70,8 @@ let s:vimrcIsExecuting = 1
 
   if (hostname() == "Smithers.local")
     let g:python3_host_prog='/usr/local/bin/python3'
-  " elseif (hostname == "zamperini2")
-  "   let g:python3_host_prog='/usr/bin/python3'
+  elseif (hostname() == "zamperini4")
+    let g:python3_host_prog='/usr/bin/python3'
   endif
 
 " TERN PLUGIN config
