@@ -205,6 +205,7 @@ let s:vimrcIsExecuting = 1
                 \   <bang>0 ? fzf#vim#with_preview('up:60%')
                 \           : fzf#vim#with_preview('right:50%:hidden', '?'),
                 \   <bang>0)
+    command! FormatJSON :%!python -m json.tool
 
     if has('nvim')
       tmap <C-u> <C-k><C-k><C-k><C-k><C-k><C-k><C-k><C-k><C-k><C-k><C-k><C-k><C-k>
