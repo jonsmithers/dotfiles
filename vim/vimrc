@@ -18,6 +18,7 @@ let s:vimrcIsExecuting = 1
     Plug 'junegunn/vim-easy-align'
     " Plug 'junegunn/vim-peekaboo'
     Plug 'mattn/emmet-vim'
+    Plug 'nelstrom/vim-visual-star-search'
     " Plug 'othree/html5.vim'
     Plug 'pangloss/vim-javascript'
     Plug 'posva/vim-vue'
@@ -129,8 +130,8 @@ let s:vimrcIsExecuting = 1
     :imap <C-@> <C-Space>
     :imap <C-Space> <C-x><C-o>
     :imap jk 
-    :inoremap II <Esc>I
-    :inoremap AA <Esc>A
+    " :inoremap II <Esc>I
+    " :inoremap AA <Esc>A
     :inoremap jl <Esc>:
     :imap \t <Esc>:r! date "+\%Y\%m\%d"<Enter>kJA
 
@@ -139,12 +140,15 @@ let s:vimrcIsExecuting = 1
     "insert time:
     :nmap <Leader>it :r! date "+\%Y\%m\%d"<Enter>kJ
     "search for word in working directory
-    :nmap <Leader>sw "zyiw:Ag z
+    :nmap <Leader>sw :Ag 
+    :vmap <Leader>s  y:Ag "<Enter>
+
     "insert js log
     :nmap <Leader>il oconsole.log();F)i
     "insert js LOG:
     :nmap <Leader>iL oconsole.log('%c', 'font-size:15px');F,hi
     :nmap <Leader>liw yiwoconsole.log('0', 0);<Esc>
+    :nmap <Leader>lif yiwoconsole.debug('0()');<Esc>
     "insert jsdoc comment in html
     " :nmap <Leader>ihjd :syntax sync fromstart\O/**\*/^XO€kb * 
     " :nmap <Leader>ihjd O/**\*\*/kA
@@ -164,6 +168,7 @@ let s:vimrcIsExecuting = 1
     :nmap <Leader><Tab> :b#
           "most recent buffer
     :nmap <Leader>ss :syntax sync fromstart<enter>
+    :nmap <Leader>BD :bufdo bd<enter>
 
     :let html_wrong_comments=1 "be lenient with html comment syntax. This is a must-have for documented Polymer code.
 
@@ -372,6 +377,7 @@ let s:vimrcIsExecuting = 1
   set foldlevelstart=99
   set nowrap
   set incsearch     "incremental search (something else also turns this on)
+  set wildmenu      "show suggestions for vim commands
   set ignorecase    "search ignores case
   set smartcase     "unless there's a capital letter
   syntax enable
@@ -458,13 +464,14 @@ let s:vimrcIsExecuting = 1
 " reload vimrc whenever I save it
   augroup reload_vimrc " {
     autocmd!
-    autocmd BufWritePost vimrc,.vimrc,*.vim source $MYVIMRC
+    autocmd BufWritePost vimrc,.vimrc,*.vim source $MYVIMRC | AirlineToggle | AirlineToggle | AirlineRefresh
+    "                                                         ^ not entirely sure why all this craziness is necessary
   augroup END " }
 
 " disable syntax highlighting on massive files
   augroup big_files
     autocmd!
-    autocmd Filetype * if (getfsize(@%) > 1000000) | setlocal syntax=OFF | endif
+    autocmd Filetype * if (getfsize(@%) > 100000) | setlocal syntax=OFF | endif
     " autocmd Filetype * :echom "a"
   augroup END
 

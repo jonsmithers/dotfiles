@@ -166,14 +166,16 @@ set fish_greeting ""
       alias debugmeteor="env NODE_OPTIONS='--debug' meteor run"
       alias slatetail='tail -f /var/log/system.log | grep --line-buffered "Slate" | sed "s/.*.local Slate\[[0-9]*\]:/> /"'
       alias wfs='/Users/smithers/git/UC2/uc2-app/support/scripts/waitForServer.js'
+      alias buildandruntomcat='rvm default; and buildr test=no clean gulp package; and support/scripts/runTomcat.sh'
+      alias buildforopenshift='buildr clean gulp package -e production bundle; n'
 
       function uc2b
         echo (wfs; and ~/bin/browseUc2) &
       end
 
       function copyIP
-        ifconfig | grep 192 | sed -E 's/.*inet ([0-9.]+).*/http:\/\/\1:8000/' | pbcopy
-        echo 'copied '
+        ifconfig | grep 192 | sed -E 's/.*inet ([0-9.]+).*/http:\/\/\1:7770\/dist\//' | pbcopy
+        echo 'copied '(pbpaste)
       end
 
       function killMicrosoft
@@ -229,7 +231,7 @@ set fish_greeting ""
   alias g='git number'
   alias gn='git number'
   alias gim='g -c nvim'
-  alias deletemergedbranches='git branch --merged | grep -v "\*" | grep -v master | grep -v dev | xargs -n 1 git branch -d'
+  alias deletemergedbranches='git branch --merged | grep -v "\*" | grep -v " master " | grep -v " dev " | xargs -n 1 git branch -d'
   alias installgitcommithook='curl https://raw.githubusercontent.com/jonsmithers/git-commit-prepender/dev/prepare-commit-msg > ./.git/hooks/prepare-commit-msg'
   alias gatom='g -c atom'
   alias todos='agl "(TODO|todo).*(([sS](mithers|MITHERS))|JJS|jjs)" -A 2 -B 2'
@@ -269,8 +271,11 @@ set fish_greeting ""
     screen -d -m -S http http-server -p 8000 -c-1
   end
   function startairstat
-    screen -d -m -S geo fish -c 'as; and rvm default; and buildr geoserver'
-    screen -d -m -S mq  fish -c 'as; and rvm default; and buildr activemq'
+    screen -d -m -S geo fish -c 'ja; and rvm default; and buildr geoserver'
+    screen -d -m -S mq  fish -c 'ja; and rvm default; and buildr activemq'
+  end
+  function startalacritty
+      screen -d -m -S alac ~/git/alacritty/target/release/alacritty
   end
 
 #FZF
