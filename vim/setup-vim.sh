@@ -5,6 +5,8 @@ echo "Creating symbolic link for NeoVim"
 mkdir -p ~/.vim
 mkdir -p ${XDG_CONFIG_HOME:=$HOME/.config}
 ln -s ~/.vim $XDG_CONFIG_HOME/nvim
+# I HAVENT REALLY IRONED THIS OUT WITH DOTPHILE SYMLINKS
+ln -s ~/.vimrc ~/.config/nvim/init.vim
 
 # Install Vim-Plug
 echo "Installing Vim-Plug"

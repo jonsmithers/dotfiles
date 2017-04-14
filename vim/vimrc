@@ -71,8 +71,8 @@ let s:vimrcIsExecuting = 1
 
   if (hostname() == "Smithers.local")
     let g:python3_host_prog='/usr/local/bin/python3'
-  " elseif (hostname == "zamperini2")
-  "   let g:python3_host_prog='/usr/bin/python3'
+  elseif (hostname() == "zamperini4")
+    let g:python3_host_prog='/usr/bin/python3'
   endif
 
 " TERN PLUGIN config
@@ -211,6 +211,7 @@ let s:vimrcIsExecuting = 1
                 \   <bang>0 ? fzf#vim#with_preview('up:60%')
                 \           : fzf#vim#with_preview('right:50%:hidden', '?'),
                 \   <bang>0)
+    command! FormatJSON :%!python -m json.tool
 
     if has('nvim')
       tmap <C-u> <C-k><C-k><C-k><C-k><C-k><C-k><C-k><C-k><C-k><C-k><C-k><C-k><C-k>
