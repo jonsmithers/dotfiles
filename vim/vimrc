@@ -24,7 +24,6 @@ let s:vimrcIsExecuting = 1
     Plug 'posva/vim-vue'
     Plug 'ryanoasis/vim-devicons'
     Plug 'scrooloose/nerdtree'
-    Plug 'scrooloose/syntastic'
     Plug 'Shougo/deoplete.nvim'
     Plug 'SirVer/ultisnips'
     Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
@@ -35,6 +34,7 @@ let s:vimrcIsExecuting = 1
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
     Plug 'vimwiki/vimwiki'
+    Plug 'w0rp/ale'
     Plug 'xolox/vim-notes'
     Plug 'xolox/vim-misc'
 
@@ -120,10 +120,11 @@ let s:vimrcIsExecuting = 1
 " VIM-JAVASCRIPT PLUGIN conifg
   let g:javascript_plugin_jsdoc = 1
 
-" SYNTASTIC PLUGIN config
-  let g:syntastic_html_checkers = ['jshint']
-  let g:syntastic_javascript_checkers = ['jshint']
-  let g:syntastic_java_checkers = ['']
+" ALE PLUGIN config
+  " let g:ale_linters = {
+  "       \ 'javascript': ['eshint'],
+  "       \}
+  let g:ale_echo_msg_format = '(%linter%) %s'
 
 " ULTISNIPS PLUGIN config
   " workaround bug https://github.com/SirVer/ultisnips/issues/711
@@ -265,7 +266,7 @@ let s:vimrcIsExecuting = 1
   " open url on current line
   com! OpenUrl exec "!python -mwebbrowser ".(matchstr (getline("."), "https\\?://\\S\\+[^.) ]"))
   " toggle plugins and syntax to make vim really fast
-  com! Fast :GitGutterToggle | :AirlineToggle | :SyntasticToggleMode | :call deoplete#toggle() | :if exists("g:syntax_on") | syntax off | else | syntax enable | endif
+  com! Fast :GitGutterToggle | :AirlineToggle | :ALEToggle | :call deoplete#toggle() | :if exists("g:syntax_on") | syntax off | else | syntax enable | endif
 
 " Viewer
   func! Reader()
