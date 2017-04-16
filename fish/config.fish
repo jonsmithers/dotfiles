@@ -248,6 +248,7 @@ set fish_greeting ""
   #                              ^ ignore binary files
   #                  ^ highlight matches
   alias igrep='grep --invert-match'
+  alias fzfp='fzf --preview "head --lines=40 {}"'
 
   function howtousexargs
     echo "ls | tr '\n' '\0' | xargs -0 -n1 -p"
