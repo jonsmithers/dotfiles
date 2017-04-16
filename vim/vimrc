@@ -35,6 +35,8 @@ let s:vimrcIsExecuting = 1
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
     Plug 'vimwiki/vimwiki'
+    Plug 'xolox/vim-notes'
+    Plug 'xolox/vim-misc'
 
     " colorschemes
     Plug 'NLKNguyen/papercolor-theme'
@@ -110,6 +112,10 @@ let s:vimrcIsExecuting = 1
   endfunction
   autocmd User GoyoEnter call <SID>goyo_enter()
   autocmd User GoyoLeave call <SID>goyo_leave()
+
+" VIM-NOTES PLUGIN config
+  let g:notes_directories = ['~/Dropbox/vim-notes']
+  let g:notes_smart_quotes = 0
 
 " VIM-JAVASCRIPT PLUGIN conifg
   let g:javascript_plugin_jsdoc = 1
