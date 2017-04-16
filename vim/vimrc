@@ -482,4 +482,9 @@ let s:vimrcIsExecuting = 1
     " autocmd Filetype * :echom "a"
   augroup END
 
+  augroup tabs
+    autocmd!
+    autocmd Filetype vim Tab2
+  augroup END
+
 let s:vimrcIsExecuting = 0
