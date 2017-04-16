@@ -117,6 +117,7 @@ let s:vimrcIsExecuting = 1
 " SYNTASTIC PLUGIN config
   let g:syntastic_html_checkers = ['jshint']
   let g:syntastic_javascript_checkers = ['jshint']
+  let g:syntastic_java_checkers = ['']
 
 " ULTISNIPS PLUGIN config
   " workaround bug https://github.com/SirVer/ultisnips/issues/711
@@ -471,7 +472,7 @@ let s:vimrcIsExecuting = 1
 " disable syntax highlighting on massive files
   augroup big_files
     autocmd!
-    autocmd Filetype * if (getfsize(@%) > 100000) | setlocal syntax=OFF | endif
+    autocmd Filetype * if (getfsize(@%) > 500000) | setlocal syntax=OFF | endif
     " autocmd Filetype * :echom "a"
   augroup END
 
