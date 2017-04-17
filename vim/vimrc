@@ -121,9 +121,11 @@ let s:vimrcIsExecuting = 1
   let g:javascript_plugin_jsdoc = 1
 
 " ALE PLUGIN config
-  " let g:ale_linters = {
-  "       \ 'javascript': ['eshint'],
-  "       \}
+  let g:ale_linters = {
+    \ 'html': ['jshint', 'htmlhint'],
+    \ 'javascript': ['jshint'],
+  \}
+  let g:ale_linter_aliases = { 'html': ['html', 'javascript'] }
   let g:ale_echo_msg_format = '(%linter%) %s'
 
 " ULTISNIPS PLUGIN config
