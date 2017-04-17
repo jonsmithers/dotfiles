@@ -487,7 +487,8 @@ let s:vimrcIsExecuting = 1
 
   augroup tabs
     autocmd!
-    autocmd Filetype vim Tab2
+    autocmd Filetype vim Tab 2
   augroup END
 
+  com! -nargs=1 Log execute 'silent! ! echo ' . fnameescape(<args>) . ' >> VIM_LOG'
 let s:vimrcIsExecuting = 0
