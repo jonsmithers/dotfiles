@@ -413,7 +413,8 @@ let s:vimrcIsExecuting = 1
 " Tabs
   set expandtab     " SPACES over TABS
   set smarttab      " delete multiple spaces at once (as if deleting a tab character)
-  com! -nargs=1 Tab set tabstop=<args> | set shiftwidth=<args> "| set softtabstop=<args>
+  com! -nargs=1 Tab      set      tabstop=<args> | set      shiftwidth=<args> "| set softtabstop=<args>
+  com! -nargs=1 LocalTab setlocal tabstop=<args> | setlocal shiftwidth=<args> "| set softtabstop=<args>
   if (hostname() == "Smithers.local")
     :Tab 4
   elseif (hostname() == "zamperini2")
@@ -489,7 +490,7 @@ let s:vimrcIsExecuting = 1
 
   augroup tabs
     autocmd!
-    autocmd Filetype vim Tab 2
+    autocmd Filetype vim LocalTab 2
   augroup END
 
   com! -nargs=1 Log execute 'silent! ! echo ' . fnameescape(<args>) . ' >> VIM_LOG'
