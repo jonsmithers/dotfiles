@@ -193,10 +193,12 @@ let s:vimrcIsExecuting = 1
         return ""
     endfu
     " set bash as shell so <C-X><C-F> file completion works
+    " - ALSO, NeoVim async jobs return data with a prepended "[1 q" for
+    "   someone unfathomable reason. That's no good.
     if (hostname() == "Smithers.local")
       :set shell=/usr/local/bin/bash "
-    elseif (hostname() == "zamperini3")
-      " :set shell=/bin/bash "
+    elseif (hostname() == "zamperini4")
+      :set shell=/bin/bash "
     endif
     :nmap  :Files
     :nmap <Leader>or :History
