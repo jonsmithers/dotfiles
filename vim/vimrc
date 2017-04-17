@@ -414,7 +414,7 @@ let s:vimrcIsExecuting = 1
     :Tab 4
   elseif (hostname() == "zamperini2")
     :Tab 2
-  elseif (hostname() == "zamperini3")
+  elseif (hostname() == "zamperini4")
     :Tab 2
   endif
 
