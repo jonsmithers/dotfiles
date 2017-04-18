@@ -31,3 +31,6 @@ powerline-fonts/install.sh
 echo ""
 echo "To install Plug pluggins"
 echo "    :PlugInstall (inside vim)"
+
+pip install vim-vint
+#pip install grip # or use brew?
