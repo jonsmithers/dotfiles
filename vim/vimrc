@@ -117,6 +117,7 @@ let s:vimrcIsExecuting = 1
 " VIM-NOTES PLUGIN config
   let g:notes_directories = ['~/Dropbox/vim-notes']
   let g:notes_smart_quotes = 0
+  let g:notes_suffix = ".txt"
 
 " VIM-JAVASCRIPT PLUGIN conifg
   let g:javascript_plugin_jsdoc = 1
