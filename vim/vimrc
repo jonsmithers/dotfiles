@@ -496,5 +496,8 @@ let s:vimrcIsExecuting = 1
     autocmd Filetype vim LocalTab 2
   augroup END
 
+  autocmd FileType gitcommit setlocal spell
+  autocmd FileType gitcommit startinsert!
+
   com! -nargs=1 Log execute 'silent! ! echo ' . fnameescape(<args>) . ' >> VIM_LOG'
 let s:vimrcIsExecuting = 0
