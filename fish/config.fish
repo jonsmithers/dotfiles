@@ -152,7 +152,17 @@ set fish_greeting ""
       source ~/.iterm2_shell_integration.fish
 
       export GOPATH=/Users/smithers/gocode
-      export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_72.jdk/Contents/Home/ #needed for buildr to work on dev 20150514
+      function setjavaversion
+          switch $argv[1]
+          case "7"
+              export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_72.jdk/Contents/Home/ #needed for buildr to work on dev 20150514
+          case "8"
+              export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_131.jdk/Contents/Home
+          case "*"
+              echo "can't handle input" $argv[1]
+          end
+      end
+      setjavaversion 7
       export CLICOLOR=1
       export LSCOLORS="Gxfxcxdxbxegedabagacad"
       alias ja='jump a'
