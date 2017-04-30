@@ -101,6 +101,7 @@ set fish_greeting ""
       alias jm='jump m'
       alias journal="gnome-terminal --command='wordsafe j' --full-screen --hide-menubar"
       #alias journal="guake -t; gnome-terminal --command='wordsafe j' --full-screen --hide-menubar"
+      export TMPDIR="/tmp/" # not sure why this suddenly became necessary
     case zamperini3
       init_echo "zamperini3 init"
       alias dsk='jump dsk'
