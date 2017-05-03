@@ -33,7 +33,7 @@ function fish_user_key_bindings
             git branch | grep -v HEAD | sed "s/.* //" | sed "s#remotes/##" | sort -u | fzf > $TMPDIR/fzf.result;
             commandline -t (cat $TMPDIR/fzf.result); commandline -f repaint
         case "*"
-            commandline -i 'B'
+            commandline -i 'L'
         end
     end
 
