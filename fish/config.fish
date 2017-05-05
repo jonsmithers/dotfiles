@@ -287,7 +287,7 @@ set fish_greeting ""
     screen -d -m -S mq  fish -c 'ja; and rvm default; and buildr activemq'
   end
   function startalacritty
-      screen -d -m -S alac ~/git/alacritty/target/release/alacritty
+    screen -d -m -S alac ~/git/alacritty/target/release/alacritty
   end
 
 #FZF
