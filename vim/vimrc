@@ -9,6 +9,7 @@ let s:vimrcIsExecuting = 1
     Plug 'airblade/vim-gitgutter'
     Plug 'dag/vim-fish'
     Plug 'easymotion/vim-easymotion'
+    Plug 'editorconfig/editorconfig-vim'
     Plug 'fatih/vim-go'
     Plug 'jeetsukumaran/vim-filebeagle'
     Plug 'jeetsukumaran/vim-indentwise'
