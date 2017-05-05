@@ -60,6 +60,7 @@ let s:vimrcIsExecuting = 1
   let g:airline_right_sep=''
   let g:airline_left_alt_sep = '#'
   let g:airline_right_alt_sep = '#'
+  let g:airline#extensions#whitespace#mixed_indent_algo = 1 "allow some spaces after tabs for javadoc
   set t_Co=256                                     "help airline show colors
 
 " EASYMOTION config
@@ -117,14 +118,16 @@ let s:vimrcIsExecuting = 1
 " VIM-NOTES PLUGIN config
   let g:notes_directories = ['~/Dropbox/vim-notes']
   let g:notes_smart_quotes = 0
+  let g:notes_suffix = ".txt"
 
 " VIM-JAVASCRIPT PLUGIN conifg
   let g:javascript_plugin_jsdoc = 1
 
 " ALE PLUGIN config
   let g:ale_linters = {
-    \ 'html': ['eslint', 'jshint', 'htmlhint'],
-    \ 'javascript': ['eslint', 'jshint'],
+    \ 'html': ['jshint', 'htmlhint'],
+    \ 'javascript': ['jshint'],
+    \ 'java': [],
   \}
   let g:ale_linter_aliases = { 'html': ['html', 'javascript'] }
   let g:ale_echo_msg_format = '(%linter%) %s'
@@ -493,6 +496,9 @@ let s:vimrcIsExecuting = 1
     autocmd!
     autocmd Filetype vim LocalTab 2
   augroup END
+
+  autocmd FileType gitcommit setlocal spell
+  autocmd FileType gitcommit startinsert!
 
   com! -nargs=1 Log execute 'silent! ! echo ' . fnameescape(<args>) . ' >> VIM_LOG'
 let s:vimrcIsExecuting = 0
