@@ -267,6 +267,7 @@ set fish_greeting ""
 
 #Screen
   alias killallscreens='screen -ls | grep Detached | cut -d. -f1 | xargs kill'
+  alias killalljava='ps -ef | grep java | tr -s " " | cut -d" " -f3 | xargs kill'
   # screen -RR to attach to most recent session
   function starttourd
     jt
