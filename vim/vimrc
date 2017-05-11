@@ -32,6 +32,7 @@ let s:vimrcIsExecuting = 1
     Plug 'tomtom/tcomment_vim'
     Plug 'tpope/vim-fugitive'
     Plug 'tpope/vim-rhubarb'
+    Plug 'tpope/vim-unimpaired'
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
     Plug 'vimwiki/vimwiki'
@@ -125,8 +126,8 @@ let s:vimrcIsExecuting = 1
 
 " ALE PLUGIN config
   let g:ale_linters = {
-    \ 'html': ['jshint', 'htmlhint'],
-    \ 'javascript': ['jshint'],
+    \ 'html': ['eslint', 'jshint', 'htmlhint'],
+    \ 'javascript': ['eslint', 'jshint'],
     \ 'java': [],
   \}
   let g:ale_linter_aliases = { 'html': ['html', 'javascript'] }

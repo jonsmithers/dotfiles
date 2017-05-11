@@ -268,6 +268,7 @@ set fish_greeting ""
 
 #Screen
   alias killallscreens='screen -ls | grep Detached | cut -d. -f1 | xargs kill'
+  alias killalljava='ps -ef | grep java | tr -s " " | cut -d" " -f3 | xargs kill'
   # screen -RR to attach to most recent session
   function starttourd
     jt
@@ -287,7 +288,7 @@ set fish_greeting ""
     screen -d -m -S mq  fish -c 'ja; and rvm default; and buildr activemq'
   end
   function startalacritty
-      screen -d -m -S alac ~/git/alacritty/target/release/alacritty
+    screen -d -m -S alac ~/git/alacritty/target/release/alacritty
   end
 
 #FZF
