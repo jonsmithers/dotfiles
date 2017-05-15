@@ -8,7 +8,6 @@ let s:vimrcIsExecuting = 1
   call plug#begin('~/.vim/plugged')
     Plug 'airblade/vim-gitgutter'
     Plug 'dag/vim-fish'
-    Plug 'easymotion/vim-easymotion'
     Plug 'fatih/vim-go'
     Plug 'jeetsukumaran/vim-filebeagle'
     Plug 'jeetsukumaran/vim-indentwise'
@@ -62,12 +61,6 @@ let s:vimrcIsExecuting = 1
   let g:airline_right_alt_sep = '#'
   let g:airline#extensions#whitespace#mixed_indent_algo = 1 "allow some spaces after tabs for javadoc
   set t_Co=256                                     "help airline show colors
-
-" EASYMOTION config
-  map \s <Plug>(easymotion-prefix)
-  nmap s <Plug>(easymotion-overwin-f)
-  " map <Leader>L <Plug>(easymotion-bd-w)
-  " nmap <Leader>L <Plug>(easymotion-overwin-line)
 
 " DEOPLETE PLUGIN config
   com! Deoplete call deoplete#enable() " use this to start deoplete
