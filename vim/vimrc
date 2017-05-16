@@ -23,7 +23,7 @@ let s:vimrcIsExecuting = 1
     Plug 'posva/vim-vue'
     Plug 'ryanoasis/vim-devicons'
     Plug 'scrooloose/nerdtree'
-    Plug 'Shougo/deoplete.nvim'
+    Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
     Plug 'SirVer/ultisnips'
     Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
     Plug 'terryma/vim-multiple-cursors'
