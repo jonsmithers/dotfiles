@@ -123,8 +123,8 @@ let s:vimrcIsExecuting = 1
 
 " ALE PLUGIN config
   let g:ale_linters = {
-    \ 'html': ['eslint', 'jshint', 'htmlhint'],
-    \ 'javascript': ['eslint', 'jshint'],
+    \ 'html': ['eslint', 'htmlhint'],
+    \ 'javascript': ['eslint'],
     \ 'java': [],
   \}
   let g:ale_linter_aliases = { 'html': ['html', 'javascript'] }
