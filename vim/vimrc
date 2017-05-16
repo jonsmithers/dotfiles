@@ -161,6 +161,8 @@ let s:vimrcIsExecuting = 1
     :nmap <Leader>iL oconsole.log('%c', 'font-size:15px');F,hi
     :nmap <Leader>liw yiwoconsole.log('0', 0);<Esc>
     :nmap <Leader>lif yiwoconsole.debug('0()');<Esc>
+    :nmap <Leader>liF yiwoconsole.log('%c0()', 'font-size:15px');<Esc>^2w
+    :nmap <Leader>gif yiwf{oconsole.group('0');<Esc>]}Oconsole.groupEnd();<Esc>^
     "insert jsdoc comment in html
     " :nmap <Leader>ihjd :syntax sync fromstart\O/**\*/^XO€kb * 
     " :nmap <Leader>ihjd O/**\*\*/kA
