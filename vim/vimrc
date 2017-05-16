@@ -66,6 +66,10 @@ let s:vimrcIsExecuting = 1
 " DEOPLETE PLUGIN config
   com! Deoplete call deoplete#enable() " use this to start deoplete
   let g:deoplete#file#enable_buffer_path=1   "path completion is relative
+  let g:deoplete#omni#functions = {}
+  let g:deoplete#omni#functions.javascript = [
+    \ 'tern#Complete'
+  \]
 
   if (hostname() == "Smithers.local")
     let g:python3_host_prog='/usr/local/bin/python3'
