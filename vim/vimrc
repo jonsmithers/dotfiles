@@ -1,6 +1,7 @@
-" Note to self: I downloaded
-" https://github.com/neovim/neovim/blob/master/runtime/indent/html.vim as
-" vim-javascript/indent/html.vim
+" Note: NeoVim's html-embedded-javascript indentation is isn't smart like Vim
+" 8's. It needs to be updated. Until then, you can fix it by running this
+" command:
+" curl https://raw.githubusercontent.com/vim/vim/master/runtime/indent/html.vim > ~/.vim/plugged/vim-javascript/indent/html.vim
 
 let s:vimrcIsExecuting = 1
 
