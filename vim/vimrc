@@ -8,6 +8,7 @@ let s:vimrcIsExecuting = 1
   call plug#begin('~/.vim/plugged')
     Plug 'airblade/vim-gitgutter'
     Plug 'dag/vim-fish'
+    Plug 'editorconfig/editorconfig-vim'
     Plug 'fatih/vim-go'
     Plug 'jeetsukumaran/vim-filebeagle'
     Plug 'jeetsukumaran/vim-indentwise'
@@ -412,15 +413,15 @@ let s:vimrcIsExecuting = 1
   set smarttab      " delete multiple spaces at once (as if deleting a tab character)
   com! -nargs=1 Tab      set      tabstop=<args> | set      shiftwidth=<args> "| set softtabstop=<args>
   com! -nargs=1 LocalTab setlocal tabstop=<args> | setlocal shiftwidth=<args> "| set softtabstop=<args>
-  if (hostname() == "Smithers.local")
-    :Tab 4
-  elseif (hostname() == "zamperini2")
-    :Tab 2
-  elseif (hostname() == "zamperini4")
-    :Tab 2
-  endif
+  " if (hostname() == "Smithers.local")
+  "   :Tab 4
+  " elseif (hostname() == "zamperini2")
+  "   :Tab 2
+  " elseif (hostname() == "zamperini4")
+  "   :Tab 2
+  " endif
 
-  autocmd Filetype vimrc setlocal expandtab tabstop=2 shiftwidth=2 softtabstop=2
+  " autocmd Filetype vimrc setlocal expandtab tabstop=2 shiftwidth=2 softtabstop=2
 
   func! JSFormatting()
     autocmd FileType javascript setlocal equalprg=js-beautify\ --stdin
@@ -485,10 +486,10 @@ let s:vimrcIsExecuting = 1
     " autocmd Filetype * :echom "a"
   augroup END
 
-  augroup tabs
-    autocmd!
-    autocmd Filetype vim LocalTab 2
-  augroup END
+  " augroup tabs
+  "   autocmd!
+  "   autocmd Filetype vim LocalTab 2
+  " augroup END
 
   autocmd FileType gitcommit setlocal spell
   autocmd FileType gitcommit startinsert!
