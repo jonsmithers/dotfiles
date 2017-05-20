@@ -83,7 +83,6 @@ let s:vimrcIsExecuting = 1
   let tern_show_argument_hints            = "no" "default
   set updatetime=1000
   " set noshowmode " requested for tern_show_argument_hints
-  :cabbrev h vert h
 
 " DEVICONS PLUGIN config
   let g:webdevicons_enable_airline_tabline = 1
@@ -405,6 +404,8 @@ let s:vimrcIsExecuting = 1
   set splitright    " more natural split behavior
 
   set hidden        " leave buffers without saving
+
+  :cabbrev h vert h " execute [:h QUERY] to open help page in vertical split buffer
 
   if !&scrolloff
     set scrolloff=3 " Show next 3 lines while scrolling.
