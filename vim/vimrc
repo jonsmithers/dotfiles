@@ -1,6 +1,7 @@
-" Note to self: I downloaded
-" https://github.com/neovim/neovim/blob/master/runtime/indent/html.vim as
-" vim-javascript/indent/html.vim
+" Note: NeoVim's html-embedded-javascript indentation is isn't smart like Vim
+" 8's. It needs to be updated. Until then, you can fix it by running this
+" command:
+" curl https://raw.githubusercontent.com/vim/vim/master/runtime/indent/html.vim > ~/.vim/plugged/vim-javascript/indent/html.vim
 
 let s:vimrcIsExecuting = 1
 
@@ -8,7 +9,6 @@ let s:vimrcIsExecuting = 1
   call plug#begin('~/.vim/plugged')
     Plug 'airblade/vim-gitgutter'
     Plug 'dag/vim-fish'
-    Plug 'easymotion/vim-easymotion'
     Plug 'editorconfig/editorconfig-vim'
     Plug 'fatih/vim-go'
     Plug 'jeetsukumaran/vim-filebeagle'
@@ -25,7 +25,7 @@ let s:vimrcIsExecuting = 1
     Plug 'posva/vim-vue'
     Plug 'ryanoasis/vim-devicons'
     Plug 'scrooloose/nerdtree'
-    Plug 'Shougo/deoplete.nvim'
+    Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
     Plug 'SirVer/ultisnips'
     Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
     Plug 'terryma/vim-multiple-cursors'
@@ -64,15 +64,13 @@ let s:vimrcIsExecuting = 1
   let g:airline#extensions#whitespace#mixed_indent_algo = 1 "allow some spaces after tabs for javadoc
   set t_Co=256                                     "help airline show colors
 
-" EASYMOTION config
-  map \s <Plug>(easymotion-prefix)
-  nmap s <Plug>(easymotion-overwin-f)
-  " map <Leader>L <Plug>(easymotion-bd-w)
-  " nmap <Leader>L <Plug>(easymotion-overwin-line)
-
 " DEOPLETE PLUGIN config
   com! Deoplete call deoplete#enable() " use this to start deoplete
   let g:deoplete#file#enable_buffer_path=1   "path completion is relative
+  let g:deoplete#omni#functions = {}
+  let g:deoplete#omni#functions.javascript = [
+    \ 'tern#Complete'
+  \]
 
   if (hostname() == "Smithers.local")
     let g:python3_host_prog='/usr/local/bin/python3'
@@ -126,8 +124,8 @@ let s:vimrcIsExecuting = 1
 
 " ALE PLUGIN config
   let g:ale_linters = {
-    \ 'html': ['eslint', 'jshint', 'htmlhint'],
-    \ 'javascript': ['eslint', 'jshint'],
+    \ 'html': ['eslint', 'htmlhint'],
+    \ 'javascript': ['eslint'],
     \ 'java': [],
   \}
   let g:ale_linter_aliases = { 'html': ['html', 'javascript'] }
@@ -164,6 +162,8 @@ let s:vimrcIsExecuting = 1
     :nmap <Leader>iL oconsole.log('%c', 'font-size:15px');F,hi
     :nmap <Leader>liw yiwoconsole.log('0', 0);<Esc>
     :nmap <Leader>lif yiwoconsole.debug('0()');<Esc>
+    :nmap <Leader>liF yiwoconsole.log('%c0()', 'font-size:15px');<Esc>^2w
+    :nmap <Leader>gif yiwf{oconsole.group('0');<Esc>]}Oconsole.groupEnd();<Esc>^
     "insert jsdoc comment in html
     " :nmap <Leader>ihjd :syntax sync fromstart\O/**\*/^XO€kb * 
     " :nmap <Leader>ihjd O/**\*\*/kA
@@ -420,15 +420,15 @@ let s:vimrcIsExecuting = 1
   set smarttab      " delete multiple spaces at once (as if deleting a tab character)
   com! -nargs=1 Tab      set      tabstop=<args> | set      shiftwidth=<args> "| set softtabstop=<args>
   com! -nargs=1 LocalTab setlocal tabstop=<args> | setlocal shiftwidth=<args> "| set softtabstop=<args>
-  if (hostname() == "Smithers.local")
-    :Tab 4
-  elseif (hostname() == "zamperini2")
-    :Tab 2
-  elseif (hostname() == "zamperini4")
-    :Tab 2
-  endif
+  " if (hostname() == "Smithers.local")
+  "   :Tab 4
+  " elseif (hostname() == "zamperini2")
+  "   :Tab 2
+  " elseif (hostname() == "zamperini4")
+  "   :Tab 2
+  " endif
 
-  autocmd Filetype vimrc setlocal expandtab tabstop=2 shiftwidth=2 softtabstop=2
+  " autocmd Filetype vimrc setlocal expandtab tabstop=2 shiftwidth=2 softtabstop=2
 
   func! JSFormatting()
     autocmd FileType javascript setlocal equalprg=js-beautify\ --stdin
@@ -493,10 +493,10 @@ let s:vimrcIsExecuting = 1
     " autocmd Filetype * :echom "a"
   augroup END
 
-  augroup tabs
-    autocmd!
-    autocmd Filetype vim LocalTab 2
-  augroup END
+  " augroup tabs
+  "   autocmd!
+  "   autocmd Filetype vim LocalTab 2
+  " augroup END
 
   autocmd FileType gitcommit setlocal spell
   autocmd FileType gitcommit startinsert!
