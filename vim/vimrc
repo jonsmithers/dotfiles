@@ -479,27 +479,24 @@ let s:vimrcIsExecuting = 1
   au VimEnter * nested if argc() == 0 | :call LoadSession() | endif
   au VimLeave *        if argc() == 0 | :call MakeSession() | endif
 
-" reload vimrc whenever I save it
-  augroup reload_vimrc " {
+" Auto Commands
+  augroup vimrc_autocomamnds
     autocmd!
+
+    " custom filetype behaviors
+    autocmd FileType gitcommit setlocal spell
+    autocmd FileType gitcommit startinsert!
+    autocmd FileType text      setlocal spell
+
+    " auto-reload vimrc whenever I save it
     autocmd BufWritePost vimrc,.vimrc,*.vim source $MYVIMRC | AirlineToggle | AirlineToggle | AirlineRefresh
     "                                                         ^ not entirely sure why all this craziness is necessary
-  augroup END " }
 
-" disable syntax highlighting on massive files
-  augroup big_files
-    autocmd!
+    " disable syntax when editing huge files so vim stays snappy
     autocmd Filetype * if (getfsize(@%) > 500000) | setlocal syntax=OFF | endif
-    " autocmd Filetype * :echom "a"
+
   augroup END
 
-  " augroup tabs
-  "   autocmd!
-  "   autocmd Filetype vim LocalTab 2
-  " augroup END
-
-  autocmd FileType gitcommit setlocal spell
-  autocmd FileType gitcommit startinsert!
-
+  " lil debugging util
   com! -nargs=1 Log execute 'silent! ! echo ' . fnameescape(<args>) . ' >> VIM_LOG'
 let s:vimrcIsExecuting = 0
