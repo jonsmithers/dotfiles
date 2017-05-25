@@ -142,6 +142,14 @@ set fish_greeting ""
 
       set PATH ~/bin/ $PATH
 
+      function movtogif
+        if [ "2" = (count $argv) ]
+          ffmpeg  -i $argv[1] -s $argv[2] -pix_fmt rgb24 -r 10 -f gif - | gifsicle --optimize=3 --delay=10
+        else
+          echo "movtogiv FILE.mov AxB > OUTPUT.gif"
+        end
+      end
+
       # iterm2 integration
       test -e {$HOME}/.iterm2_shell_integration.fish ; and source {$HOME}/.iterm2_shell_integration.fish
 
