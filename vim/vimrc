@@ -79,12 +79,10 @@ let s:vimrcIsExecuting = 1
   endif
 
 " TERN PLUGIN config
-  " let tern#is_show_argument_hints_enabled = "on_move"
   let tern_show_signature_in_pum          = 1
-  let tern_show_argument_hints            = "on_hold"
+  let tern_show_argument_hints            = "no" "default
   set updatetime=1000
-  set noshowmode " requested for tern_show_argument_hints
-  :cabbrev h vert h
+  " set noshowmode " requested for tern_show_argument_hints
 
 " DEVICONS PLUGIN config
   let g:webdevicons_enable_airline_tabline = 1
@@ -407,6 +405,8 @@ let s:vimrcIsExecuting = 1
 
   set hidden        " leave buffers without saving
 
+  :cabbrev h vert h " execute [:h QUERY] to open help page in vertical split buffer
+
   if !&scrolloff
     set scrolloff=3 " Show next 3 lines while scrolling.
   endif
@@ -479,27 +479,24 @@ let s:vimrcIsExecuting = 1
   au VimEnter * nested if argc() == 0 | :call LoadSession() | endif
   au VimLeave *        if argc() == 0 | :call MakeSession() | endif
 
-" reload vimrc whenever I save it
-  augroup reload_vimrc " {
+" Auto Commands
+  augroup vimrc_autocomamnds
     autocmd!
+
+    " custom filetype behaviors
+    autocmd FileType gitcommit setlocal spell
+    autocmd FileType gitcommit startinsert!
+    autocmd FileType text      setlocal spell
+
+    " auto-reload vimrc whenever I save it
     autocmd BufWritePost vimrc,.vimrc,*.vim source $MYVIMRC | AirlineToggle | AirlineToggle | AirlineRefresh
     "                                                         ^ not entirely sure why all this craziness is necessary
-  augroup END " }
 
-" disable syntax highlighting on massive files
-  augroup big_files
-    autocmd!
+    " disable syntax when editing huge files so vim stays snappy
     autocmd Filetype * if (getfsize(@%) > 500000) | setlocal syntax=OFF | endif
-    " autocmd Filetype * :echom "a"
+
   augroup END
 
-  " augroup tabs
-  "   autocmd!
-  "   autocmd Filetype vim LocalTab 2
-  " augroup END
-
-  autocmd FileType gitcommit setlocal spell
-  autocmd FileType gitcommit startinsert!
-
+  " lil debugging util
   com! -nargs=1 Log execute 'silent! ! echo ' . fnameescape(<args>) . ' >> VIM_LOG'
 let s:vimrcIsExecuting = 0
