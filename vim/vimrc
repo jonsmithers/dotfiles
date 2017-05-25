@@ -476,9 +476,9 @@ let s:vimrcIsExecuting = 1
       echo "No session loaded."
     endif
   endfunction
-  " au VimEnter * nested :call LoadSession()
-  au VimEnter * nested if argc() == 0 | :call LoadSession() | endif
+  " au VimEnter * nested if argc() == 0 | :call LoadSession() | endif
   au VimLeave *        if argc() == 0 | :call MakeSession() | endif
+  com! LoadSession call LoadSession()
 
 " Auto Commands
   augroup vimrc_autocomamnds
