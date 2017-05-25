@@ -140,6 +140,8 @@ set fish_greeting ""
     case Smithers.local
       init_echo "Work Lappy init"
 
+      set PATH ~/bin/ $PATH
+
       # iterm2 integration
       test -e {$HOME}/.iterm2_shell_integration.fish ; and source {$HOME}/.iterm2_shell_integration.fish
 
@@ -282,10 +284,6 @@ set fish_greeting ""
   function startuc2
     uc2js
     screen -d -m -S http http-server -p 8000 -c-1
-  end
-  function startairstat
-    screen -d -m -S geo fish -c 'ja; and rvm default; and buildr geoserver'
-    screen -d -m -S mq  fish -c 'ja; and rvm default; and buildr activemq'
   end
   function startalacritty
     screen -d -m -S alac ~/git/alacritty/target/release/alacritty
