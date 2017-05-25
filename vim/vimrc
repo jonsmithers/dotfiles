@@ -399,6 +399,7 @@ let s:vimrcIsExecuting = 1
   set number
   set autoindent
   set smartindent
+  set hlsearch      " default in NeoVim
 
   set splitbelow    " more natural split behavior
   set splitright    " more natural split behavior
