@@ -178,6 +178,8 @@ set fish_greeting ""
       export LSCOLORS="Gxfxcxdxbxegedabagacad"
       alias ja='jump a'
       alias jaj='jump aj'
+      alias ja2='jump a2'
+      alias jaj2='jump aj2'
       alias ju='jump uc2'
       alias juj='jump uc2js'
       alias asma='jump asma'
