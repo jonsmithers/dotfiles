@@ -153,9 +153,11 @@ set fish_greeting ""
       # iterm2 integration
       test -e {$HOME}/.iterm2_shell_integration.fish ; and source {$HOME}/.iterm2_shell_integration.fish
 
+      # init rbenv
+      status --is-interactive; and source (rbenv init -|psub)
+
       # make buildr work
-      set PATH /Users/smithers/.rvm/gems/ruby-2.2.2/bin/ $PATH
-      # rvm default # shows an annoying warning in some contexts (like vim's :! shell execution)
+      rbenv local 2.2.2
 
       # shortcut in case I need bash
       alias bash='bash --init-file ~/.bash_startup'
@@ -189,7 +191,7 @@ set fish_greeting ""
       alias debugmeteor="env NODE_OPTIONS='--debug' meteor run"
       alias slatetail='tail -f /var/log/system.log | grep --line-buffered "Slate" | sed "s/.*.local Slate\[[0-9]*\]:/> /"'
       alias wfs='/Users/smithers/git/UC2/uc2-app/support/scripts/waitForServer.js'
-      alias buildandruntomcat='rvm default; and buildr test=no clean gulp package; and support/scripts/runTomcat.sh'
+      alias buildandruntomcat='buildr test=no clean gulp package; and support/scripts/runTomcat.sh'
       alias buildforopenshift='buildr clean gulp package -e production bundle; n'
 
       function uc2b
