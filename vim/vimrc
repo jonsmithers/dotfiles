@@ -406,7 +406,8 @@ let s:vimrcIsExecuting = 1
 
   set hidden        " leave buffers without saving
 
-  :cabbrev h vert h " execute [:h QUERY] to open help page in vertical split buffer
+  :cabbrev h vert h
+                    " execute [:h QUERY] to open help page in vertical split buffer
 
   if !&scrolloff
     set scrolloff=3 " Show next 3 lines while scrolling.
