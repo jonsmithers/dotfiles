@@ -37,6 +37,7 @@ let s:vimrcIsExecuting = 1
     Plug 'vim-airline/vim-airline-themes'
     Plug 'vimwiki/vimwiki'
     Plug 'w0rp/ale'
+    Plug 'wellle/targets.vim'
     Plug 'xolox/vim-notes'
     Plug 'xolox/vim-misc'
 
