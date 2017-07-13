@@ -1,6 +1,5 @@
 {
   "links": {
-    "./bash_profile": "~/.bash_profile",
 
     "./fish/config.fish":                           "~/.config/fish/config.fish",
     "./fish/fishfile":                              "~/.config/fish/fishfile",
@@ -9,19 +8,20 @@
     "./fish/functions/fish_prompt.fish":            "~/.config/fish/functions/fish_prompt.fish",
     "./fish/functions/fish_user_key_bindings.fish": "~/.config/fish/functions/fish_user_key_bindings.fish",
 
+    "./bash_profile":          "~/.bash_profile",
     "./git/git-completion.sh": "~/.git-completion.sh",
-    "./git/gitconfig": "~/.gitconfig",
-    "./git/gitignore_global": "~/.gitignore_global",
-    "./phoenix.js": "~/.phoenix.js",
-    "./run-or-raise": "~/bin/run-or-raise",
-    "./slate.js": "~/.slate.js",
-    "./tmux.conf": "~/.tmux.conf",
-    "./vim/UltiSnips": "~/.config/nvim/UltiSnips",
-    "./vim/ideavimrc": "~/.ideavimrc",
-    "./vim/tern-config": "~/.tern-config",
-    "./vim/vimrc": "~/.config/nvim/init.vim",
-    "./vim/vimrc": "~/.vimrc",
-    "./vim/vrapperrc": "~/.vrapperrc",
-    "./screenrc": "~/.screenrc"
+    "./git/gitconfig":         "~/.gitconfig",
+    "./git/gitignore_global":  "~/.gitignore_global",
+    "./phoenix.js":            "~/.phoenix.js",
+    "./run-or-raise":          "~/bin/run-or-raise",
+    "./screenrc":              "~/.screenrc",
+    "./slate.js":              "~/.slate.js",
+    "./tmux.conf":             "~/.tmux.conf",
+    "./vim/UltiSnips":         "~/.config/nvim/UltiSnips",
+    "./vim/ideavimrc":         "~/.ideavimrc",
+    "./vim/tern-config":       "~/.tern-config",
+    "./vim/vimrc":             "~/.config/nvim/init.vim",
+    "./vim/vimrc":             "~/.vimrc",
+    "./vim/vrapperrc":         "~/.vrapperrc"
   }
 }
