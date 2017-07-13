@@ -8,6 +8,7 @@ let s:vimrcIsExecuting = 1
 " VIM PLUG
   call plug#begin('~/.vim/plugged')
     Plug 'airblade/vim-gitgutter'
+    Plug 'alvan/vim-closetag'
     Plug 'dag/vim-fish'
     Plug 'editorconfig/editorconfig-vim'
     Plug 'fatih/vim-go'
