@@ -1,8 +1,9 @@
 [core]
   excludesfile = /Users/smithers/.gitignore_global
   editor = nvim
-  pager = diff-highlight | less -+X -+F -S
+  pager = diff-highlight | less -+X -x4 -+F -S
   #                             ^ makes log and diff clear the screen when done
+  #                                 ^ render tabs with 4-char width
   #                             http://linuxtips.manki.in/2012/02/making-git-commands-clear-screen-when.html
   # pager = diff-highlight | nvim -R -c 'call Reader()' -
 [alias]

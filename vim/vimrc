@@ -38,6 +38,7 @@ let s:vimrcIsExecuting = 1
     Plug 'vim-airline/vim-airline-themes'
     Plug 'vimwiki/vimwiki'
     Plug 'w0rp/ale'
+    Plug 'wellle/targets.vim'
     Plug 'xolox/vim-notes'
     Plug 'xolox/vim-misc'
 
@@ -407,7 +408,8 @@ let s:vimrcIsExecuting = 1
 
   set hidden        " leave buffers without saving
 
-  :cabbrev h vert h " execute [:h QUERY] to open help page in vertical split buffer
+  :cabbrev h vert h
+                    " execute [:h QUERY] to open help page in vertical split buffer
 
   if !&scrolloff
     set scrolloff=3 " Show next 3 lines while scrolling.

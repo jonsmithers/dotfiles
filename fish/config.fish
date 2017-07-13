@@ -142,12 +142,22 @@ set fish_greeting ""
 
       set PATH ~/bin/ $PATH
 
+      function movtogif
+        if [ "2" = (count $argv) ]
+          ffmpeg  -i $argv[1] -s $argv[2] -pix_fmt rgb24 -r 10 -f gif - | gifsicle --optimize=3 --delay=10
+        else
+          echo "movtogiv FILE.mov AxB > OUTPUT.gif"
+        end
+      end
+
       # iterm2 integration
       test -e {$HOME}/.iterm2_shell_integration.fish ; and source {$HOME}/.iterm2_shell_integration.fish
 
+      # init rbenv
+      status --is-interactive; and source (rbenv init -|psub)
+
       # make buildr work
-      set PATH /Users/smithers/.rvm/gems/ruby-2.2.2/bin/ $PATH
-      # rvm default # shows an annoying warning in some contexts (like vim's :! shell execution)
+      rbenv local 2.2.2
 
       # shortcut in case I need bash
       alias bash='bash --init-file ~/.bash_startup'
@@ -170,6 +180,8 @@ set fish_greeting ""
       export LSCOLORS="Gxfxcxdxbxegedabagacad"
       alias ja='jump a'
       alias jaj='jump aj'
+      alias ja2='jump a2'
+      alias jaj2='jump aj2'
       alias ju='jump uc2'
       alias juj='jump uc2js'
       alias asma='jump asma'
@@ -179,7 +191,7 @@ set fish_greeting ""
       alias debugmeteor="env NODE_OPTIONS='--debug' meteor run"
       alias slatetail='tail -f /var/log/system.log | grep --line-buffered "Slate" | sed "s/.*.local Slate\[[0-9]*\]:/> /"'
       alias wfs='/Users/smithers/git/UC2/uc2-app/support/scripts/waitForServer.js'
-      alias buildandruntomcat='rvm default; and buildr test=no clean gulp package; and support/scripts/runTomcat.sh'
+      alias buildandruntomcat='buildr test=no clean gulp package; and support/scripts/runTomcat.sh'
       alias buildforopenshift='buildr clean gulp package -e production bundle; n'
 
       function uc2b
