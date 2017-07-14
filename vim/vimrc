@@ -188,6 +188,11 @@ let s:vimrcIsExecuting = 1
 
     :let html_wrong_comments=1 "be lenient with html comment syntax. This is a must-have for documented Polymer code.
 
+    " syntax debugging (JIC)?
+    map <F10> :echo "syntax debugger: <" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+          \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+          \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+
     "easy-align-vim stuff
     :xmap ga <Plug>(EasyAlign)
     :nmap ga <Plug>(EasyAlign)
@@ -200,6 +205,7 @@ let s:vimrcIsExecuting = 1
         call fzf#vim#complete#path("find . -path '*/\.*' -prune -o -print \| sed '1d;s:^..::'")
         return ""
     endfu
+
     " set bash as shell so <C-X><C-F> file completion works
     " - ALSO, NeoVim async jobs return data with a prepended "[1 q" for
     "   someone unfathomable reason. That's no good.
