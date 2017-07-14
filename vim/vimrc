@@ -7,39 +7,99 @@ let s:vimrcIsExecuting = 1
 
 " VIM PLUG
   call plug#begin('~/.vim/plugged')
+
     Plug 'airblade/vim-gitgutter'
+    " Show indicators for what's been modified/added/deleted.
+
     Plug 'alvan/vim-closetag'
+    " Automatically close html tags.
+
     Plug 'ciaranm/detectindent'
-    Plug 'dag/vim-fish'
+    " Analyze current buffer and configure tabbing to match.
+
     Plug 'editorconfig/editorconfig-vim'
-    Plug 'fatih/vim-go'
+    " Configure different coding styles on a per-project basis and have vim
+    " automatically adjust. There are equivalent plugins for all major code
+    " editors. It's great. In a better world, every project would have a
+    " .editorconfig file at its root.
+
     Plug 'jeetsukumaran/vim-filebeagle'
+    " Super-minimal file explorer accessible through the '-' key.
+
     Plug 'jeetsukumaran/vim-indentwise'
+    " Navigation based on indentation. I currently don't use this.
+
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
     Plug 'junegunn/fzf.vim'
-    Plug 'junegunn/goyo.vim'       " distraction-free mode
+    " Incredible fuzzy search for all sorts of things. Best plugin ever.
+
+    Plug 'junegunn/goyo.vim'
+    " Distraction free mode. Good for coding and as well as prose writing.
+
     Plug 'junegunn/vim-easy-align'
+    " Align chunks of code on a character/regex. Makes it really easy to have
+    " nice formatting.
+
     Plug 'mattn/emmet-vim'
+    " Faster html entry. I currently don't use this.
+
     Plug 'nelstrom/vim-visual-star-search'
+    " Bring "*" key behavior into visual mode. Extremely useful.
+    " (see ":help *").
+
     Plug 'pangloss/vim-javascript'
-    Plug 'posva/vim-vue'
+    " Vastly improved syntax highlighting.
+
     Plug 'ryanoasis/vim-devicons'
+    " Shows pretty little icons when you use a nerdfont in your terminal.
+
     Plug 'scrooloose/nerdtree'
+    " Project tree sidebar that kind of defies the philosophy of vim
+
     Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
+    " Async always-on auto-complete. I currently don't use this.
+
     Plug 'SirVer/ultisnips'
+    " I use this for Polymer element templates.
+
     Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
+    " Intelligent completion for JavaScript. It's amazing.
+
     Plug 'terryma/vim-multiple-cursors'
+    " Like Sublime's Cmd-D. Ctrl-N on a word to multiply your cursor on
+    " subsequent matches for batch editing.
+
     Plug 'tomtom/tcomment_vim'
+    " Toggle code comments. Mapped to Ctrl-/
+
     Plug 'tpope/vim-fugitive'
     Plug 'tpope/vim-rhubarb'
     Plug 'tpope/vim-unimpaired'
+    " Various integrated git tools. I use this a lot. I only use use the
+    " unimpaired plugin with fugitive's ":Glog" command.
+
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
+    " Show info bars above and below buffers.
+
     Plug 'vimwiki/vimwiki'
+    " Quick access to a personal wiki. In vim.
+
     Plug 'w0rp/ale'
+    " Asynchronous linting of all kinds. I use this for bash scripting, fish
+    " shell, vim, javascript, and more.
+
     Plug 'wellle/targets.vim'
+    " Advanced vim text objects.
+
     Plug 'xolox/vim-notes'
     Plug 'xolox/vim-misc'
+    " Quickly write and access notes that sync to Dropbox
+
+    " languages
+    Plug 'posva/vim-vue'
+    Plug 'dag/vim-fish'
+    Plug 'fatih/vim-go'
 
     " colorschemes
     Plug 'NLKNguyen/papercolor-theme'
