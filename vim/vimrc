@@ -9,6 +9,7 @@ let s:vimrcIsExecuting = 1
   call plug#begin('~/.vim/plugged')
     Plug 'airblade/vim-gitgutter'
     Plug 'alvan/vim-closetag'
+    Plug 'ciaranm/detectindent'
     Plug 'dag/vim-fish'
     Plug 'editorconfig/editorconfig-vim'
     Plug 'fatih/vim-go'
