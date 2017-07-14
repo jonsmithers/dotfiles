@@ -157,9 +157,6 @@ set fish_greeting ""
       # init rbenv
       status --is-interactive; and source (rbenv init -|psub)
 
-      # make buildr work
-      rbenv local 2.2.2
-
       # shortcut in case I need bash
       alias bash='bash --init-file ~/.bash_startup'
 
