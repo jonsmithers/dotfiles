@@ -454,7 +454,7 @@ let s:vimrcIsExecuting = 1
     let $NVIM_TUI_ENABLE_TRUE_COLOR=1
     :DarkGruv
     set nofixeol      " don't insert EOL at end of file
-    Deoplete
+    " Deoplete
   else
     "dark ocean
     set background=dark | colorscheme OceanicNext | let g:airline_theme='oceanicnext'
