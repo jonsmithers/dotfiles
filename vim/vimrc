@@ -197,14 +197,10 @@ let s:vimrcIsExecuting = 1
     :xmap ga <Plug>(EasyAlign)
     :nmap ga <Plug>(EasyAlign)
 
-    " fzf stuff
-    " :imap <c-x><c-f> <plug>(fzf-complete-file)
-    inoremap <expr> <c-x><c-f> CompleteRelativePath()
-    func! CompleteRelativePath()
-        :cd %:h
-        call fzf#vim#complete#path("find . -path '*/\.*' -prune -o -print \| sed '1d;s:^..::'")
-        return ""
-    endfu
+    " FZF
+    inoremap <expr> <c-x><c-f> fzf#vim#complete#path(
+          \ "find . -path '*/\.*' -prune -o -print \| sed '1d;s:^..::'",
+          \ fzf#wrap({'dir': expand('%:p:h')}))
 
     " set bash as shell so <C-X><C-F> file completion works
     " - ALSO, NeoVim async jobs return data with a prepended "[1 q" for
