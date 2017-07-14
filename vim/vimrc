@@ -118,7 +118,7 @@ endif
     "run :PlugInstall to install new plugins
   call plug#end()
 
-" AIRLINE PLUGIN config
+" vim-airline/vim-airline
   set laststatus=2                                 "always show airline, instead of only after splitview
   let g:airline_powerline_fonts = 1
   let g:airline#extensions#tabline#enabled = 1     "show buffers on top
@@ -132,7 +132,7 @@ endif
   let g:airline#extensions#whitespace#mixed_indent_algo = 1 "allow some spaces after tabs for javadoc
   set t_Co=256                                     "help airline show colors
 
-" DEOPLETE PLUGIN config
+" Shougo/deoplete.nvim
   com! Deoplete call deoplete#enable() " use this to start deoplete
   let g:deoplete#file#enable_buffer_path=1   "path completion is relative
   let g:deoplete#omni#functions = {}
@@ -146,18 +146,18 @@ endif
     let g:python3_host_prog='/usr/bin/python3'
   endif
 
-" TERN PLUGIN config
+" ternjs/tern_for_vim
   let tern_show_signature_in_pum          = 1
   let tern_show_argument_hints            = "no" "default
   set updatetime=1000
   " set noshowmode " requested for tern_show_argument_hints
 
-" DEVICONS PLUGIN config
+" ryanoasis/vim-devicons
   let g:webdevicons_enable_airline_tabline = 1
   let g:webdevicons_enable = 1
 
 
-" GOYO PLUGIN config
+" junegunn/goyo.vim
   let g:goyo_width = 81
   " make vim close the First time you do :quit
   " https://github.com/junegunn/goyo.vim/wiki/Customization
@@ -180,15 +180,15 @@ endif
   autocmd User GoyoEnter call <SID>goyo_enter()
   autocmd User GoyoLeave call <SID>goyo_leave()
 
-" VIM-NOTES PLUGIN config
+" xolox/vim-notes
   let g:notes_directories = ['~/Dropbox/vim-notes']
   let g:notes_smart_quotes = 0
   let g:notes_suffix = ".txt"
 
-" VIM-JAVASCRIPT PLUGIN conifg
+" pangloss/vim-javascript
   let g:javascript_plugin_jsdoc = 1
 
-" ALE PLUGIN config
+" w0rp/ale
   let g:ale_linters = {
     \ 'html': ['eslint', 'htmlhint'],
     \ 'javascript': ['eslint'],
@@ -197,11 +197,11 @@ endif
   let g:ale_linter_aliases = { 'html': ['html', 'javascript'] }
   let g:ale_echo_msg_format = '(%linter%) %s'
 
-" ULTISNIPS PLUGIN config
+" SirVer/ultisnips
   " workaround bug https://github.com/SirVer/ultisnips/issues/711
   let g:UltiSnipsSnippetDirectories = ['~/.vim/UltiSnips', 'UltiSnips']
 
-" VIMWIKI PLUGIN config
+" vimwiki/vimwiki
   let g:vimwiki_list = [{'path': '$HOME/Dropbox/vimwiki'}] " 'syntax': 'markdown', 'ext': '.md'}]
 
 " Key Bindings
@@ -258,11 +258,11 @@ endif
           \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
           \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 
-    "easy-align-vim stuff
+    " junegunn/vim-easy-align
     :xmap ga <Plug>(EasyAlign)
     :nmap ga <Plug>(EasyAlign)
 
-    " FZF
+    " junegunn/fzf.vim
     inoremap <expr> <c-x><c-f> fzf#vim#complete#path(
           \ "find . -path '*/\.*' -prune -o -print \| sed '1d;s:^..::'",
           \ fzf#wrap({'dir': expand('%:p:h')}))
