@@ -282,6 +282,7 @@ endif
     :nmap <Leader><C-r> :History:
     " call histdel("cmd", "regexp") to delete mistaken history items
     :nmap <Leader>f~ :FZF ~
+    :nmap <Leader>ft :Filetypes<enter>
     command! AirlineThemes call fzf#run({
                 \ 'source':  map(split(globpath(&rtp, 'autoload/airline/themes/*.vim'), "\n"),
                 \               "substitute(fnamemodify(v:val, ':t'), '\\..\\{-}$', '', '')"),
