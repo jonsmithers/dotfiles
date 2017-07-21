@@ -31,6 +31,9 @@
   # launch the di2e jira ticket for the current branch
   dj  = ! python -mwebbrowser `git rev-parse --abbrev-ref HEAD | sed -E 's/.*[^0-9]([0-9]+).*/\\1/' | sed -E 's/(.*)/https:\\/\\/jira.di2e.net\\/browse\\/UC-\\1/'`
   dja = ! python -mwebbrowser `git rev-parse --abbrev-ref HEAD | sed -E 's/.*[^0-9]([0-9]+).*/\\1/' | sed -E 's/(.*)/https:\\/\\/jira.di2e.net\\/browse\\/ESTATFSTAT-\\1/'`
+
+  addnw=!sh -c 'git diff -U0 -w --no-color "$@" | git apply --cached --ignore-whitespace --unidiff-zero -'
+  # https://stackoverflow.com/questions/3515597/add-only-non-whitespace-changes#comment61915463_7149602
 [push]
 	default = simple
 [user]
