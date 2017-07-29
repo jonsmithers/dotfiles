@@ -20,6 +20,7 @@
     "./vim/UltiSnips":         "~/.config/nvim/UltiSnips",
     "./vim/ideavimrc":         "~/.ideavimrc",
     "./vim/tern-config":       "~/.tern-config",
+    "./vim/vimfx":             "~/.config/vimfx",
     "./vim/vimrc":             "~/.config/nvim/init.vim",
     "./vim/vimrc":             "~/.vimrc",
     "./vim/vrapperrc":         "~/.vrapperrc"

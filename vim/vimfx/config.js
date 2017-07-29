@@ -1,0 +1,1 @@
+console.log("HELLO FROM MY VIMFX CONFIG");
