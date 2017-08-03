@@ -346,7 +346,7 @@ endif
   com! JT exec "cd /home/smithers/git/TourApp/app"
 
   " open url on current line
-  com! OpenUrl exec "!python -mwebbrowser ".(matchstr (getline("."), "https\\?://\\S\\+[^.) ]"))
+  com! OpenUrl exec "!python -mwebbrowser \"".(matchstr (getline("."), "https\\?://[a-zA-Z0-9\./\\-?=\\&]\\+[^.) ]"))."\""
   " toggle plugins and syntax to make vim really fast
   com! Fast :GitGutterToggle | :AirlineToggle | :ALEToggle | :call deoplete#toggle() | :if exists("g:syntax_on") | syntax off | else | syntax enable | endif
 
