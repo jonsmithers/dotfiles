@@ -280,7 +280,7 @@ var x07 = new Key( 'r', ['alt'], function() { cycle('Rocket.Chat+'); });
 var x08 = new Key( 's', ['alt'], function() { cycle('WebStorm'); });
 var x09 = new Key( 'o', ['alt'], function() { cycle('Microsoft Outlook'); });
 var x10 = new Key( 'l', ['alt'], function() { cycle('Microsoft Lync'); });
-var x11 = new Key( 'm', ['alt'], function() { cycle('MacVim'); });
+var x11 = new Key( 'm', ['alt'], function() { cycle('Mail'); });
 var x12 = new Key( 'e', ['alt'], function() { cycle('Eclipse'); });
 var x13 = new Key( 'f', ['alt'], function() { cycle('Finder'); });
 VimMode.bind( 't', mNone, function() {
