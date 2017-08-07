@@ -184,6 +184,7 @@ endif
   let g:notes_directories = ['~/Dropbox/vim-notes']
   let g:notes_smart_quotes = 0
   let g:notes_suffix = ".txt"
+  let g:notes_conceal_bold = 0
 
 " pangloss/vim-javascript
   let g:javascript_plugin_jsdoc = 1
