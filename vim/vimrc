@@ -115,6 +115,10 @@ endif
     Plug 'nanotech/jellybeans.vim'
     Plug 'rakr/vim-one'
 
+    if has('mac')
+      Plug 'junegunn/vim-xmark', { 'do': 'make' }
+    endif
+
     "run :PlugInstall to install new plugins
   call plug#end()
 
