@@ -142,7 +142,7 @@ set fish_greeting ""
     case Smithers.local
       init_echo "Work Lappy init"
 
-      set PATH ~/bin/ $PATH
+      set PATH ~/bin $PATH
 
       function movtogif
         if [ "2" = (count $argv) ]
