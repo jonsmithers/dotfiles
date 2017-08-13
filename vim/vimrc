@@ -115,6 +115,10 @@ endif
     Plug 'nanotech/jellybeans.vim'
     Plug 'rakr/vim-one'
 
+    if has('mac')
+      Plug 'junegunn/vim-xmark', { 'do': 'make' }
+    endif
+
     "run :PlugInstall to install new plugins
   call plug#end()
 
@@ -184,6 +188,7 @@ endif
   let g:notes_directories = ['~/Dropbox/vim-notes']
   let g:notes_smart_quotes = 0
   let g:notes_suffix = ".txt"
+  let g:notes_conceal_bold = 0
 
 " pangloss/vim-javascript
   let g:javascript_plugin_jsdoc = 1
