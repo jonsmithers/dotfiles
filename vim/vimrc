@@ -385,14 +385,13 @@ endif
 " Prose
   set nojoinspaces  " prevent vim from inserting 2 spaces after periods.
   func! WriteMode()
-    set fo=ant
+    " set fo=ant
+    set fo=an
     set flp=^\\s*\\(-\\\\|\\d\\+\\.\\)\\s*
         "formtlistpat=^\s*\(-\|\d\+\.\)\s*
-    set formatprg=par\ -jw80
+    " set formatprg=par\ -jw80
     set nosmartindent
-    set foldmethod=indent
-    " ^ this only affects gqip, NOTHING ELSE
-    " see [help gq]
+    " ^ this only affects gqip, NOTHING ELSE see [help gq]
     set whichwrap+=h,l
     let g:deoplete#disable_auto_complete = 1
     set sidescrolloff=0
@@ -403,7 +402,6 @@ endif
     " set flp=^\s*\d\+[\]:.)}\t ]\s*
     set formatprg=""
     set smartindent
-    set foldmethod=indent
     set whichwrap=b,s
     let g:deoplete#disable_auto_complete = 0
 
