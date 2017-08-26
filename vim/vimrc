@@ -242,8 +242,8 @@ endif
     :nmap <C-l> 2zl
     :nnoremap Q <nop>
     :nmap <Leader>T :enew<cr>
-    :nmap <Leader>k :bnext
-    :nmap <Leader>j :bprevious
+    :nmap <Leader>bk :bnext
+    :nmap <Leader>bj :bprevious
     let g:BASH_Ctrl_j = 'off' "this is undocumented!
     :nmap <C-j> :bprevious
     :nmap <C-k> :bnext
