@@ -318,6 +318,17 @@ endif
     elseif (hostname() == "zamperini4")
       :set shell=/bin/bash "
     endif
+
+    " THIS DOES NOT WORK
+    func! FishCantEven(str)
+      set shell /usr/bin/fish
+      echom a:str
+      :exec '!'.a:str
+      " echo a:000
+      " set shell /bin/bash
+    endfunc
+    :com! -nargs=1 FishCantEven call FishCantEven(<args>)
+
     :nmap  :Files
     :nmap <Leader>or :History
     " ^ open recent file
