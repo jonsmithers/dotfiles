@@ -96,8 +96,8 @@ endif
     " Asynchronous linting of all kinds. I use this for bash scripting, fish
     " shell, vim, javascript, and more.
 
-    Plug 'wellle/targets.vim'
-    " Advanced vim text objects.
+    " Plug 'wellle/targets.vim'
+    " Advanced vim text objects. Sometimes this is slow.
 
     Plug 'xolox/vim-notes'
     Plug 'xolox/vim-misc'
