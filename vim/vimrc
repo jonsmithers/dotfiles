@@ -537,7 +537,7 @@ endif
     " Deoplete
   else
     "dark ocean
-    set background=dark | colorscheme OceanicNext | let g:airline_theme='oceanicnext'
+    :DarkPaper
   end
 
 " simple session restoration http://vim.wikia.com/wiki/Go_away_and_come_back
