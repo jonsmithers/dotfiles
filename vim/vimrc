@@ -43,6 +43,9 @@ endif
     Plug 'junegunn/goyo.vim'
     " Distraction free mode. Good for coding and as well as prose writing.
 
+    Plug 'junegunn/rainbow_parentheses.vim'
+    let g:rainbow#pairs = [['(', ')'], ['[', ']'], ['{', '}']]
+
     Plug 'junegunn/vim-easy-align'
     " Align chunks of code on a character/regex. Makes it really easy to have
     " nice formatting.
