@@ -147,6 +147,14 @@ endif
     Plug 'w0rp/ale'
     " Asynchronous linting of all kinds. I use this for bash scripting, fish
     " shell, vim, javascript, and more.
+      let g:ale_linters = {
+        \ 'html': ['eslint', 'htmlhint'],
+        \ 'javascript': ['eslint'],
+        \ 'java': [],
+      \}
+      let g:ale_linter_aliases = { 'html': ['html', 'javascript'] }
+      let g:ale_echo_msg_format = '(%linter%) %s'
+
 
     " Plug 'wellle/targets.vim'
     " Advanced vim text objects. Sometimes this is slow.
@@ -183,15 +191,6 @@ endif
   elseif (hostname() == "zamperini4")
     let g:python3_host_prog='/usr/bin/python3'
   endif
-
-" w0rp/ale
-  let g:ale_linters = {
-    \ 'html': ['eslint', 'htmlhint'],
-    \ 'javascript': ['eslint'],
-    \ 'java': [],
-  \}
-  let g:ale_linter_aliases = { 'html': ['html', 'javascript'] }
-  let g:ale_echo_msg_format = '(%linter%) %s'
 
 " Key Bindings
   " insert mode shortcuts
