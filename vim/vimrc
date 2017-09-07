@@ -77,6 +77,8 @@ endif
 
     Plug 'SirVer/ultisnips'
     " I use this for Polymer element templates.
+    let g:UltiSnipsSnippetDirectories = ['~/.vim/UltiSnips', 'UltiSnips']
+    " ^ workaround bug https://github.com/SirVer/ultisnips/issues/711
 
     Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
     " Intelligent completion for JavaScript. It's amazing.
@@ -201,10 +203,6 @@ endif
   \}
   let g:ale_linter_aliases = { 'html': ['html', 'javascript'] }
   let g:ale_echo_msg_format = '(%linter%) %s'
-
-" SirVer/ultisnips
-  " workaround bug https://github.com/SirVer/ultisnips/issues/711
-  let g:UltiSnipsSnippetDirectories = ['~/.vim/UltiSnips', 'UltiSnips']
 
 " vimwiki/vimwiki
   let g:vimwiki_list = [{'path': '$HOME/Dropbox/vimwiki'}] " 'syntax': 'markdown', 'ext': '.md'}]
