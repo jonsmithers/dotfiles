@@ -152,6 +152,10 @@ endif
     Plug 'xolox/vim-notes'
     Plug 'xolox/vim-misc'
     " Quickly write and access notes that sync to Dropbox
+      let g:notes_directories = ['~/Dropbox/vim-notes']
+      let g:notes_smart_quotes = 0
+      let g:notes_suffix = ".txt"
+      let g:notes_conceal_bold = 0
 
     " languages
     Plug 'posva/vim-vue'
@@ -177,12 +181,6 @@ endif
   elseif (hostname() == "zamperini4")
     let g:python3_host_prog='/usr/bin/python3'
   endif
-
-" xolox/vim-notes
-  let g:notes_directories = ['~/Dropbox/vim-notes']
-  let g:notes_smart_quotes = 0
-  let g:notes_suffix = ".txt"
-  let g:notes_conceal_bold = 0
 
 " pangloss/vim-javascript
   let g:javascript_plugin_jsdoc = 1
