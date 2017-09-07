@@ -451,21 +451,23 @@ endif
   endfu
   com! WMoff call NoWriteMode()
 
-  "I don't use the below function because scrolling is really funky. A
-  "paragraph is either all-visible or all-hidden. Nothing in between.
+  " I very rarely use this because scrolling can get really funky (a paragraph
+  " is either all-visible or all-hidden. It's still nice to have for when you
+  " need to read long paragraphs in vim.
   func! SoftWrappedProcessorMode()
+    setlocal nonumber
     setlocal noexpandtab
     setlocal wrap
     setlocal linebreak
     setlocal breakindent
-    map j gj
-    map k gk
-    set formatprg=par -jw80
+    map <buffer> j gj
+    map <buffer> k gk
+    " setlocal formatprg=par -jw80
     "setlocal spell spelllang=en_us
     "set thesaurus+=/Users/sbrown/.vim/thesaurus/mthesaur.txt
     "set complete+=s
   endfu
-  com! SoftWrapProcessor call SoftWrappedProcessorMode()
+  com! SoftWrapMode call SoftWrappedProcessorMode()
 
 " visor style terminal buffer
   " https://www.reddit.com/r/neovim/comments/3cu8fl/quick_visor_style_terminal_buffer/
