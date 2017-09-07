@@ -99,6 +99,18 @@ endif
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
     " Show info bars above and below buffers.
+    set laststatus=2                                 "always show airline, instead of only after splitview
+    let g:airline_powerline_fonts = 1
+    let g:airline#extensions#tabline#enabled = 1     "show buffers on top
+    let g:airline#extensions#tabline#fnamemod = ':t' "show just the filename
+    let g:airline#extensions#tabline#left_sep = ' '
+    let g:airline#extensions#tabline#left_alt_sep = '|'
+    let g:airline_left_sep=''
+    let g:airline_right_sep=''
+    let g:airline_left_alt_sep = '#'
+    let g:airline_right_alt_sep = '#'
+    let g:airline#extensions#whitespace#mixed_indent_algo = 1 "allow some spaces after tabs for javadoc
+    set t_Co=256                                     "help airline show colors
 
     Plug 'vimwiki/vimwiki'
     " Quick access to a personal wiki. In vim.
@@ -133,19 +145,6 @@ endif
     "run :PlugInstall to install new plugins
   call plug#end()
 
-" vim-airline/vim-airline
-  set laststatus=2                                 "always show airline, instead of only after splitview
-  let g:airline_powerline_fonts = 1
-  let g:airline#extensions#tabline#enabled = 1     "show buffers on top
-  let g:airline#extensions#tabline#fnamemod = ':t' "show just the filename
-  let g:airline#extensions#tabline#left_sep = ' '
-  let g:airline#extensions#tabline#left_alt_sep = '|'
-  let g:airline_left_sep=''
-  let g:airline_right_sep=''
-  let g:airline_left_alt_sep = '#'
-  let g:airline_right_alt_sep = '#'
-  let g:airline#extensions#whitespace#mixed_indent_algo = 1 "allow some spaces after tabs for javadoc
-  set t_Co=256                                     "help airline show colors
   if (hostname() == "Smithers.local")
     let g:python3_host_prog='/usr/local/bin/python3'
   elseif (hostname() == "zamperini4")
