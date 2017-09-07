@@ -114,6 +114,7 @@ endif
 
     Plug 'vimwiki/vimwiki'
     " Quick access to a personal wiki. In vim.
+    let g:vimwiki_list = [{'path': '$HOME/Dropbox/vimwiki'}] " 'syntax': 'markdown', 'ext': '.md'}]
 
     Plug 'w0rp/ale'
     " Asynchronous linting of all kinds. I use this for bash scripting, fish
@@ -202,9 +203,6 @@ endif
   \}
   let g:ale_linter_aliases = { 'html': ['html', 'javascript'] }
   let g:ale_echo_msg_format = '(%linter%) %s'
-
-" vimwiki/vimwiki
-  let g:vimwiki_list = [{'path': '$HOME/Dropbox/vimwiki'}] " 'syntax': 'markdown', 'ext': '.md'}]
 
 " Key Bindings
   " insert mode shortcuts
