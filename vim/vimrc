@@ -80,6 +80,8 @@ endif
 
     Plug 'pangloss/vim-javascript'
     " Vastly improved syntax highlighting.
+      let g:javascript_plugin_jsdoc = 1
+
 
     Plug 'ryanoasis/vim-devicons'
     " Shows pretty little icons when you use a nerdfont in your terminal.
@@ -181,9 +183,6 @@ endif
   elseif (hostname() == "zamperini4")
     let g:python3_host_prog='/usr/bin/python3'
   endif
-
-" pangloss/vim-javascript
-  let g:javascript_plugin_jsdoc = 1
 
 " w0rp/ale
   let g:ale_linters = {
