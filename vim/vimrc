@@ -83,6 +83,8 @@ endif
 
     Plug 'ryanoasis/vim-devicons'
     " Shows pretty little icons when you use a nerdfont in your terminal.
+      let g:webdevicons_enable_airline_tabline = 1
+      let g:webdevicons_enable = 1
 
     Plug 'scrooloose/nerdtree'
     " Project tree sidebar that kind of defies the philosophy of vim
@@ -175,10 +177,6 @@ endif
   elseif (hostname() == "zamperini4")
     let g:python3_host_prog='/usr/bin/python3'
   endif
-
-" ryanoasis/vim-devicons
-  let g:webdevicons_enable_airline_tabline = 1
-  let g:webdevicons_enable = 1
 
 " xolox/vim-notes
   let g:notes_directories = ['~/Dropbox/vim-notes']
