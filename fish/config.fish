@@ -174,7 +174,7 @@ set fish_greeting ""
               echo "can't handle input" $argv[1]
           end
       end
-      setjavaversion 7
+      setjavaversion 8
       export CLICOLOR=1
       export LSCOLORS="Gxfxcxdxbxegedabagacad"
       alias ja='jump a'
