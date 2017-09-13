@@ -284,16 +284,21 @@ var x11 = new Key( 'm', ['alt'], function() { cycle('Mail'); });
 var x12 = new Key( 'e', ['alt'], function() { cycle('Eclipse'); });
 var x13 = new Key( 'f', ['alt'], function() { cycle('Finder'); });
 VimMode.bind('t', mNone, function() {
-  var focusedWindow = Window.focused();
-  var otherScreen = focusedWindow.screen().next();
+  var w = Window.focused();
+  var otherScreen = w.screen().next();
   if (!otherScreen) {
     toast("no other screen");
     return;
   }
+
   var screenFrame = otherScreen.flippedVisibleFrame();
 
-  var w = Window.focused();
-  w.setTopLeft({x: screenFrame.x, y: screenFrame.y});
+  w.setFrame({
+    x: screenFrame.x,
+    y: screenFrame.y,
+    width: Math.min(w.size().width, screenFrame.width),
+    height: Math.min(w.size().height, screenFrame.height)
+  });
   VimMode.disable();
 });
 VimMode.bind( 'f', mNone, function() {
