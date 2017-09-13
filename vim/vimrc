@@ -148,7 +148,7 @@ endif
     " Asynchronous linting of all kinds. I use this for bash scripting, fish
     " shell, vim, javascript, and more.
       let g:ale_linters = {
-        \ 'html': ['eslint', 'htmlhint'],
+        \ 'html': ['eslint'],
         \ 'javascript': ['eslint'],
         \ 'java': [],
       \}
