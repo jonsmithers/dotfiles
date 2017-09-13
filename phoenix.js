@@ -95,7 +95,7 @@ VimMode.bind('return', [], function() {
 
 function toast(str) {
    var m = new Modal();
-   m.message = str;
+   m.text = str;
    m.origin = {x: 50, y: 90};
    m.duration = 0.6;
    m.show();
