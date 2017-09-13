@@ -62,18 +62,18 @@ VimMode.bind = function(key, mods, callback) {
     toast(key + " binding failed");
   }
 };
- 
+
 var mNone = [],
   mCmd = ['cmd'],
   mShift = ['shift'],
   nudgePixels = 10,
   padding = 0,
   previousSizes = {};
- 
+
 // ############################################################################
 // Modal activation
 // ############################################################################
- 
+
 // Modal activator
 // This hotkey enables/disables all other hotkeys.
 var active = false;
@@ -84,7 +84,7 @@ var alt_w = new Key('w', ['alt'], function() {
     VimMode.disable();
   }
 });
- 
+
 // These keys end Phoenix mode.
 VimMode.bind('escape', [], function() {
   VimMode.disable();
@@ -92,7 +92,7 @@ VimMode.bind('escape', [], function() {
 VimMode.bind('return', [], function() {
   VimMode.disable();
 });
- 
+
 function toast(str) {
    var m = new Modal();
    m.message = str;
@@ -110,41 +110,41 @@ VimMode.bind( ".", mNone, function() {
   rect.width = rect.width*0.9;
   Window.focused().setFrame(rect);
 });
- 
+
 // The cursor keys move the focussed window.
 VimMode.bind( 'up', mNone, function() {
   Window.focused().nudgeUp( 5 );
 });
- 
+
 VimMode.bind( 'right', mNone, function() {
   Window.focused().nudgeRight( 5 );
 });
- 
+
 VimMode.bind( 'down', mNone, function() {
   Window.focused().nudgeDown( 5 );
 });
- 
+
 VimMode.bind( 'left', mNone, function() {
   Window.focused().nudgeLeft( 5 );
 });
- 
+
 // <SHIFT> + cursor keys grows/shrinks the focussed window.
 VimMode.bind( 'right', mShift, function() {
   Window.focused().growWidth();
 });
- 
+
 VimMode.bind( 'left', mShift, function() {
   Window.focused().shrinkWidth();
 });
- 
+
 VimMode.bind( 'up', mShift, function() {
   Window.focused().shrinkHeight();
 });
- 
+
 VimMode.bind( 'down', mShift, function() {
   Window.focused().growHeight();
 });
- 
+
 // ############################################################################
 // Bindings for specific apps
 // ############################################################################
@@ -334,7 +334,7 @@ VimMode.bind ('h', mNone, function() {
   Window.focused().setFrame(rect);
   VimMode.disable();
 });
- 
+
 // Chrome Devtools
 //
 // When checking HTML/JS in Chrome I want to have my browsing window to the
@@ -344,25 +344,25 @@ VimMode.bind( 'd', mNone, function() {
   var chrome = App.findByTitle('Google Chrome'),
   browseWindow = chrome.findWindowNotMatchingTitle('^Developer Tools -'),
   devToolsWindow = chrome.findWindowMatchingTitle('^Developer Tools -');
- 
+
   Phoenix.notify( 'Chrome Dev Tools Layout', 0.25 );
- 
+
   if ( browseWindow ) {
   browseWindow.toE();
   }
- 
+
   if ( devToolsWindow ) {
   devToolsWindow.toGrid( 0, 0, 0.5, 1 );
   }
- 
+
   VimMode.disable();
 });
- 
- 
+
+
 // ############################################################################
 // Helpers
 // ############################################################################
- 
+
 // Cycle args for the function, if called repeatedly
 // cycleCalls(fn, [ [args1...], [args2...], ... ])
 var lastCall = null;
@@ -379,41 +379,41 @@ function cycleCalls(fn, argsList) {
 
 var windowModal = new Modal();
 windowModal.message = "Managing Windows";
- 
+
 Window.prototype.shrinkWidth = function() {
   var win = this,
   frame = win.frame(),
   screenFrame = win.screen().frameIncludingDockAndMenu(),
   pixels = nudgePixels * 6;
- 
+
   if (frame.width >= pixels * 2) {
   frame.width -= pixels;
   } else {
   frame.width = pixels;
   }
- 
+
   win.setFrame(frame);
- 
+
   this.nudgeRight(3);
 };
- 
+
 Window.prototype.shrinkHeight = function() {
   var win = this,
   frame = win.frame(),
   screenFrame = win.screen().frameWithoutDockOrMenu(),
   pixels = nudgePixels * 6;
- 
+
   if (frame.height >= pixels * 2) {
   frame.height -= pixels;
   } else {
   frame.height = pixels;
   }
- 
+
   win.setFrame(frame);
- 
+
   this.nudgeDown(3);
 };
- 
+
 // ### Helper methods `App`
 //
 // Finds the window with a certain title.  Expects a string, returns a window
@@ -427,36 +427,36 @@ App.findByTitle = function( title ) {
   }
   });
 };
- 
- 
+
+
 // Finds the window whose title matches a regex pattern.  Expects a string
 // (the pattern), returns a window instance or `undefined`.  If there are
 // several matching windows, the first found instance is returned.
 App.prototype.findWindowMatchingTitle = function( title ) {
   var regexp = new RegExp( title );
- 
+
   return _( this.visibleWindows() ).find( function( win ) {
   return regexp.test( win.title() );
   });
 };
- 
- 
+
+
 // Finds the window whose title doesn't match a regex pattern.  Expects a
 // string (the pattern), returns a window instance or `undefined`.  If there
 // are several matching windows, the first found instance is returned.
 App.prototype.findWindowNotMatchingTitle = function( title ) {
   var regexp = new RegExp( title );
- 
+
   return _( this.visibleWindows() ).find( function( win ) {
   return !regexp.test( win.title() );
   });
 };
- 
- 
+
+
 // Returns the first visible window of the app or `undefined`.
 App.prototype.firstWindow = function() {
   return this.visibleWindows()[ 0 ];
 };
- 
+
 VimMode.disable();
 toast("reloaded");
