@@ -302,7 +302,7 @@ VimMode.bind( 'f', mNone, function() {
     VimMode.disable();
     return;
   }
-  var rect = Window.focused().screen().visibleFrameInRectangle();
+  var rect = Window.focused().screen().flippedVisibleFrame();
   Window.focused().setFrame(rect);
   VimMode.disable();
 });
@@ -324,7 +324,8 @@ VimMode.bind ('h', mNone, function() {
     VimMode.disable();
     return;
   }
-  var rect = Screen.main().visibleFrameInRectangle();
+
+  var rect = Window.focused().screen().flippedVisibleFrame();
   rect.width = rect.width/2;
   Window.focused().setFrame(rect);
   VimMode.disable();
