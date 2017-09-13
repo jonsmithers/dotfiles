@@ -283,22 +283,17 @@ var x10 = new Key( 'l', ['alt'], function() { cycle('Microsoft Lync'); });
 var x11 = new Key( 'm', ['alt'], function() { cycle('Mail'); });
 var x12 = new Key( 'e', ['alt'], function() { cycle('Eclipse'); });
 var x13 = new Key( 'f', ['alt'], function() { cycle('Finder'); });
-VimMode.bind( 't', mNone, function() {
+VimMode.bind('t', mNone, function() {
   var focusedWindow = Window.focused();
-  var otherScreen = Screen.main().next();
-  Phoenix.log(Screen.main().hash());
-  Phoenix.log(Window.focused().screen().hash());
+  var otherScreen = focusedWindow.screen().next();
   if (!otherScreen) {
     toast("no other screen");
     return;
   }
-  var screenFrame = otherScreen.visibleFrameInRectangle();
-  Phoenix.log(otherScreen.hash());
+  var screenFrame = otherScreen.flippedVisibleFrame();
 
   var w = Window.focused();
-  Phoenix.log("old " + w.screen().hash());
   w.setTopLeft({x: screenFrame.x, y: screenFrame.y});
-  Phoenix.log("new " + w.screen().hash());
   VimMode.disable();
 });
 VimMode.bind( 'f', mNone, function() {
@@ -317,8 +312,8 @@ VimMode.bind ('l', mNone, function() {
     VimMode.disable();
     return;
   }
-  var rect = Screen.main().visibleFrameInRectangle();
-  rect.x = rect.width/2;
+  var rect = Window.focused().screen().flippedVisibleFrame();
+  rect.x = rect.x + rect.width/2;
   rect.width = rect.width/2;
   Window.focused().setFrame(rect);
   VimMode.disable();
