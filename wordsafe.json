@@ -1,0 +1,23 @@
+{
+  "editor": "nvim",
+  "editorArguments": [
+    "-c",
+    "Goyo",
+    "-c",
+    "WM",
+    "-c",
+    "set nofoldenable",
+    "+",
+    "-c",
+    "normal o",
+    "-c",
+    "normal o\\t",
+    "-c",
+    "normal o",
+    "-c",
+    "normal o",
+    "-c",
+    "normal zt",
+    "+startinsert"
+  ]
+}
