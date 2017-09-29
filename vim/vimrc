@@ -82,6 +82,9 @@ endif
     " Vastly improved syntax highlighting.
       let g:javascript_plugin_jsdoc = 1
 
+    Plug 'othree/eregex.vim'
+    " Lets me use more standard regex
+      let g:eregex_default_enable = 0
 
     Plug 'ryanoasis/vim-devicons'
     " Shows pretty little icons when you use a nerdfont in your terminal.
