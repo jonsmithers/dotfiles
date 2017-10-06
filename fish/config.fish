@@ -279,6 +279,11 @@ set fish_greeting ""
     echo "ls | sed '/s/.*/\"&\"/'"
   end
 
+  function gd
+    echo "cd "(dirname (git list $argv[1]))
+    cd (dirname (git list $argv[1]))
+  end
+
 #Screen
   alias killallscreens='screen -ls | grep Detached | cut -d. -f1 | xargs kill'
   alias killalljava='ps -ef | grep java | grep -v grep | tr -s " " | cut -d" " -f3 | xargs kill'
