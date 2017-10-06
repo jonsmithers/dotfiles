@@ -212,6 +212,8 @@ endif
     :nmap <Leader>sw :Ag 
     :vmap <Leader>s  y:Ag "<Enter>
 
+    :command! -bang -nargs=* Rg call fzf#vim#grep('rg --column --line-number --no-heading --color=always '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
+
     "insert js log
     :nmap <Leader>il oconsole.log();F)i
     "insert js LOG:
