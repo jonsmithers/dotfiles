@@ -493,6 +493,11 @@ endif
   endif
 
 " Rare Tools
+  func! HighlightTrailingSpace()
+    highlight TrailingSpace ctermbg=red ctermfg=white guibg=#592929
+    match TrailingSpace /\s\+\n/
+  endfu
+  " call clearmatches() " http://vim.wikia.com/wiki/Highlight_long_lines
   func! HighlightOverlength()
     highlight OverLength ctermbg=red ctermfg=white guibg=#592929
     match OverLength /\%81v.\+/
