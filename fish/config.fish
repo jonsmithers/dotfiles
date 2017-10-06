@@ -291,6 +291,18 @@ set fish_greeting ""
 #Screen
   alias killallscreens='screen -ls | grep Detached | cut -d. -f1 | xargs kill'
   alias killalljava='ps -ef | grep java | grep -v grep | tr -s " " | cut -d" " -f3 | xargs kill'
+  function gitDaemon
+    echo "check that your git port is open (9418)"
+    echo "    nmap localhost"
+    echo
+    echo "share your ip"
+    echo "    ifconfig | grep 192"
+    echo
+    echo "clone from other machine"
+    echo "    git clone git://[IP-ADDRESS]/"
+    echo "    git remote add smithers git://[IP-ADDRESS]/"
+    git daemon --export-all --base-path=.
+  end
   # screen -RR to attach to most recent session
   function starttourd
     jt
