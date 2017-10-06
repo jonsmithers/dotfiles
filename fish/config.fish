@@ -1,7 +1,7 @@
 fish_user_key_bindings
 
 export NOTI_PUSHBULLET_TOK=o.5RKGbICfF91y9S6zifyMPs6YTLdM0tdp
-export FZF_DEFAULT_COMMAND='ag -g ""'
+export FZF_DEFAULT_COMMAND='rg -g "!dist" -g "!jmeter" -g "!*min.js" --files'
 
 function init_echo
   # echo $argv
