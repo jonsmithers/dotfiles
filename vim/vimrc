@@ -316,7 +316,7 @@ endif
     endfunc
     :com! -nargs=1 FishCantEven call FishCantEven(<args>)
 
-    :nmap  :Files
+    :nmap <C-p> :Files<enter>
     :nmap <Leader>or :History
     " ^ open recent file
     :nmap <Leader>/ :History/
