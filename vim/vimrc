@@ -206,6 +206,8 @@ endif
     :let mapleader = " "
     "insert time:
     :nmap <Leader>it :r! date "+\%Y\%m\%d"<Enter>kJ
+    :com! InsertDate :r! date "+\%Y\%m\%d"
+
     "search for word in working directory
     :nmap <Leader>sw :Ag 
     :vmap <Leader>s  y:Ag "<Enter>
