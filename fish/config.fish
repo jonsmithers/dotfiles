@@ -284,6 +284,10 @@ set fish_greeting ""
     cd (dirname (git list $argv[1]))
   end
 
+  function download
+    wget --continue --progress=dot:mega --tries=0 $argv
+  end
+
 #Screen
   alias killallscreens='screen -ls | grep Detached | cut -d. -f1 | xargs kill'
   alias killalljava='ps -ef | grep java | grep -v grep | tr -s " " | cut -d" " -f3 | xargs kill'
