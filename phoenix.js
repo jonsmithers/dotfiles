@@ -1,4 +1,19 @@
 var VimMode = {};
+VimMode.showModal = function() {
+  this._modal = new Modal();
+  this._modal.text = "Arranging Windows";
+  this._modal.appearance = 'light'
+  this._modal.origin = {
+    x: Screen.main().frame().width/2 - 130,
+    y: Screen.main().frame().height/2
+  };
+  this._modal.show();
+};
+VimMode.closeModal = function() {
+  if (this._modal) {
+    this._modal.close();
+  }
+}
 VimMode._keys = [];
 VimMode.modals = [];
 VimMode._showLabels = function() {
@@ -33,6 +48,7 @@ VimMode._hideLabels = function () {
   });
 };
 VimMode.disable = function() {
+  this.closeModal();
   this._active = false;
   _(this._keys).each(function(key) {
     key.disable();
@@ -40,6 +56,7 @@ VimMode.disable = function() {
   this._hideLabels();
 };
 VimMode.enable = function() {
+  this.showModal()
   this._active = true;
   _(this._keys).each(function(key) {
     key.enable();
