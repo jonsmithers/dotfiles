@@ -1,5 +1,5 @@
 var VimMode = {
-  showModals() {
+  _showModals() {
     this._modals = Screen.all().map(screen => screen.frame()).map(screenFrame => {
       Phoenix.log(screenFrame.x);
       let modal = new Modal();
@@ -15,27 +15,27 @@ var VimMode = {
 
     this._modals.forEach(modal => modal.show());
   },
-  hideModals() {
+  _hideModals() {
     if (this._modals) {
       this._modals.forEach(modal => modal.close());
     }
+  },
+  disable() {
+    this._hideModals();
+    this._active = false;
+    _(this._keys).each(function(key) {
+      key.disable();
+    });
+  },
+  enable() {
+    this._showModals()
+    this._active = true;
+    _(this._keys).each(function(key) {
+      key.enable();
+    });
   }
 };
 VimMode._keys = [];
-VimMode.disable = function() {
-  this.hideModals();
-  this._active = false;
-  _(this._keys).each(function(key) {
-    key.disable();
-  });
-};
-VimMode.enable = function() {
-  this.showModals()
-  this._active = true;
-  _(this._keys).each(function(key) {
-    key.enable();
-  });
-};
 VimMode.bind = function(key, mods, callback) {
   var callback2 = function() {
     try {
