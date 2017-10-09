@@ -1,67 +1,40 @@
-var VimMode = {};
-VimMode.showModal = function() {
-  this._modal = new Modal();
-  this._modal.text = "Arranging Windows";
-  this._modal.appearance = 'light'
-  this._modal.origin = {
-    x: Screen.main().frame().width/2 - 130,
-    y: Screen.main().frame().height/2
-  };
-  this._modal.show();
-};
-VimMode.closeModal = function() {
-  if (this._modal) {
-    this._modal.close();
+var VimMode = {
+  showModals() {
+    this._modals = Screen.all().map(screen => screen.frame()).map(screenFrame => {
+      Phoenix.log(screenFrame.x);
+      let modal = new Modal();
+      modal.text = "Moving Windows";
+      modal.appearance = 'light';
+      modal.weight = 30;
+      modal.origin = {
+        x: (screenFrame.x + screenFrame.width/2-130),
+        y: (screenFrame.y + screenFrame.height/2)
+      };
+      return modal;
+    });
+
+    this._modals.forEach(modal => modal.show());
+  },
+  hideModals() {
+    if (this._modals) {
+      this._modals.forEach(modal => modal.close());
+    }
   }
-}
+};
 VimMode._keys = [];
-VimMode.modals = [];
-VimMode._showLabels = function() {
-  this._modals = [];
-  var modals = this._modals;
-  // try {
-  //   _(Screen.screens()).each(function(screen) {
-  //     var m = new Modal();
-  //     m.message = "Managing Windows";
-  //
-  //     // this coordinate calculation is not universal
-  //     var rect = screen.frameInRectangle();
-  //     Phoenix.log("screen::: x:" + rect.x + ", y:" + rect.y + ", width:" + rect.width + ", height:" + rect.height);
-  //     var x = rect.x + rect.width/2;
-  //     var y = rect.y + rect.height/2;
-  //     if (screen.hash() != Screen.main().hash()) {
-  //       y = -rect.height/2;
-  //     }
-  //     m.origin = {x:x, y:y};
-  //
-  //     m.show();
-  //     modals.push(m);
-  //   });
-  // }
-  // catch(e) {
-  //   Phoenix.log(e);
-  // }
-};
-VimMode._hideLabels = function () {
-  _(this._modals).each(function(modal) {
-    modal.close();
-  });
-};
 VimMode.disable = function() {
-  this.closeModal();
+  this.hideModals();
   this._active = false;
   _(this._keys).each(function(key) {
     key.disable();
   });
-  this._hideLabels();
 };
 VimMode.enable = function() {
-  this.showModal()
+  this.showModals()
   this._active = true;
   _(this._keys).each(function(key) {
     key.enable();
   });
-  this._showLabels();
 };
 VimMode.bind = function(key, mods, callback) {
   var callback2 = function() {
@@ -321,7 +294,6 @@ VimMode.bind('t', mNone, withFocusedWindow(window => {
 }));
 VimMode.bind('f', mNone, withFocusedWindow(window => {
   window.setFrame(window.screen().flippedVisibleFrame());
-  VimMode.disable();
 }));
 function withFocusedWindow(callback) {
   return () => {
@@ -413,9 +385,6 @@ function cycleCalls(fn, argsList) {
   fn.apply(this, argsList[argIndex]);
   };
 }
-
-var windowModal = new Modal();
-windowModal.message = "Managing Windows";
 
 Window.prototype.shrinkWidth = function() {
   var win = this,
