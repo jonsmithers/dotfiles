@@ -33,24 +33,24 @@ var VimMode = {
     _(this._keys).each(function(key) {
       key.enable();
     });
-  }
-};
-VimMode._keys = [];
-VimMode.bind = function(key, mods, callback) {
-  var callback2 = function() {
-    try {
-      callback();
-    } catch (e) {
-      toast(e);
-      VimMode.disable();
+  },
+  bind(key, mods, callback) {
+    var callback2 = function() {
+      try {
+        callback();
+      } catch (e) {
+        toast(e);
+        VimMode.disable();
+      }
+    };
+    keyhandler = new Key(key, mods, callback2);
+    if (keyhandler) {
+      this._keys.push(keyhandler);
+    } else {
+      toast(key + " binding failed");
     }
-  };
-  keyhandler = new Key(key, mods, callback2);
-  if (keyhandler) {
-    this._keys.push(keyhandler);
-  } else {
-    toast(key + " binding failed");
-  }
+  },
+  _keys: [],
 };
 
 var mNone = [],
