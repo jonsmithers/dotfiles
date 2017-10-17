@@ -4,10 +4,15 @@
     "-c",
     "Goyo",
     "-c",
+    "set spell",
+    "-c",
     "WM",
     "-c",
     "set nofoldenable",
     "+",
+    "+startinsert"
+  ],
+  "zNoLongerUsed": [
     "-c",
     "normal o",
     "-c",
@@ -17,7 +22,6 @@
     "-c",
     "normal o",
     "-c",
-    "normal zt",
-    "+startinsert"
+    "normal zt"
   ]
 }
