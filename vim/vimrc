@@ -555,12 +555,12 @@ endif
 " Theme shortcuts
   com! DarkGruv   set background=dark  | colorscheme gruvbox          | let g:airline_theme='gruvbox'     | if (!s:vimrcIsExecuting) | execute(":AirlineTheme gruvbox")     | endif
   com! DarkOcean  set background=dark  | colorscheme OceanicNext      | let g:airline_theme='oceanicnext' | if (!s:vimrcIsExecuting) | execute(":AirlineTheme oceanicnext") | endif
-  com! DarkPaper  set background=dark  | colorscheme papercolor       | let g:airline_theme='papercolor'  | if (!s:vimrcIsExecuting) | execute(":AirlineTheme papercolor")  | endif
+  com! DarkPaper  set background=dark  | colorscheme PaperColor       | let g:airline_theme='papercolor'  | if (!s:vimrcIsExecuting) | execute(":AirlineTheme papercolor")  | endif
   com! DarkOne    set background=dark  | colorscheme one              | let g:airline_theme='one'         | if (!s:vimrcIsExecuting) | execute(":AirlineTheme one")         | endif
   com! LightOne   set background=light | colorscheme one              | let g:airline_theme='one'         | if (!s:vimrcIsExecuting) | execute(":AirlineTheme one")         | endif
   com! LightGruv  set background=light | colorscheme gruvbox          | let g:airline_theme='gruvbox'     | if (!s:vimrcIsExecuting) | execute(":AirlineTheme gruvbox")     | endif
   com! LightOcean set background=light | colorscheme OceanicNextLight | let g:airline_theme='oceanicnext' | if (!s:vimrcIsExecuting) | execute(":AirlineTheme oceanicnext") | endif
-  com! LightPaper set background=light | colorscheme papercolor       | let g:airline_theme='papercolor'  | if (!s:vimrcIsExecuting) | execute(":AirlineTheme papercolor")  | endif
+  com! LightPaper set background=light | colorscheme PaperColor       | let g:airline_theme='papercolor'  | if (!s:vimrcIsExecuting) | execute(":AirlineTheme papercolor")  | endif
 
 " Neovim specific
   if has('nvim')
