@@ -1,7 +1,7 @@
 fish_user_key_bindings
 
 export NOTI_PUSHBULLET_TOK=o.5RKGbICfF91y9S6zifyMPs6YTLdM0tdp
-export FZF_DEFAULT_COMMAND='ag -g ""'
+export FZF_DEFAULT_COMMAND='rg -g "!dist" -g "!jmeter" -g "!*min.js" --files'
 
 function init_echo
   # echo $argv
@@ -168,7 +168,7 @@ set fish_greeting ""
       function setjavaversion
           switch $argv[1]
           case "7"
-              export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_72.jdk/Contents/Home/ #needed for buildr to work on dev 20150514
+              export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_72.jdk/Contents/Home/
           case "8"
               export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_131.jdk/Contents/Home
           case "*"
@@ -280,9 +280,30 @@ set fish_greeting ""
     echo "ls | sed '/s/.*/\"&\"/'"
   end
 
+  function gd
+    echo "cd "(dirname (git list $argv[1]))
+    cd (dirname (git list $argv[1]))
+  end
+
+  function download
+    wget --continue --progress=dot:mega --tries=0 $argv
+  end
+
 #Screen
   alias killallscreens='screen -ls | grep Detached | cut -d. -f1 | xargs kill'
   alias killalljava='ps -ef | grep java | grep -v grep | tr -s " " | cut -d" " -f3 | xargs kill'
+  function gitDaemon
+    echo "check that your git port is open (9418)"
+    echo "    nmap localhost"
+    echo
+    echo "share your ip"
+    echo "    ifconfig | grep 192"
+    echo
+    echo "clone from other machine"
+    echo "    git clone git://[IP-ADDRESS]/"
+    echo "    git remote add smithers git://[IP-ADDRESS]/"
+    git daemon --export-all --base-path=.
+  end
   # screen -RR to attach to most recent session
   function starttourd
     jt

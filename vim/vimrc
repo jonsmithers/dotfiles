@@ -209,9 +209,13 @@ endif
     :let mapleader = " "
     "insert time:
     :nmap <Leader>it :r! date "+\%Y\%m\%d"<Enter>kJ
+    :com! InsertDate :r! date "+\%Y\%m\%d"
+
     "search for word in working directory
     :nmap <Leader>sw :Ag 
     :vmap <Leader>s  y:Ag "<Enter>
+
+    :command! -bang -nargs=* Rg call fzf#vim#grep('rg --column --line-number --no-heading --color=always '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
 
     "insert js log
     :nmap <Leader>il oconsole.log();F)i
@@ -315,7 +319,7 @@ endif
     endfunc
     :com! -nargs=1 FishCantEven call FishCantEven(<args>)
 
-    :nmap  :Files
+    :nmap <C-p> :Files<enter>
     :nmap <Leader>or :History
     " ^ open recent file
     :nmap <Leader>/ :History/
@@ -492,6 +496,11 @@ endif
   endif
 
 " Rare Tools
+  func! HighlightTrailingSpace()
+    highlight TrailingSpace ctermbg=red ctermfg=white guibg=#592929
+    match TrailingSpace /\s\+\n/
+  endfu
+  " call clearmatches() " http://vim.wikia.com/wiki/Highlight_long_lines
   func! HighlightOverlength()
     highlight OverLength ctermbg=red ctermfg=white guibg=#592929
     match OverLength /\%81v.\+/

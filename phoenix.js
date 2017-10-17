@@ -1,31 +1,46 @@
 var VimMode = {};
+VimMode.showModal = function() {
+  this._modal = new Modal();
+  this._modal.text = "Arranging Windows";
+  this._modal.appearance = 'light'
+  this._modal.origin = {
+    x: Screen.main().frame().width/2 - 130,
+    y: Screen.main().frame().height/2
+  };
+  this._modal.show();
+};
+VimMode.closeModal = function() {
+  if (this._modal) {
+    this._modal.close();
+  }
+}
 VimMode._keys = [];
 VimMode.modals = [];
 VimMode._showLabels = function() {
   this._modals = [];
   var modals = this._modals;
-  try {
-    _(Screen.screens()).each(function(screen) {
-      var m = new Modal();
-      m.message = "Managing Windows";
-
-      // this coordinate calculation is not universal
-      var rect = screen.frameInRectangle();
-      Phoenix.log("screen::: x:" + rect.x + ", y:" + rect.y + ", width:" + rect.width + ", height:" + rect.height);
-      var x = rect.x + rect.width/2;
-      var y = rect.y + rect.height/2;
-      if (screen.hash() != Screen.main().hash()) {
-        y = -rect.height/2;
-      }
-      m.origin = {x:x, y:y};
-
-      m.show();
-      modals.push(m);
-    });
-  }
-  catch(e) {
-    Phoenix.log(e);
-  }
+  // try {
+  //   _(Screen.screens()).each(function(screen) {
+  //     var m = new Modal();
+  //     m.message = "Managing Windows";
+  //
+  //     // this coordinate calculation is not universal
+  //     var rect = screen.frameInRectangle();
+  //     Phoenix.log("screen::: x:" + rect.x + ", y:" + rect.y + ", width:" + rect.width + ", height:" + rect.height);
+  //     var x = rect.x + rect.width/2;
+  //     var y = rect.y + rect.height/2;
+  //     if (screen.hash() != Screen.main().hash()) {
+  //       y = -rect.height/2;
+  //     }
+  //     m.origin = {x:x, y:y};
+  //
+  //     m.show();
+  //     modals.push(m);
+  //   });
+  // }
+  // catch(e) {
+  //   Phoenix.log(e);
+  // }
 };
 VimMode._hideLabels = function () {
   _(this._modals).each(function(modal) {
@@ -33,6 +48,7 @@ VimMode._hideLabels = function () {
   });
 };
 VimMode.disable = function() {
+  this.closeModal();
   this._active = false;
   _(this._keys).each(function(key) {
     key.disable();
@@ -40,6 +56,7 @@ VimMode.disable = function() {
   this._hideLabels();
 };
 VimMode.enable = function() {
+  this.showModal()
   this._active = true;
   _(this._keys).each(function(key) {
     key.enable();
@@ -268,24 +285,26 @@ var cycle = function(appName) {
   }
 };
 
-var x00 = new Key( 'a', ['alt'], function() { Phoenix.log("a"); cycle('Atom'); });
-var x01 = new Key( 'b', ['alt'], function() { cycle('Brackets'); });
-var x02 = new Key( 'i', ['alt'], function() { cycle('Google Chrome', 'Google Hangouts', 'Developer Tools', 'Hangouts', 'Pushbullet', 'Google Play Music'); });
-var x03 = new Key( 'h', ['alt'], function() { cycle('Hyper'); });
-var x04 = new Key( 'p', ['alt'], function() { focusTitle('Pushbullet'); });
-var x04 = new Key( 'd', ['alt'], function() { focusTitle('Developer Tools'); });
-var x05 = new Key( 'v', ['alt'], function() { cycle('Hyper'); });
-var x06 = new Key( 'n', ['alt'], function() { cycle('iTerm'); });
-var x07 = new Key( 'r', ['alt'], function() { cycle('Rocket.Chat+'); });
-var x08 = new Key( 's', ['alt'], function() { cycle('WebStorm'); });
-var x09 = new Key( 'o', ['alt'], function() { cycle('Microsoft Outlook'); });
-var x10 = new Key( 'l', ['alt'], function() { cycle('Microsoft Lync'); });
-var x11 = new Key( 'm', ['alt'], function() { cycle('Mail'); });
-var x12 = new Key( 'e', ['alt'], function() { cycle('Eclipse'); });
-var x13 = new Key( 'f', ['alt'], function() { cycle('Finder'); });
-VimMode.bind('t', mNone, function() {
-  var w = Window.focused();
-  var otherScreen = w.screen().next();
+var storedKeys = [
+  new Key( 'a', ['alt'], function() { cycle('Atom'); }),
+  new Key( 'e', ['alt'], function() { cycle('Eclipse'); }),
+  new Key( 'f', ['alt'], function() { cycle('Finder'); }),
+  new Key( 'i', ['alt'], function() { cycle('Google Chrome', 'Google Hangouts', 'Developer Tools', 'Hangouts', 'Pushbullet', 'Google Play Music'); }),
+  new Key( 'm', ['alt'], function() { cycle('Mail'); }),
+  new Key( 'n', ['alt'], function() { cycle('iTerm'); }),
+  new Key( 'o', ['alt'], function() { cycle('Microsoft Outlook'); }),
+  new Key( 'p', ['alt'], function() { focusTitle('Pushbullet'); }),
+  new Key( 'r', ['alt'], function() { cycle('Rocket.Chat+'); }),
+  new Key( 's', ['alt'], function() { cycle('WebStorm'); }),
+];
+
+VimMode.bind('-', mNone, () => {
+  var frame = Window.focused().frame()
+  frame.height -= 10
+  Window.focused().setSize(frame)
+});
+VimMode.bind('t', mNone, withFocusedWindow(window => {
+  var otherScreen = window.screen().next();
   if (!otherScreen) {
     toast("no other screen");
     return;
@@ -293,48 +312,65 @@ VimMode.bind('t', mNone, function() {
 
   var screenFrame = otherScreen.flippedVisibleFrame();
 
-  w.setFrame({
+  window.setFrame({
     x: screenFrame.x,
     y: screenFrame.y,
-    width: Math.min(w.size().width, screenFrame.width),
-    height: Math.min(w.size().height, screenFrame.height)
+    width: Math.min(window.size().width, screenFrame.width),
+    height: Math.min(window.size().height, screenFrame.height)
   });
+}));
+VimMode.bind('f', mNone, withFocusedWindow(window => {
+  window.setFrame(window.screen().flippedVisibleFrame());
   VimMode.disable();
-});
-VimMode.bind( 'f', mNone, function() {
-  if (!Window.focused()) {
-    toast("No focused window");
-    VimMode.disable();
-    return;
-  }
-  var rect = Window.focused().screen().flippedVisibleFrame();
-  Window.focused().setFrame(rect);
-  VimMode.disable();
-});
-VimMode.bind ('l', mNone, function() {
-  if (!Window.focused()) {
-    toast("No focused window");
-    VimMode.disable();
-    return;
-  }
-  var rect = Window.focused().screen().flippedVisibleFrame();
+}));
+function withFocusedWindow(callback) {
+  return () => {
+    if (!Window.focused()) {
+      toast("No focused window");
+      VimMode.disable();
+      return;
+    }
+    callback(Window.focused());
+  };
+}
+VimMode.bind ('j', mNone, withFocusedWindow(window => {
+  var rect = window.frame();
+  rect.y += rect.height/2;
+  rect.height -= rect.height/2;
+  window.setFrame(rect);
+}));
+VimMode.bind ('k', mNone, withFocusedWindow(window => {
+  var rect = window.frame();
+  rect.height -= rect.height/2;
+  window.setFrame(rect);
+}));
+VimMode.bind ('l', mNone, withFocusedWindow(window => {
+  var rect = window.screen().flippedVisibleFrame();
   rect.x = rect.x + rect.width/2;
   rect.width = rect.width/2;
-  Window.focused().setFrame(rect);
-  VimMode.disable();
-});
-VimMode.bind ('h', mNone, function() {
-  if (!Window.focused()) {
-    toast("No focused window");
-    VimMode.disable();
-    return;
-  }
-
-  var rect = Window.focused().screen().flippedVisibleFrame();
+  window.setFrame(rect);
+}));
+VimMode.bind ('h', mNone, withFocusedWindow(window => {
+  var rect = window.screen().flippedVisibleFrame();
   rect.width = rect.width/2;
-  Window.focused().setFrame(rect);
+  window.setFrame(rect);
+}));
+VimMode.bind('k', ['alt'], withFocusedWindow(window => {
+  window.focusClosestNeighbor('north')
   VimMode.disable();
-});
+}));
+VimMode.bind('j', ['alt'], withFocusedWindow(window => {
+  window.focusClosestNeighbor('south')
+  VimMode.disable();
+}));
+VimMode.bind('l', ['alt'], withFocusedWindow(window => {
+  window.focusClosestNeighbor('east')
+  VimMode.disable();
+}));
+VimMode.bind('h', ['alt'], withFocusedWindow(window => {
+  window.focusClosestNeighbor('west')
+  VimMode.disable();
+}));
 
 // Chrome Devtools
 //
@@ -401,7 +437,6 @@ Window.prototype.shrinkWidth = function() {
 Window.prototype.shrinkHeight = function() {
   var win = this,
   frame = win.frame(),
-  screenFrame = win.screen().frameWithoutDockOrMenu(),
   pixels = nudgePixels * 6;
 
   if (frame.height >= pixels * 2) {
