@@ -694,6 +694,9 @@ endif
 
   augroup END
 
+  autocmd Filetype python     nmap <buffer> <space>py :!python %<cr>
+  autocmd Filetype javascript nmap <buffer> <space>js :!node %<cr>
+
   " lil debugging util
   com! -nargs=1 Log execute 'silent! ! echo ' . fnameescape(<args>) . ' >> VIM_LOG'
 let s:vimrcIsExecuting = 0
