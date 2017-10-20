@@ -167,6 +167,9 @@ endif
     " Vastly improved syntax highlighting.
       let g:javascript_plugin_jsdoc = 1
 
+    Plug 'othree/eregex.vim'
+    " Lets me use more standard regex
+      let g:eregex_default_enable = 0
 
     Plug 'ryanoasis/vim-devicons'
     " Shows pretty little icons when you use a nerdfont in your terminal.
@@ -632,13 +635,13 @@ endif
 " Theme shortcuts
   com! DarkGruv   set background=dark  | colorscheme gruvbox
   com! DarkOcean  set background=dark  | colorscheme OceanicNext
-  com! DarkPaper  set background=dark  | colorscheme papercolor
+  com! DarkPaper  set background=dark  | colorscheme PaperColor
   com! DarkOne    set background=dark  | colorscheme one
   com! DarkSeoul  set background=dark  | colorscheme seoul256
   com! LightOne   set background=light | colorscheme one
   com! LightGruv  set background=light | colorscheme gruvbox
   com! LightOcean set background=light | colorscheme OceanicNextLight
-  com! LightPaper set background=light | colorscheme papercolor
+  com! LightPaper set background=light | colorscheme PaperColor
   com! LightSeoul set background=light | colorscheme seoul256
 
 " Neovim specific

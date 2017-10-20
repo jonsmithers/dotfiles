@@ -99,7 +99,8 @@ set fish_greeting ""
       alias jl='jump l'
       alias jt='jump t'
       alias jm='jump m'
-      alias journal="gnome-terminal --command='wordsafe j' --full-screen --hide-menubar"
+      alias journal="gnome-terminal --command='wordsafe push /home/smithers/Dropbox/2-backup/journal__VeryImportant/journal --insert-date' --full-screen --hide-menubar"
+      alias morning="gnome-terminal --command='wordsafe push /home/smithers/Dropbox/2-backup/journal__VeryImportant/morning --insert-date' --full-screen --hide-menubar"
       #alias journal="guake -t; gnome-terminal --command='wordsafe j' --full-screen --hide-menubar"
       export TMPDIR="/tmp/" # not sure why this suddenly became necessary
       set PATH /usr/local/go/bin/ $PATH
