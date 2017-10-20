@@ -255,10 +255,11 @@ endif
     Plug 'dag/vim-fish'
 
     " colorschemes
-    Plug 'NLKNguyen/papercolor-theme'
+    Plug 'junegunn/seoul256.vim'
     Plug 'mhartington/oceanic-next'
     Plug 'morhetz/gruvbox'
     Plug 'nanotech/jellybeans.vim'
+    Plug 'NLKNguyen/papercolor-theme'
     Plug 'rakr/vim-one'
 
     if has('mac')
@@ -645,10 +646,12 @@ endif
   com! DarkOcean  set background=dark  | colorscheme OceanicNext      | let g:airline_theme='oceanicnext' | if (!s:vimrcIsExecuting) | endif
   com! DarkPaper  set background=dark  | colorscheme papercolor       | let g:airline_theme='papercolor'  | if (!s:vimrcIsExecuting) | endif
   com! DarkOne    set background=dark  | colorscheme one              | let g:airline_theme='one'         | if (!s:vimrcIsExecuting) | endif
+  com! DarkSeoul  set background=dark  | colorscheme seoul256                                             | if (!s:vimrcIsExecuting) | endif
   com! LightOne   set background=light | colorscheme one              | let g:airline_theme='one'         | if (!s:vimrcIsExecuting) | endif
   com! LightGruv  set background=light | colorscheme gruvbox          | let g:airline_theme='gruvbox'     | if (!s:vimrcIsExecuting) | endif
   com! LightOcean set background=light | colorscheme OceanicNextLight | let g:airline_theme='oceanicnext' | if (!s:vimrcIsExecuting) | endif
   com! LightPaper set background=light | colorscheme papercolor       | let g:airline_theme='papercolor'  | if (!s:vimrcIsExecuting) | endif
+  com! LightSeoul set background=light | colorscheme seoul256                                             | if (!s:vimrcIsExecuting) | endif
 
 " Neovim specific
   if has('nvim')
