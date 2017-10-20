@@ -477,15 +477,15 @@ endif
   set nojoinspaces  " prevent vim from inserting 2 spaces after periods.
   func! WriteMode()
     " set fo=ant
-    set fo=an
-    set flp=^\\s*\\(-\\\\|\\d\\+\\.\\)\\s*
+    setlocal fo=an
+    setlocal flp=^\\s*\\(-\\\\|\\d\\+\\.\\)\\s*
         "formtlistpat=^\s*\(-\|\d\+\.\)\s*
     " set formatprg=par\ -jw80
-    set nosmartindent
+    setlocal nosmartindent
     " ^ this only affects gqip, NOTHING ELSE see [help gq]
-    set whichwrap+=h,l
-    let g:deoplete#disable_auto_complete = 1
-    set sidescrolloff=0
+    setlocal whichwrap+=h,l
+    letlocal g:deoplete#disable_auto_complete = 1
+    setlocal sidescrolloff=0
   endfu
   com! WM call WriteMode()
   func! NoWriteMode()
