@@ -253,7 +253,6 @@ endif
     " languages
     Plug 'posva/vim-vue'
     Plug 'dag/vim-fish'
-    Plug 'fatih/vim-go'
 
     " colorschemes
     Plug 'NLKNguyen/papercolor-theme'
