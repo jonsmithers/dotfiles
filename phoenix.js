@@ -1,11 +1,12 @@
 var VimMode = {
   _showModals() {
+    this._hideModals();
     this._modals = Screen.all().map(screen => screen.frame()).map(screenFrame => {
       Phoenix.log(screenFrame.x);
       let modal = new Modal();
-      modal.text = "Moving Windows";
+      modal.text = "Move Window";
       modal.appearance = 'light';
-      modal.weight = 30;
+      modal.weight = 50;
       modal.origin = {
         x: (screenFrame.x + screenFrame.width/2-130),
         y: (screenFrame.y + screenFrame.height/2)
@@ -266,7 +267,7 @@ var storedKeys = [
   new Key( 'm', ['alt'], function() { cycle('Mail'); }),
   new Key( 'n', ['alt'], function() { cycle('iTerm'); }),
   new Key( 'o', ['alt'], function() { cycle('Microsoft Outlook'); }),
-  new Key( 'p', ['alt'], function() { focusTitle('Pushbullet'); }),
+  // new Key( 'p', ['alt'], function() { focusTitle('Pushbullet'); }),
   new Key( 'r', ['alt'], function() { cycle('Rocket.Chat+'); }),
   new Key( 's', ['alt'], function() { cycle('WebStorm'); }),
 ];
