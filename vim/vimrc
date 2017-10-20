@@ -565,6 +565,9 @@ endif
     highlight TrailingSpace ctermbg=red ctermfg=white guibg=#592929
     match TrailingSpace /\s\+\n/
   endfu
+  command! TrailingSpaceHighlight call HighlightTrailingSpace()
+  command! TrailingSpaceDeleteAll :%s/\s\+\n//gc
+
   " call clearmatches() " http://vim.wikia.com/wiki/Highlight_long_lines
   func! HighlightOverlength()
     highlight OverLength ctermbg=red ctermfg=white guibg=#592929
