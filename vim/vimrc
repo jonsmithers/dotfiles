@@ -486,6 +486,7 @@ endif
     setlocal fo=an
     setlocal whichwrap+=h,l
   endfu
+  com! ProseMode call ProseMode()
   func! CodeMode()
     Goyo!
   endfu
