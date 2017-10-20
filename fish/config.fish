@@ -255,7 +255,7 @@ set fish_greeting ""
 # global aliases
   alias g='git number'
   alias gn='git number'
-  alias gim='g -c nvim'
+  alias gim='g -c vim'
   alias deletemergedbranches='git branch --merged | grep -v "\*" | grep -v " master " | grep -v " dev " | xargs -n 1 git branch -d'
   alias installgitcommithook='curl https://raw.githubusercontent.com/jonsmithers/git-commit-prepender/dev/prepare-commit-msg > ./.git/hooks/prepare-commit-msg'
   alias gatom='g -c atom'
