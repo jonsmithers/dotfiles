@@ -32,6 +32,8 @@ endif
 
     Plug 'itchyny/lightline.vim'
     " inspired by https://statico.github.io/vim3.html#lightline-powerline-airline-and-status-bars
+      set laststatus=2 "always show airline, instead of only after splitview
+      set t_Co=256     "help airline show colors
       let g:lightline = {
       \   'active': {
       \     'left': [['mode', 'paste'], ['filename', 'modified']],
@@ -168,7 +170,6 @@ endif
 
     Plug 'ryanoasis/vim-devicons'
     " Shows pretty little icons when you use a nerdfont in your terminal.
-      let g:webdevicons_enable_airline_tabline = 1
       let g:webdevicons_enable = 1
 
     Plug 'scrooloose/nerdtree'
@@ -206,22 +207,6 @@ endif
     Plug 'tpope/vim-unimpaired'
     " Various integrated git tools. I use this a lot. I only use use the
     " unimpaired plugin with fugitive's ":Glog" command.
-
-    " Plug 'vim-airline/vim-airline'
-    " Plug 'vim-airline/vim-airline-themes'
-    " Show info bars above and below buffers.
-    set laststatus=2                                 "always show airline, instead of only after splitview
-    let g:airline_powerline_fonts = 1
-    let g:airline#extensions#tabline#enabled = 1     "show buffers on top
-    let g:airline#extensions#tabline#fnamemod = ':t' "show just the filename
-    let g:airline#extensions#tabline#left_sep = ' '
-    let g:airline#extensions#tabline#left_alt_sep = '|'
-    let g:airline_left_sep=''
-    let g:airline_right_sep=''
-    let g:airline_left_alt_sep = '#'
-    let g:airline_right_alt_sep = '#'
-    let g:airline#extensions#whitespace#mixed_indent_algo = 1 "allow some spaces after tabs for javadoc
-    set t_Co=256                                     "help airline show colors
 
     Plug 'vimwiki/vimwiki'
     " Quick access to a personal wiki. In vim.
@@ -305,9 +290,6 @@ endif
     :nmap <Leader>lif yiwoconsole.debug('0()');<Esc>
     :nmap <Leader>liF yiwoconsole.log('%c0()', 'font-size:15px');<Esc>^2w
     :nmap <Leader>gif yiwf{oconsole.group('0');<Esc>]}Oconsole.groupEnd();<Esc>^
-    "insert jsdoc comment in html
-    " :nmap <Leader>ihjd :syntax sync fromstart\O/**\*/^XO€kb * 
-    " :nmap <Leader>ihjd O/**\*\*/kA
     :nmap <C-h> 2zh
     :nmap <C-l> 2zl
     :nnoremap Q <nop>
@@ -407,13 +389,6 @@ endif
     " call histdel("cmd", "regexp") to delete mistaken history items
     :nmap <Leader>f~ :FZF ~
     :nmap <Leader>ft :Filetypes<enter>
-    command! AirlineThemes call fzf#run({
-                \ 'source':  map(split(globpath(&rtp, 'autoload/airline/themes/*.vim'), "\n"),
-                \               "substitute(fnamemodify(v:val, ':t'), '\\..\\{-}$', '', '')"),
-                \ 'sink':    'AirlineTheme',
-                \ 'options': '+m --prompt="Airline Themes> "',
-                \ 'down':    '~40%'
-                \})
     command! -bang -nargs=* Rg
                 \ call fzf#vim#grep(
                 \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
@@ -471,7 +446,6 @@ endif
   com! OpenUrl exec "!python -mwebbrowser \"".(matchstr (getline("."), "https\\?://[a-zA-Z0-9\./\\-?=\\&+@,!:_#]\\+[^.) ]"))."\""
   com! TestUrl exec "echom                \"".(matchstr (getline("."), "https\\?://[a-zA-Z0-9\./\\-?=\\&+@,!:_#]\\+[^.) ]"))."\""
   " toggle plugins and syntax to make vim really fast
-  " com! Fast :GitGutterToggle | :AirlineToggle | :ALEToggle | :call deoplete#toggle() | :if exists("g:syntax_on") | syntax off | else | syntax enable | endif
   com! Fast :GitGutterToggle | :ALEToggle | :call deoplete#toggle() | :if exists("g:syntax_on") | syntax off | else | syntax enable | endif
 
 " Viewer
@@ -642,16 +616,16 @@ endif
   endfu
 
 " Theme shortcuts
-  com! DarkGruv   set background=dark  | colorscheme gruvbox          | let g:airline_theme='gruvbox'     | if (!s:vimrcIsExecuting) | endif
-  com! DarkOcean  set background=dark  | colorscheme OceanicNext      | let g:airline_theme='oceanicnext' | if (!s:vimrcIsExecuting) | endif
-  com! DarkPaper  set background=dark  | colorscheme papercolor       | let g:airline_theme='papercolor'  | if (!s:vimrcIsExecuting) | endif
-  com! DarkOne    set background=dark  | colorscheme one              | let g:airline_theme='one'         | if (!s:vimrcIsExecuting) | endif
-  com! DarkSeoul  set background=dark  | colorscheme seoul256                                             | if (!s:vimrcIsExecuting) | endif
-  com! LightOne   set background=light | colorscheme one              | let g:airline_theme='one'         | if (!s:vimrcIsExecuting) | endif
-  com! LightGruv  set background=light | colorscheme gruvbox          | let g:airline_theme='gruvbox'     | if (!s:vimrcIsExecuting) | endif
-  com! LightOcean set background=light | colorscheme OceanicNextLight | let g:airline_theme='oceanicnext' | if (!s:vimrcIsExecuting) | endif
-  com! LightPaper set background=light | colorscheme papercolor       | let g:airline_theme='papercolor'  | if (!s:vimrcIsExecuting) | endif
-  com! LightSeoul set background=light | colorscheme seoul256                                             | if (!s:vimrcIsExecuting) | endif
+  com! DarkGruv   set background=dark  | colorscheme gruvbox
+  com! DarkOcean  set background=dark  | colorscheme OceanicNext
+  com! DarkPaper  set background=dark  | colorscheme papercolor
+  com! DarkOne    set background=dark  | colorscheme one
+  com! DarkSeoul  set background=dark  | colorscheme seoul256
+  com! LightOne   set background=light | colorscheme one
+  com! LightGruv  set background=light | colorscheme gruvbox
+  com! LightOcean set background=light | colorscheme OceanicNextLight
+  com! LightPaper set background=light | colorscheme papercolor
+  com! LightSeoul set background=light | colorscheme seoul256
 
 " Neovim specific
   if has('nvim')
@@ -698,8 +672,8 @@ endif
     autocmd FileType text      setlocal spell
 
     " auto-reload vimrc whenever I save it
-    autocmd BufWritePost vimrc,.vimrc,*.vim source $MYVIMRC | AirlineToggle | AirlineToggle | AirlineRefresh
-    "                                                         ^ not entirely sure why all this craziness is necessary
+    autocmd BufWritePost vimrc,.vimrc,*.vim source $MYVIMRC | call lightline#disable() | call lightline#enable()
+    "                                                       "  ^ not entirely sure why all this craziness is necessary. It was necessary with Airline too!
 
     " disable syntax when editing huge files so vim stays snappy
     autocmd Filetype * if (getfsize(@%) > 500000) | setlocal syntax=OFF | endif
