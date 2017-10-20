@@ -30,6 +30,54 @@ endif
     " editors. It's great. In a better world, every project would have a
     " .editorconfig file at its root.
 
+    Plug 'itchyny/lightline.vim'
+    " inspired by https://statico.github.io/vim3.html#lightline-powerline-airline-and-status-bars
+      let g:lightline = {
+      \   'active': {
+      \     'left': [['mode', 'paste'], ['filename', 'modified']],
+      \     'right': [['lineinfo'], ['percent'], ['readonly', 'linter_warnings', 'linter_errors', 'linter_ok']]
+      \   },
+      \   'component_expand': {
+      \     'linter_warnings': 'LightlineLinterWarnings',
+      \     'linter_errors': 'LightlineLinterErrors',
+      \     'linter_ok': 'LightlineLinterOK'
+      \   },
+      \   'component_type': {
+      \     'readonly': 'error',
+      \     'linter_warnings': 'warning',
+      \     'linter_errors': 'error'
+      \   },
+      \   'enable': {
+      \     'statusline': 1,
+      \     'tabline': 0
+      \   }
+      \ }
+      function! LightlineLinterWarnings() abort
+        let l:counts = ale#statusline#Count(bufnr(''))
+        let l:all_errors = l:counts.error + l:counts.style_error
+        let l:all_non_errors = l:counts.total - l:all_errors
+        return l:counts.total == 0 ? '' : printf('%d ▲', all_non_errors)
+      endfunction
+      function! LightlineLinterErrors() abort
+        let l:counts = ale#statusline#Count(bufnr(''))
+        let l:all_errors = l:counts.error + l:counts.style_error
+        let l:all_non_errors = l:counts.total - l:all_errors
+        return l:counts.total == 0 ? '' : printf('%d ✗', all_errors)
+      endfunction
+      function! LightlineLinterOK() abort
+        let l:counts = ale#statusline#Count(bufnr(''))
+        let l:all_errors = l:counts.error + l:counts.style_error
+        let l:all_non_errors = l:counts.total - l:all_errors
+        return l:counts.total == 0 ? '✓' : ''
+      endfunction
+      autocmd User ALELint call s:MaybeUpdateLightline()
+      function! s:MaybeUpdateLightline()
+        " Update and show lightline but only if it's visible (e.g., not in Goyo)
+        if exists('#lightline')
+          call lightline#update()
+        end
+      endfunction
+
     Plug 'jeetsukumaran/vim-filebeagle'
     " Super-minimal file explorer accessible through the '-' key.
 
@@ -124,8 +172,8 @@ endif
     " Various integrated git tools. I use this a lot. I only use use the
     " unimpaired plugin with fugitive's ":Glog" command.
 
-    Plug 'vim-airline/vim-airline'
-    Plug 'vim-airline/vim-airline-themes'
+    " Plug 'vim-airline/vim-airline'
+    " Plug 'vim-airline/vim-airline-themes'
     " Show info bars above and below buffers.
     set laststatus=2                                 "always show airline, instead of only after splitview
     let g:airline_powerline_fonts = 1
@@ -388,12 +436,12 @@ endif
   com! OpenUrl exec "!python -mwebbrowser \"".(matchstr (getline("."), "https\\?://[a-zA-Z0-9\./\\-?=\\&+@,!:_#]\\+[^.) ]"))."\""
   com! TestUrl exec "echom                \"".(matchstr (getline("."), "https\\?://[a-zA-Z0-9\./\\-?=\\&+@,!:_#]\\+[^.) ]"))."\""
   " toggle plugins and syntax to make vim really fast
-  com! Fast :GitGutterToggle | :AirlineToggle | :ALEToggle | :call deoplete#toggle() | :if exists("g:syntax_on") | syntax off | else | syntax enable | endif
+  " com! Fast :GitGutterToggle | :AirlineToggle | :ALEToggle | :call deoplete#toggle() | :if exists("g:syntax_on") | syntax off | else | syntax enable | endif
+  com! Fast :GitGutterToggle | :ALEToggle | :call deoplete#toggle() | :if exists("g:syntax_on") | syntax off | else | syntax enable | endif
 
 " Viewer
   func! Reader()
       :AnsiEsc
-      :AirlineToggle
       let g:airline#extensions#tabline#enabled = 0
       set laststatus=0
       set nonu
@@ -559,14 +607,14 @@ endif
   endfu
 
 " Theme shortcuts
-  com! DarkGruv   set background=dark  | colorscheme gruvbox          | let g:airline_theme='gruvbox'     | if (!s:vimrcIsExecuting) | execute(":AirlineTheme gruvbox")     | endif
-  com! DarkOcean  set background=dark  | colorscheme OceanicNext      | let g:airline_theme='oceanicnext' | if (!s:vimrcIsExecuting) | execute(":AirlineTheme oceanicnext") | endif
-  com! DarkPaper  set background=dark  | colorscheme papercolor       | let g:airline_theme='papercolor'  | if (!s:vimrcIsExecuting) | execute(":AirlineTheme papercolor")  | endif
-  com! DarkOne    set background=dark  | colorscheme one              | let g:airline_theme='one'         | if (!s:vimrcIsExecuting) | execute(":AirlineTheme one")         | endif
-  com! LightOne   set background=light | colorscheme one              | let g:airline_theme='one'         | if (!s:vimrcIsExecuting) | execute(":AirlineTheme one")         | endif
-  com! LightGruv  set background=light | colorscheme gruvbox          | let g:airline_theme='gruvbox'     | if (!s:vimrcIsExecuting) | execute(":AirlineTheme gruvbox")     | endif
-  com! LightOcean set background=light | colorscheme OceanicNextLight | let g:airline_theme='oceanicnext' | if (!s:vimrcIsExecuting) | execute(":AirlineTheme oceanicnext") | endif
-  com! LightPaper set background=light | colorscheme papercolor       | let g:airline_theme='papercolor'  | if (!s:vimrcIsExecuting) | execute(":AirlineTheme papercolor")  | endif
+  com! DarkGruv   set background=dark  | colorscheme gruvbox          | let g:airline_theme='gruvbox'     | if (!s:vimrcIsExecuting) | endif
+  com! DarkOcean  set background=dark  | colorscheme OceanicNext      | let g:airline_theme='oceanicnext' | if (!s:vimrcIsExecuting) | endif
+  com! DarkPaper  set background=dark  | colorscheme papercolor       | let g:airline_theme='papercolor'  | if (!s:vimrcIsExecuting) | endif
+  com! DarkOne    set background=dark  | colorscheme one              | let g:airline_theme='one'         | if (!s:vimrcIsExecuting) | endif
+  com! LightOne   set background=light | colorscheme one              | let g:airline_theme='one'         | if (!s:vimrcIsExecuting) | endif
+  com! LightGruv  set background=light | colorscheme gruvbox          | let g:airline_theme='gruvbox'     | if (!s:vimrcIsExecuting) | endif
+  com! LightOcean set background=light | colorscheme OceanicNextLight | let g:airline_theme='oceanicnext' | if (!s:vimrcIsExecuting) | endif
+  com! LightPaper set background=light | colorscheme papercolor       | let g:airline_theme='papercolor'  | if (!s:vimrcIsExecuting) | endif
 
 " Neovim specific
   if has('nvim')
