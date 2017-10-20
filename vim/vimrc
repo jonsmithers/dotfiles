@@ -475,6 +475,17 @@ endif
 
 " Prose
   set nojoinspaces  " prevent vim from inserting 2 spaces after periods.
+  func! ProseMode()
+    Goyo
+    setlocal noci nosi noai nolist noshowmode noshowcmd
+    setlocal complete+=s " complete from thesaurus
+    setlocal bg=light
+    setlocal fo=an
+    setlocal whichwrap+=h,l
+  endfu
+  func! CodeMode()
+    Goyo!
+  endfu
   func! WriteMode()
     " set fo=ant
     setlocal fo=an
