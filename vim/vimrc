@@ -34,12 +34,15 @@ endif
     " inspired by https://statico.github.io/vim3.html#lightline-powerline-airline-and-status-bars
       set laststatus=2 "always show airline, instead of only after splitview
       set t_Co=256     "help airline show colors
+      set noshowmode   "lightline will show mode for me
+      set showcmd      "shows size of visual selection BELOW lightline
       let g:lightline = {
       \   'active': {
-      \     'left': [['mode', 'paste'], ['filename', 'modified']],
+      \     'left': [['mode', 'paste'], ['filename', 'modified'], ['git_changes']],
       \     'right': [['lineinfo'], ['percent'], ['readonly', 'linter_warnings', 'linter_errors', 'linter_ok']]
       \   },
       \   'component_expand': {
+      \     'git_changes': 'LightLineChanges',
       \     'linter_warnings': 'LightlineLinterWarnings',
       \     'linter_errors': 'LightlineLinterErrors',
       \     'linter_ok': 'LightlineLinterOK'
@@ -49,11 +52,29 @@ endif
       \     'linter_warnings': 'warning',
       \     'linter_errors': 'error'
       \   },
+      \   'separator': {
+      \     'left': '',
+      \     'right': ''
+      \   },
       \   'enable': {
       \     'statusline': 1,
       \     'tabline': 0
       \   }
       \ }
+      " let g:lightline.separator.right = ''
+      " let g:lightline.separator.left =  ''
+      function! LightLineChanges()
+        if exists('*GitGutterGetHunkSummary')
+          let [ added, modified, removed ] = GitGutterGetHunkSummary()
+          let l:total = (added + modified + removed)
+          if total == 0
+            return 'no changes'
+          else
+            return printf('+%d ~%d -%d', added, modified, removed)
+          endif
+        endif
+        return 'no hunk summary'
+      endfunction
       function! LightlineLinterWarnings() abort
         let l:counts = ale#statusline#Count(bufnr(''))
         let l:all_errors = l:counts.error + l:counts.style_error
