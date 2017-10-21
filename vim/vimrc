@@ -67,13 +67,18 @@ endif
         if exists('*GitGutterGetHunkSummary')
           let [ added, modified, removed ] = GitGutterGetHunkSummary()
           let l:total = (added + modified + removed)
-          if total == 0
-            return 'no changes'
-          else
-            return printf('+%d ~%d -%d', added, modified, removed)
+          let output = ''
+          if (added != 0)
+            let output .= printf('+%d ', added)
           endif
+          if (modified != 0)
+            let output .= printf('~%d ', modified)
+          endif
+          if (removed != 0)
+            let output .= printf('-%d ', removed)
+          endif
+          return output
         endif
-        return 'no hunk summary'
       endfunction
       function! LightlineLinterWarnings() abort
         let l:counts = ale#statusline#Count(bufnr(''))
