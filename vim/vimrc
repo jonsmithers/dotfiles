@@ -159,6 +159,9 @@ endif
     Plug 'mattn/emmet-vim'
     " Faster html entry. I currently don't use this.
 
+    Plug 'mattn/scratch.vim'
+    " Press "gs" to type in a hideaway scratch buffer
+
     Plug 'nelstrom/vim-visual-star-search'
     " Bring "*" key behavior into visual mode. Extremely useful.
     " (see ":help *").
