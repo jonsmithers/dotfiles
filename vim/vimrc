@@ -716,7 +716,8 @@ endif
     " custom filetype behaviors
     autocmd FileType gitcommit setlocal spell
     autocmd FileType gitcommit startinsert!
-    autocmd FileType text      setlocal spell
+    autocmd FileType text     setlocal spell
+    autocmd Filetype markdown setlocal spell
 
     " auto-reload vimrc whenever I save it
     autocmd BufWritePost vimrc,.vimrc,*.vim source $MYVIMRC | call lightline#disable() | call lightline#enable()
