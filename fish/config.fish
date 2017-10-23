@@ -191,8 +191,7 @@ set fish_greeting ""
       alias debugmeteor="env NODE_OPTIONS='--debug' meteor run"
       alias slatetail='tail -f /var/log/system.log | grep --line-buffered "Slate" | sed "s/.*.local Slate\[[0-9]*\]:/> /"'
       alias wfs='/Users/smithers/git/UC2/uc2-app/support/scripts/waitForServer.js'
-      alias buildandruntomcat='buildr test=no clean gulp package; and support/scripts/runTomcat.sh'
-      alias buildforopenshift='buildr clean gulp package -e production bundle; n'
+      alias bumble='mount_smbfs -N //guest:@(cat ~/.config/.ip_bumble)/FileShare ~/FileShare'
 
       function uc2b
         echo (wfs; and ~/bin/browseUc2) &
