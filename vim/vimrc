@@ -725,10 +725,11 @@ endif
     " disable syntax when editing huge files so vim stays snappy
     autocmd Filetype * if (getfsize(@%) > 500000) | setlocal syntax=OFF | endif
 
-  augroup END
+    " code execution
+    autocmd Filetype python     nmap <buffer> <space>py :!python %<cr>
+    autocmd Filetype javascript nmap <buffer> <space>js :!node %<cr>
 
-  autocmd Filetype python     nmap <buffer> <space>py :!python %<cr>
-  autocmd Filetype javascript nmap <buffer> <space>js :!node %<cr>
+  augroup END
 
   " lil debugging util
   com! -nargs=1 Log execute 'silent! ! echo ' . fnameescape(<args>) . ' >> VIM_LOG'
