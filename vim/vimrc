@@ -685,7 +685,7 @@ endif
     " Deoplete
   else
     "dark ocean
-    :DarkPaper
+    :DarkOcean
   end
 
 " simple session restoration http://vim.wikia.com/wiki/Go_away_and_come_back
