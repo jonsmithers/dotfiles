@@ -24,6 +24,9 @@ endif
     Plug 'ciaranm/detectindent'
     " Analyze current buffer and configure tabbing to match.
 
+    Plug 'chrisbra/Colorizer'
+    " Show hex colors by running :ColorHighlight or :ColorToggle
+
     Plug 'editorconfig/editorconfig-vim'
     " Configure different coding styles on a per-project basis and have vim
     " automatically adjust. There are equivalent plugins for all major code
