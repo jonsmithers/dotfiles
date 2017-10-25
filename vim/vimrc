@@ -342,8 +342,8 @@ endif
           "most recent buffer
     :nmap <Leader>ss :syntax sync fromstart<enter>
     :nmap <Leader>BD :bufdo bd<enter>
-    :nmap <C-b> :Buffers<enter>
-          " lists most recent buffers (and allows fuzzy find)
+    :nmap <C-b>     :Buffers<enter>
+    :nmap <Leader>; :Buffers<enter>
 
     :let html_wrong_comments=1 "be lenient with html comment syntax. This is a must-have for documented Polymer code.
 
