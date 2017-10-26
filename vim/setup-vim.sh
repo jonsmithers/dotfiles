@@ -34,3 +34,6 @@ echo "    :PlugInstall (inside vim)"
 
 pip install vim-vint
 #pip install grip # or use brew?
+
+# create directory to put swap files
+mkdir -p ~/.config/vimswap
