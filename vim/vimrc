@@ -634,6 +634,7 @@ endif
   set hidden        " leave buffers without saving
 
   set completeopt=menuone,longest,preview " make completion menu awesome
+  set directory=~/.config/vimswap,.
 
   :cabbrev h vert h
                     " execute [:h QUERY] to open help page in vertical split buffer
