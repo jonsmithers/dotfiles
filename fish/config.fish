@@ -103,7 +103,7 @@ set fish_greeting ""
       alias morning="gnome-terminal --command='wordsafe push /home/smithers/Dropbox/2-backup/journal__VeryImportant/morning --insert-date' --full-screen --hide-menubar"
       #alias journal="guake -t; gnome-terminal --command='wordsafe j' --full-screen --hide-menubar"
       export TMPDIR="/tmp/" # not sure why this suddenly became necessary
-      set PATH /usr/local/go/bin/ $PATH
+      set PATH /usr/local/go/bin $PATH
       set PATH /home/smithers/.linuxbrew/bin $PATH
     case zamperini3
       init_echo "zamperini3 init"
