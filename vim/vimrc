@@ -332,8 +332,8 @@ endif
     :nmap <Leader>bk :bnext
     :nmap <Leader>bj :bprevious
     let g:BASH_Ctrl_j = 'off' "this is undocumented!
-    :nmap <C-j> :bprevious
-    :nmap <C-k> :bnext
+    " :nmap <C-j> :bprevious\
+    " :nmap <C-k> :bnext\
     :nmap <Leader>x :NERDTreeClose<enter>:bd
     :nmap <Leader>X :NERDTreeClose<enter>:bd!
     :nmap <Leader><Leader> :w<Enter>
@@ -344,6 +344,7 @@ endif
     :nmap <Leader>BD :bufdo bd<enter>
     :nmap <C-b>     :Buffers<enter>
     :nmap <Leader>; :Buffers<enter>
+    :nmap <C-k> :Buffers<enter>
 
     :let html_wrong_comments=1 "be lenient with html comment syntax. This is a must-have for documented Polymer code.
 
