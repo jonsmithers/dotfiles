@@ -234,6 +234,9 @@ endif
     " Like Sublime's Cmd-D. Ctrl-N on a word to multiply your cursor on
     " subsequent matches for batch editing.
 
+    Plug 'tfnico/vim-gradle'
+    " Syntax highlighting
+
     Plug 'tomtom/tcomment_vim'
     " Toggle code comments. Mapped to Ctrl-/
 
