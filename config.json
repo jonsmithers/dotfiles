@@ -18,6 +18,7 @@
     "./slate.js":              "~/.slate.js",
     "./tmux.conf":             "~/.tmux.conf",
     "./vim/UltiSnips":         "~/.config/nvim/UltiSnips",
+    "./vim/UltiSnips":         "~/.vim/UltiSnips",
     "./vim/ideavimrc":         "~/.ideavimrc",
     "./vim/tern-config":       "~/.tern-config",
     "./vim/vimfx":             "~/.config/vimfx",
