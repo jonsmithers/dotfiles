@@ -512,11 +512,13 @@ endif
   set nojoinspaces  " prevent vim from inserting 2 spaces after periods.
   func! ProseMode()
     Goyo
+    setlocal spell
     setlocal noci nosi noai nolist noshowmode noshowcmd
     setlocal complete+=s " complete from thesaurus
-    setlocal bg=light
+    LightOne " setlocal bg=light
     setlocal fo=an
     setlocal whichwrap+=h,l
+    setlocal sidescrolloff=0
   endfu
   com! ProseMode call ProseMode()
   func! CodeMode()
@@ -531,7 +533,7 @@ endif
     setlocal nosmartindent
     " ^ this only affects gqip, NOTHING ELSE see [help gq]
     setlocal whichwrap+=h,l
-    letlocal g:deoplete#disable_auto_complete = 1
+    let g:deoplete#disable_auto_complete = 1
     setlocal sidescrolloff=0
   endfu
   com! WM call WriteMode()
