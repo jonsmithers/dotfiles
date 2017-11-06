@@ -2,11 +2,7 @@
   "editor": "nvim",
   "editorArguments": [
     "-c",
-    "Goyo",
-    "-c",
-    "set spell",
-    "-c",
-    "WM",
+    "ProseMode",
     "-c",
     "set nofoldenable",
     "+",
