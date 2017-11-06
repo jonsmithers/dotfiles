@@ -210,15 +210,6 @@ endif
     Plug 'scrooloose/nerdtree'
     " Project tree sidebar that kind of defies the philosophy of vim
 
-    Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
-    " Async always-on auto-complete. I currently don't use this.
-    let g:deoplete#file#enable_buffer_path=1   "path completion is relative
-    let g:deoplete#omni#functions = {}
-    let g:deoplete#omni#functions.javascript = [
-          \ 'tern#Complete'
-          \]
-    com! Deoplete call deoplete#enable() " use this to start deoplete
-
     Plug 'SirVer/ultisnips'
     " I use this for Polymer element templates.
     let g:UltiSnipsSnippetDirectories = ['~/.vim/UltiSnips', 'UltiSnips']
