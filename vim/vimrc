@@ -219,8 +219,10 @@ endif
     Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
     " Intelligent completion for JavaScript. It's amazing.
       let tern_show_signature_in_pum          = 1
-      let tern_show_argument_hints            = "no" "default
       set updatetime=1000
+      :nmap <Leader>td :TernDoc<cr>
+      :autocmd CompleteDone * pclose
+
 
     Plug 'terryma/vim-multiple-cursors'
     " Like Sublime's Cmd-D. Ctrl-N on a word to multiply your cursor on
@@ -449,10 +451,6 @@ endif
     :nmap <Leader>gN :GitGutterPrevHunk<Enter>
     :nmap <Leader>gP :GitGutterPreviewHunk<Enter>
     :nmap <Leader>gu :GitGutterUndoHunk<Enter>
-
-    " ternjs stuf
-    :nmap <Leader>td :TernDoc<cr>
-    :autocmd CompleteDone * pclose
 
   " terminal mode shortcuts
     if has('nvim')
