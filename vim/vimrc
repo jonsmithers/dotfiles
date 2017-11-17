@@ -487,16 +487,20 @@ endif
   endfu
 
 " Experimental scroll mode
-  nmap zs zz:call ToggleScrollMode()<Enter>
+  nmap zs 0zz:call ToggleScrollMode()<Enter>
   function! ToggleScrollMode()
     if exists("s:scroll_mode")
       unmap k
       unmap j
+      unmap d
+      unmap u
       unlet s:scroll_mode
       echom "scroll mode off"
     else
       nnoremap j <C-e>j
       nnoremap k <C-y>k
+      nnoremap d <C-d>
+      nnoremap u <C-u>
       let s:scroll_mode = 1
       echom "scroll mode on"
     endif
