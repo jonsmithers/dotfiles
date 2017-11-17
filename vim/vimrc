@@ -4,6 +4,7 @@
 " curl https://raw.githubusercontent.com/vim/vim/master/runtime/indent/html.vim > ~/.vim/plugged/vim-javascript/indent/html.vim
 
 let s:vimrcIsExecuting = 1
+:let mapleader = " "
 
 " Install vim-plug
 if empty(glob('~/.vim/autoload/plug.vim'))
@@ -251,6 +252,7 @@ endif
       \}
       let g:ale_linter_aliases = { 'html': ['html', 'javascript'] }
       let g:ale_echo_msg_format = '(%linter%) %s'
+      :nmap <Leader>an :ALENextWrap<Enter>
 
 
     " Plug 'wellle/targets.vim'
@@ -300,7 +302,6 @@ endif
     :imap \t <Esc>:r! date "+\%Y\%m\%d"<Enter>kJA
 
   " normal mode shortucts
-    :let mapleader = " "
     "insert time:
     :nmap <Leader>it :r! date "+\%Y\%m\%d"<Enter>kJ
     :com! InsertDate :r! date "+\%Y\%m\%d"
