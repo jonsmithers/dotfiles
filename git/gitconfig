@@ -34,6 +34,7 @@
 
   addnw=!sh -c 'git diff -U0 -w --no-color "$@" | git apply --cached --ignore-whitespace --unidiff-zero -'
   # https://stackoverflow.com/questions/3515597/add-only-non-whitespace-changes#comment61915463_7149602
+  twoweeks = log --oneline --graph --all --author=\"Smithers\" --since=\"2 weeks ago\"
 [push]
 	default = simple
 [user]
