@@ -475,7 +475,7 @@ endif
   com! OpenUrl exec "!python -mwebbrowser \"".(matchstr (getline("."), "https\\?://[a-zA-Z0-9\./\\-?=\\&+@,!:_#]\\+[^.) ]"))."\""
   com! TestUrl exec "echom                \"".(matchstr (getline("."), "https\\?://[a-zA-Z0-9\./\\-?=\\&+@,!:_#]\\+[^.) ]"))."\""
   " toggle plugins and syntax to make vim really fast
-  com! Fast :GitGutterToggle | :ALEToggle | :call deoplete#toggle() | :if exists("g:syntax_on") | syntax off | else | syntax enable | endif
+  com! Fast :GitGutterToggle | :ALEToggle | :if exists("g:syntax_on") | syntax off | else | syntax enable | endif
 
 " Viewer
   func! Reader()
