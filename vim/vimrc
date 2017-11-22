@@ -309,8 +309,8 @@ endif
     :com! InsertDate :r! date "+\%Y\%m\%d"
 
     "search for word in working directory
-    :nmap <Leader>sw :Ag 
-    :vmap <Leader>s  y:Ag "<Enter>
+    :nmap <Leader>sw :Rg 
+    :vmap <Leader>s  y:Rg "<Enter>
 
     :command! -bang -nargs=* Rg  call fzf#vim#grep('rg --column --line-number --no-heading --color=always               '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
     :command! -bang -nargs=* Rgi call fzf#vim#grep('rg --column --line-number --no-heading --color=always --ignore-case '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
