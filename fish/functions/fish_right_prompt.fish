@@ -18,7 +18,7 @@ function fish_right_prompt -d "Write out the right prompt"
   # Print a red dot for failed commands.
   if test $exit_code -ne 0
     set_color red
-    echo -n "• "
+    echo -n "•$exit_code•"
     set_color black
   end
 
@@ -60,13 +60,13 @@ function fish_right_prompt -d "Write out the right prompt"
         echo -n "⇣ "
       end
 
-      set_color black
+      set_color grey
     end
 
     # Print a "stack symbol" if there are stashed changes.
-    if test (git stash list | wc -l) -gt 0
-      echo -n "☰ "
-    end
+    # if test (git stash list | wc -l) -gt 0
+    #   echo -n "☰ "
+    # end
   end
 
   # Print the username when the user has been changed.
@@ -75,7 +75,7 @@ function fish_right_prompt -d "Write out the right prompt"
   end
 
   # Print the current directory. Replace $HOME with ~.
-  echo -n (pwd | sed -e "s|^$HOME|~|")
+  # echo -n (pwd | sed -e "s|^$HOME|~|")
 
   # Print the current git branch name or shortened commit hash in colour.
   #
@@ -85,7 +85,7 @@ function fish_right_prompt -d "Write out the right prompt"
   #
   # Untracked files are ignored.
   if test -n "$is_git_repository"
-    echo -n ":"
+    # echo -n ":"
 
     set -l branch (git symbolic-ref --short HEAD ^/dev/null; or git show-ref --head -s --abbrev | head -n1 ^/dev/null)
 
