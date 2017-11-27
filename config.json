@@ -6,6 +6,7 @@
     "./fish/functions/bind_bang.fish":              "~/.config/fish/functions/bind_bang.fish",
     "./fish/functions/bind_dollar.fish":            "~/.config/fish/functions/bind_dollar.fish",
     "./fish/functions/fish_prompt.fish":            "~/.config/fish/functions/fish_prompt.fish",
+    "./fish/functions/fish_right_prompt.fish":      "~/.config/fish/functions/fish_right_prompt.fish",
     "./fish/functions/fish_user_key_bindings.fish": "~/.config/fish/functions/fish_user_key_bindings.fish",
 
     "./bash_profile":          "~/.bash_profile",
