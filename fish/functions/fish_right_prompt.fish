@@ -87,8 +87,6 @@ function fish_right_prompt -d "Write out the right prompt"
   if test -n "$is_git_repository"
     # echo -n ":"
 
-    set -l branch (git symbolic-ref --short HEAD ^/dev/null; or git show-ref --head -s --abbrev | head -n1 ^/dev/null)
-
     git diff-files --quiet --ignore-submodules ^/dev/null; or set -l has_unstaged_files
     git diff-index --quiet --ignore-submodules --cached HEAD ^/dev/null; or set -l has_staged_files
 
@@ -100,7 +98,9 @@ function fish_right_prompt -d "Write out the right prompt"
       set_color green
     end
 
-    echo -n $branch
+    # set -l branch (git symbolic-ref --short HEAD ^/dev/null; or git show-ref --head -s --abbrev | head -n1 ^/dev/null)
+    # echo -n \($branch\)
+    echo -n (__fish_vcs_prompt) # invokes __fish_git_prompt
 
     set_color black
   end
