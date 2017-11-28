@@ -615,15 +615,22 @@ endif
   endfu
 
 " Basics
+  if filereadable($VIMRUNTIME . "/defaults.vim")
+    source $VIMRUNTIME/defaults.vim " new in vim 8
+  else
+    set wildmenu      "show suggestions for vim commands
+    set incsearch     "incremental search (something else also turns this on)
+    syntax enable
+    set mouse=a       " default in Vim 8 defaults.vim
+    set backspace=indent,eol,start
+    set history=200		" keep 200 lines of command line history
+  endif
   set ttimeoutlen=0 "timeout instantly when pressing esc during visual mode
   set foldmethod=syntax
   set foldlevelstart=99
   set nowrap
-  set incsearch     "incremental search (something else also turns this on)
-  set wildmenu      "show suggestions for vim commands
   set ignorecase    "search ignores case
   set smartcase     "unless there's a capital letter
-  syntax enable
   set number
   set autoindent
   set smartindent
