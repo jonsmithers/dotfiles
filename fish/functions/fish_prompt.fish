@@ -99,9 +99,8 @@ function fish_prompt --description 'Write out the prompt'
         end
 				set git_upstream_difference $git_upstream_difference $git_incoming_color "⇣"
       end
-			set -g my_test $git_upstream_difference
 			if test -n "$git_upstream_difference"
-				set git_upstream_difference (set_color red) "[" $git_upstream_difference (set_color red) "]"
+				set git_upstream_difference (set_color normal) ":" $git_upstream_difference
 			end
     end
   end
