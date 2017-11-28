@@ -6,9 +6,6 @@ function fish_prompt --description 'Write out the prompt'
 		set -g __fish_prompt_hostname (hostname|cut -d . -f 1)
 	end
 
-	set -l normal (set_color normal)
-	set -l gitcolor (set_color red)
-
 	# Hack; fish_config only copies the fish_prompt function (see #736)
 	if not set -q -g __fish_classic_git_functions_defined
 		set -g __fish_classic_git_functions_defined
@@ -61,11 +58,59 @@ function fish_prompt --description 'Write out the prompt'
 		set suffix '>'
 	end
 
-	set -l prompt_status
-	if test $last_status -ne 0
-		# set prompt_status ' ' (set_color $fish_color_status) "[$last_status]" "$normal"
-	end
+  set -l is_git_repository (git rev-parse --is-inside-work-tree ^/dev/null)
+  # Print coloured arrows when git push (up) and / or git pull (down) can be run.
+  #
+  # Red means the local branch and the upstream branch have diverted.
+  # Yellow means there are more than 3 commits to push or pull.
+	set -l git_upstream_difference
+  if test -n "$is_git_repository"
+    git rev-parse --abbrev-ref '@{upstream}' >/dev/null ^&1; and set -l has_upstream
+    if set -q has_upstream
+      set -l commit_counts (git rev-list --left-right --count 'HEAD...@{upstream}' ^/dev/null)
+
+      set -l commits_to_push (echo $commit_counts | cut -f 1 ^/dev/null)
+      set -l commits_to_pull (echo $commit_counts | cut -f 2 ^/dev/null)
+
+			set -l git_outgoing_color
+      if test $commits_to_push != 0
+        if test $commits_to_pull -ne 0
+					set git_outgoing_color (set_color red)
+        else if test $commits_to_push -gt 3
+					set git_outgoing_color (set_color yellow)
+        else
+					set git_outgoing_color (set_color green)
+        end
+
+				set git_upstream_difference $git_upstream_difference $git_outgoing_color "⇡"
+      end
+
+			set -l git_incoming_color
+      if test $commits_to_pull != 0
+        if test $commits_to_push -ne 0
+					set git_incoming_color (set_color red)
+          # set_color red
+        else if test $commits_to_pull -gt 3
+					set git_incoming_color (set_color yellow)
+          # set_color yellow
+        else
+					set git_incoming_color (set_color green)
+          # set_color green
+        end
+				set git_upstream_difference $git_upstream_difference $git_incoming_color "⇣"
+      end
+			set -g my_test $git_upstream_difference
+			if test -n "$git_upstream_difference"
+				set git_upstream_difference (set_color red) "[" $git_upstream_difference (set_color red) "]"
+			end
+    end
+  end
+
+	# set -l prompt_status
+	# if test $last_status -ne 0
+	# 	set prompt_status ' ' (set_color $fish_color_status) "[$last_status]" "$normal"
+	# end
 
 	# echo -n -s '' (set_color $color_cwd) (prompt_pwd) $gitcolor (__fish_vcs_prompt) $normal $prompt_status "\$ "
-	echo -n -s '' (set_color $color_cwd) (prompt_pwd) $gitcolor $normal $prompt_status "\$ "
+	echo -n -s '' (set_color $color_cwd) (prompt_pwd) (set_color red) (__fish_vcs_prompt) $git_upstream_difference (set_color normal) "\$ "
 end
