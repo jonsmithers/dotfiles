@@ -106,4 +106,24 @@ function fish_right_prompt -d "Write out the right prompt"
   end
 
   set_color normal
+  fish_custom_mode_prompt
 end
+
+function fish_custom_mode_prompt --description 'Displays the current mode'
+  if [ $fish_key_bindings != 'fish_vi_key_bindings' ]
+    return
+    end
+    switch $fish_bind_mode
+    case default
+      set_color --bold --background green black
+      echo 'NORMAL'
+    case insert
+      set_color --background white blue
+      echo 'INSERT'
+    case visual
+      set_color --bold --background red white
+      echo 'VISUAL'
+    end
+    set_color normal
+    echo -n ' '
+  end

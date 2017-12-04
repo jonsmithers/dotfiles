@@ -32,27 +32,9 @@ set fish_greeting ""
       ~/git/powerline-shell/powerline-shell.py $status --shell bare ^/dev/null --cwd-max-depth 1 --cwd-mode dironly --mode patched
     end
   end
-  function changeModeIndicator
-    function fish_mode_prompt --description 'Displays the current mode'
-      if [ $fish_key_bindings != 'fish_vi_key_bindings' ]
-        return
-      end
-      switch $fish_bind_mode
-      case default
-        set_color --bold --background red white
-      echo 'normal'
-        case insert
-      set_color normal
-        echo 'insert'
-      case visual
-        set_color --bold --background magenta white
-        echo 'visual'
-      end
-      set_color normal
-      echo -n ' '
-    end
+
+  function fish_mode_prompt # erase this function because I want to display mode in right prompt
   end
-  changeModeIndicator
 
 # Filesystem navigation
   # http://jeroenjanssens.com/2013/08/16/quickly-navigate-your-filesystem-from-the-command-line.html
