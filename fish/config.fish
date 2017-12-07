@@ -57,6 +57,7 @@ set fish_greeting ""
       end
       alias dropthebass="osascript -e 'set volume 10'"
       alias stfu="osascript -e 'set volume output muted true'"
+      alias chrome="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome"
     case Linux
       init_echo "Linux init"
       function marks
@@ -163,9 +164,9 @@ set fish_greeting ""
       export CLICOLOR=1
       export LSCOLORS="Gxfxcxdxbxegedabagacad"
       alias ja='jump a'
+      alias jab='jump ab'
       alias jaj='jump aj'
-      alias ja2='jump a2'
-      alias jaj2='jump aj2'
+      alias jajb='jump ajb'
       alias ju='jump uc2'
       alias juj='jump uc2js'
       alias asma='jump asma'
