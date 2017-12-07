@@ -118,12 +118,11 @@ function fish_custom_mode_prompt --description 'Displays the current mode'
       set_color --bold --background green black
       echo 'NORMAL'
     case insert
-      set_color --background white blue
-      echo 'INSERT'
+      # set_color --background white blue
+      # echo 'INSERT'
     case visual
       set_color --bold --background red white
       echo 'VISUAL'
     end
     set_color normal
-    echo -n ' '
   end
