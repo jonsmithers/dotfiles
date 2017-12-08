@@ -438,7 +438,7 @@ endif
     autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
     " git stuff
-    :nmap <Leader>gb :Gblame<Enter>
+    :nmap <Leader>gb :Gblame -w<Enter>
 
     " GitGutter stuff
     :nmap <Leader>ga :GitGutterStageHunk<Enter>
