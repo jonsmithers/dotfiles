@@ -610,6 +610,7 @@ endif
   endfu
 
 " Basics
+  com! FormatBullets setlocal flp=^\\s*\\(-\\\\|\\d\\+\\.\\)\\s* " I want to autoindent paragraphs that start with "- " or "123. "
   if filereadable($VIMRUNTIME . "/defaults.vim")
     source $VIMRUNTIME/defaults.vim " new in vim 8
   else
