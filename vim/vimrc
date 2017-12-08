@@ -740,6 +740,8 @@ endif
 
     " disable syntax when editing huge files so vim stays snappy
     autocmd Filetype * if (getfsize(@%) > 500000) | setlocal syntax=OFF | endif
+    " auto detect indent for bower component files
+    autocmd Filetype * if (IsBowerComponent()) | :DetectIndent | endif
 
     " code execution
     autocmd Filetype python     nmap <buffer> <space>py :!python %<cr>
