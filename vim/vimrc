@@ -240,6 +240,9 @@ endif
     " Various integrated git tools. I use this a lot. I only use use the
     " unimpaired plugin with fugitive's ":Glog" command.
 
+    Plug 'tpope/vim-rsi'
+    " add readline keybindings http://readline.kablamo.org/emacs.html
+
     Plug 'vimwiki/vimwiki'
     " Quick access to a personal wiki. In vim.
     let g:vimwiki_list = [{'path': '$HOME/Dropbox/vimwiki'}] " 'syntax': 'markdown', 'ext': '.md'}]
