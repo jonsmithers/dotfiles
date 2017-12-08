@@ -318,14 +318,6 @@ endif
     :command! -bang -nargs=* Rg  call fzf#vim#grep('rg --column --line-number --no-heading --color=always               '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
     :command! -bang -nargs=* Rgi call fzf#vim#grep('rg --column --line-number --no-heading --color=always --ignore-case '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
 
-    "insert js log
-    :nmap <Leader>il oconsole.log();F)i
-    "insert js LOG:
-    :nmap <Leader>iL oconsole.log('%c', 'font-size:15px');F,hi
-    :nmap <Leader>liw yiwoconsole.log('0', 0);<Esc>
-    :nmap <Leader>lif yiwoconsole.debug('0()');<Esc>
-    :nmap <Leader>liF yiwoconsole.log('%c0()', 'font-size:15px');<Esc>^2w
-    :nmap <Leader>gif yiwf{oconsole.group('0');<Esc>]}Oconsole.groupEnd();<Esc>^
     :nmap <C-h> 2zh
     :nmap <C-l> 2zl
     :nnoremap Q <nop>
@@ -746,8 +738,22 @@ endif
     " code execution
     autocmd Filetype python     nmap <buffer> <space>py :!python %<cr>
     autocmd Filetype javascript nmap <buffer> <space>js :!node %<cr>
+    autocmd Filetype javascript,html call MakeJSKeys()
 
   augroup END
+
+  function! MakeJSKeys()
+    :nmap <buffer> <Leader>il oconsole.log();F)i
+    :nmap <buffer> <Leader>iL oconsole.log('%c', 'font-size:15px');F,hi
+    :nmap <buffer> <Leader>liw yiwoconsole.log('0', 0);<Esc>
+    :nmap <buffer> <Leader>lif yiwoconsole.log('0()');<Esc>
+    :nmap <buffer> <Leader>liF yiwoconsole.log('%c0()', 'font-size:15px');<Esc>^2w
+    :nmap <buffer> <Leader>gif yiwf{oconsole.group('0');<Esc>]}Oconsole.groupEnd();<Esc>^
+  endfunction
+
+  function! IsBowerComponent()
+    return @% =~ 'bower_components'
+  endfunction
 
   " lil debugging util
   com! -nargs=1 Log execute 'silent! ! echo ' . fnameescape(<args>) . ' >> VIM_LOG'
