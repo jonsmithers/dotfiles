@@ -16,7 +16,7 @@
     "./linux/run-or-raise":    "~/bin/run-or-raise",
     "./phoenix.js":            "~/.phoenix.js",
     "./screenrc":              "~/.screenrc",
-    "./tmux.conf":             "~/.tmux.conf",
+    "./tmux/tmux.conf":        "~/.tmux.conf",
     "./vim/UltiSnips":         "~/.config/nvim/UltiSnips",
     "./vim/UltiSnips":         "~/.vim/UltiSnips",
     "./vim/ideavimrc":         "~/.ideavimrc",
