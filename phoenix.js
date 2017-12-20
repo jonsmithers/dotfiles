@@ -260,16 +260,26 @@ var cycle = function(appName) {
 };
 
 var storedKeys = [
-  new Key( 'a', ['alt'], function() { cycle('Atom'); }),
-  new Key( 'e', ['alt'], function() { cycle('Eclipse'); }),
-  new Key( 'f', ['alt'], function() { cycle('Finder'); }),
-  new Key( 'i', ['alt'], function() { cycle('Google Chrome', 'Google Hangouts', 'Developer Tools', 'Hangouts', 'Pushbullet', 'Google Play Music'); }),
-  new Key( 'm', ['alt'], function() { cycle('Mail'); }),
-  new Key( 'n', ['alt'], function() { cycle('iTerm'); }),
-  new Key( 'o', ['alt'], function() { cycle('Microsoft Outlook'); }),
+  new Key( 'a', ['alt'], function() {
+    setTimeout(() => {
+      Task.run("~/.dotfiles/osx/send_keys.sh", ['admin\ta\r']);
+    }, 100);
+  }),
+  new Key( '0', ['alt'], function() {
+    setTimeout(() => {
+      Task.run("~/.dotfiles/osx/send_keys.sh", ['airstatadmin1\t!QAZ2wsx#EDC4rfv\r']);
+    }, 600);
+  }),
+  new Key( 'e', ['alt','ctrl'], function() { cycle('Eclipse'); }),
+  new Key( 'f', ['alt','ctrl'], function() { cycle('Finder'); }),
+  new Key( 'h', ['alt','ctrl'], function() { cycle('HipChat'); }),
+  new Key( 'i', ['alt','ctrl'], function() { cycle('Google Chrome', 'Google Hangouts', 'Developer Tools', 'Hangouts', 'Pushbullet', 'Google Play Music'); }),
+  // new Key( 'i', ['alt','ctrl'], function() { cycle('Firefox'); }),
+  new Key( 'i', ['alt'], function() { cycle('Firefox'); }),
+  new Key( 'm', ['alt','ctrl'], function() { cycle('Mail'); }),
+  new Key( 'n', ['alt','ctrl'], function() { cycle('iTerm'); }),
+  new Key( 'o', ['alt','ctrl'], function() { cycle('Microsoft Outlook'); }),
   // new Key( 'p', ['alt'], function() { focusTitle('Pushbullet'); }),
-  new Key( 'r', ['alt'], function() { cycle('Rocket.Chat+'); }),
-  new Key( 's', ['alt'], function() { cycle('WebStorm'); }),
 ];
 
 VimMode.bind('-', mNone, () => {
@@ -328,22 +338,22 @@ VimMode.bind ('h', mNone, withFocusedWindow(window => {
   rect.width = rect.width/2;
   window.setFrame(rect);
 }));
-VimMode.bind('k', ['alt'], withFocusedWindow(window => {
-  window.focusClosestNeighbor('north')
-  VimMode.disable();
-}));
-VimMode.bind('j', ['alt'], withFocusedWindow(window => {
-  window.focusClosestNeighbor('south')
-  VimMode.disable();
-}));
-VimMode.bind('l', ['alt'], withFocusedWindow(window => {
-  window.focusClosestNeighbor('east')
-  VimMode.disable();
-}));
-VimMode.bind('h', ['alt'], withFocusedWindow(window => {
-  window.focusClosestNeighbor('west')
-  VimMode.disable();
-}));
+// VimMode.bind('k', ['alt'], withFocusedWindow(window => {
+//   window.focusClosestNeighbor('north')
+//   VimMode.disable();
+// }));
+// VimMode.bind('j', ['alt'], withFocusedWindow(window => {
+//   window.focusClosestNeighbor('south')
+//   VimMode.disable();
+// }));
+// VimMode.bind('l', ['alt'], withFocusedWindow(window => {
+//   window.focusClosestNeighbor('east')
+//   VimMode.disable();
+// }));
+// VimMode.bind('h', ['alt'], withFocusedWindow(window => {
+//   window.focusClosestNeighbor('west')
+//   VimMode.disable();
+// }));
 
 // Chrome Devtools
 //

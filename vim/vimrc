@@ -179,6 +179,8 @@ endif
       autocmd User GoyoEnter call <SID>goyo_enter()
       autocmd User GoyoLeave call <SID>goyo_leave()
 
+    Plug 'junegunn/limelight.vim'
+
     Plug 'junegunn/rainbow_parentheses.vim'
     let g:rainbow#pairs = [['(', ')'], ['[', ']'], ['{', '}']]
 
@@ -639,6 +641,8 @@ endif
 
   set completeopt=menuone,longest,preview " make completion menu awesome
   set directory=~/.config/vimswap,.
+
+  set sessionoptions-=options " for some reason, vim won't restore with syntax highlighting without this. https://stackoverflow.com/questions/9281438/syntax-highlighting-doesnt-work-after-restore-a-previous-vim-session
 
   :cabbrev h vert h
                     " execute [:h QUERY] to open help page in vertical split buffer
