@@ -179,6 +179,8 @@ endif
       autocmd User GoyoEnter call <SID>goyo_enter()
       autocmd User GoyoLeave call <SID>goyo_leave()
 
+    Plug 'junegunn/limelight.vim'
+
     Plug 'junegunn/rainbow_parentheses.vim'
     let g:rainbow#pairs = [['(', ')'], ['[', ']'], ['{', '}']]
 
