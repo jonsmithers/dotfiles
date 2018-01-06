@@ -279,6 +279,7 @@ var storedKeys = [
   new Key( 'm', ['alt','ctrl'], function() { cycle('Mail'); }),
   new Key( 'n', ['alt','ctrl'], function() { cycle('iTerm'); }),
   new Key( 'o', ['alt','ctrl'], function() { cycle('Microsoft Outlook'); }),
+  new Key( 'v', ['alt','ctrl'], function() { cycle('Visual Studio Code'); }),
   // new Key( 'p', ['alt'], function() { focusTitle('Pushbullet'); }),
 ];
 
