@@ -19,7 +19,26 @@ if (len(existingFiles)):
 
 pairsToLink = filter(lambda (localPath, operativePath): not os.path.exists(operativePath), config.items())
 print "Creating " + str(len(pairsToLink)) + " symlinks"
+successCount = 0
+failCount = 0
+successfulLinks = list()
+
+print
+
 for (localPath, operativePath) in pairsToLink:
   bashCommand = "ln -s %(localPath)s %(operativePath)s" % locals()
-  print("  " + bashCommand)
-  os.system(bashCommand)
+  if os.system(bashCommand):
+    failCount+=1
+  else:
+    successCount+=1
+    successfulLinks.append(bashCommand)
+
+if (len(successfulLinks)):
+  print
+  print str(len(successfulLinks)) + " links succeeded"
+  print "  " + "\n  ".join(successfulLinks)
+
+
+if (failCount):
+  print
+  print str(failCount) + " LINKS FAILED!"
