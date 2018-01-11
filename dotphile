@@ -1,96 +1,44 @@
-#!/usr/bin/env ruby
-require 'json'
+#!/usr/bin/env python
+import json
+import os
 
-CONFIGPATH = "./config.json"
+config = {}
+for localPath, operativePath in json.load(open("config.json"))["links"].items():
+  localPath = os.path.realpath(localPath)
+  operativePath = os.path.expanduser(operativePath)
+  config[localPath] = operativePath
 
-module JsonConfig
-  if !File.exists?(CONFIGPATH) 
-    puts "NO CONFIG FILE"
-    puts "Creating config at " + File.absolute_path(CONFIGPATH)
-    File.open(CONFIGPATH, "w") {|f| f.write("{\n\t\"links\": {\n\t\t\n\t}\n}")}
-    puts "==========================="
-  end
+missingFiles = filter(lambda f: not os.path.exists(f), config.keys())
+if (len(missingFiles)):
+  exit("Some files are missing\n  " + "\n  ".join(missingFiles))
 
-  json_str = File.open(CONFIGPATH, "rb").read
-  @json = JSON.parse(json_str);
+existingFiles = filter(os.path.exists, config.values())
+if (len(existingFiles)):
+  print str(len(existingFiles)) + " operative paths already exist"
+  print "  " + "\n  ".join(existingFiles)
 
-  def JsonConfig.from_files
-    @json["links"].keys
-  end
-  def JsonConfig.to_files
-    @json["links"].values
-  end
-  def JsonConfig.each_file
-    @json["links"].each_pair do |key, value|
-      yield key, value
-    end
-  end
-end
+pairsToLink = filter(lambda (localPath, operativePath): not os.path.exists(operativePath), config.items())
+print "Creating " + str(len(pairsToLink)) + " symlinks"
+successCount = 0
+failCount = 0
+successfulLinks = list()
 
-def user_says_yes?
-  input = gets.chomp
-  if (input != "" && "yY".include?(input)) || "yes" == input.downcase
-    return true
-  end
-  return false
-end
+print
 
-module OS
-  def OS.windows?
-    (/cygwin|mswin|mingw|bccwin|wince|emx/ =~ RUBY_PLATFORM) != nil
-  end
+for (localPath, operativePath) in pairsToLink:
+  bashCommand = "ln -s %(localPath)s %(operativePath)s" % locals()
+  if os.system(bashCommand):
+    failCount+=1
+  else:
+    successCount+=1
+    successfulLinks.append(bashCommand)
 
-  def OS.mac?
-   (/darwin/ =~ RUBY_PLATFORM) != nil
-  end
-
-  def OS.unix?
-    !OS.windows?
-  end
-
-  def OS.linux?
-    OS.unix? and not OS.mac?
-  end
-end #http://stackoverflow.com/questions/170956/how-can-i-find-which-operating-system-my-ruby-program-is-running-on
-
-module Linker
-
-  # Creates a symbolic link, such that file toB points to file fromA. Throws an 
-  # exception if fromA does not exist. Prints an error message if toB already 
-  # exists.
-  # Params:
-  # +fromA+::
-  # +toB+::
-  def Linker.link(fromA, toB) 
-    fromA = File.expand_path(fromA)
-    toB = File.expand_path(toB)
-    if !File.exists?(fromA)
-      throw ("file " + fromA + " does not exist")
-    end
-
-    # (this code is redundant)
-    # if File.exist?(toB)
-    #   printf "Do you want to overwrite %s? (y/n)",  toB
-    #   if !user_says_yes?
-    #     return false
-    #   end
-    # end
-
-    # bash's ln will not go forward unless file does not exist
-    return system("ln -s #{fromA} #{toB}")
-  end
-end
+if (len(successfulLinks)):
+  print
+  print str(len(successfulLinks)) + " links succeeded"
+  print "  " + "\n  ".join(successfulLinks)
 
 
-TAB_SP = "   ";
-
-puts "Linking"
-JsonConfig.each_file { | from_file, to_file |
-  printf TAB_SP
-  success = Linker.link(from_file, to_file)
-  if success
-    printf "%s to %s\n", from_file, to_file
-  end
-}
-puts ""
-puts "Linking completed."
+if (failCount):
+  print
+  print str(failCount) + " LINKS FAILED!"
