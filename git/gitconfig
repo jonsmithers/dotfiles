@@ -7,6 +7,7 @@
   #                             http://linuxtips.manki.in/2012/02/making-git-commands-clear-screen-when.html
   # pager = diff-highlight | nvim -R -c 'call Reader()' -
 [alias]
+  bookmark = !git add --all && git commit -m 'I WAS IN THE MIDDLE OF STUFF'
   ad = add
   br = branch
   fe = fetch
