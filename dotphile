@@ -14,6 +14,7 @@ if (len(missingFiles)):
 
 existingFiles = filter(os.path.exists, config.values())
 if (len(existingFiles)):
+  existingFiles.sort()
   print str(len(existingFiles)) + " operative paths already exist"
   print "  " + "\n  ".join(existingFiles)
 
@@ -26,6 +27,7 @@ successfulLinks = list()
 print
 
 for (localPath, operativePath) in pairsToLink:
+  os.system("mkdir -p " + os.path.dirname(operativePath))
   bashCommand = "ln -s %(localPath)s %(operativePath)s" % locals()
   if os.system(bashCommand):
     failCount+=1
