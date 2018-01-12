@@ -194,9 +194,14 @@ endif
     Plug 'mtth/scratch.vim'
     " Press "gs" to type in a hideaway scratch buffer
 
+    Plug 'mxw/vim-jsx'
+    " jsx syntax highlighting
+
     Plug 'nelstrom/vim-visual-star-search'
     " Bring "*" key behavior into visual mode. Extremely useful.
     " (see ":help *").
+
+    Plug 'othree/html5.vim'
 
     Plug 'pangloss/vim-javascript'
     " Vastly improved syntax highlighting.
