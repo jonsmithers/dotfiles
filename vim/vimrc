@@ -523,6 +523,8 @@ endif
     setlocal fo=an
     setlocal whichwrap+=h,l
     setlocal sidescrolloff=0
+    hi EndOfBuffer ctermfg=bg
+    " hide "~" at end of buffer
   endfu
   com! ProseMode call ProseMode()
   func! CodeMode()
