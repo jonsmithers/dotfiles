@@ -77,9 +77,11 @@ set fish_greeting ""
   switch (hostname)
     case asus-zenbook
       init_echo "asus init"
-      alias journal="gnome-terminal --command='wordsafe push /home/smithers/Dropbox/2-backup/journal__VeryImportant/journal --prepend-date-loudly'  --full-screen --hide-menubar"
       set PATH ~/.npm-global/bin $PATH # paired with "npm config set prefix '~/.npm-global'"
       alias vim='gvim -v'
+
+      alias journal="gnome-terminal --command='wordsafe push /home/smithers/Dropbox/2-backup/journal__VeryImportant/journal --prepend-date-loudly'  --full-screen --hide-menubar"
+      alias morning="gnome-terminal --command='wordsafe push /home/smithers/Dropbox/2-backup/journal__VeryImportant/morning --prepend-date-quietly' --full-screen --hide-menubar"
     case zamperini4
       init_echo "zamperini4 init"
       alias jl='jump l'
