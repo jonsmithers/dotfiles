@@ -9,6 +9,5 @@ When you're on a new computer, you will probably have to run additional setup
 scripts.
 
 ```sh
-./vim/setup-vim.sh
-./git/setup-git.sh
+./setup-everything.sh
 ```

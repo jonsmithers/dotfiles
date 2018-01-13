@@ -1,16 +1,18 @@
 #!/bin/bash
 cd "$(dirname "$0")"
 
-if [[ -z `which diff-hightlight 2> /dev/null` ]]; then 
+source ../_helpers.sh
+
+if [[ ! `command -v diff-highlight` ]] && prompt "Install diff-highlight"; then 
   echo "Installing diff-highlight"
   sudo easy_install diff-highlight
 else
-  echo "diff-highlight already installed"
+  echo "Skipping diff-highlight"
 fi
 # alternatively:
 # ln -s `pwd`/diff-highlight ~/bin/diff-highlight
 
-if [[ -z `which git-number 2> /dev/null` ]]; then 
+if [[ ! `command -v git-number` ]] && prompt "Install git-number"; then
   if [ "$(uname)" == "Darwin" ]; then
     echo Installing git-number for Mac
     brew install git-number
@@ -25,5 +27,5 @@ if [[ -z `which git-number 2> /dev/null` ]]; then
     echo Good luck installing git-number here
   fi
 else
-  echo "git-number already installed"
+  echo "Skipping git-number"
 fi
