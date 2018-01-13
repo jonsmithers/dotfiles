@@ -1,26 +1,29 @@
 #!/bin/bash
 cd "$(dirname "$0")"
 
-git submodule init
-git submodule update
-
-if [ ! -d "~/bin/" ]; then
-  mkdir ~/bin
+if [[ -z `which diff-hightlight 2> /dev/null` ]]; then 
+  echo "Installing diff-highlight"
+  sudo easy_install diff-highlight
+else
+  echo "diff-highlight already installed"
 fi
+# alternatively:
+# ln -s `pwd`/diff-highlight ~/bin/diff-highlight
 
-ln -s `pwd`/diff-highlight ~/bin/diff-highlight
-
-if [ "$(uname)" == "Darwin" ]; then
-  echo Installing git-number for Mac
-  brew install git-number
-elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
-  echo Installing git-number for linux
-  curl https://raw.githubusercontent.com/holygeek/git-number/master/git-id     > ~/bin/git-id
-  curl https://raw.githubusercontent.com/holygeek/git-number/master/git-list   > ~/bin/git-list
-  curl https://raw.githubusercontent.com/holygeek/git-number/master/git-number > ~/bin/git-number
-  chmod +x ~/bin/git-id
-  chmod +x ~/bin/git-list
-  chmod +x ~/bin/git-number
-elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then
-  echo not worth it
+if [[ -z `which git-number 2> /dev/null` ]]; then 
+  if [ "$(uname)" == "Darwin" ]; then
+    echo Installing git-number for Mac
+    brew install git-number
+  elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+    echo Installing git-number for linux
+    mkdir -p ~/git/git-number
+    git clone https://github.com/holygeek/git-number.git ~/git/git-number
+    cd ~/git/git-number
+    sudo make install
+    cd -
+  elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then
+    echo Good luck installing git-number here
+  fi
+else
+  echo "git-number already installed"
 fi
