@@ -262,12 +262,12 @@ var cycle = function(appName) {
 var storedKeys = [
   new Key( 'a', ['alt'], function() {
     setTimeout(() => {
-      Task.run("~/.dotfiles/osx/send_keys.sh", ['admin\ta\r']);
+      Task.run("~/bin/send_admin.sh")
     }, 100);
   }),
   new Key( '0', ['alt'], function() {
     setTimeout(() => {
-      Task.run("~/.dotfiles/osx/send_keys.sh", ['airstatadmin1\t!QAZ2wsx#EDC4rfv\r']);
+      Task.run("~/bin/send_airstatadmin1.sh")
     }, 600);
   }),
   new Key( 'e', ['alt','ctrl'], function() { cycle('Eclipse'); }),

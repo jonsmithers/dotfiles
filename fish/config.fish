@@ -57,6 +57,7 @@ set fish_greeting ""
       alias dropthebass="osascript -e 'set volume 10'"
       alias stfu="osascript -e 'set volume output muted true'"
       alias chrome="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome"
+      alias tmux="env TERM=screen-256color-bce tmux" # for vim inside tmux https://stackoverflow.com/questions/10158508/lose-vim-colorscheme-in-tmux-mode
     case Linux
       init_echo "Linux init"
       function marks
@@ -129,6 +130,7 @@ set fish_greeting ""
       init_echo "Work Lappy init"
 
       set PATH ~/bin $PATH
+      source ~/bin/work_stuff.fish
 
       function movtogif
         if [ "2" = (count $argv) ]
