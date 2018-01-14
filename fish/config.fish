@@ -312,7 +312,12 @@ set fish_greeting ""
 
   if command -v rg > /dev/null
     # use rg if it's available
-    export FZF_DEFAULT_COMMAND='rg -g "!dist" -g "!jmeter" -g "!*min.js" --files'
+    export FZF_DEFAULT_COMMAND
+    if [ (uname) != "Linux" ]
+      set FZF_DEFAULT_COMMAND 'rg -g "!dist" -g "!jmeter" -g "!*min.js" --files'
+    else
+      set -e FZF_DEFAULT_COMMAND # using rg with fzf in vim will mysteriously add "?[1 q" in front of the first filename (:FZF, :Files)
+    end
   end
 
   function fzfhelp
