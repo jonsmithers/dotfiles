@@ -130,6 +130,7 @@ set fish_greeting ""
       init_echo "Work Lappy init"
 
       set PATH ~/bin $PATH
+      source ~/bin/work_stuff.fish
 
       function movtogif
         if [ "2" = (count $argv) ]
