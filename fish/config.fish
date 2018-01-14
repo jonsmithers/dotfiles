@@ -335,9 +335,9 @@ set fish_greeting ""
     # If we assign results to a local var, newlines are converted to spaces.
     # That's no good. Instead we store in a local file.
 
-    git branch --all | grep -v HEAD | sed "s/.* //" | sed "s#remotes/[^/]*/##" | sort -u | fzf > $TMPDIR/fzf.result;
-    echo  git checkout (cat $TMPDIR/fzf.result)
-    spin "git checkout (cat $TMPDIR/fzf.result)"
+    git branch --all | grep -v HEAD | sed "s/.* //" | sed "s#remotes/[^/]*/##" | sort -u | fzf > /tmp/fzf.result;
+    echo  git checkout (cat /tmp/fzf.result)
+    spin "git checkout (cat /tmp/fzf.result)"
 
     # TODO: use tmp file instead of local var for the following code
     # set -l tags branches target
@@ -353,6 +353,6 @@ set fish_greeting ""
     # If we assign results to a local var, newlines are converted to spaces.
     # That's no good. Instead we store in a local file.
 
-    git branch --all | grep -v HEAD | sed "s/.* //" | sed "s#remotes/[^/]*/##" | sort -u | fzf > $TMPDIR/fzf.result;
-    echo (cat $TMPDIR/fzf.result) | pbcopy
+    git branch --all | grep -v HEAD | sed "s/.* //" | sed "s#remotes/[^/]*/##" | sort -u | fzf > /tmp/fzf.result;
+    echo (cat /tmp/fzf.result) | pbcopy
   end

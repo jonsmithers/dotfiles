@@ -6,11 +6,11 @@ function fish_user_key_bindings
         switch (commandline -t)[-1]
         case "!"
             # git branches without "origin/"
-            # git branch --all | grep -v HEAD | sed "s/.* //" | sed "s#remotes/[^/]*/##" | sort -u | fzf > $TMPDIR/fzf.result;
+            # git branch --all | grep -v HEAD | sed "s/.* //" | sed "s#remotes/[^/]*/##" | sort -u | fzf > /tmp/fzf.result;
 
             # git branches with "origin/"
-            git branch --all | grep -v HEAD | sed "s/.* //" | sed "s#remotes/##" | sort -u | fzf > $TMPDIR/fzf.result;
-            commandline -t (cat $TMPDIR/fzf.result); commandline -f repaint
+            git branch --all | grep -v HEAD | sed "s/.* //" | sed "s#remotes/##" | sort -u | fzf > /tmp/fzf.result;
+            commandline -t (cat /tmp/fzf.result); commandline -f repaint
         case "*"
             commandline -i 'B'
         end
@@ -20,11 +20,11 @@ function fish_user_key_bindings
         switch (commandline -t)[-1]
         case "!"
             # git branches without "origin/"
-            # git branch --all | grep -v HEAD | sed "s/.* //" | sed "s#remotes/[^/]*/##" | sort -u | fzf > $TMPDIR/fzf.result;
+            # git branch --all | grep -v HEAD | sed "s/.* //" | sed "s#remotes/[^/]*/##" | sort -u | fzf > /tmp/fzf.result;
 
             # git branches with "origin/"
-            git branch | grep -v HEAD | sed "s/.* //" | sed "s#remotes/##" | sort -u | fzf > $TMPDIR/fzf.result;
-            commandline -t (cat $TMPDIR/fzf.result); commandline -f repaint
+            git branch | grep -v HEAD | sed "s/.* //" | sed "s#remotes/##" | sort -u | fzf > /tmp/fzf.result;
+            commandline -t (cat /tmp/fzf.result); commandline -f repaint
         case "*"
             commandline -i 'L'
         end
@@ -33,8 +33,8 @@ function fish_user_key_bindings
     function fzf_for_tags
         switch (commandline -t)[-1]
         case "!"
-            git tag | grep -v HEAD | sed "s/.* //" | sed "s#remotes/##" | sort -u | fzf > $TMPDIR/fzf.result;
-            commandline -t (cat $TMPDIR/fzf.result); commandline -f repaint
+            git tag | grep -v HEAD | sed "s/.* //" | sed "s#remotes/##" | sort -u | fzf > /tmp/fzf.result;
+            commandline -t (cat /tmp/fzf.result); commandline -f repaint
         case "*"
             commandline -i 'T'
         end
