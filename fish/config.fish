@@ -1,4 +1,4 @@
-fish_user_key_bindings
+set -g fish_key_bindings fish_user_key_bindings
 
 export NOTI_PUSHBULLET_TOK=o.5RKGbICfF91y9S6zifyMPs6YTLdM0tdp
 
@@ -311,13 +311,9 @@ set fish_greeting ""
 #FZF
 
   if command -v rg > /dev/null
-    # use rg if it's available
-    export FZF_DEFAULT_COMMAND
-    if [ (uname) != "Linux" ]
-      set FZF_DEFAULT_COMMAND 'rg -g "!dist" -g "!jmeter" -g "!*min.js" --files'
-    else
-      set -e FZF_DEFAULT_COMMAND # using rg with fzf in vim will mysteriously add "?[1 q" in front of the first filename (:FZF, :Files)
-    end
+    set -x FZF_DEFAULT_COMMAND 'rg -g "!dist" -g "!jmeter" -g "!*min.js" --files'
+  else
+    echo "(consider installing rg)"
   end
 
   function fzfhelp
