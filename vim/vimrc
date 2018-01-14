@@ -184,6 +184,9 @@ endif
     Plug 'junegunn/rainbow_parentheses.vim'
     let g:rainbow#pairs = [['(', ')'], ['[', ']'], ['{', '}']]
 
+    Plug 'junegunn/gv.vim'
+    " :GV to open git view (commit browser)
+
     Plug 'junegunn/vim-easy-align'
     " Align chunks of code on a character/regex. Makes it really easy to have
     " nice formatting.
@@ -477,7 +480,6 @@ endif
   " open current file in VSCode (and jump to cursor location)
   :command! OpenInVSCode exe "silent !code --goto '%:" . line(".") . ":" . col(".") . "'" | redraw!
   :command! OpenCwdInVSCode exe "silent !code '" . getcwd() . "' --goto '%:" . line(".") . ":" . col(".") . "'" | redraw!
-
 
   " open url on current line
   func! OpenUrl()
