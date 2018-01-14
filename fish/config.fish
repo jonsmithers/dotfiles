@@ -1,7 +1,6 @@
 fish_user_key_bindings
 
 export NOTI_PUSHBULLET_TOK=o.5RKGbICfF91y9S6zifyMPs6YTLdM0tdp
-export FZF_DEFAULT_COMMAND='rg -g "!dist" -g "!jmeter" -g "!*min.js" --files'
 
 function init_echo
   # echo $argv
@@ -308,6 +307,12 @@ set fish_greeting ""
   end
 
 #FZF
+
+  if command -v rg > /dev/null
+    # use rg if it's available
+    export FZF_DEFAULT_COMMAND='rg -g "!dist" -g "!jmeter" -g "!*min.js" --files'
+  end
+
   function fzfhelp
   echo ' fdr    - cd to selected parent directory'
   echo ' cdf    - cd into the directory of the selected file'
