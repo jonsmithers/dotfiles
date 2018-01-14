@@ -1,5 +1,5 @@
 {
-  "editor": "nvim",
+  "editor": "vim",
   "editorArguments": [
     "-c",
     "ProseMode",

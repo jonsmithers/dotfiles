@@ -1,6 +1,16 @@
-defaults write -g ApplePressAndHoldEnabled -bool false
-launchctl unload -w /System/Library/LaunchAgents/com.apple.rcd.plist # don't open iTunes when pressing media buttons
-defaults write com.apple.finder QuitMenuItem -bool true # let me quit Finder
+#!/bin/bash
+cd "$(dirname "$0")"
+
+source ../_helpers.sh
+
+if [[ "$(uname)" == "Darwin" ]]; then
+  echo "Setting defaults"
+  defaults write -g ApplePressAndHoldEnabled -bool false
+  launchctl unload -w /System/Library/LaunchAgents/com.apple.rcd.plist # don't open iTunes when pressing media buttons
+  defaults write com.apple.finder QuitMenuItem -bool true # let me quit Finder
+else
+  echo "Skipping macos defaults because this isn't macos"
+fi
 
 # https://github.com/herrbischoff/awesome-osx-command-line/
 

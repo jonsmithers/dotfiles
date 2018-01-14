@@ -75,10 +75,15 @@ set fish_greeting ""
       end
   end
   switch (hostname)
+    case asus-zenbook
+      init_echo "asus init"
+      set PATH ~/.npm-global/bin $PATH # paired with "npm config set prefix '~/.npm-global'"
+      alias vim='gvim -v'
+
+      alias journal="gnome-terminal --command='wordsafe push /home/smithers/Dropbox/2-backup/journal__VeryImportant/journal --prepend-date-loudly'  --full-screen --hide-menubar"
+      alias morning="gnome-terminal --command='wordsafe push /home/smithers/Dropbox/2-backup/journal__VeryImportant/morning --prepend-date-quietly' --full-screen --hide-menubar"
     case zamperini4
       init_echo "zamperini4 init"
-      alias dsk='jump dsk'
-      alias dls='jump dls'
       alias jl='jump l'
       alias jt='jump t'
       alias jm='jump m'
@@ -92,8 +97,6 @@ set fish_greeting ""
       set XDG_DATA_DIRS /home/smithers/.linuxbrew/share:$XDG_DATA_DIRS
     case zamperini3
       init_echo "zamperini3 init"
-      alias dsk='jump dsk'
-      alias dls='jump dls'
       alias jl='jump l'
       alias jt='jump t'
       alias jm='jump m'
@@ -114,8 +117,6 @@ set fish_greeting ""
       init_echo "bash_profile: zamperini2 init"
       alias journal="guake -t; gnome-terminal --command='wordsafe j' --title='Journal' --full-screen --hide-menubar"
 
-      alias dsk='jump dsk'
-      alias dls='jump dls'
       alias vim='nvim'
       alias tourweb='open https://github.com/jonsmithers/TourApp'
 

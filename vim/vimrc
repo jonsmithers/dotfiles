@@ -184,6 +184,9 @@ endif
     Plug 'junegunn/rainbow_parentheses.vim'
     let g:rainbow#pairs = [['(', ')'], ['[', ']'], ['{', '}']]
 
+    Plug 'junegunn/gv.vim'
+    " :GV to open git view (commit browser)
+
     Plug 'junegunn/vim-easy-align'
     " Align chunks of code on a character/regex. Makes it really easy to have
     " nice formatting.
@@ -475,11 +478,15 @@ endif
   com! JT exec "cd /home/smithers/git/TourApp/app"
 
   " open current file in VSCode (and jump to cursor location)
-  com! VSCode exe "silent !code --goto %:" . line(".") . ":" . col(".") | redraw!
+  :command! OpenInVSCode exe "silent !code --goto '%:" . line(".") . ":" . col(".") . "'" | redraw!
+  :command! OpenCwdInVSCode exe "silent !code '" . getcwd() . "' --goto '%:" . line(".") . ":" . col(".") . "'" | redraw!
 
   " open url on current line
-  com! OpenUrl exec "silent !python -mwebbrowser \"".(matchstr (getline("."), "https\\?://[a-zA-Z0-9\./\\-?=\\&+@,!:_#]\\+[^.) ]"))."\"" | redraw!
-  com! TestUrl exec "echom                       \"".(matchstr (getline("."), "https\\?://[a-zA-Z0-9\./\\-?=\\&+@,!:_#]\\+[^.) ]"))."\""
+  func! OpenUrl()
+    exec "silent !python -mwebbrowser \"".(matchstr (getline("."), "https\\?://[a-zA-Z0-9\./\\-?=\\&+@,!:_#]\\+[^.) ]"))."\"" | redraw!
+  endfu
+  com! TestUrl exec "echom            \"".(matchstr (getline("."), "https\\?://[a-zA-Z0-9\./\\-?=\\&+@,!:_#]\\+[^.) ]"))."\""
+  nmap <Leader>ou :call OpenUrl()<Enter>
   " toggle plugins and syntax to make vim really fast
   com! Fast :GitGutterToggle | :ALEToggle | :if exists("g:syntax_on") | syntax off | else | syntax enable | endif
 
@@ -523,6 +530,8 @@ endif
     setlocal fo=an
     setlocal whichwrap+=h,l
     setlocal sidescrolloff=0
+    hi EndOfBuffer ctermfg=bg
+    " hide "~" at end of buffer
   endfu
   com! ProseMode call ProseMode()
   func! CodeMode()
