@@ -37,7 +37,6 @@ endif
     Plug 'itchyny/lightline.vim'
     " inspired by https://statico.github.io/vim3.html#lightline-powerline-airline-and-status-bars
       set laststatus=2 "always show airline, instead of only after splitview
-      set t_Co=256     "help airline show colors
       set noshowmode   "lightline will show mode for me
       set showcmd      "shows size of visual selection BELOW lightline
       let g:lightline = {
@@ -290,6 +289,10 @@ endif
     " colorschemes
     Plug 'junegunn/seoul256.vim'
     Plug 'mhartington/oceanic-next'
+     set t_Co=256
+     if (has("termguicolors"))
+       " set termguicolors <-- this hides mispeleld words
+     endif
     Plug 'morhetz/gruvbox'
     Plug 'nanotech/jellybeans.vim'
     Plug 'NLKNguyen/papercolor-theme'
