@@ -687,6 +687,7 @@ endif
   endfu
 
 " Theme shortcuts
+  com! Default    set background=dark  | colorscheme default
   com! DarkGruv   set background=dark  | colorscheme gruvbox
   com! DarkOcean  set background=dark  | colorscheme OceanicNext
   com! DarkPaper  set background=dark  | colorscheme PaperColor
