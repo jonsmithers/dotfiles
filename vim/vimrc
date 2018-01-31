@@ -191,6 +191,8 @@ endif
     " Align chunks of code on a character/regex. Makes it really easy to have
     " nice formatting.
 
+    Plug 'leafgarland/typescript-vim'
+
     Plug 'mattn/emmet-vim'
     " Faster html entry. I currently don't use this.
 
