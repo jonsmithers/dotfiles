@@ -757,6 +757,11 @@ endif
     autocmd Filetype python     nmap <buffer> <space>py :!python %<cr>
     autocmd Filetype javascript nmap <buffer> <space>js :!node %<cr>
     autocmd Filetype javascript,html call MakeJSKeys()
+    autocmd Filetype notes :command!-buffer MarkdownThing call OpenMarkdown()
+    function! OpenMarkdown()
+      silent !Markdown.pl % > deleteme.html; open deleteme.html
+      redraw!
+    endfunction
 
   augroup END
 
