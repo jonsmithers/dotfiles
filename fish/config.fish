@@ -318,6 +318,7 @@ set fish_greeting ""
 
   if command -v rg > /dev/null
     set -x FZF_DEFAULT_COMMAND 'rg -g "!dist" -g "!jmeter" -g "!*min.js" --files'
+    set -x FZF_CTRL_T_COMMAND 'rg --files'
   else
     echo "(consider installing rg)"
   end
