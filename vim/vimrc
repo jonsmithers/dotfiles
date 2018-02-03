@@ -212,8 +212,11 @@ endif
 
     Plug 'ryanoasis/vim-devicons'
     " Shows pretty little icons when you use a nerdfont in your terminal.
-      let g:webdevicons_enable = 1
-
+      if hostname() =~# 'asus-zenbook'
+        let g:webdevicons_enable = 0
+      else
+        let g:webdevicons_enable = 1
+      endif
     Plug 'scrooloose/nerdtree'
     " Project tree sidebar that kind of defies the philosophy of vim
 
