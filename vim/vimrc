@@ -194,6 +194,9 @@ endif
     " Align chunks of code on a character/regex. Makes it really easy to have
     " nice formatting.
 
+    Plug 'justinmk/vim-dirvish'
+    " directory viewer
+
     Plug 'leafgarland/typescript-vim'
 
     Plug 'mattn/emmet-vim'
