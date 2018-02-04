@@ -1,11 +1,14 @@
-let s:vimrcIsExecuting = 1
-:let mapleader = " "
+:scriptencoding utf8
+:let s:vimrcIsExecuting = 1
+:let g:mapleader = ' '
 
 " Install vim-plug
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+  augroup vimplug
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+  augroup END
 endif
 
 " VIM PLUG
@@ -63,32 +66,32 @@ endif
       " let g:lightline.separator.left =  ''
       function! LightLineChanges()
         if exists('*GitGutterGetHunkSummary')
-          let [ added, modified, removed ] = GitGutterGetHunkSummary()
-          let l:total = (added + modified + removed)
-          let output = ''
-          if (added != 0)
-            let output .= printf('+%d ', added)
+          let [ l:added, l:modified, l:removed ] = GitGutterGetHunkSummary()
+          let l:total = (l:added + l:modified + l:removed)
+          let l:output = ''
+          if (l:added != 0)
+            let l:output .= printf('+%d ', l:added)
           endif
-          if (modified != 0)
-            let output .= printf('~%d ', modified)
+          if (l:modified != 0)
+            let l:output .= printf('~%d ', l:modified)
           endif
-          if (removed != 0)
-            let output .= printf('-%d ', removed)
+          if (l:removed != 0)
+            let l:output .= printf('-%d ', l:removed)
           endif
-          return output
+          return l:output
         endif
       endfunction
       function! LightlineLinterWarnings() abort
         let l:counts = ale#statusline#Count(bufnr(''))
         let l:all_errors = l:counts.error + l:counts.style_error
         let l:all_non_errors = l:counts.total - l:all_errors
-        return l:counts.total == 0 ? '' : printf('%d ▲', all_non_errors)
+        return l:counts.total == 0 ? '' : printf('%d ▲', l:all_non_errors)
       endfunction
       function! LightlineLinterErrors() abort
         let l:counts = ale#statusline#Count(bufnr(''))
         let l:all_errors = l:counts.error + l:counts.style_error
         let l:all_non_errors = l:counts.total - l:all_errors
-        return l:counts.total == 0 ? '' : printf('%d ✗', all_errors)
+        return l:counts.total == 0 ? '' : printf('%d ✗', l:all_errors)
       endfunction
       function! LightlineLinterOK() abort
         let l:counts = ale#statusline#Count(bufnr(''))
@@ -96,7 +99,9 @@ endif
         let l:all_non_errors = l:counts.total - l:all_errors
         return l:counts.total == 0 ? '✓' : ''
       endfunction
-      autocmd User ALELint call s:MaybeUpdateLightline()
+      augroup ale_stuff
+        autocmd User ALELint call s:MaybeUpdateLightline()
+      augroup END
       function! s:MaybeUpdateLightline()
         " Update and show lightline but only if it's visible (e.g., not in Goyo)
         if exists('#lightline')
@@ -125,25 +130,25 @@ endif
         \ 'down':    '50%'
         \ })
         function! s:ag_to_qf(line)
-          let parts = split(a:line, ':')
-          return {'filename': parts[0], 'lnum': parts[1], 'col': parts[2],
-                \ 'text': join(parts[3:], ':')}
+          let l:parts = split(a:line, ':')
+          return {'filename': l:parts[0], 'lnum': l:parts[1], 'col': l:parts[2],
+                \ 'text': join(l:parts[3:], ':')}
         endfunction
         function! s:ag_handler(lines)
           if len(a:lines) < 2 | return | endif
 
-          let cmd = get({'ctrl-x': 'split',
+          let l:cmd = get({'ctrl-x': 'split',
                        \ 'ctrl-v': 'vertical split',
                        \ 'ctrl-t': 'tabe'}, a:lines[0], 'e')
-          let list = map(a:lines[1:], 's:ag_to_qf(v:val)')
+          let l:list = map(a:lines[1:], 's:ag_to_qf(v:val)')
 
-          let first = list[0]
-          execute cmd escape(first.filename, ' %#\')
-          execute first.lnum
-          execute 'normal!' first.col.'|zz'
+          let l:first = l:list[0]
+          execute l:cmd escape(l:first.filename, ' %#\')
+          execute l:first.lnum
+          execute 'normal!' l:first.col.'|zz'
 
-          if len(list) > 1
-            call setqflist(list)
+          if len(l:list) > 1
+            call setqflist(l:list)
             copen
             wincmd p
           endif
@@ -157,7 +162,9 @@ endif
       function! s:goyo_enter()
         let b:quitting = 0
         let b:quitting_bang = 0
-        autocmd QuitPre <buffer> let b:quitting = 1
+        augroup goyo_buffer
+          autocmd QuitPre <buffer> let b:quitting = 1
+        augroup END
         cabbrev <buffer> q! let b:quitting_bang = 1 <bar> q!
       endfunction
       function! s:goyo_leave()
@@ -170,8 +177,10 @@ endif
           endif
         endif
       endfunction
-      autocmd User GoyoEnter call <SID>goyo_enter()
-      autocmd User GoyoLeave call <SID>goyo_leave()
+      augroup goyo_stuff
+        autocmd User GoyoEnter call <SID>goyo_enter()
+        autocmd User GoyoLeave call <SID>goyo_leave()
+      augroup END
 
     Plug 'junegunn/limelight.vim'
 
@@ -227,10 +236,12 @@ endif
 
     Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
     " Intelligent completion for JavaScript. It's amazing.
-      let tern_show_signature_in_pum          = 1
+      let g:tern_show_signature_in_pum = 1
       set updatetime=1000
       :nmap <Leader>td :TernDoc<cr>
-      :autocmd CompleteDone * pclose
+      augroup tern_stuff
+        autocmd CompleteDone * pclose
+      augroup END
 
 
     Plug 'terryma/vim-multiple-cursors'
@@ -277,7 +288,7 @@ endif
     " Quickly write and access notes that sync to Dropbox
       let g:notes_directories = ['~/Dropbox/vim-notes']
       let g:notes_smart_quotes = 0
-      let g:notes_suffix = ".txt"
+      let g:notes_suffix = '.txt'
       let g:notes_conceal_bold = 0
 
     " languages
@@ -307,9 +318,9 @@ endif
     "run :PlugInstall to install new plugins
   call plug#end()
 
-  if (hostname() == "Smithers.local")
+  if (hostname() ==# 'Smithers.local')
     let g:python3_host_prog='/usr/local/bin/python3'
-  elseif (hostname() == "zamperini4")
+  elseif (hostname() ==# 'zamperini4')
     let g:python3_host_prog='/usr/bin/python3'
   endif
 
@@ -356,7 +367,7 @@ endif
     :nmap <Leader>; :Buffers<enter>
     :nmap <C-k> :Buffers<enter>
 
-    :let html_wrong_comments=1 "be lenient with html comment syntax. This is a must-have for documented Polymer code.
+    :let g:html_wrong_comments=1 "be lenient with html comment syntax. This is a must-have for documented Polymer code.
 
     " syntax debugging (JIC)?
     map <F10> :echo "syntax debugger: <" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
@@ -375,9 +386,9 @@ endif
     " CODE COPIED FROM https://github.com/zenbro/dotfiles/blob/master/.nvimrc#L151-L187
       " If split in given direction exists - jump, else create new split
       function! JumpOrOpenNewSplit(key, cmd, fzf) " {{{
-        let current_window = winnr()
+        let l:current_window = winnr()
         execute 'wincmd' a:key
-        if current_window == winnr()
+        if l:current_window == winnr()
           execute a:cmd
           if a:fzf
             Files
@@ -400,10 +411,10 @@ endif
       " Delete all hidden buffers
       nnoremap <silent> <Leader><BS>b :call DeleteHiddenBuffers()<CR>
       function! DeleteHiddenBuffers() " {{{
-        let tpbl=[]
-        call map(range(1, tabpagenr('$')), 'extend(tpbl, tabpagebuflist(v:val))')
-        for buf in filter(range(1, bufnr('$')), 'bufexists(v:val) && index(tpbl, v:val)==-1')
-          silent execute 'bwipeout' buf
+        let l:tpbl=[]
+        call map(range(1, tabpagenr('$')), 'extend(l:tpbl, tabpagebuflist(v:val))')
+        for l:buf in filter(range(1, bufnr('$')), 'bufexists(v:val) && index(l:tpbl, v:val)==-1')
+          silent execute 'bwipeout' l:buf
         endfor
       endfunction " }}}
 
@@ -480,7 +491,7 @@ endif
 
   " open url on current line
   func! OpenUrl()
-    exec "silent !python -mwebbrowser \"".(matchstr (getline("."), "https\\?://[a-zA-Z0-9\./\\-?=\\&+@,!:_#]\\+[^.) ]"))."\"" | redraw!
+    exec 'silent !python -mwebbrowser \"'.(matchstr (getline('.'), "https\\?://[a-zA-Z0-9\./\\-?=\\&+@,!:_#]\\+[^.) ]"))."\"" | redraw!
   endfu
   com! TestUrl exec "echom            \"".(matchstr (getline("."), "https\\?://[a-zA-Z0-9\./\\-?=\\&+@,!:_#]\\+[^.) ]"))."\""
   nmap <Leader>ou :call OpenUrl()<Enter>
@@ -492,26 +503,26 @@ endif
       :AnsiEsc
       let g:airline#extensions#tabline#enabled = 0
       set laststatus=0
-      set nonu
+      set nonumber
   endfu
 
 " Experimental scroll mode
   nmap zs 0zz:call ToggleScrollMode()<Enter>
   function! ToggleScrollMode()
-    if exists("s:scroll_mode")
+    if exists('s:scroll_mode')
       unmap k
       unmap j
       unmap d
       unmap u
       unlet s:scroll_mode
-      echom "scroll mode off"
+      echom 'scroll mode off'
     else
       nnoremap j <C-e>j
       nnoremap k <C-y>k
       nnoremap d <C-d>
       nnoremap u <C-u>
       let s:scroll_mode = 1
-      echom "scroll mode on"
+      echom 'scroll mode on'
     endif
   endfunction
 
@@ -521,10 +532,10 @@ endif
   func! ProseMode()
     Goyo
     setlocal spell
-    setlocal noci nosi noai nolist noshowmode noshowcmd
+    setlocal nocopyindent noai nolist noshowmode noshowcmd
     setlocal complete+=s " complete from thesaurus
     LightOne " setlocal bg=light
-    setlocal fo=an
+    setlocal formatoptions=an
     setlocal whichwrap+=h,l
     setlocal sidescrolloff=0
     hi EndOfBuffer ctermfg=bg
@@ -536,8 +547,8 @@ endif
   endfu
   func! WriteMode()
     " set fo=ant
-    setlocal fo=an
-    setlocal flp=^\\s*\\(-\\\\|\\d\\+\\.\\)\\s*
+    setlocal formatoptions=an
+    setlocal formatlistpat=^\\s*\\(-\\\\|\\d\\+\\.\\)\\s*
         "formtlistpat=^\s*\(-\|\d\+\.\)\s*
     " set formatprg=par\ -jw80
     setlocal nosmartindent
@@ -548,7 +559,7 @@ endif
   endfu
   com! WM call WriteMode()
   func! NoWriteMode()
-    set fo=croql
+    set formatoptions=croql
     " set flp=^\s*\d\+[\]:.)}\t ]\s*
     set formatprg=""
     set smartindent
@@ -604,7 +615,7 @@ endif
     :set guioptions-=T  "remove toolbar
     :set guioptions-=r  "remove right-hand scroll bar
     :set guioptions-=L  "remove left-hand scroll bar
-    :set go+=m " I think I want to keep the menu actually
+    :set guioptions+=m " I think I want to keep the menu actually
   endif
 
 " Rare Tools
@@ -626,7 +637,7 @@ endif
 
 " Basics
   com! FormatBullets setlocal flp=^\\s*\\(-\\\\|\\d\\+\\.\\)\\s* " I want to autoindent paragraphs that start with "- " or "123. "
-  if filereadable($VIMRUNTIME . "/defaults.vim")
+  if filereadable($VIMRUNTIME . '/defaults.vim')
     source $VIMRUNTIME/defaults.vim " new in vim 8
   else
     set wildmenu      "show suggestions for vim commands
@@ -683,9 +694,9 @@ endif
 
   " autocmd Filetype vimrc setlocal expandtab tabstop=2 shiftwidth=2 softtabstop=2
 
-  func! JSFormatting()
-    autocmd FileType javascript setlocal equalprg=js-beautify\ --stdin
-  endfu
+  " func! JSFormatting()
+  "   autocmd FileType javascript setlocal equalprg=js-beautify\ --stdin
+  " endfu
 
 " Theme shortcuts
   com! Default    set background=dark  | colorscheme default
@@ -713,26 +724,28 @@ endif
 
 " simple session restoration http://vim.wikia.com/wiki/Go_away_and_come_back
   function! MakeSession()
-    let b:sessiondir = $HOME . "/.vim/sessions" . getcwd()
+    let b:sessiondir = $HOME . '/.vim/sessions' . getcwd()
     if (filewritable(b:sessiondir) != 2)
       exe 'silent !mkdir -p ' b:sessiondir
       redraw!
     endif
     let b:filename = b:sessiondir . '/session.vim'
-    exe "mksession! " . b:filename
+    exe 'mksession! ' . b:filename
   endfunction
 
   function! LoadSession()
-    let b:sessiondir = $HOME . "/.vim/sessions" . getcwd()
-    let b:sessionfile = b:sessiondir . "/session.vim"
+    let b:sessiondir = $HOME . '/.vim/sessions' . getcwd()
+    let b:sessionfile = b:sessiondir . '/session.vim'
     if (filereadable(b:sessionfile))
       exe 'source ' b:sessionfile
     else
-      echo "No session loaded."
+      echo 'No session loaded.'
     endif
   endfunction
   " au VimEnter * nested if argc() == 0 | :call LoadSession() | endif
-  au VimLeave * :call MakeSession()
+  augroup session_saving
+    au VimLeave * :call MakeSession()
+  augroup END
   com! LoadSession call LoadSession()
 
 " Auto Commands
@@ -776,7 +789,7 @@ endif
   endfunction
 
   function! IsBowerComponent()
-    return @% =~ 'bower_components'
+    return @% =~# 'bower_components'
   endfunction
 
   " lil debugging util
