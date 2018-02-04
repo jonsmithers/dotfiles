@@ -287,9 +287,13 @@ endif
     " colorschemes
     Plug 'junegunn/seoul256.vim'
     Plug 'mhartington/oceanic-next'
-     set t_Co=256
-     if (has("termguicolors"))
-       " set termguicolors <-- this hides mispeleld words
+     if (has('termguicolors'))
+       set termguicolors
+       highlight SpellBad term=reverse ctermbg=224 gui=undercurl guisp=Yellow guibg=Red
+       " ^ termguicolors relies on undercurl for mispellings, but many
+       " terminals don't have that.
+     else
+       set t_Co=256
      endif
     Plug 'morhetz/gruvbox'
     Plug 'nanotech/jellybeans.vim'
