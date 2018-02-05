@@ -123,16 +123,16 @@ endif
     Plug 'junegunn/fzf.vim'
     " Incredible fuzzy search for all sorts of things. Best plugin ever.
 
-      " ag-results in quickfix (https://github.com/junegunn/fzf/wiki/Examples-(vim)#narrow-ag-results-within-vim)
+      " rg-results in quickfix (https://github.com/junegunn/fzf/wiki/Examples-(vim)#narrow-ag-results-within-vim)
         command! -nargs=* Qg call fzf#run({
-        \ 'source':  printf('ag --nogroup --column --color "%s"',
+        \ 'source':  printf('rg --no-heading --column --color always "%s"',
         \                   escape(empty(<q-args>) ? '^(?=.)' : <q-args>, '"\')),
         \ 'sink*':    function('<sid>ag_handler'),
-        \ 'options': '--ansi --expect=ctrl-t,ctrl-v,ctrl-x --delimiter : --nth 4.. '.
-        \            '--multi --bind=ctrl-a:select-all,ctrl-d:deselect-all '.
-        \            '--color hl:68,hl+:110',
+        \ 'options': '--ansi --expect=ctrl-t,ctrl-v,ctrl-x --delimiter : --nth 1,4 '.
+        \            '--multi --bind=ctrl-a:select-all,ctrl-d:deselect-all ',
         \ 'down':    '50%'
         \ })
+        " \            '--color hl:68,hl+:110',
         function! s:ag_to_qf(line)
           let l:parts = split(a:line, ':')
           return {'filename': l:parts[0], 'lnum': l:parts[1], 'col': l:parts[2],
