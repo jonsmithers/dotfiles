@@ -14,6 +14,10 @@ endif
 " VIM PLUG
   call plug#begin('~/.vim/plugged')
 
+    Plug 'AndrewRadev/splitjoin.vim'
+    " gJ on first line to join object literal into one line
+    " gS to split one-line object into multiple lines
+
     Plug 'airblade/vim-gitgutter'
     " Show indicators for what's been modified/added/deleted.
 
@@ -198,9 +202,6 @@ endif
 
     Plug 'mattn/emmet-vim'
     " Faster html entry. I currently don't use this.
-
-    Plug 'mtth/scratch.vim'
-    " Press "gs" to type in a hideaway scratch buffer
 
     Plug 'mxw/vim-jsx'
     " jsx syntax highlighting
