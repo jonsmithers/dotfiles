@@ -201,6 +201,9 @@ endif
     Plug 'justinmk/vim-dirvish'
       " sort folders at top
       let g:dirvish_mode = ':sort ,^.*[\/],'
+      augroup dirvish_stuff
+        autocmd FileType dirvish setlocal nonumber
+      augroup END
 
     Plug 'leafgarland/typescript-vim'
 
