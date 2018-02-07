@@ -257,7 +257,8 @@ endif
     " Syntax highlighting
 
     Plug 'tomtom/tcomment_vim'
-    " Toggle code comments. Mapped to Ctrl-/
+    " Toggle code comments. Mapped to Ctrl-//
+      let g:tcomment#replacements_xml = {} " don't substitute weird characters when commenting html lines
 
     Plug 'tpope/vim-fugitive'
     Plug 'tpope/vim-rhubarb'
