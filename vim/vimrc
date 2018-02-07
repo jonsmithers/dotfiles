@@ -506,6 +506,8 @@ endif
   nmap <Leader>ou :call OpenUrl()<Enter>
   " toggle plugins and syntax to make vim really fast
   com! Fast :GitGutterToggle | :ALEToggle | :if exists("g:syntax_on") | syntax off | else | syntax enable | endif
+  com! Fast :GitGutterDisable | :ALEDisable | syntax off
+  com! Slow :GitGutterEnable  | :ALEEnable  | syntax on
 
 " Viewer
   func! Reader()
