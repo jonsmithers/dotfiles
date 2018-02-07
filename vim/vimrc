@@ -113,7 +113,7 @@ endif
         end
       endfunction
 
-    Plug 'jeetsukumaran/vim-filebeagle'
+    " Plug 'jeetsukumaran/vim-filebeagle'
     " Super-minimal file explorer accessible through the '-' key.
 
     Plug 'jeetsukumaran/vim-indentwise'
@@ -197,6 +197,10 @@ endif
     Plug 'junegunn/vim-easy-align'
     " Align chunks of code on a character/regex. Makes it really easy to have
     " nice formatting.
+
+    Plug 'justinmk/vim-dirvish'
+      " sort folders at top
+      let g:dirvish_mode = ':sort ,^.*[\/],'
 
     Plug 'leafgarland/typescript-vim'
 
