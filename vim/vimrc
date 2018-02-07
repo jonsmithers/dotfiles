@@ -401,6 +401,8 @@ endif
           execute a:cmd
           if a:fzf
             Files
+          else
+            Dirvish
           endif
         else
           if a:fzf
