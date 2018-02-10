@@ -14,6 +14,10 @@ endif
 " VIM PLUG
   call plug#begin('~/.vim/plugged')
 
+    Plug 'AndrewRadev/splitjoin.vim'
+    " gJ on first line to join object literal into one line
+    " gS to split one-line object into multiple lines
+
     Plug 'airblade/vim-gitgutter'
     " Show indicators for what's been modified/added/deleted.
 
@@ -109,7 +113,7 @@ endif
         end
       endfunction
 
-    Plug 'jeetsukumaran/vim-filebeagle'
+    " Plug 'jeetsukumaran/vim-filebeagle'
     " Super-minimal file explorer accessible through the '-' key.
 
     Plug 'jeetsukumaran/vim-indentwise'
@@ -119,16 +123,16 @@ endif
     Plug 'junegunn/fzf.vim'
     " Incredible fuzzy search for all sorts of things. Best plugin ever.
 
-      " ag-results in quickfix (https://github.com/junegunn/fzf/wiki/Examples-(vim)#narrow-ag-results-within-vim)
+      " rg-results in quickfix (https://github.com/junegunn/fzf/wiki/Examples-(vim)#narrow-ag-results-within-vim)
         command! -nargs=* Qg call fzf#run({
-        \ 'source':  printf('ag --nogroup --column --color "%s"',
+        \ 'source':  printf('rg --no-heading --column --color always "%s"',
         \                   escape(empty(<q-args>) ? '^(?=.)' : <q-args>, '"\')),
         \ 'sink*':    function('<sid>ag_handler'),
-        \ 'options': '--ansi --expect=ctrl-t,ctrl-v,ctrl-x --delimiter : --nth 4.. '.
-        \            '--multi --bind=ctrl-a:select-all,ctrl-d:deselect-all '.
-        \            '--color hl:68,hl+:110',
+        \ 'options': '--ansi --expect=ctrl-t,ctrl-v,ctrl-x --delimiter : --nth 1,4 '.
+        \            '--multi --bind=ctrl-a:select-all,ctrl-d:deselect-all ',
         \ 'down':    '50%'
         \ })
+        " \            '--color hl:68,hl+:110',
         function! s:ag_to_qf(line)
           let l:parts = split(a:line, ':')
           return {'filename': l:parts[0], 'lnum': l:parts[1], 'col': l:parts[2],
@@ -196,14 +200,16 @@ endif
 
     Plug 'justinmk/vim-dirvish'
     " directory viewer
+      " sort folders at top
+      let g:dirvish_mode = ':sort ,^.*[\/],'
+      augroup dirvish_stuff
+        autocmd FileType dirvish setlocal nonumber
+      augroup END
 
     Plug 'leafgarland/typescript-vim'
 
     Plug 'mattn/emmet-vim'
     " Faster html entry. I currently don't use this.
-
-    Plug 'mtth/scratch.vim'
-    " Press "gs" to type in a hideaway scratch buffer
 
     Plug 'mxw/vim-jsx'
     " jsx syntax highlighting
@@ -255,7 +261,8 @@ endif
     " Syntax highlighting
 
     Plug 'tomtom/tcomment_vim'
-    " Toggle code comments. Mapped to Ctrl-/
+    " Toggle code comments. Mapped to Ctrl-//
+      let g:tcomment#replacements_xml = {} " don't substitute weird characters when commenting html lines
 
     Plug 'tpope/vim-fugitive'
     Plug 'tpope/vim-rhubarb'
@@ -395,6 +402,8 @@ endif
           execute a:cmd
           if a:fzf
             Files
+          else
+            Dirvish
           endif
         else
           if a:fzf
@@ -494,12 +503,14 @@ endif
 
   " open url on current line
   func! OpenUrl()
-    exec 'silent !python -mwebbrowser \"'.(matchstr (getline('.'), "https\\?://[a-zA-Z0-9\./\\-?=\\&+@,!:_#]\\+[^.) ]"))."\"" | redraw!
+    exec 'silent !python -mwebbrowser "'.(matchstr (getline('.'), "https\\?://[a-zA-Z0-9\./\\-?=\\&+@,!:_#]\\+[^.) ]"))."\"" | redraw!
   endfu
-  com! TestUrl exec "echom            \"".(matchstr (getline("."), "https\\?://[a-zA-Z0-9\./\\-?=\\&+@,!:_#]\\+[^.) ]"))."\""
+  com! TestUrl exec 'echom            "'.(matchstr (getline("."), "https\\?://[a-zA-Z0-9\./\\-?=\\&+@,!:_#]\\+[^.) ]"))."\""
   nmap <Leader>ou :call OpenUrl()<Enter>
   " toggle plugins and syntax to make vim really fast
   com! Fast :GitGutterToggle | :ALEToggle | :if exists("g:syntax_on") | syntax off | else | syntax enable | endif
+  com! Fast :GitGutterDisable | :ALEDisable | syntax off
+  com! Slow :GitGutterEnable  | :ALEEnable  | syntax on
 
 " Viewer
   func! Reader()
