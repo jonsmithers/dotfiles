@@ -418,7 +418,7 @@ endif
           if a:fzf
             Files
           else
-            Dirvish
+            Dirvish %
           endif
         else
           if a:fzf
