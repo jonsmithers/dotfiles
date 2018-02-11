@@ -215,6 +215,7 @@ endif
     " nice formatting.
 
     Plug 'justinmk/vim-dirvish'
+    " directory viewer
       " sort folders at top
       let g:dirvish_mode = ':sort ,^.*[\/],'
       augroup dirvish_stuff
@@ -563,11 +564,14 @@ endif
     setlocal spell
     setlocal nocopyindent noai nolist noshowmode noshowcmd
     setlocal complete+=s " complete from thesaurus
-    LightOne " setlocal bg=light
     setlocal formatoptions=an
     setlocal whichwrap+=h,l
     setlocal sidescrolloff=0
-    hi EndOfBuffer ctermfg=bg
+    LightOne " setlocal bg=light
+    hi SpellBad guibg=pink guifg=red
+    " my terminals don't undercurl, as termguicolor would have them do, so
+    " mispelled words must be highlighted
+    hi EndOfBuffer ctermfg=bg guifg=bg
     " hide "~" at end of buffer
   endfu
   com! ProseMode call ProseMode()
