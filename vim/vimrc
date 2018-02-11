@@ -123,6 +123,22 @@ endif
     Plug 'junegunn/fzf.vim'
     " Incredible fuzzy search for all sorts of things. Best plugin ever.
 
+      " customize fzf colors to match color scheme
+        let g:fzf_colors =
+        \ { 'fg':      ['fg', 'Normal'],
+          \ 'bg':      ['bg', 'Normal'],
+          \ 'hl':      ['fg', 'Comment'],
+          \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+          \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+          \ 'hl+':     ['fg', 'Statement'],
+          \ 'info':    ['fg', 'PreProc'],
+          \ 'border':  ['fg', 'Ignore'],
+          \ 'prompt':  ['fg', 'Conditional'],
+          \ 'pointer': ['fg', 'Exception'],
+          \ 'marker':  ['fg', 'Keyword'],
+          \ 'spinner': ['fg', 'Label'],
+          \ 'header':  ['fg', 'Comment'] }
+
       " rg-results in quickfix (https://github.com/junegunn/fzf/wiki/Examples-(vim)#narrow-ag-results-within-vim)
         command! -nargs=* Qg call fzf#run({
         \ 'source':  printf('rg --no-heading --column --color always "%s"',
