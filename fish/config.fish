@@ -6,7 +6,7 @@ function fish_hybrid_bindings
 end
 set -g fish_key_bindings fish_hybrid_bindings
 
-export NOTI_PUSHBULLET_TOK=o.5RKGbICfF91y9S6zifyMPs6YTLdM0tdp
+export NOTI_PUSHBULLET_ACCESSTOKEN=o.5RKGbICfF91y9S6zifyMPs6YTLdM0tdp
 
 function init_echo
   # echo $argv
