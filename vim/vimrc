@@ -139,6 +139,23 @@ endif
           \ 'spinner': ['fg', 'Label'],
           \ 'header':  ['fg', 'Comment'] }
 
+      " fzf bindings
+        :command! -bang -nargs=* Rg  call fzf#vim#grep('rg --column --line-number --no-heading --color=always               '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
+        :command! -bang -nargs=* Rgi call fzf#vim#grep('rg --column --line-number --no-heading --color=always --ignore-case '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
+
+        "search for word in working directory
+        :nmap <Leader>sw    :Rg  
+        :vmap <Leader>s     y:Rg "<Enter>
+
+        :nmap <C-k>         :Buffers<Enter>
+        :nmap <C-p>         :Files<Enter>
+        :nmap <Leader>or    :History<Enter>
+        :nmap <Leader>ft    :Filetypes<enter>
+        :nmap <Leader>/     :History/<Enter>
+        :nmap <Leader><C-r> :History:<Enter>
+        " (note - you can call histdel("cmd", "regexp") to delete mistaken history items)
+        " :nmap <Leader>f~    :FZF ~<Enter>
+
       " rg-results in quickfix (https://github.com/junegunn/fzf/wiki/Examples-(vim)#narrow-ag-results-within-vim)
         command! -nargs=* Qg call fzf#run({
         \ 'source':  printf('rg --no-heading --column --color always "%s"',
@@ -362,13 +379,6 @@ endif
     :nmap <Leader>it :r! date "+\%Y\%m\%d"<Enter>kJ
     :com! InsertDate :r! date "+\%Y\%m\%d"
 
-    "search for word in working directory
-    :nmap <Leader>sw :Rg 
-    :vmap <Leader>s  y:Rg "<Enter>
-
-    :command! -bang -nargs=* Rg  call fzf#vim#grep('rg --column --line-number --no-heading --color=always               '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
-    :command! -bang -nargs=* Rgi call fzf#vim#grep('rg --column --line-number --no-heading --color=always --ignore-case '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
-
     :nmap <C-h> 2zh
     :nmap <C-l> 2zl
     :nnoremap Q <nop>
@@ -386,9 +396,6 @@ endif
           "most recent buffer
     :nmap <Leader>ss :syntax sync fromstart<enter>
     :nmap <Leader>BD :bufdo bd<enter>
-    :nmap <C-b>     :Buffers<enter>
-    :nmap <Leader>; :Buffers<enter>
-    :nmap <C-k> :Buffers<enter>
 
     :let g:html_wrong_comments=1 "be lenient with html comment syntax. This is a must-have for documented Polymer code.
 
@@ -453,14 +460,6 @@ endif
     endfunc
     :com! -nargs=1 FishCantEven call FishCantEven(<args>)
 
-    :nmap <C-p> :Files<enter>
-    :nmap <Leader>or :History
-    " ^ open recent file
-    :nmap <Leader>/ :History/
-    :nmap <Leader><C-r> :History:
-    " call histdel("cmd", "regexp") to delete mistaken history items
-    :nmap <Leader>f~ :FZF ~
-    :nmap <Leader>ft :Filetypes<enter>
     command! FormatJSON :%!python -m json.tool
 
     if has('nvim')
