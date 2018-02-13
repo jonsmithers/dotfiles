@@ -326,9 +326,6 @@ endif
     Plug 'mhartington/oceanic-next'
      if (has('termguicolors'))
        set termguicolors
-       highlight SpellBad term=reverse ctermbg=224 gui=undercurl guisp=Yellow guibg=Red
-       " ^ termguicolors relies on undercurl for mispellings, but many
-       " terminals don't have that.
      else
        set t_Co=256
      endif
@@ -744,7 +741,13 @@ endif
   com! LightPaper set background=light | colorscheme PaperColor
   com! LightSeoul set background=light | colorscheme seoul256
 
-" Neovim specific
+  augroup colorschemespellingfix
+    autocmd!
+    autocmd ColorScheme * highlight SpellBad term=reverse ctermbg=224 gui=undercurl guisp=Yellow guibg=Red
+    " ^ termguicolors relies on undercurl for misspellings, but many
+    " terminals don't have that.
+  augroup END
+
   if has('nvim')
     let $NVIM_TUI_ENABLE_TRUE_COLOR=1
     :DarkGruv
