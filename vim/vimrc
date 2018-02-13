@@ -156,6 +156,11 @@ endif
         " (note - you can call histdel("cmd", "regexp") to delete mistaken history items)
         " :nmap <Leader>f~    :FZF ~<Enter>
 
+        " fuzzy relative filepath completion!
+        inoremap <expr> <c-x><c-f> fzf#vim#complete#path(
+              \ "find . -path '*/\.*' -prune -o -print \| sed '1d;s:^..::'",
+              \ fzf#wrap({'dir': expand('%:p:h')}))
+
       " rg-results in quickfix (https://github.com/junegunn/fzf/wiki/Examples-(vim)#narrow-ag-results-within-vim)
         "command! -nargs=* Qg call fzf#run({
         "\ 'source':  printf('rg --no-heading --column --color always "%s"',
@@ -407,11 +412,6 @@ endif
     " junegunn/vim-easy-align
     :xmap ga <Plug>(EasyAlign)
     :nmap ga <Plug>(EasyAlign)
-
-    " junegunn/fzf.vim
-    inoremap <expr> <c-x><c-f> fzf#vim#complete#path(
-          \ "find . -path '*/\.*' -prune -o -print \| sed '1d;s:^..::'",
-          \ fzf#wrap({'dir': expand('%:p:h')}))
 
     " CODE COPIED FROM https://github.com/zenbro/dotfiles/blob/master/.nvimrc#L151-L187
       " If split in given direction exists - jump, else create new split
