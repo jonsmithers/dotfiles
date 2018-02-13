@@ -461,12 +461,6 @@ endif
     " call histdel("cmd", "regexp") to delete mistaken history items
     :nmap <Leader>f~ :FZF ~
     :nmap <Leader>ft :Filetypes<enter>
-    command! -bang -nargs=* Rg
-                \ call fzf#vim#grep(
-                \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
-                \   <bang>0 ? fzf#vim#with_preview('up:60%')
-                \           : fzf#vim#with_preview('right:50%:hidden', '?'),
-                \   <bang>0)
     command! FormatJSON :%!python -m json.tool
 
     if has('nvim')
