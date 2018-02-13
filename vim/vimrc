@@ -224,6 +224,8 @@ endif
         autocmd User GoyoLeave call <SID>goyo_leave()
       augroup END
 
+    Plug 'junegunn/vim-journal'
+
     Plug 'junegunn/limelight.vim'
 
     Plug 'junegunn/rainbow_parentheses.vim'
