@@ -21,3 +21,13 @@ if [[ ! `command -v fzf` ]] && prompt "Install fzf"; then
 else
   echo "Skipping fzf installation"
 fi
+
+if [[ ! `command -v rg` ]] && prompt "Install rg"; then
+  if [ "$(uname)" == "Darwin" ]; then
+    brew install ripgrep
+  elif [[ `command -v dnf` ]]; then
+    sudo dnf install ripgrep
+  else
+    python -m webbrowser "https://github.com/BurntSushi/ripgrep#installation"
+  fi
+fi
