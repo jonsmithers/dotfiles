@@ -1,8 +1,18 @@
 #!/bin/bash
 cd "$(dirname "$0")"
 
+source ../_helpers.sh
+
 # curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisher
 #
+
+if [[ ! `command -v fish` ]] && prompt "Install fish"; then 
+  if [ "$(uname)" == "Darwin" ]; then
+    brew install fish
+  else
+    python -m webbrowser "https://fishshell.com/"
+  fi
+fi
 
 source ../_helpers.sh
 if [[ ! `command -v fzf` ]] && prompt "Install fzf"; then
