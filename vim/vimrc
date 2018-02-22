@@ -244,6 +244,7 @@ endif
       let g:dirvish_mode = ':sort ,^.*[\/],'
       augroup dirvish_stuff
         autocmd FileType dirvish setlocal nonumber
+        autocmd FileType dirvish silent! unmap <buffer> <C-p>
       augroup END
 
     Plug 'leafgarland/typescript-vim'
