@@ -270,7 +270,7 @@ endif
       command! SlowJS unlet g:dumb_js | source $MYVIMRC
 
     Plug 'othree/eregex.vim'
-    " Lets me use more standard regex
+    " Lets me use more standard regex. Search with :M/[regex]
       let g:eregex_default_enable = 0
 
     Plug 'ryanoasis/vim-devicons'
