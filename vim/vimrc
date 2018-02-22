@@ -391,8 +391,8 @@ endif
     :nmap <Leader>it :r! date "+\%Y\%m\%d"<Enter>kJ
     :com! InsertDate :r! date "+\%Y\%m\%d"
 
-    :nmap <C-h> 2zh
-    :nmap <C-l> 2zl
+    :nmap <C-h> 5zh
+    :nmap <C-l> 5zl
     :nnoremap Q <nop>
     :nmap <Leader>T :enew<cr>
     :nmap <Leader>bk :bnext
