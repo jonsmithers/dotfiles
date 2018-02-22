@@ -260,9 +260,13 @@ endif
 
     Plug 'othree/html5.vim'
 
-    Plug 'pangloss/vim-javascript'
-    " Vastly improved syntax highlighting.
+    if !exists('g:dumb_js')
+      Plug 'pangloss/vim-javascript'
+      " Vastly improved syntax highlighting.
+    endif
       let g:javascript_plugin_jsdoc = 1
+      command! FastJS let g:dumb_js = 1 | source $MYVIMRC
+      command! SlowJS unlet g:dumb_js | source $MYVIMRC
 
     Plug 'othree/eregex.vim'
     " Lets me use more standard regex
@@ -516,9 +520,9 @@ endif
   com! TestUrl exec 'echom            "'.(fnameescape(matchstr (getline('.'), "https\\?://[a-zA-Z0-9\./\\-?=\\&+@,!:_#]\\+[^.) ]")))."\""
   nnoremap <Leader>ou :call OpenUrl()<Enter>
   " toggle plugins and syntax to make vim really fast
-  com! Fast :GitGutterToggle | :ALEToggle | :if exists("g:syntax_on") | syntax off | else | syntax enable | endif
-  com! Fast :GitGutterDisable | :ALEDisable | syntax off
-  com! Slow :GitGutterEnable  | :ALEEnable  | syntax on
+  " com! Fast :GitGutterToggle | :ALEToggle | :if exists("g:syntax_on") | syntax off | else | syntax enable | endif
+  com! FastEverything :GitGutterDisable | :ALEDisable | syntax off
+  com! SlowEverything :GitGutterEnable  | :ALEEnable  | syntax on
 
 " Viewer
   func! Reader()
