@@ -270,8 +270,11 @@ endif
       command! SlowJS unlet g:dumb_js | source $MYVIMRC
 
     Plug 'othree/eregex.vim'
-    " Lets me use more standard regex. Search with :M/[regex]
+    " Lets me use more standard regex.
+      " Search with :M/[regex]
+      " Substitute with <range> :S/regex/string/
       let g:eregex_default_enable = 0
+      nnoremap <Leader>m/ /
 
     Plug 'ryanoasis/vim-devicons'
     " Shows pretty little icons when you use a nerdfont in your terminal.
