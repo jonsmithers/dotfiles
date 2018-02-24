@@ -274,7 +274,7 @@ endif
       " Search with :M/[regex]
       " Substitute with <range> :S/regex/string/
       let g:eregex_default_enable = 0
-      nnoremap <Leader>m/ /
+      nnoremap <Leader>m/ :M/
 
     Plug 'ryanoasis/vim-devicons'
     " Shows pretty little icons when you use a nerdfont in your terminal.
