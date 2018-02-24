@@ -288,7 +288,8 @@ endif
     let g:UltiSnipsSnippetDirectories = ['~/.vim/UltiSnips', 'UltiSnips']
     " ^ workaround bug https://github.com/SirVer/ultisnips/issues/711
 
-    Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
+    if (!empty(system('command -v npm')))
+      Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
     " Intelligent completion for JavaScript. It's amazing.
       let g:tern_show_signature_in_pum = 1
       set updatetime=1000
@@ -296,6 +297,7 @@ endif
       augroup tern_stuff
         autocmd CompleteDone * pclose
       augroup END
+    endif
 
 
     Plug 'terryma/vim-multiple-cursors'
