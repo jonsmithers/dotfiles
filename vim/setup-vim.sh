@@ -3,7 +3,7 @@ set -e
 cd "$(dirname "$0")"
 source ../_helpers.sh
 
-if [[ `command -v nvim` ]] && prompt "Symlink for NeoVim"; then
+if [[ `command -v nvim` ]] && prompt "Symlink for NeoVim (not entirely ironed out)"; then
   echo "Creating symbolic link for NeoVim"
   # I HAVENT REALLY IRONED THIS OUT WITH DOTPHILE SYMLINKS
   mkdir -p ~/.vim
