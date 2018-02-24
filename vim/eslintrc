@@ -1,0 +1,14 @@
+module.exports = {
+    "env": {
+        "browser": false,
+        "es6":     true
+    },
+    "extends": "eslint:recommended",
+    "rules": {
+        "indent":          [ "warn", 4        ],
+        "no-unused-vars":  [ "warn", {vars: "local"} ],
+        "linebreak-style": [ "warn", "unix"   ],
+        "quotes":          [ "off",  "double" ],
+        "semi":            [ "warn", "always" ]
+    }
+};

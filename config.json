@@ -20,6 +20,7 @@
     "./tmux/tmux.conf":                  "~/.tmux.conf",
     "./vim/UltiSnips":                   "~/.config/nvim/UltiSnips",
     "./vim/UltiSnips":                   "~/.vim/UltiSnips",
+    "./vim/eslintrc":                    "~/.eslintrc.js",
     "./vim/ideavimrc":                   "~/.ideavimrc",
     "./vim/tern-config":                 "~/.tern-config",
     "./vim/vimrc":                       "~/.config/nvim/init.vim",
