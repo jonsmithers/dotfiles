@@ -343,13 +343,16 @@ endif
     " Plug 'wellle/targets.vim'
     " Advanced vim text objects. Sometimes this is slow.
 
-    Plug 'xolox/vim-notes'
-    Plug 'xolox/vim-misc'
+    let g:_ = system('test -d ~/Dropbox/vim-notes')
+    if (!v:shell_error)
+      Plug 'xolox/vim-notes'
+      Plug 'xolox/vim-misc'
     " Quickly write and access notes that sync to Dropbox
       let g:notes_directories = ['~/Dropbox/vim-notes']
       let g:notes_smart_quotes = 0
       let g:notes_suffix = '.txt'
       let g:notes_conceal_bold = 0
+    endif
 
     " languages
     Plug 'posva/vim-vue'
