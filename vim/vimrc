@@ -323,9 +323,11 @@ endif
     Plug 'tpope/vim-rsi'
     " add readline keybindings http://readline.kablamo.org/emacs.html
 
-    Plug 'vimwiki/vimwiki'
+    if (!empty(glob('~/Dropbox/vimwiki')))
+      Plug 'vmwiki/vimwiki'
     " Quick access to a personal wiki. In vim.
-    let g:vimwiki_list = [{'path': '$HOME/Dropbox/vimwiki'}] " 'syntax': 'markdown', 'ext': '.md'}]
+      let g:vimwiki_list = [{'path': '$HOME/Dropbox/vimwiki'}] " 'syntax': 'markdown', 'ext': '.md'}]
+    endif
 
     Plug 'w0rp/ale'
     " Asynchronous linting of all kinds. I use this for bash scripting, fish
