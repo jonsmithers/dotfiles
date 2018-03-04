@@ -566,8 +566,18 @@ endif
   set nojoinspaces  " prevent vim from inserting 2 spaces after periods.
   func! ProseMode()
     Goyo
+    let b:spell         = &spell
+    let b:copyindent    = &copyindent
+    let b:autoindent    = &autoindent
+    let b:list          = &list
+    let b:showmode      = &showmode
+    let b:showcmd       = &showcmd
+    let b:formatoptions = &formatoptions
+    let b:whichwrap     = &whichwrap
+    let b:sidescrolloff = &sidescrolloff
+
     setlocal spell
-    setlocal nocopyindent noai nolist noshowmode noshowcmd
+    setlocal nocopyindent noautoindent nolist noshowmode noshowcmd
     setlocal complete+=s " complete from thesaurus
     setlocal formatoptions=an
     setlocal whichwrap+=h,l
@@ -580,9 +590,22 @@ endif
     " hide "~" at end of buffer
   endfu
   com! ProseMode call ProseMode()
-  func! CodeMode()
-    Goyo!
-  endfu
+  if (!exists('*CodeMode')) " this function sources vimrc and you can't redefine function while it's executing
+    func CodeMode()
+      Goyo!
+      exec 'setlocal ' . (b:spell      ? '':'no') . 'spell'
+      exec 'setlocal ' . (b:copyindent ? '':'no') . 'copyindent'
+      exec 'setlocal ' . (b:autoindent ? '':'no') . 'autoindent'
+      exec 'setlocal ' . (b:list       ? '':'no') . 'list'
+      exec 'setlocal ' . (b:showmode   ? '':'no') . 'showmode'
+      exec 'setlocal ' . (b:showcmd    ? '':'no') . 'showcmd'
+      exec 'setlocal formatoptions='.b:formatoptions
+      exec 'setlocal whichwrap='    .b:whichwrap
+      exec 'setlocal sidescrolloff='.b:sidescrolloff
+      source $MYVIMRC
+    endfu
+  endif
+  com! CodeMode call CodeMode()
   func! WriteMode()
     " set fo=ant
     setlocal formatoptions=an
