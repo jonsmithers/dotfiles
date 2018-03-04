@@ -135,7 +135,6 @@ set fish_greeting ""
     case Smithers.local
       init_echo "Work Lappy init"
 
-      set PATH ~/bin $PATH
       source ~/bin/work_stuff.fish
 
       function movtogif
@@ -243,6 +242,9 @@ set fish_greeting ""
       echo No machine installation for (hostname)
   end
 
+if test -d ~/bin
+  set PATH ~/bin $PATH
+end
 
 # global aliases
   alias g='git number'
