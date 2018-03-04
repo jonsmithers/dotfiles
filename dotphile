@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import json
 import os
+import filecmp
 
 class bcolors:
   HEADER = '\033[95m'
@@ -22,11 +23,24 @@ missingFiles = filter(lambda f: not os.path.exists(f), config.keys())
 if (len(missingFiles)):
   exit("Some files are missing\n  " + "\n  ".join(missingFiles))
 
-existingFiles = filter(os.path.exists, config.values())
-if (len(existingFiles)):
-  existingFiles.sort()
-  print str(len(existingFiles)) + " operative paths already exist"
-  print bcolors.WARNING + "  " + "\n  ".join(existingFiles) + bcolors.NORMAL
+def pairIsInSync((localPath, operativePath)):
+  if os.path.isfile(localPath):
+    return filecmp.cmp(localPath, operativePath)
+  else:
+    return filecmp.cmpfiles(localPath, operativePath, os.listdir(localPath))
+
+pairsThatExist = filter(lambda (localPath, operativePath): os.path.exists(operativePath), config.items())
+pairsInSync    = filter(pairIsInSync,                      pairsThatExist)
+pairsOutOfSync = filter(lambda arg: not pairIsInSync(arg), pairsThatExist)
+if (len(pairsInSync)):
+  print
+  print str(len(pairsInSync)) + " links already in sync"
+  print bcolors.OKBLUE + "  " + "\n  ".join(map(lambda (localPath, operativePath): operativePath, pairsInSync)) + bcolors.NORMAL
+
+if (len(pairsOutOfSync)):
+  print
+  print bcolors.BOLD + bcolors.FAIL + str(len(pairsOutOfSync)) + " links were not be created because the operative path already exists" + bcolors.NORMAL
+  print bcolors.FAIL + "  " + "\n  ".join(map(lambda (localPath, operativePath): operativePath, pairsOutOfSync)) + bcolors.NORMAL
 
 pairsToLink = filter(lambda (localPath, operativePath): not os.path.exists(operativePath), config.items())
 # print "Creating " + str(len(pairsToLink)) + " symlinks"
@@ -45,12 +59,14 @@ for (localPath, operativePath) in pairsToLink:
     successCount+=1
     successfulLinks.append(bashCommand)
 
-print bcolors.NORMAL;
+print bcolors.NORMAL,
 
 if (len(successfulLinks)):
   successfulLinks.sort()
+  print
   print str(len(successfulLinks)) + " links succeeded"
   print bcolors.OKGREEN + "  " + "\n  ".join(successfulLinks) + bcolors.NORMAL
 
 if (failCount):
+  print
   print bcolors.FAIL + str(failCount) + " LINKS FAILED!" + bcolors.NORMAL
