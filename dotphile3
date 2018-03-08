@@ -1,0 +1,5 @@
+#!/bin/bash
+mkdir python3_transpile_output
+2to3 --no-diff -o python3_transpile_output -w -n ./dotphile
+python3_transpile_output/dotphile
+rm -r python3_transpile_output
