@@ -160,6 +160,8 @@ endif
         inoremap <expr> <c-x><c-f> fzf#vim#complete#path(
               \ "find . -path '*/\.*' -prune -o -print \| sed '1d;s:^..::'",
               \ fzf#wrap({'dir': expand('%:p:h')}))
+        inoremap <c-x>F <c-x><c-f>
+              " Ctrl-X Shift-F will provide native c-x c-f functionality
 
       " rg-results in quickfix (https://github.com/junegunn/fzf/wiki/Examples-(vim)#narrow-ag-results-within-vim)
         "command! -nargs=* Qg call fzf#run({
