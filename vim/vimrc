@@ -669,6 +669,7 @@ endif
   com! ToggleTerm call ToggleTerm()
   nnoremap <A-t> :ToggleTerm<cr>
 
+  map <F6> :let $VIM_DIR=expand('%:p:h')<CR>:terminal<CR>cd $VIM_DIR<CR>clear<CR>
 
 "# GUI Customization
   if has('gui_running')
