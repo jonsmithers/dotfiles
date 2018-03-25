@@ -428,10 +428,7 @@ endif
 
     :let g:html_wrong_comments=1 "be lenient with html comment syntax. This is a must-have for documented Polymer code.
 
-    " syntax debugging (JIC)?
-    map <F10> :echo "syntax debugger: <" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
-          \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
-          \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+    map <F10> :echo map(synstack(line("."), col(".")), "synIDattr(v:val, 'name')")<cr>
 
     " junegunn/vim-easy-align
     :xmap ga <Plug>(EasyAlign)
