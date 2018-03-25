@@ -1,4 +1,10 @@
 module.exports = {
+    "plugins": [
+        "html"
+    ],
+    "parserOptions": {
+        "ecmaVersion": 2017
+    },
     "env": {
         "browser": false,
         "node":    true,
