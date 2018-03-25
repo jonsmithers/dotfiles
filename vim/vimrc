@@ -524,6 +524,8 @@ endif
   com! JM exec "cd /home/smithers/git/mailman"
   com! JT exec "cd /home/smithers/git/TourApp/app"
 
+  nnoremap <leader>; :
+
   " open current file in VSCode (and jump to cursor location)
   :command! OpenInVSCode exe "silent !code --goto '" . expand("%") . ":" . line(".") . ":" . col(".") . "'" | redraw!
   :command! OpenCwdInVSCode exe "silent !code '" . getcwd() . "' --goto '" . expand("%") . ":" . line(".") . ":" . col(".") . "'" | redraw!
