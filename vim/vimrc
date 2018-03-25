@@ -256,8 +256,8 @@ endif
     Plug 'mattn/emmet-vim'
     " Faster html entry. I currently don't use this.
 
-    Plug 'mxw/vim-jsx'
-    " jsx syntax highlighting
+    "Plug 'mxw/vim-jsx'
+    " jsx syntax highlighting (conflicts with lit-html)
 
     Plug 'nelstrom/vim-visual-star-search'
     " Bring "*" key behavior into visual mode. Extremely useful.
