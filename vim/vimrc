@@ -383,6 +383,10 @@ endif
     "run :PlugInstall to install new plugins
   call plug#end()
 
+  if (!empty(glob('~/.vim/vim-plug-extras.vim')))
+    source ~/.vim/vim-plug-extras.vim
+  endif
+
   if (hostname() ==# 'Smithers.local')
     let g:python3_host_prog='/usr/local/bin/python3'
   elseif (hostname() ==# 'zamperini4')

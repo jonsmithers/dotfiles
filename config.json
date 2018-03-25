@@ -23,6 +23,7 @@
     "./vim/eslintrc":                    "~/.eslintrc.js",
     "./vim/ideavimrc":                   "~/.ideavimrc",
     "./vim/tern-config":                 "~/.tern-config",
+    "./vim/vim-plug-extras.vim":         "~/.vim/vim-plug-extras.vim",
     "./vim/vimrc":                       "~/.config/nvim/init.vim",
     "./vim/vimrc":                       "~/.vimrc",
     "./vim/vrapperrc":                   "~/.vrapperrc",
