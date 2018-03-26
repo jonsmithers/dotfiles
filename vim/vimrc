@@ -541,6 +541,33 @@ endif
   com! FastEverything :GitGutterDisable | :ALEDisable | syntax off
   com! SlowEverything :GitGutterEnable  | :ALEEnable  | syntax on
 
+  " https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
+  nnoremap <expr> n  'Nn'[v:searchforward]
+  nnoremap <expr> N  'nN'[v:searchforward]
+  " https://github.com/mhinz/vim-galore#saner-command-line-history
+  cnoremap <c-n>  <down>
+  cnoremap <c-p>  <up>
+  " Saner CTRL L: https://github.com/mhinz/vim-galore#saner-ctrl-l
+  nnoremap <leader>l :nohlsearch<cr>:diffupdate<cr>:syntax sync fromstart<cr><c-l>
+  " Quickly Move Current Line: https://github.com/mhinz/vim-galore#matchit
+  nnoremap [e  :<c-u>execute 'move -1-'. v:count1<cr>
+  nnoremap ]e  :<c-u>execute 'move +'. v:count1<cr>
+  " Quickly Add Empty Lines: https://github.com/mhinz/vim-galore#quickly-add-empty-lines
+  nnoremap [<space>  :<c-u>put! =repeat(nr2char(10), v:count1)<cr>'[
+  nnoremap ]<space>  :<c-u>put =repeat(nr2char(10), v:count1)<cr>
+  " Quickly Edit Your Macros:  https://github.com/mhinz/vim-galore#quickly-edit-your-macros
+  nnoremap <leader>m  :<c-u><c-r><c-r>='let @'. v:register .' = '. string(getreg(v:register))<cr><c-f><left>
+  " Change Cursor Style Dependent On Mode: https://github.com/mhinz/vim-galore#change-cursor-style-dependent-on-mode
+  if empty($TMUX)
+    let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+    let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+    let &t_SR = "\<Esc>]50;CursorShape=2\x7"
+  else
+    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+    let &t_SR = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=2\x7\<Esc>\\"
+  endif
+
 " Viewer
   func! Reader()
       :AnsiEsc
