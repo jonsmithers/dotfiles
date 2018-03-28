@@ -113,12 +113,6 @@ endif
         end
       endfunction
 
-    " Plug 'jeetsukumaran/vim-filebeagle'
-    " Super-minimal file explorer accessible through the '-' key.
-
-    Plug 'jeetsukumaran/vim-indentwise'
-    " Navigation based on indentation. I currently don't use this.
-
     Plug 'jonsmithers/experimental-lit-html-vim'
 
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
