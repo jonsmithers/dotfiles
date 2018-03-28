@@ -18,8 +18,20 @@ endif
     " gJ on first line to join object literal into one line
     " gS to split one-line object into multiple lines
 
-    Plug 'airblade/vim-gitgutter'
+    " Plug 'airblade/vim-gitgutter'
     " Show indicators for what's been modified/added/deleted.
+    " :nmap <Leader>ga :GitGutterStageHunk<Enter>
+    " :nmap <Leader>ga :GitGutterStageHunk<Enter>
+    " :nmap <Leader>gH :GitGutterLineHighlightsToggle<Enter>
+    " :nmap <Leader>gn :GitGutterNextHunk<Enter>
+    " :nmap <Leader>gN :GitGutterPrevHunk<Enter>
+    " :nmap <Leader>gP :GitGutterPreviewHunk<Enter>
+    " :nmap <Leader>gu :GitGutterUndoHunk<Enter>
+
+    Plug 'mhinz/vim-signify'
+    " Git info in gutter
+    " [c,]c jump to prev/next change
+    " [C,]C jump to last/first change
 
     Plug 'alvan/vim-closetag'
     " Automatically close html tags.
@@ -315,8 +327,23 @@ endif
     Plug 'tpope/vim-fugitive'
     Plug 'tpope/vim-rhubarb'
     Plug 'tpope/vim-unimpaired'
-    " Various integrated git tools. I use this a lot. I only use use the
-    " unimpaired plugin with fugitive's ":Glog" command.
+    " Various integrated git tools. I use this a lot.
+      nnoremap <Leader>gb :Gblame -w<cr>
+      nnoremap <leader>gs :Gstatus<cr>
+      " http://vimcasts.org/episodes/fugitive-vim-working-with-the-git-index/
+      " c-n, c-p jumps to files
+      " p        runs add --patch
+      " cc       runs commit
+      " -        stages/unstages
+      " D        diff
+      nnoremap <leader>gd :Gdiff<cr>
+      "          (left is index (staged), right is working)
+      "          dp      diffput
+      "          do      diffget (think "obtain")
+      "          :w      write to index/working copy
+      "          [c,]c   jump to prev/next change
+      "          c-w c-o nice way to exit
+      "          c-w c-w goes between columns
 
     Plug 'tpope/vim-rsi'
     " add readline keybindings http://readline.kablamo.org/emacs.html
@@ -487,17 +514,6 @@ endif
     :nmap <Leader>tf :NERDTreeFind
     " close nerdtree if it's the only remaining buffer
     autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-
-    " git stuff
-    :nmap <Leader>gb :Gblame -w<Enter>
-
-    " GitGutter stuff
-    :nmap <Leader>ga :GitGutterStageHunk<Enter>
-    :nmap <Leader>gH :GitGutterLineHighlightsToggle<Enter>
-    :nmap <Leader>gn :GitGutterNextHunk<Enter>
-    :nmap <Leader>gN :GitGutterPrevHunk<Enter>
-    :nmap <Leader>gP :GitGutterPreviewHunk<Enter>
-    :nmap <Leader>gu :GitGutterUndoHunk<Enter>
 
   " terminal mode shortcuts
     if has('nvim')
