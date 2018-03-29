@@ -1,5 +1,12 @@
 :scriptencoding utf8
 :let s:vimrcIsExecuting = 1
+if !exists('s:os')
+  if has('win64') || has('win32') || has('win16')
+    let s:os = 'Windows'
+  else
+    let s:os = substitute(system('uname'), '\n', '', '')
+  endif
+endif
 :let g:mapleader = ' '
 
 " Install vim-plug
@@ -569,9 +576,22 @@ endif
   nnoremap <leader>m  :<c-u><c-r><c-r>='let @'. v:register .' = '. string(getreg(v:register))<cr><c-f><left>
   " Change Cursor Style Dependent On Mode: https://github.com/mhinz/vim-galore#change-cursor-style-dependent-on-mode
   if empty($TMUX)
-    let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-    let &t_EI = "\<Esc>]50;CursorShape=0\x7"
-    let &t_SR = "\<Esc>]50;CursorShape=2\x7"
+    if (s:os ==? 'Linux')
+      augroup curshapestuff
+        au VimEnter,InsertLeave * silent execute '!echo -ne "\e[2 q"' | redraw!
+        au InsertEnter,InsertChange *
+              \ if v:insertmode == 'i' | 
+              \   silent execute '!echo -ne "\e[6 q"' |
+              \ elseif v:insertmode == 'r' |
+              \   silent execute '!echo -ne "\e[4 q"' |
+              \ endif
+        au VimLeave * silent execute '!echo -ne "\e[ q"' |
+      augroup END
+    elseif (s:os ==? 'Darwin')
+      let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+      let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+      let &t_SR = "\<Esc>]50;CursorShape=2\x7"
+    endif
   else
     let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
     let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
