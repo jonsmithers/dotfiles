@@ -737,6 +737,9 @@ endif
   if has('gui_running')
     set background=dark
     set autoread        "auto-load changes from disk
+    if (s:os ==? 'Darwin')
+      set guifont=Monaco:h12
+    endif
 
     :set guioptions-=m  "remove menu bar
     :set guioptions-=T  "remove toolbar
