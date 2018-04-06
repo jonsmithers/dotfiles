@@ -165,15 +165,15 @@ endif
         :command! -bang -nargs=* Rgi call fzf#vim#grep('rg --column --line-number --no-heading --color=always --ignore-case '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
 
         "search for word in working directory
-        :nmap <Leader>sw    :Rg  
-        :vmap <Leader>s     y:Rg "<Enter>
+        :nnoremap <Leader>sw    :Rg  
+        :vnoremap <Leader>s     y:Rg "<Enter>
 
-        :nmap <C-k>         :Buffers<Enter>
-        :nmap <C-p>         :Files<Enter>
-        :nmap <Leader>or    :History<Enter>
-        :nmap <Leader>ft    :Filetypes<enter>
-        :nmap <Leader>/     :History/<Enter>
-        :nmap <Leader><C-r> :History:<Enter>
+        :nnoremap <C-k>         :Buffers<Enter>
+        :nnoremap <C-p>         :Files<Enter>
+        :nnoremap <Leader>or    :History<Enter>
+        :nnoremap <Leader>ft    :Filetypes<enter>
+        :nnoremap <Leader>/     :History/<Enter>
+        :nnoremap <Leader><C-r> :History:<Enter>
         " (note - you can call histdel("cmd", "regexp") to delete mistaken history items)
         " :nmap <Leader>f~    :FZF ~<Enter>
 
@@ -319,7 +319,7 @@ endif
     " Intelligent completion for JavaScript. It's amazing.
       let g:tern_show_signature_in_pum = 1
       set updatetime=1000
-      :nmap <Leader>td :TernDoc<cr>
+      :nnoremap <Leader>td :TernDoc<cr>
       augroup tern_stuff
         autocmd CompleteDone * pclose
       augroup END
@@ -377,7 +377,7 @@ endif
       \}
       let g:ale_linter_aliases = { 'html': ['html', 'javascript'] }
       let g:ale_echo_msg_format = '(%linter%) %s'
-      :nmap <Leader>an :ALENextWrap<Enter>
+      :nnoremap <Leader>an :ALENextWrap<Enter>
 
 
     " Plug 'wellle/targets.vim'
@@ -429,9 +429,9 @@ endif
 
 " Key Bindings
   " insert mode shortcuts
-    :imap <C-@> <C-Space>
-    :imap <C-Space> <C-x><C-o>
-    :imap jk 
+    :inoremap <C-@> <C-Space>
+    :inoremap <C-Space> <C-x><C-o>
+    :inoremap jk 
     " :inoremap II <Esc>I
     " :inoremap AA <Esc>A
     :inoremap jl <Esc>:
@@ -439,26 +439,26 @@ endif
 
   " normal mode shortucts
     "insert time:
-    :nmap <Leader>it :r! date "+\%Y\%m\%d"<Enter>kJ
+    :nnoremap <Leader>it :r! date "+\%Y\%m\%d"<Enter>kJ
     :com! InsertDate :r! date "+\%Y\%m\%d"
 
-    :nmap <C-h> 5zh
-    :nmap <C-l> 5zl
+    :nnoremap <C-h> 5zh
+    :nnoremap <C-l> 5zl
     :nnoremap Q <nop>
-    :nmap <Leader>T :enew<cr>
-    :nmap <Leader>bk :bnext
-    :nmap <Leader>bj :bprevious
+    :nnoremap <Leader>T :enew<cr>
+    :nnoremap <Leader>bk :bnext
+    :nnoremap <Leader>bj :bprevious
     let g:BASH_Ctrl_j = 'off' "this is undocumented!
     " :nmap <C-j> :bprevious\
     " :nmap <C-k> :bnext\
-    :nmap <Leader>x :NERDTreeClose<enter>:bd
-    :nmap <Leader>X :NERDTreeClose<enter>:bd!
-    :nmap <Leader><Leader> :w<Enter>
+    :nnoremap <Leader>x :NERDTreeClose<enter>:bd
+    :nnoremap <Leader>X :NERDTreeClose<enter>:bd!
+    :nnoremap <Leader><Leader> :w<Enter>
     " :nmap <Leader>W :bd!\
-    :nmap <Leader><Tab> :b#
+    :nnoremap <Leader><Tab> :b#
           "most recent buffer
-    :nmap <Leader>ss :syntax sync fromstart<enter>
-    :nmap <Leader>BD :bufdo bd<enter>
+    :nnoremap <Leader>ss :syntax sync fromstart<enter>
+    :nnoremap <Leader>BD :bufdo bd<enter>
 
     :let g:html_wrong_comments=1 "be lenient with html comment syntax. This is a must-have for documented Polymer code.
 
@@ -466,7 +466,7 @@ endif
 
     " junegunn/vim-easy-align
     :xmap ga <Plug>(EasyAlign)
-    :nmap ga <Plug>(EasyAlign)
+    :nnoremap ga <Plug>(EasyAlign)
 
     " CODE COPIED FROM https://github.com/zenbro/dotfiles/blob/master/.nvimrc#L151-L187
       " If split in given direction exists - jump, else create new split
@@ -523,8 +523,8 @@ endif
     endif
 
     " nerdtree stuff
-    :nmap <Leader>tt :NERDTreeToggle
-    :nmap <Leader>tf :NERDTreeFind
+    :nnoremap <Leader>tt :NERDTreeToggle
+    :nnoremap <Leader>tf :NERDTreeFind
     " close nerdtree if it's the only remaining buffer
     autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
@@ -613,7 +613,7 @@ endif
   endfu
 
 " Experimental scroll mode
-  nmap zs 0zz:call ToggleScrollMode()<Enter>
+  nnoremap zs 0zz:call ToggleScrollMode()<Enter>
   function! ToggleScrollMode()
     if exists('s:scroll_mode')
       unmap k
@@ -915,8 +915,8 @@ endif
     autocmd Filetype * if (IsBowerComponent()) | :DetectIndent | endif
 
     " code execution
-    autocmd Filetype python     nmap <buffer> <space>py :!python %<cr>
-    autocmd Filetype javascript nmap <buffer> <space>js :!node %<cr>
+    autocmd Filetype python     nnoremap <buffer> <space>py :!python %<cr>
+    autocmd Filetype javascript nnoremap <buffer> <space>js :!node %<cr>
     autocmd Filetype javascript,html call MakeJSKeys()
     autocmd Filetype notes :command!-buffer MarkdownThing call OpenMarkdown()
     function! OpenMarkdown()
@@ -927,12 +927,12 @@ endif
   augroup END
 
   function! MakeJSKeys()
-    :nmap <buffer> <Leader>il oconsole.log();F)i
-    :nmap <buffer> <Leader>iL oconsole.log('%c', 'font-size:15px');F,hi
-    :nmap <buffer> <Leader>liw yiwoconsole.log('0', 0);<Esc>
-    :nmap <buffer> <Leader>lif yiwoconsole.log('0()');<Esc>
-    :nmap <buffer> <Leader>liF yiwoconsole.log('%c0()', 'font-size:15px');<Esc>^2w
-    :nmap <buffer> <Leader>gif yiwf{oconsole.group('0');<Esc>]}Oconsole.groupEnd();<Esc>^
+    :nnoremap <buffer> <Leader>il oconsole.log();F)i
+    :nnoremap <buffer> <Leader>iL oconsole.log('%c', 'font-size:15px');F,hi
+    :nnoremap <buffer> <Leader>liw yiwoconsole.log('0', 0);<Esc>
+    :nnoremap <buffer> <Leader>lif yiwoconsole.log('0()');<Esc>
+    :nnoremap <buffer> <Leader>liF yiwoconsole.log('%c0()', 'font-size:15px');<Esc>^2w
+    :nnoremap <buffer> <Leader>gif yiwf{oconsole.group('0');<Esc>]}Oconsole.groupEnd();<Esc>^
   endfunction
 
   function! IsBowerComponent()
