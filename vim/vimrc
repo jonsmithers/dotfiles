@@ -88,8 +88,14 @@ endif
       " let g:lightline.separator.right = ''
       " let g:lightline.separator.left =  ''
       function! LightLineChanges()
+        let l:hunkSummary = v:null
         if exists('*GitGutterGetHunkSummary')
-          let [ l:added, l:modified, l:removed ] = GitGutterGetHunkSummary()
+          let l:hunkSummary = GitGutterGetHunkSummary()
+        elseif exists('g:loaded_signify') && sy#buffer_is_active()
+          let l:hunkSummary = sy#repo#get_stats()
+        endif
+        if (!empty(l:hunkSummary))
+          let [ l:added, l:modified, l:removed ] = l:hunkSummary
           let l:total = (l:added + l:modified + l:removed)
           let l:output = ''
           if (l:added != 0)
