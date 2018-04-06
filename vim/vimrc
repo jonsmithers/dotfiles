@@ -140,7 +140,7 @@ endif
 
     Plug 'jonsmithers/experimental-lit-html-vim'
 
-    Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+    Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all --no-zsh' }
     Plug 'junegunn/fzf.vim'
     " Incredible fuzzy search for all sorts of things. Best plugin ever.
 
