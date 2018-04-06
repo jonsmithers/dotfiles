@@ -398,16 +398,17 @@ endif
     Plug 'dag/vim-fish'
 
     " colorschemes
+    if (has('termguicolors'))
+      set termguicolors
+    else
+      set t_Co=256
+    endif
+    Plug 'NLKNguyen/papercolor-theme'
+    Plug 'dracula/vim'
     Plug 'junegunn/seoul256.vim'
     Plug 'mhartington/oceanic-next'
-     if (has('termguicolors'))
-       set termguicolors
-     else
-       set t_Co=256
-     endif
     Plug 'morhetz/gruvbox'
     Plug 'nanotech/jellybeans.vim'
-    Plug 'NLKNguyen/papercolor-theme'
     Plug 'rakr/vim-one'
 
     if has('mac')
