@@ -251,6 +251,8 @@ endif
     Plug 'junegunn/gv.vim'
     " :GV to open git view (commit browser)
 
+    Plug 'junegunn/vader.vim'
+
     Plug 'junegunn/vim-easy-align'
     " Align chunks of code on a character/regex. Makes it really easy to have
     " nice formatting.
