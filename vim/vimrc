@@ -132,7 +132,7 @@ endif
         end
       endfunction
 
-    Plug 'jonsmithers/experimental-lit-html-vim'
+    Plug 'jonsmithers/vim-html-template-literals'
 
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
     Plug 'junegunn/fzf.vim'
