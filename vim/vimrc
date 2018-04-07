@@ -902,7 +902,7 @@ endif
     autocmd Filetype markdown setlocal spell
 
     " auto-reload vimrc whenever I save it
-    autocmd BufWritePost vimrc,.vimrc,*.vim source $MYVIMRC | call lightline#disable() | call lightline#enable()
+    autocmd BufWritePost vimrc,.vimrc, source $MYVIMRC | call lightline#disable() | call lightline#enable()
     "                                                       "  ^ not entirely sure why all this craziness is necessary. It was necessary with Airline too!
 
     " disable syntax when editing huge files so vim stays snappy
