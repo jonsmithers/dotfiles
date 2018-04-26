@@ -135,6 +135,9 @@ set fish_greeting ""
     case Smithers.local
       init_echo "Work Lappy init"
 
+      # get gradle completion behavior on gw
+      complete --command gw --wraps gradle
+
       source ~/bin/work_stuff.fish
 
       function movtogif
