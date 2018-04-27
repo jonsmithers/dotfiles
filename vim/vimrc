@@ -558,9 +558,9 @@ endif
 
   " open url on current line
   func! OpenUrl()
-    exec 'silent !python -mwebbrowser "'.(fnameescape(matchstr (getline('.'), 'https\?://[a-zA-Z0-9\./\-?=\&+@,!:_#]\+[^.) ]'))).'" 2> /dev/null > /dev/null' | redraw!
+    exec 'silent !python -mwebbrowser "'.(fnameescape(matchstr (getline('.'), 'https\?://[a-zA-Z0-9\./\-?=\&+@,!:_#]\+[^.) \"]'))).'" 2> /dev/null > /dev/null' | redraw!
   endfu
-  com! TestUrl exec 'echom            "'.(fnameescape(matchstr (getline('.'), 'https\?://[a-zA-Z0-9\./\-?=\&+@,!:_#]\+[^.) ]'))).'"'
+  com! TestUrl exec 'echom            "'.(fnameescape(matchstr (getline('.'), 'https\?://[a-zA-Z0-9\./\-?=\&+@,!:_#]\+[^.) \"]'))).'"'
   nnoremap <Leader>ou :call OpenUrl()<Enter>
   " toggle plugins and syntax to make vim really fast
   " com! Fast :GitGutterToggle | :ALEToggle | :if exists("g:syntax_on") | syntax off | else | syntax enable | endif
