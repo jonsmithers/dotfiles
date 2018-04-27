@@ -161,8 +161,6 @@ set fish_greeting ""
       # shortcut in case I need bash
       alias bash='bash --init-file ~/.bash_startup'
 
-      source ~/.iterm2_shell_integration.fish
-
       export GOPATH=/Users/smithers/gocode
       function setjavaversion
           switch $argv[1]
