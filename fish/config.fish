@@ -138,10 +138,6 @@ set fish_greeting ""
       # get gradle completion behavior on gw
       complete --command gw --wraps gradle
 
-      function laspas
-        lpass show -c --password (lpass ls | fzf | awk '{print $(NF)}' | sed 's/\]//g')
-      end
-
       source ~/bin/work_stuff.fish
 
       function movtogif
@@ -277,6 +273,12 @@ end
   function howtousexargs
     echo "ls | tr '\n' '\0' | xargs -0 -n1 -p"
     echo "ls | sed '/s/.*/\"&\"/'"
+  end
+
+  if command -v lpass > /dev/null
+    function laspas
+      lpass show -c --password (lpass ls | fzf | awk '{print $(NF)}' | sed 's/\]//g')
+    end
   end
 
   function gd
