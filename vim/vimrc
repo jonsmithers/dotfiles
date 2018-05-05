@@ -394,17 +394,29 @@ endif
     Plug 'tpope/vim-obsession'
     " :Obsession ~/.vim/obsessions/
     " :source ~/.vim/obsessions/Session.vim
-    command! Sesh call Sesh()
-    function! Sesh()
-      if (empty(ObsessionStatus()))
-        echom filereadable($HOME . '/.vim/obsessions/Session.vim')
-        if (filereadable($HOME . '/.vim/obsessions/Session.vim'))
-          source ~/.vim/obsessions/Session.vim
-        else
-          Obsession ~/.vim/obsessions/
+    command! -bang Sesh call Sesh(<bang>0)
+    function! Sesh(bang)
+      let l:file = $HOME . '/.vim/obsessions/Session.vim'
+      let l:isTracking = !empty(ObsessionStatus('tracking', '')) " true for both off and pused
+
+      if (a:bang) " replace persisted session
+        if (l:isTracking)
+          Obsession!
         endif
-      else
-        echom 'this state not implemented'
+        if (filereadable(l:file))
+          call delete(l:file)
+        endif
+        exec 'Obsession ' . l:file
+      else " restore session if possible or start tracking current
+        if (!l:isTracking)
+          if (filereadable(l:file))
+            exec 'source ' . l:file
+          else
+            exec 'Obsession ' . l:file
+          endif
+        else
+          echom 'already tracking'
+        endif
       endif
     endfunction
 
