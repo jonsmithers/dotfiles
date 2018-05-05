@@ -62,14 +62,26 @@ endif
       set showcmd      "shows size of visual selection BELOW lightline
       let g:lightline = {
       \   'active': {
-      \     'left': [['mode', 'paste'], ['filename', 'modified'], ['git_changes']],
-      \     'right': [['lineinfo'], ['percent'], ['readonly', 'linter_warnings', 'linter_errors', 'linter_ok']]
+      \     'left': [
+      \       ['mode', 'paste'],
+      \       ['filename', 'modified'],
+      \       ['git_changes'],
+      \     ],
+      \     'right': [
+      \       ['lineinfo'],
+      \       ['percent'],
+      \       ['readonly', 'linter_warnings', 'linter_errors', 'linter_ok'],
+      \       ['obsession'],
+      \     ]
+      \   },
+      \   'component_function': {
+      \     'obsession': 'LightlineObsessionStatus',
+      \     'git_changes': 'LightLineChanges',
       \   },
       \   'component_expand': {
-      \     'git_changes': 'LightLineChanges',
       \     'linter_warnings': 'LightlineLinterWarnings',
       \     'linter_errors': 'LightlineLinterErrors',
-      \     'linter_ok': 'LightlineLinterOK'
+      \     'linter_ok': 'LightlineLinterOK',
       \   },
       \   'component_type': {
       \     'readonly': 'error',
@@ -87,6 +99,9 @@ endif
       \ }
       " let g:lightline.separator.right = ''
       " let g:lightline.separator.left =  ''
+      function! LightlineObsessionStatus()
+        return '(' . ObsessionStatus() . ')'
+      endfunction
       function! LightLineChanges()
         let l:hunkSummary = v:null
         if exists('*GitGutterGetHunkSummary')
@@ -94,7 +109,9 @@ endif
         elseif exists('g:loaded_signify') && sy#buffer_is_active()
           let l:hunkSummary = sy#repo#get_stats()
         endif
-        if (!empty(l:hunkSummary))
+        if (empty(l:hunkSummary))
+          return ''
+        else
           let [ l:added, l:modified, l:removed ] = l:hunkSummary
           let l:total = (l:added + l:modified + l:removed)
           let l:output = ''
@@ -107,20 +124,20 @@ endif
           if (l:removed != 0)
             let l:output .= printf('-%d ', l:removed)
           endif
-          return l:output
+          return '(' . l:output . ')'
         endif
       endfunction
       function! LightlineLinterWarnings() abort
         let l:counts = ale#statusline#Count(bufnr(''))
         let l:all_errors = l:counts.error + l:counts.style_error
         let l:all_non_errors = l:counts.total - l:all_errors
-        return l:counts.total == 0 ? '' : printf('%d ▲', l:all_non_errors)
+        return l:all_non_errors == 0 ? '' : printf('%d ▲', l:all_non_errors)
       endfunction
       function! LightlineLinterErrors() abort
         let l:counts = ale#statusline#Count(bufnr(''))
         let l:all_errors = l:counts.error + l:counts.style_error
         let l:all_non_errors = l:counts.total - l:all_errors
-        return l:counts.total == 0 ? '' : printf('%d ✗', l:all_errors)
+        return l:all_errors == 0 ? '' : printf('%d ✗', l:all_errors)
       endfunction
       function! LightlineLinterOK() abort
         let l:counts = ale#statusline#Count(bufnr(''))
@@ -341,7 +358,6 @@ endif
 
     Plug 'tpope/vim-fugitive'
     Plug 'tpope/vim-rhubarb'
-    Plug 'tpope/vim-unimpaired'
     " Various integrated git tools. I use this a lot.
       nnoremap <Leader>gb :Gblame -w<cr>
       nnoremap <leader>gs :Gstatus<cr>
@@ -360,8 +376,28 @@ endif
       "          c-w c-o nice way to exit
       "          c-w c-w goes between columns
 
+
     Plug 'tpope/vim-rsi'
     " add readline keybindings http://readline.kablamo.org/emacs.html
+
+    Plug 'tpope/vim-unimpaired'
+
+    Plug 'tpope/vim-obsession'
+    " :Obsession ~/.vim/obsessions/
+    " :source ~/.vim/obsessions/Session.vim
+    command! Sesh call Sesh()
+    function! Sesh()
+      if (empty(ObsessionStatus()))
+        echom filereadable($HOME . '/.vim/obsessions/Session.vim')
+        if (filereadable($HOME . '/.vim/obsessions/Session.vim'))
+          source ~/.vim/obsessions/Session.vim
+        else
+          Obsession ~/.vim/obsessions/
+        endif
+      else
+        echom 'this state not implemented'
+      endif
+    endfunction
 
     if (!empty(glob('~/Dropbox/vimwiki')))
       Plug 'vimwiki/vimwiki'
