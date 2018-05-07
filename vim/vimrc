@@ -755,9 +755,10 @@ endif
   set sessionoptions-=options " for some reason, vim won't restore with syntax highlighting without this. https://stackoverflow.com/questions/9281438/syntax-highlighting-doesnt-work-after-restore-a-previous-vim-session
 
   " disable audible and visual bells set noerrorbells https://github.com/mhinz/vim-galore#disable-audible-and-visual-bells
-  set noerrorbells
-  set novisualbell
-  set t_vb=
+  "set noerrorbells "this does not work
+  "set novisualbell
+  "set t_vb=
+  set belloff=all
 
   :cabbrev h vert h
                     " execute [:h QUERY] to open help page in vertical split buffer
