@@ -673,127 +673,17 @@ endif
   endfu
 
 " Experimental scroll mode
-  nnoremap zs 0zz:call ToggleScrollMode()<Enter>
-  function! ToggleScrollMode()
-    if exists('s:scroll_mode')
-      unmap k
-      unmap j
-      unmap d
-      unmap u
-      unlet s:scroll_mode
-      echom 'scroll mode off'
-    else
-      nnoremap j <C-e>j
-      nnoremap k <C-y>k
-      nnoremap d <C-d>
-      nnoremap u <C-u>
-      let s:scroll_mode = 1
-      echom 'scroll mode on'
-    endif
-  endfunction
-
+  nnoremap zs 0zz:call dotfile_extras#ToggleScrollMode()<Enter>
 
 " Prose
   set nojoinspaces  " prevent vim from inserting 2 spaces after periods.
-  func! ProseMode()
-    Goyo
-    let b:spell         = &spell
-    let b:copyindent    = &copyindent
-    let b:autoindent    = &autoindent
-    let b:list          = &list
-    let b:showmode      = &showmode
-    let b:showcmd       = &showcmd
-    let b:formatoptions = &formatoptions
-    let b:whichwrap     = &whichwrap
-    let b:sidescrolloff = &sidescrolloff
+  com! ProseMode    call dotfile_extras#ProseMode()
+  com! CodeMode     call dotfile_extras#CodeMode()
+  com! SoftWrapMode call dotfile_extras#SoftWrappedProcessorMode()
 
-    setlocal spell
-    setlocal nocopyindent noautoindent nolist noshowmode noshowcmd
-    setlocal complete+=s " complete from thesaurus
-    setlocal formatoptions=an
-    setlocal whichwrap+=h,l
-    setlocal sidescrolloff=0
-    LightOne " setlocal bg=light
-    hi SpellBad guibg=pink guifg=red
-    " my terminals don't undercurl, as termguicolor would have them do, so
-    " mispelled words must be highlighted
-    hi EndOfBuffer ctermfg=bg guifg=bg
-    " hide "~" at end of buffer
-  endfu
-  com! ProseMode call ProseMode()
-  if (!exists('*CodeMode')) " this function sources vimrc and you can't redefine function while it's executing
-    func CodeMode()
-      Goyo!
-      exec 'setlocal ' . (b:spell      ? '':'no') . 'spell'
-      exec 'setlocal ' . (b:copyindent ? '':'no') . 'copyindent'
-      exec 'setlocal ' . (b:autoindent ? '':'no') . 'autoindent'
-      exec 'setlocal ' . (b:list       ? '':'no') . 'list'
-      exec 'setlocal ' . (b:showmode   ? '':'no') . 'showmode'
-      exec 'setlocal ' . (b:showcmd    ? '':'no') . 'showcmd'
-      exec 'setlocal formatoptions='.b:formatoptions
-      exec 'setlocal whichwrap='    .b:whichwrap
-      exec 'setlocal sidescrolloff='.b:sidescrolloff
-      source $MYVIMRC
-    endfu
-  endif
-  com! CodeMode call CodeMode()
-  func! WriteMode()
-    " set fo=ant
-    setlocal formatoptions=an
-    setlocal formatlistpat=^\\s*\\(-\\\\|\\d\\+\\.\\)\\s*
-        "formtlistpat=^\s*\(-\|\d\+\.\)\s*
-    " set formatprg=par\ -jw80
-    setlocal nosmartindent
-    " ^ this only affects gqip, NOTHING ELSE see [help gq]
-    setlocal whichwrap+=h,l
-    let g:deoplete#disable_auto_complete = 1
-    setlocal sidescrolloff=0
-  endfu
-  com! WM call WriteMode()
-  func! NoWriteMode()
-    set formatoptions=croql
-    " set flp=^\s*\d\+[\]:.)}\t ]\s*
-    set formatprg=""
-    set smartindent
-    set whichwrap=b,s
-    let g:deoplete#disable_auto_complete = 0
-
-    set sidescrolloff=5 " Show next 5 columns while side-scrolling.
-  endfu
-  com! WMoff call NoWriteMode()
-
-  " I very rarely use this because scrolling can get really funky (a paragraph
-  " is either all-visible or all-hidden. It's still nice to have for when you
-  " need to read long paragraphs in vim.
-  func! SoftWrappedProcessorMode()
-    setlocal nonumber
-    setlocal noexpandtab
-    setlocal wrap
-    setlocal linebreak
-    setlocal breakindent
-    map <buffer> j gj
-    map <buffer> k gk
-    " setlocal formatprg=par -jw80
-    "setlocal spell spelllang=en_us
-    "set thesaurus+=/Users/sbrown/.vim/thesaurus/mthesaur.txt
-    "set complete+=s
-  endfu
-  com! SoftWrapMode call SoftWrappedProcessorMode()
 
 " visor style terminal buffer
   " https://www.reddit.com/r/neovim/comments/3cu8fl/quick_visor_style_terminal_buffer/
-  let s:termbuf = 0
-  function! ToggleTerm()
-      topleft 30 split
-      try
-          exe 'buffer' . s:termbuf
-          startinsert
-      catch
-          terminal
-          let s:termbuf=bufnr('%')
-          tnoremap <buffer> <A-t>  <C-\><C-n>:close<cr>
-      endtry
-  endfunction
   com! ToggleTerm call ToggleTerm()
   nnoremap <A-t> :ToggleTerm<cr>
 

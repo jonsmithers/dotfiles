@@ -21,6 +21,7 @@
     "./tmux/tmux.conf":                  "~/.tmux.conf",
     "./vim/UltiSnips":                   "~/.config/nvim/UltiSnips",
     "./vim/UltiSnips":                   "~/.vim/UltiSnips",
+    "./vim/dotfile_extras.vim":          "~/.vim/autoload/dotfile_extras.vim",
     "./vim/eslintrc":                    "~/.eslintrc.js",
     "./vim/ideavimrc":                   "~/.ideavimrc",
     "./vim/tern-config":                 "~/.tern-config",
