@@ -856,6 +856,10 @@ endif
     autocmd FileType text     setlocal spell
     autocmd Filetype markdown setlocal spell
 
+    if (v:version >= 800)
+      autocmd TerminalOpen * setlocal nonumber norelativenumber
+    endif
+
     " auto-reload vimrc whenever I save it
     autocmd BufWritePost vimrc,.vimrc, source $MYVIMRC | call lightline#disable() | call lightline#enable()
     "                                                       "  ^ not entirely sure why all this craziness is necessary. It was necessary with Airline too!
