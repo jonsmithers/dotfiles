@@ -871,7 +871,9 @@ endif
 
     " code execution
     autocmd Filetype python     nnoremap <buffer> <space>py :!python %<cr>
-    autocmd Filetype javascript nnoremap <buffer> <space>js :!node %<cr>
+    "autocmd Filetype javascript nnoremap <buffer> <space>js :!node %<cr>
+    " autocmd Filetype javascript nnoremap <buffer> <space>js :ter ++rows=10 node %<cr>k
+    autocmd Filetype javascript nnoremap <buffer> <space>js o:call RunNodeTerm()<cr>h
     autocmd Filetype javascript,html call MakeJSKeys()
     autocmd Filetype notes :command!-buffer MarkdownThing call OpenMarkdown()
     function! OpenMarkdown()
@@ -881,6 +883,9 @@ endif
 
   augroup END
 
+  function! RunNodeTerm()
+    call term_start('node ' . expand('%'), { 'vertical': 1, 'term_cols': 80, 'norestore': 1 })
+  endfunction
   function! MakeJSKeys()
     :nnoremap <buffer> <Leader>il oconsole.log();F)i
     :nnoremap <buffer> <Leader>iL oconsole.log('%c', 'font-size:15px');F,hi
