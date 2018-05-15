@@ -100,7 +100,9 @@ endif
       " let g:lightline.separator.right = ''
       " let g:lightline.separator.left =  ''
       function! LightlineObsessionStatus()
-        return ObsessionStatus('session', 'session paused')
+        if exists('*ObsessionStatus')
+          return ObsessionStatus('session', 'session paused')
+        endif
       endfunction
       function! LightLineChanges()
         let l:hunkSummary = v:null
