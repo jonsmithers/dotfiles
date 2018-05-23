@@ -281,6 +281,13 @@ end
     end
   end
 
+  if command -v tmux > /dev/null
+    function tsh -d "Get a tmux session, preferably an existing one"
+      # attach to existing session or create one
+      tmux a; or tmux
+    end
+  end
+
   function gd
     echo "cd "(dirname (git list $argv[1]))
     cd (dirname (git list $argv[1]))
