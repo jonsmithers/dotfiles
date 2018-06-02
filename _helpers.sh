@@ -15,5 +15,6 @@ function prompt() {
 }
 function echo_and_run() {
   echo -e "$GREEN`pwd`$WHITE\$ $@" $NORMAL
-  "$@" || { echo -e $RED"Looks like that didn't work.$YELLOW ¯\_(ツ)_/¯ $NORMAL"; exit 1; }
+  "$@" || { echoerr -e $RED"Looks like that didn't work.$YELLOW ¯\_(ツ)_/¯ $NORMAL"; exit 1; }
 }
+echoerr() { echo "$@" 1>&2; }
