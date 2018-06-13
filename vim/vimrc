@@ -425,7 +425,16 @@ endif
     if (!empty(glob('~/Dropbox/vimwiki')))
       Plug 'vimwiki/vimwiki'
     " Quick access to a personal wiki. In vim.
-      let g:vimwiki_list = [{'path': '$HOME/Dropbox/vimwiki'}] " 'syntax': 'markdown', 'ext': '.md'}]
+      let g:vimwiki_list = [
+      \   {
+      \     'path': '$HOME/Dropbox/vimwiki/md',
+      \     'syntax': 'markdown',
+      \     'ext': '.md',
+      \   },
+      \   {
+      \     'path': '$HOME/Dropbox/vimwiki'
+      \   },
+      \ ] " 'syntax': 'markdown', 'ext': '.md'}]
     endif
 
     Plug 'w0rp/ale'
