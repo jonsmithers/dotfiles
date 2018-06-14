@@ -285,6 +285,11 @@ end
     end
   end
 
+  if command -v aws > /dev/null
+    # aws completion https://github.com/aws/aws-cli/issues/1079#issuecomment-242923826
+    complete --command aws --no-files --arguments '(begin; set --local --export COMP_SHELL fish; set --local --export COMP_LINE (commandline); aws_completer | sed \'s/ $//\'; end)'
+  end
+
   if command -v tmux > /dev/null
     function tsh -d "Get a tmux session, preferably an existing one"
       # attach to existing session or create one
