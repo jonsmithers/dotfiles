@@ -270,6 +270,10 @@ end
   alias igrep='grep --invert-match'
   alias fzfp='fzf --preview "head --lines=40 {}"'
 
+  function giff
+    g -c vim $argv[1] +Gdiff
+  end
+
   function howtousexargs
     echo "ls | tr '\n' '\0' | xargs -0 -n1 -p"
     echo "ls | sed '/s/.*/\"&\"/'"
