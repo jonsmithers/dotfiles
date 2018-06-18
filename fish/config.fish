@@ -301,6 +301,7 @@ end
     echo "cd "(dirname (git list $argv[1]))
     cd (dirname (git list $argv[1]))
   end
+  alias fd="cd (find . -type d | fzf)"
 
   function download
     wget --continue --progress=dot:mega --tries=0 $argv
