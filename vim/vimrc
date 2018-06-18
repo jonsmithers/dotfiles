@@ -447,6 +447,10 @@ endif
       \}
       let g:ale_linter_aliases = { 'html': ['html', 'javascript'] }
       let g:ale_echo_msg_format = '(%linter%) %s'
+      let g:ale_fixers = {
+            \ 'javascript': ['eslint'],
+            \ 'html': ['eslint']
+            \}
       :nnoremap <Leader>an :ALENextWrap<Enter>
 
 
