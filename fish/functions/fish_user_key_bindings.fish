@@ -40,9 +40,20 @@ function fish_user_key_bindings
         end
     end
 
+    function fzf_for_directories
+        switch (commandline -t)[-1]
+        case "!"
+            find . -type d | fzf > /tmp/fzf.result;
+            commandline -t (cat /tmp/fzf.result); commandline -f repaint
+        case "*"
+            commandline -i 'D'
+        end
+    end
+
     bind -M insert B fzf_for_git_branch
     bind -M insert L fzf_for_local_git_branch
     bind -M insert T fzf_for_tags
+    bind -M insert D fzf_for_directories
 
     bind ! bind_bang
     bind '$' bind_dollar
