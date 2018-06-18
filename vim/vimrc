@@ -191,6 +191,7 @@ endif
       " fzf bindings
         :command! -bang -nargs=* Rg  call fzf#vim#grep('rg --column --line-number --no-heading --color=always               '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
         :command! -bang -nargs=* Rgi call fzf#vim#grep('rg --column --line-number --no-heading --color=always --ignore-case '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
+        :command! -nargs=* Rgexpand :exec 'Rg ' . expand(<q-args>)
 
         "search for word in working directory
         :nnoremap <Leader>sw    :Rg  
