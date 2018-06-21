@@ -144,7 +144,7 @@ set fish_greeting ""
         if [ "2" = (count $argv) ]
           ffmpeg  -i $argv[1] -s $argv[2] -pix_fmt rgb24 -r 10 -f gif - | gifsicle --optimize=3 --delay=10
         else
-          echo "movtogiv FILE.mov AxB > OUTPUT.gif"
+          echo "movtogif FILE.mov AxB > OUTPUT.gif"
         end
       end
 
