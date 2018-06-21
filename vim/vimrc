@@ -303,6 +303,9 @@ endif
 
     Plug 'leafgarland/typescript-vim'
 
+    Plug 'markonm/traces.vim'
+    " show a live preview of :substitute
+
     Plug 'mattn/emmet-vim'
     " Faster html entry. I currently don't use this.
 
