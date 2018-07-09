@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+for b in $(git branch --sort=committerdate --remote --no-merged); do
+    echo -n $b" "
+    echo -n $(git show $b --pretty="format: \"%cn\" \"%ct\" \"%cr\"" | head -n 1;)
+    echo;
+done
