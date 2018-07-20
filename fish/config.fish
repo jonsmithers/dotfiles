@@ -64,6 +64,7 @@ set fish_greeting ""
       alias stfu="osascript -e 'set volume output muted true'"
       alias chrome="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome"
       alias tmux="env TERM=screen-256color-bce tmux" # for vim inside tmux https://stackoverflow.com/questions/10158508/lose-vim-colorscheme-in-tmux-mode
+      set TERM 'xterm-256color'
     case Linux
       init_echo "Linux init"
       function marks
