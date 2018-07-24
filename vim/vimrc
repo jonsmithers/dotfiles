@@ -697,7 +697,6 @@ endif
 " Viewer
   func! Reader()
       :AnsiEsc
-      let g:airline#extensions#tabline#enabled = 0
       set laststatus=0
       set nonumber
   endfu
