@@ -490,11 +490,13 @@ endif
     endif
     Plug 'NLKNguyen/papercolor-theme'
     Plug 'dracula/vim'
+    Plug 'KKPMW/sacredforest-vim'
     Plug 'junegunn/seoul256.vim'
     Plug 'mhartington/oceanic-next'
     Plug 'morhetz/gruvbox'
     Plug 'nanotech/jellybeans.vim'
     Plug 'rakr/vim-one'
+    Plug 'romainl/Apprentice'
 
     if has('mac')
       Plug 'junegunn/vim-xmark', { 'do': 'make' }
@@ -825,6 +827,7 @@ endif
   com! DarkPaper  set background=dark  | colorscheme PaperColor
   com! DarkOne    set background=dark  | colorscheme one
   com! DarkSeoul  set background=dark  | colorscheme seoul256
+  com! DarkSacredForest colorscheme sacredforest
   com! LightOne   set background=light | colorscheme one
   com! LightGruv  set background=light | colorscheme gruvbox
   com! LightOcean set background=light | colorscheme OceanicNextLight
