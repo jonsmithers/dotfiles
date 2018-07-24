@@ -480,6 +480,7 @@ endif
     " languages
     Plug 'posva/vim-vue'
     Plug 'dag/vim-fish'
+    Plug 'vim-scripts/groovyindent-unix'
 
     " colorschemes
     if (has('termguicolors'))
