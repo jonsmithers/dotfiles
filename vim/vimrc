@@ -461,6 +461,12 @@ endif
     " Plug 'wellle/targets.vim'
     " Advanced vim text objects. Sometimes this is slow.
 
+    Plug 'whiteinge/diffconflicts'
+    " git config --global merge.tool diffconflicts
+    " git config --global mergetool.diffconflicts.cmd 'vim -c DiffConflicts "$MERGED" "$BASE" "$LOCAL" "$REMOTE"'
+    " git config --global mergetool.diffconflicts.trustExitCode true
+    " git config --global mergetool.keepBackup false
+
     if (!empty(glob('~/Dropbox/vim-notes')))
       Plug 'xolox/vim-notes'
       Plug 'xolox/vim-misc'
