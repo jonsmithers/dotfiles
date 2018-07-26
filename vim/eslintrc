@@ -1,28 +1,27 @@
-const INDENT    = (require('os').platform() == 'linux') ? 2 : 4;
-const SEMICOLON = (require('os').platform() == 'linux') ? 'never' : 'always';
+const INDENT    = 2; // (require('os').platform() == 'linux') ? 2 : 4;
+const SEMICOLON = 'always'; //(require('os').platform() == 'linux') ? 'never' : 'always';
 
 module.exports = {
-    "plugins": [
-        "html"
-    ],
-    "parserOptions": {
-        "ecmaVersion": 2017
-    },
-    "env": {
-        "browser": false,
-        "node":    true,
-        "es6":     true
-    },
-    "extends": "eslint:recommended",
-    "rules": {
-        "indent":                [ "warn", INDENT   ],
-        "linebreak-style":       [ "warn", "unix"   ],
-        "no-undef":              [ "warn", {}],
-        "no-console":            [ "warn", {allow: ["warn", "error"]} ],
-        "no-constant-condition": [ "warn", {checkLoops: false}],
-        "no-unused-vars":        [ "warn", {vars: "local"} ],
-        "quotes":                [ "off",  "double" ],
-        "no-undef":              [ "warn" ],
-        "semi":                  [ "warn", SEMICOLON ]
-    }
+  "plugins": [
+    "html"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 2017
+  },
+  "env": {
+    "browser": false,
+    "node":    true,
+    "es6":     true
+  },
+  "extends": "eslint:recommended",
+  "rules": {
+    "indent":                [ "warn", INDENT   ],
+    "linebreak-style":       [ "warn", "unix"   ],
+    "no-undef":              [ "warn", {}],
+    "no-console":            [ "warn", {allow: ["warn", "error"]} ],
+    "no-constant-condition": [ "warn", {checkLoops: false}],
+    "no-unused-vars":        [ "warn", {vars: "local"} ],
+    "quotes":                [ "off",  "double" ],
+    "semi":                  [ "warn", SEMICOLON ]
+  }
 };
