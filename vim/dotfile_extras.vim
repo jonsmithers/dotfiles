@@ -1,6 +1,15 @@
 " these functions aren't loaded at startup, but only when they are invoked
 " (see :help autoload)
 
+" puts all eslint issues into quickfix list
+function! dotfile_extras#rungulpeslint()
+  " expects the built-in 'compact' formatter
+  set errorformat+=%f:\ line\ %l\\,\ col\ %c\\,\ %trror\ -\ %m
+  set errorformat+=%f:\ line\ %l\\,\ col\ %c\\,\ %tarning\ -\ %m
+  set makeprg=gulp
+  make eslint --machine-format
+endfunction
+
 function! dotfile_extras#ToggleScrollMode()
   if exists('s:scroll_mode')
     unmap k
