@@ -293,8 +293,19 @@ end
 
   if command -v tmux > /dev/null
     function tsh -d "Get a tmux session, preferably an existing one"
-      # attach to existing session or create one
-      tmux a; or tmux
+      if test 'new' = "$argv[1]"
+        if tmux ls
+          tmux attach \; new-window \; send-keys "cd "(pwd) \; send-keys Enter
+        else
+          tmux new-session          \; send-keys "cd "(pwd) \; send-keys Enter
+        end
+      else if test 'help' = "$argv[1]"
+        echo "nah"
+        return
+      else
+        # attach to existing session or create one
+        tmux a; or tmux
+      end
     end
   end
 
