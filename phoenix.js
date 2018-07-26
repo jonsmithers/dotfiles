@@ -143,14 +143,9 @@ VimMode.bind( 'down', mShift, function() {
 
 var focusTitle = function(title) {
 
-  var m = new Modal();
-  m.message = "Focusing...";
-  m.origin = {x: 50, y: 90};
-  m.show();
-
   try {
     var winToFocus;
-    var allWindows = Window.all({visible: true});
+    var allWindows = Window.all({visible: false});
     Phoenix.log("Searching " + allWindows.length + " windows");
     allWindows.forEach(function(element, index, array) {
       if (element.title().indexOf(title) === 0) {
@@ -161,6 +156,9 @@ var focusTitle = function(title) {
     });
 
     if (winToFocus) {
+      if (winToFocus.isMinimized()) {
+        winToFocus.unminimize()
+      }
       winToFocus.focus();
     } else {
       toast("No window has title '"+title+"'");
@@ -170,7 +168,7 @@ var focusTitle = function(title) {
     Phoenix.log(e);
     toast(e);
   } finally {
-    m.close();
+    //
   }
 };
 var cycle = function(appName) {
