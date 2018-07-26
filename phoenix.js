@@ -268,16 +268,15 @@ var storedKeys = [
       Task.run("~/bin/send_airstatadmin1.sh")
     }, 600);
   }),
-  new Key( 'e', ['alt','ctrl'], function() { cycle('Eclipse'); }),
-  new Key( 'f', ['alt','ctrl'], function() { cycle('Finder'); }),
-  new Key( 'h', ['alt','ctrl'], function() { cycle('HipChat'); }),
-  new Key( 'i', ['alt','ctrl'], function() { cycle('Google Chrome', 'Google Hangouts', 'Developer Tools', 'Hangouts', 'Pushbullet', 'Google Play Music'); }),
-  // new Key( 'i', ['alt','ctrl'], function() { cycle('Firefox'); }),
-  new Key( 'i', ['alt'], function() { cycle('Firefox'); }),
-  new Key( 'm', ['alt','ctrl'], function() { cycle('Mail'); }),
-  new Key( 'n', ['alt','ctrl'], function() { cycle('iTerm'); }),
-  new Key( 'o', ['alt','ctrl'], function() { cycle('Microsoft Outlook'); }),
-  new Key( 'v', ['alt','ctrl'], function() { cycle('Visual Studio Code'); }),
+  new Key( 'e', ['alt','shift'], function() { cycle('IntelliJ IDEA CE'); }),
+  new Key( 'f', ['alt','shift'], function() { cycle('Finder'); }),
+  new Key( 'h', ['alt','shift'], function() { cycle('HipChat'); }),
+  new Key( 'j', ['alt','shift'], function() { focusTitle('Google Hangouts'); }),
+  new Key( 'i', ['alt','shift'], function() { cycle('Google Chrome', 'Google Hangouts', 'Developer Tools', 'Hangouts', 'Pushbullet', 'Google Play Music'); }),
+  new Key( 'm', ['alt','shift'], function() { cycle('Mail'); }),
+  new Key( 'n', ['alt','shift'], function() { cycle('iTerm'); }),
+  new Key( 'o', ['alt','shift'], function() { cycle('Microsoft Outlook'); }),
+  new Key( 'v', ['alt','shift'], function() { cycle('Visual Studio Code'); }),
   // new Key( 'p', ['alt'], function() { focusTitle('Pushbullet'); }),
 ];
 
