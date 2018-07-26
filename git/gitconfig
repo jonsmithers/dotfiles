@@ -37,12 +37,12 @@
   # https://stackoverflow.com/questions/3515597/add-only-non-whitespace-changes#comment61915463_7149602
   twoweeks = log --oneline --graph --all --author=\"Smithers\" --since=\"2 weeks ago\"
 [push]
-	default = simple
+  default = simple # already default since 2.0
 [user]
-	name = Jon Smithers
-	email = mail@jonsmithers.link
+  name = Jon Smithers
+  email = mail@jonsmithers.link
 [credential]
-	helper = cache --timeout 28800
+  helper = cache --timeout 28800
 [diff]
   compactionHeuristic = true # only for git 2.9
   indentHeuristic = true # only for git 2.11 - 2.14 (it's already default for 2.15+)
