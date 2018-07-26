@@ -24,7 +24,7 @@ let @l='yiwiif (jjA == null) {}jja else {return jjpa;}jjkk'
 " insert mode shortcuts
 :imap jk <Esc>
 " :imap II <Esc>I
-:imap AA <Esc>A
+" :imap AA <Esc>A
 :imap ZZ <Esc>zzi
 "http://vim.wikia.com/wiki/Quick_command_in_insert_mode
 
