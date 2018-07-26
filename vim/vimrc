@@ -644,8 +644,8 @@ endif
   nnoremap <Leader>ou :call OpenUrl()<Enter>
   " toggle plugins and syntax to make vim really fast
   " com! Fast :GitGutterToggle | :ALEToggle | :if exists("g:syntax_on") | syntax off | else | syntax enable | endif
-  com! FastEverything :GitGutterDisable | :ALEDisable | syntax off
-  com! SlowEverything :GitGutterEnable  | :ALEEnable  | syntax on
+  com! Fast :ALEDisable | syntax off
+  com! Slow :ALEEnable  | syntax on
 
   " https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
   nnoremap <expr> n  'Nn'[v:searchforward]
