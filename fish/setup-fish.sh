@@ -27,6 +27,9 @@ if [[ ! `command -v rg` ]] && prompt "Install rg"; then
     brew install ripgrep
   elif [[ `command -v dnf` ]]; then
     sudo dnf install ripgrep
+  elif prompt "Download hardcoded 0.8.1 rg version for debian?"; then
+    curl -LO https://github.com/BurntSushi/ripgrep/releases/download/0.8.1/ripgrep_0.8.1_amd64.deb
+    sudo dpkg -i ripgrep_0.8.1_amd64.deb
   else
     python -m webbrowser "https://github.com/BurntSushi/ripgrep#installation"
   fi
