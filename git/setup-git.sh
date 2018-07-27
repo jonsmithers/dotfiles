@@ -5,7 +5,11 @@ source ../_helpers.sh
 
 if [[ ! `command -v diff-highlight` ]] && prompt "Install diff-highlight"; then 
   echo "Installing diff-highlight"
-  sudo easy_install diff-highlight
+  if [[ `command -v easy_install` ]]; then
+    sudo easy_install diff-highlight
+  else
+    echo "CANT INSTALL DIFF-HIGHLIGHT WITHOUT EASY_INSTALL"
+  fi
 else
   echo "Skipping diff-highlight"
 fi
@@ -21,7 +25,11 @@ if [[ ! `command -v git-number` ]] && prompt "Install git-number"; then
     mkdir -p ~/git/git-number
     git clone https://github.com/holygeek/git-number.git ~/git/git-number
     cd ~/git/git-number
-    sudo make install
+    if [[ ! `command -v make` ]]; then
+      echo "PLEASE INSTALL MAKE TO INSTALL GIT-NUMBER"
+    else
+      sudo make install
+    fi
     cd -
   elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then
     echo Good luck installing git-number here
