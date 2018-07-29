@@ -19,10 +19,10 @@ if (s:os != 'Windows')
     augroup END
   endif
 else
-  if empty(glob('~\vimfiles\autoload'))
+  if empty(glob('~\vimfiles\autoload\plug.vim'))
     set shell=C:\\WINDOWS\\sysnative\\WindowsPowerShell\\v1.0\\powershell.exe
     !md ~\vimfiles\autoload
-    !(New-Object Net.WebClient).DownloadFile('https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim', $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath("~\vimfiles\autoload\plug.vim"))
+    !(New-Object Net.WebClient).DownloadFile('https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim', $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath('~\vimfiles\autoload\plug.vim'))
     augroup vimplug
       autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
     augroup END
@@ -889,7 +889,7 @@ endif
     autocmd FileType text     setlocal spell
     autocmd Filetype markdown setlocal spell
 
-    if (v:version >= 800)
+    if (v:version >= 810)
       autocmd TerminalOpen * setlocal nonumber norelativenumber
     endif
 
