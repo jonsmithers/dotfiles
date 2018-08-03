@@ -93,7 +93,6 @@ func! dotfile_extras#SoftWrappedProcessorMode()
   "set thesaurus+=/Users/sbrown/.vim/thesaurus/mthesaur.txt
   "set complete+=s
 endfu
-com! SoftWrapMode call SoftWrappedProcessorMode()
 
 let s:termbuf = 0
 function! dotfile_extras#ToggleTerm()
