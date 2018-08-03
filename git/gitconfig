@@ -46,3 +46,10 @@
 [diff]
   compactionHeuristic = true # only for git 2.9
   indentHeuristic = true # only for git 2.11 - 2.14 (it's already default for 2.15+)
+[merge]
+  tool = diffconflicts
+[mergetool "diffconflicts"]
+  cmd = vim -c DiffConflicts \"$MERGED\" \"$BASE\" \"$LOCAL\" \"$REMOTE\"
+  trustExitCode = true
+[mergetool]
+  keepBackup = false
