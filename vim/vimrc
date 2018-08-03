@@ -713,12 +713,8 @@ endif
   com! ProseMode    call dotfile_extras#ProseMode()
   com! CodeMode     call dotfile_extras#CodeMode()
   com! SoftWrapMode call dotfile_extras#SoftWrappedProcessorMode()
+  nnoremap <F4>    :call dotfile_extras#ToggleTerm()<CR>
 
-
-" visor style terminal buffer
-  " https://www.reddit.com/r/neovim/comments/3cu8fl/quick_visor_style_terminal_buffer/
-  com! ToggleTerm call ToggleTerm()
-  nnoremap <A-t> :ToggleTerm<cr>
 
   map <F6> :let $VIM_DIR=expand('%:p:h')<CR>:terminal<CR>cd $VIM_DIR<CR>clear<CR>
 

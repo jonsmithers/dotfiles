@@ -96,13 +96,20 @@ endfu
 
 let s:termbuf = 0
 function! dotfile_extras#ToggleTerm()
-  topleft 30 split
-  try
+  botright 10 split
+  if (bufexists(s:termbuf))
+    echom s:termbuf . ' exists'
     exe 'buffer' . s:termbuf
-    startinsert
-  catch
-    terminal
+    " try
+    "   normal i
+    " endtry
+  else
+    echom s:termbuf . ' does not exist'
+    terminal ++curwin
     let s:termbuf=bufnr('%')
-    tnoremap <buffer> <A-t>  <C-\><C-n>:close<cr>
-  endtry
+    "tnoremap <buffer> <F4> <C-\><C-n>:close<cr>
+    tnoremap <buffer> <F4> <C-w><C-q>
+    nnoremap <buffer> <F4> i<C-w><C-q>
+    vnoremap <buffer> <F4> <esc>i<C-w><C-q>
+  endif
 endfunction
