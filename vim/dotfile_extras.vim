@@ -30,23 +30,26 @@ endfunction
 
 func! dotfile_extras#ProseMode()
   Goyo
-  let b:spell         = &spell
-  let b:copyindent    = &copyindent
-  let b:autoindent    = &autoindent
-  let b:list          = &list
-  let b:showmode      = &showmode
-  let b:showcmd       = &showcmd
-  let b:formatoptions = &formatoptions
-  let b:whichwrap     = &whichwrap
-  let b:sidescrolloff = &sidescrolloff
-  let b:smartindent   = &smartindent
 
-  setlocal spell
-  setlocal nocopyindent noautoindent nolist noshowmode noshowcmd nosmartindent
-  setlocal complete+=s " complete from thesaurus
-  setlocal formatoptions=an
-  setlocal whichwrap+=h,l
-  setlocal sidescrolloff=0
+  " booleans
+  let b:autoindent    = &autoindent
+  let b:copyindent    = &copyindent
+  let b:list          = &list
+  let b:showcmd       = &showcmd
+  let b:showmode      = &showmode
+  let b:smartindent   = &smartindent
+  let b:spell         = &spell
+
+  " non-booleans
+  let b:complete      = &complete
+  let b:formatoptions = &formatoptions
+  let b:sidescrolloff = &sidescrolloff
+  let b:whichwrap     = &whichwrap
+
+  setlocal noautoindent nocopyindent nolist noshowcmd noshowmode nosmartindent spell
+  setlocal complete+=s formatoptions=an sidescrolloff=0 whichwrap+=h,l
+  "        ^ complete from thesarus
+
   LightOne " setlocal bg=light
   hi SpellBad guibg=pink guifg=red
   " my terminals don't undercurl, as termguicolor would have them do, so
@@ -57,16 +60,17 @@ endfu
 if (!exists('*dotfile_extras#CodeMode')) " this function sources vimrc and you can't redefine function while it's executing
   func dotfile_extras#CodeMode()
     Goyo!
-    exec 'setlocal ' . (b:spell      ? '':'no') . 'spell'
-    exec 'setlocal ' . (b:copyindent ? '':'no') . 'copyindent'
-    exec 'setlocal ' . (b:autoindent ? '':'no') . 'autoindent'
-    exec 'setlocal ' . (b:list       ? '':'no') . 'list'
-    exec 'setlocal ' . (b:showmode   ? '':'no') . 'showmode'
-    exec 'setlocal ' . (b:showcmd    ? '':'no') . 'showcmd'
-    exec 'setlocal ' . (b:smartindent? '':'no') . 'smartindent'
+    exec 'setlocal ' . (b:autoindent  ? '':'no') . 'autoindent'
+    exec 'setlocal ' . (b:copyindent  ? '':'no') . 'copyindent'
+    exec 'setlocal ' . (b:list        ? '':'no') . 'list'
+    exec 'setlocal ' . (b:showcmd     ? '':'no') . 'showcmd'
+    exec 'setlocal ' . (b:showmode    ? '':'no') . 'showmode'
+    exec 'setlocal ' . (b:smartindent ? '':'no') . 'smartindent'
+    exec 'setlocal ' . (b:spell       ? '':'no') . 'spell'
+    exec 'setlocal complete='     .b:complete
     exec 'setlocal formatoptions='.b:formatoptions
-    exec 'setlocal whichwrap='    .b:whichwrap
     exec 'setlocal sidescrolloff='.b:sidescrolloff
+    exec 'setlocal whichwrap='    .b:whichwrap
     source $MYVIMRC
   endfu
 endif
