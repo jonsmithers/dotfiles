@@ -39,9 +39,10 @@ func! dotfile_extras#ProseMode()
   let b:formatoptions = &formatoptions
   let b:whichwrap     = &whichwrap
   let b:sidescrolloff = &sidescrolloff
+  let b:smartindent   = &smartindent
 
   setlocal spell
-  setlocal nocopyindent noautoindent nolist noshowmode noshowcmd
+  setlocal nocopyindent noautoindent nolist noshowmode noshowcmd nosmartindent
   setlocal complete+=s " complete from thesaurus
   setlocal formatoptions=an
   setlocal whichwrap+=h,l
@@ -62,6 +63,7 @@ if (!exists('*dotfile_extras#CodeMode')) " this function sources vimrc and you c
     exec 'setlocal ' . (b:list       ? '':'no') . 'list'
     exec 'setlocal ' . (b:showmode   ? '':'no') . 'showmode'
     exec 'setlocal ' . (b:showcmd    ? '':'no') . 'showcmd'
+    exec 'setlocal ' . (b:smartindent? '':'no') . 'smartindent'
     exec 'setlocal formatoptions='.b:formatoptions
     exec 'setlocal whichwrap='    .b:whichwrap
     exec 'setlocal sidescrolloff='.b:sidescrolloff
