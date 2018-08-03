@@ -94,15 +94,22 @@ func! dotfile_extras#SoftWrappedProcessorMode()
   "set complete+=s
 endfu
 
-let s:termbuf = 0
+" visor style terminal buffer
+  " https://www.reddit.com/r/neovim/comments/3cu8fl/quick_visor_style_terminal_buffer/
+if (!exists('s:termbuf'))
+  let s:termbuf = 0
+endif
 function! dotfile_extras#ToggleTerm()
-  botright 10 split
-  if (bufexists(s:termbuf))
-    echom s:termbuf . ' exists'
+
+  "normal mx
+  "normal H
+  botright 20 split
+  "wincmd p
+  "normal `x
+  "wincmd p
+
+  if (s:termbuf && bufexists(s:termbuf))
     exe 'buffer' . s:termbuf
-    " try
-    "   normal i
-    " endtry
   else
     echom s:termbuf . ' does not exist'
     terminal ++curwin
