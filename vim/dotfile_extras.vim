@@ -80,6 +80,7 @@ endif
 " is either all-visible or all-hidden. It's still nice to have for when you
 " need to read long paragraphs in vim.
 func! dotfile_extras#SoftWrappedProcessorMode()
+  Goyo 80
   setlocal nonumber
   setlocal noexpandtab
   setlocal wrap
