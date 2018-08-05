@@ -351,7 +351,7 @@ endif
       else
         let g:webdevicons_enable = 1
       endif
-    Plug 'scrooloose/nerdtree'
+    Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeFind', 'NERDTreeClose', 'NERDTreeToggle'] }
     " Project tree sidebar that kind of defies the philosophy of vim
 
     Plug 'SirVer/ultisnips'
