@@ -259,7 +259,7 @@ endif
         "  endif
         "endfunction
 
-    Plug 'junegunn/goyo.vim'
+    Plug 'junegunn/goyo.vim', { 'on': 'Goyo' }
     " Distraction free mode. Good for coding and as well as prose writing.
       let g:goyo_width = 81
       " make vim close the First time you do :quit
@@ -294,10 +294,10 @@ endif
     Plug 'junegunn/rainbow_parentheses.vim'
     let g:rainbow#pairs = [['(', ')'], ['[', ']'], ['{', '}']]
 
-    Plug 'junegunn/gv.vim'
+    Plug 'junegunn/gv.vim', { 'on': 'GV' }
     " :GV to open git view (commit browser)
 
-    Plug 'junegunn/vader.vim'
+    Plug 'junegunn/vader.vim', { 'on': 'Vader', 'for': 'vader' }
 
     Plug 'junegunn/vim-easy-align'
     " Align chunks of code on a character/regex. Makes it really easy to have
