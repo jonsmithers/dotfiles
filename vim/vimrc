@@ -642,6 +642,7 @@ endif
   com! JV exec "edit /Users/smithers/.vim/plugged"
 
   nnoremap <leader>; :
+  vnoremap <leader>; :
 
   " open current file in VSCode (and jump to cursor location)
   :command! OpenInVSCode exe "silent !code --goto '" . expand("%") . ":" . line(".") . ":" . col(".") . "'" | redraw!
