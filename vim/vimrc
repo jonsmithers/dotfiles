@@ -1,5 +1,14 @@
 :scriptencoding utf8
 :let s:vimrcIsExecuting = 1
+
+" performance timing utils
+function! ResetStopwatch()
+  let s:stopwatch_start = reltime()
+endfunction
+function! PrintStopwatch()
+  echo reltimestr(reltime(s:stopwatch_start))
+endfunction
+
 if !exists('s:os')
   if has('win64') || has('win32') || has('win16')
     let s:os = 'Windows'
@@ -359,7 +368,7 @@ endif
     let g:UltiSnipsSnippetDirectories = ['~/.vim/UltiSnips', 'UltiSnips']
     " ^ workaround bug https://github.com/SirVer/ultisnips/issues/711
 
-    if (!empty(system('command -v npm')))
+    if (!empty(glob('/usr/local/bin/npm'))) " 'command -v npm' takes about 150ms
       Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
     " Intelligent completion for JavaScript. It's amazing.
       let g:tern_show_signature_in_pum = 1
@@ -754,7 +763,9 @@ endif
 " Basics
   com! FormatBullets setlocal flp=^\\s*\\(-\\\\|\\d\\+\\.\\)\\s* " I want to autoindent paragraphs that start with "- " or "123. "
   if filereadable($VIMRUNTIME . '/defaults.vim')
-    source $VIMRUNTIME/defaults.vim " new in vim 8
+    if !exists(":DiffOrig") " avoid unnecessary re-sourcing. For some reason it takes about 600ms
+      source $VIMRUNTIME/defaults.vim " new in vim 8
+    endif
     packadd! matchit " bundled default plugin
   else
     set wildmenu      "show suggestions for vim commands
