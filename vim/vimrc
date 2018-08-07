@@ -12,9 +12,12 @@ endfunction
 if !exists('s:os')
   if has('win64') || has('win32') || has('win16')
     let s:os = 'Windows'
+  elseif has('mac')
+    let s:os = 'MacOS'
   else
-    let s:os = substitute(system('uname'), '\n', '', '')
+    let s:os = 'Linux'
   endif
+  " invoking system() takes a long time: let s:os = substitute(system('uname'), '\n', '', '')
 endif
 :let g:mapleader = ' '
 
@@ -699,7 +702,7 @@ endif
               \ endif
         au VimLeave * silent execute '!echo -ne "\e[ q"' |
       augroup END
-    elseif (s:os ==? 'Darwin')
+    elseif (s:os ==? 'MacOS')
       let &t_SI = "\<Esc>]50;CursorShape=1\x7"
       let &t_EI = "\<Esc>]50;CursorShape=0\x7"
       let &t_SR = "\<Esc>]50;CursorShape=2\x7"
@@ -734,7 +737,7 @@ endif
   if has('gui_running')
     set background=dark
     set autoread        "auto-load changes from disk
-    if (s:os ==? 'Darwin')
+    if (s:os ==? 'MacOS')
       set guifont=Monaco:h12
     endif
 
