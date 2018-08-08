@@ -371,7 +371,7 @@ endif
     let g:UltiSnipsSnippetDirectories = ['~/.vim/UltiSnips', 'UltiSnips']
     " ^ workaround bug https://github.com/SirVer/ultisnips/issues/711
 
-    if (!empty(glob('/usr/local/bin/npm'))) " 'command -v npm' takes about 150ms
+    if (!empty(glob('/usr/local/bin/npm')) || !empty(glob('/home/smithers/.npm-global/bin/npm'))) " 'command -v npm' takes about 150ms
       Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
     " Intelligent completion for JavaScript. It's amazing.
       let g:tern_show_signature_in_pum = 1
