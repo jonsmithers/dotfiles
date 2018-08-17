@@ -935,6 +935,7 @@ endif
     " autocmd Filetype javascript nnoremap <buffer> <space>js :ter ++rows=10 node %<cr>k
     autocmd Filetype javascript nnoremap <buffer> <space>js o:call RunNodeTerm()<cr>h
     autocmd Filetype javascript,html call MakeJSKeys()
+    autocmd Filetype vim call MakeVimKeys()
     autocmd Filetype notes :command!-buffer MarkdownThing call OpenMarkdown()
     function! OpenMarkdown()
       silent !Markdown.pl % > deleteme.html; open deleteme.html
@@ -953,6 +954,9 @@ endif
     :nnoremap <buffer> <Leader>lif yiwoconsole.log('0()');<Esc>
     :nnoremap <buffer> <Leader>liF yiwoconsole.log('%c0()', 'font-size:15px');<Esc>^2w
     :nnoremap <buffer> <Leader>gif yiwf{oconsole.group('0');<Esc>]}Oconsole.groupEnd();<Esc>^
+  endfunction
+  function! MakeVimKeys()
+    :nnoremap <buffer> <Leader>il oechom ''i
   endfunction
 
   function! IsBowerComponent()
