@@ -1,6 +1,11 @@
 " these functions aren't loaded at startup, but only when they are invoked
 " (see :help autoload)
 
+if (!exists('s:dotfile_extras_script'))
+  let s:dotfile_extras_script = expand('<sfile>')
+  autocmd BufWritePost dotfile_extras.vim exec 'source ' . s:dotfile_extras_script
+endif
+
 " puts all eslint issues into quickfix list
 function! dotfile_extras#rungulpeslint()
   " expects the built-in 'compact' formatter
