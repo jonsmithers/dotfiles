@@ -78,6 +78,8 @@ endif
     " editors. It's great. In a better world, every project would have a
     " .editorconfig file at its root.
 
+    Plug 'Houl/ExplainPattern-vim'
+
     Plug 'itchyny/lightline.vim'
     " inspired by https://statico.github.io/vim3.html#lightline-powerline-airline-and-status-bars
       set laststatus=2 "always show airline, instead of only after splitview
