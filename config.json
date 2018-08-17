@@ -13,6 +13,7 @@
     "./editorconfig":                    "~/.editorconfig",
     "./git/git-completion.sh":           "~/.git-completion.sh",
     "./git/git-unmergedbranches":        "~/bin/git-unmergedbranches",
+    "./git/git-website":                 "~/bin/git-website",
     "./git/gitconfig":                   "~/.gitconfig",
     "./git/gitignore_global":            "~/.gitignore_global",
     "./linux/run-or-raise":              "~/bin/run-or-raise",

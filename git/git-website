@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+url=$(git remote --verbose \
+    | grep '^origin' \
+    | grep fetch \
+    | sed -E 's/origin.([^[:space:]]+)\.git.*/\1/' \
+    | sed -E 's/git@/https:\/\//' \
+    | sed -E 's/https:\/\/[a-zA-Z.]+@/https:\/\//' \
+    | sed -E 's/com:/com\//'
+    )
+# echo $url
+python -mwebbrowser -t $url
