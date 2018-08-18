@@ -663,9 +663,7 @@ endif
     endif
 
 " Miscellanious commands
-  com! JA exec "cd /Users/smithers/git/estatfstat/"
-  com! JAJ exec "cd /Users/smithers/git/estatfstat/airstat/src/main/web/"
-  com! JV exec "edit /Users/smithers/.vim/plugged"
+  com! JV exec "edit ~/.vim/plugged"
 
   nnoremap <leader>; :
   vnoremap <leader>; :
