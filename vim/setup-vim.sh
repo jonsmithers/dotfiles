@@ -3,12 +3,12 @@ set -e
 cd "$(dirname "$0")"
 source ../_helpers.sh
 
-if [[ `command -v nvim` ]] && prompt "Symlink for NeoVim (not entirely ironed out)"; then
+if [[ $(command -v nvim) ]] && prompt "Symlink for NeoVim (not entirely ironed out)"; then
   echo "Creating symbolic link for NeoVim"
   # I HAVENT REALLY IRONED THIS OUT WITH DOTPHILE SYMLINKS
   mkdir -p ~/.vim
   mkdir -p ${XDG_CONFIG_HOME:=$HOME/.config}
-  ln -s ~/.vim $XDG_CONFIG_HOME/nvim
+  ln -s ~/.vim "$XDG_CONFIG_HOME/nvim"
   ln -s ~/.vimrc ~/.config/nvim/init.vim
 else
   echo "Skipping neovim symlinks"
@@ -23,13 +23,13 @@ else
   echo "Skipping powerline"
 fi
 
-if [[ ! `command -v vint` ]] && (prompt "Install vim-vint"); then
+if [[ ! $(command -v vint) ]] && (prompt "Install vim-vint"); then
   echo_and_run sudo pip install vim-vint
 else
   echo "Skipping vim-vint"
 fi
 
-if [[ ! `command -v shellcheck` ]] && (prompt "Install shellcheck"); then
+if [[ ! $(command -v shellcheck) ]] && (prompt "Install shellcheck"); then
   if [[ $(command -v brew) ]]; then
     brew install shellcheck
   elif [[ $(command -v dnf) ]]; then
