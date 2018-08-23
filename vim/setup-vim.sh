@@ -29,6 +29,20 @@ else
   echo "Skipping vim-vint"
 fi
 
+if [[ ! `command -v shellcheck` ]] && (prompt "Install shellcheck"); then
+  if [[ $(command -v brew) ]]; then
+    brew install shellcheck
+  elif [[ $(command -v dnf) ]]; then
+    sudo dnf install ShellCheck
+  elif [[ $(command -v apt) ]]; then
+    sudo apt install shellcheck
+  else
+    echo 'Not sure how to install shellcheck :-/'
+  fi
+else
+  echo "Skipping shellcheck"
+fi
+
 # todo - install grip? pip install? use brew?
 
 SWAP_DIR="$HOME/.config/vimswap" 
