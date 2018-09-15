@@ -400,9 +400,6 @@ endif
     " Like Sublime's Cmd-D. Ctrl-N on a word to multiply your cursor on
     " subsequent matches for batch editing.
 
-    Plug 'tfnico/vim-gradle'
-    " Syntax highlighting
-
     Plug 'tomtom/tcomment_vim'
     " Toggle code comments. Mapped to Ctrl-//
       let g:tcomment#replacements_xml = {} " don't substitute weird characters when commenting html lines
@@ -513,9 +510,11 @@ endif
       let g:notes_conceal_bold = 0
     endif
 
-    " languages
-    Plug 'posva/vim-vue'
+    " language syntaxes
     Plug 'dag/vim-fish'
+    Plug 'luan/vim-concourse'
+    Plug 'posva/vim-vue'
+    Plug 'tfnico/vim-gradle'
     Plug 'vim-scripts/groovyindent-unix'
 
     " colorschemes
