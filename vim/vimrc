@@ -965,4 +965,15 @@ endif
 
   " lil debugging util
   com! -nargs=1 Log execute 'silent! ! echo ' . fnameescape(<args>) . ' >> VIM_LOG'
+
+if empty($MYVIMRC) && !empty(glob('~/.vimrc-smithers')) " When I download this vimrc to a system that isn't mine
+  command! RedownloadSmithersVimrc call RedownloadSmithersVimrcFunc()
+  function! RedownloadSmithersVimrcFunc()
+    silent !curl https://raw.githubusercontent.com/jonsmithers/dotfiles/master/vim/vimrc > ~/.vimrc-smithers
+    silent !mkdir -p ~/.vim/autoload
+    silent !curl https://raw.githubusercontent.com/jonsmithers/dotfiles/master/vim/dotfile_extras.vim > ~/.vim/autoload/dotfile_extras.vim
+    redraw!
+  endfunction
+endif
+
 let s:vimrcIsExecuting = 0
