@@ -9,8 +9,6 @@
     "./fish/functions/fish_right_prompt.fish":      "~/.config/fish/functions/fish_right_prompt.fish",
     "./fish/functions/fish_user_key_bindings.fish": "~/.config/fish/functions/fish_user_key_bindings.fish",
 
-    "./bash_profile":                    "~/.bash_profile",
-    "./editorconfig":                    "~/.editorconfig",
     "./git/git-completion.sh":           "~/.git-completion.sh",
     "./git/git-unmergedbranches":        "~/bin/git-unmergedbranches",
     "./git/git-website":                 "~/bin/git-website",
@@ -18,8 +16,11 @@
     "./git/gitignore_global":            "~/.gitignore_global",
     "./kitty/kitty.conf":                "~/.config/kitty/kitty.conf",
     "./linux/run-or-raise":              "~/bin/run-or-raise",
-    "./phoenix.js":                      "~/.phoenix.js",
-    "./screenrc":                        "~/.screenrc",
+    "./misc/bash_profile":               "~/.bash_profile",
+    "./misc/editorconfig":               "~/.editorconfig",
+    "./misc/phoenix.js":                 "~/.phoenix.js",
+    "./misc/screenrc":                   "~/.screenrc",
+    "./misc/wordsafe.json":              "~/.config/wordsafe/config.json",
     "./tmux/reattach-to-user-namespace": "~/bin/reattach-to-user-namespace",
     "./tmux/tmux.conf":                  "~/.tmux.conf",
     "./vim/UltiSnips":                   "~/.config/nvim/UltiSnips",
@@ -32,7 +33,6 @@
     "./vim/vim-plug-extras.vim":         "~/.vim/vim-plug-extras.vim",
     "./vim/vimrc":                       "~/.config/nvim/init.vim",
     "./vim/vimrc":                       "~/.vimrc",
-    "./vim/vrapperrc":                   "~/.vrapperrc",
-    "./wordsafe.json":                   "~/.config/wordsafe/config.json"
+    "./vim/vrapperrc":                   "~/.vrapperrc"
   }
 }
