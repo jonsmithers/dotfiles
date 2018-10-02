@@ -516,6 +516,7 @@ endif
     Plug 'posva/vim-vue'
     Plug 'tfnico/vim-gradle'
     Plug 'vim-scripts/groovyindent-unix'
+    let g:concourse_tags_autosave = 0
 
     " colorschemes
     if (has('termguicolors'))
