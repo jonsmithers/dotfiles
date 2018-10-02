@@ -959,6 +959,11 @@ endif
     :nnoremap <buffer> <Leader>il oechom ''i
   endfunction
 
+  " Example Usages:
+  " :MakeEslint %
+  " :MakeEslint src/ test/
+  command! -nargs=? MakeEslint call dotfile_extras#MakeEslint(<q-args>)
+
   function! IsBowerComponent()
     return @% =~# 'bower_components'
   endfunction
