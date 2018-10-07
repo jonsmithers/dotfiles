@@ -752,6 +752,8 @@ endif
     set autoread        "auto-load changes from disk
     if (s:os ==? 'MacOS')
       set guifont=Monaco:h12
+    elseif (s:os ==? 'Windows')
+      set guifont=Courier_New:h12
     endif
 
     :set guioptions-=m  "remove menu bar
