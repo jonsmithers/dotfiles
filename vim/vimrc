@@ -379,10 +379,12 @@ endif
     Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeFind', 'NERDTreeClose', 'NERDTreeToggle'] }
     " Project tree sidebar that kind of defies the philosophy of vim
 
-    Plug 'SirVer/ultisnips'
-    " I use this for Polymer element templates.
-    let g:UltiSnipsSnippetDirectories = ['~/.vim/UltiSnips', 'UltiSnips']
-    " ^ workaround bug https://github.com/SirVer/ultisnips/issues/711
+    if (has('python') || has('python3'))
+      Plug 'SirVer/ultisnips'
+      " I use this for Polymer element templates.
+      let g:UltiSnipsSnippetDirectories = ['~/.vim/UltiSnips', 'UltiSnips']
+      " ^ workaround bug https://github.com/SirVer/ultisnips/issues/711
+    endif
 
     if (!empty(glob('/usr/local/bin/npm')) || !empty(glob('/home/smithers/.npm-global/bin/npm'))) " 'command -v npm' takes about 150ms
       Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
