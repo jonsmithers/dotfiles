@@ -916,9 +916,15 @@ endif
 
     " custom filetype behaviors
     autocmd FileType gitcommit setlocal spell
-    autocmd FileType gitcommit startinsert!
+    autocmd FileType gitcommit call s:StartInsertIfEmpty()
     autocmd FileType text     setlocal spell
     autocmd Filetype markdown setlocal spell
+
+    function! s:StartInsertIfEmpty()
+      if (empty(getline(1)))
+        startinsert!
+      endif
+    endfunction
 
     if (v:version >= 810)
       autocmd TerminalOpen * setlocal nonumber norelativenumber
