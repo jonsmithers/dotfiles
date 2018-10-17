@@ -1,7 +1,11 @@
 #!/usr/bin/env python
+
+# NOTE: broken symlinks are a weird case and aren't reported super clearly.
+
 import json
 import os
 import filecmp
+import sys
 
 class bcolors:
   HEADER = '\033[95m'
@@ -25,11 +29,13 @@ if (len(missingFiles)):
 
 def pairIsInSync((localPath, operativePath)):
   if os.path.isfile(localPath):
+    if (not os.path.exists(operativePath)):
+        return False # broken symlink becase os.path.lexists(operativePath) is True
     return filecmp.cmp(localPath, operativePath)
   else:
     return filecmp.cmpfiles(localPath, operativePath, os.listdir(localPath))
 
-pairsThatExist = filter(lambda (localPath, operativePath): os.path.exists(operativePath), config.items())
+pairsThatExist = filter(lambda (localPath, operativePath): os.path.lexists(operativePath), config.items())
 pairsInSync    = filter(pairIsInSync,                      pairsThatExist)
 pairsOutOfSync = filter(lambda arg: not pairIsInSync(arg), pairsThatExist)
 if (len(pairsInSync)):
@@ -39,11 +45,23 @@ if (len(pairsInSync)):
 
 if (len(pairsOutOfSync)):
   print
-  print bcolors.BOLD + bcolors.FAIL + str(len(pairsOutOfSync)) + " links were not be created because the operative path already exists" + bcolors.NORMAL
+  print bcolors.BOLD + bcolors.FAIL + str(len(pairsOutOfSync)) + " links can't be created because the operative path already exists" + bcolors.NORMAL
   print bcolors.FAIL + "  " + "\n  ".join(map(lambda (localPath, operativePath): operativePath, pairsOutOfSync)) + bcolors.NORMAL
 
 pairsToLink = filter(lambda (localPath, operativePath): not os.path.exists(operativePath), config.items())
 # print "Creating " + str(len(pairsToLink)) + " symlinks"
+
+print "\n" + bcolors.BOLD + str(len(pairsToLink)) + " paths will be linked" + bcolors.NORMAL
+print bcolors.OKGREEN + "  " + "\n  ".join(map(lambda (localPath, operativePath): operativePath, pairsToLink)) + bcolors.NORMAL
+sys.stdout.write("\nOk to create " + str(len(pairsToLink)) + " symlinks? (y/n) " )
+result = raw_input()
+if (result == 'filter'):
+    print 'hm'
+    exit()
+elif (result != 'y'):
+    print "\nI was really hoping you'd say \"y\"."
+    exit()
+
 successCount = 0
 failCount = 0
 successfulLinks = list()
