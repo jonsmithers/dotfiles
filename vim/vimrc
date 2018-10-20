@@ -873,7 +873,7 @@ endif
 
   augroup colorschemespellingfix
     autocmd!
-    autocmd ColorScheme * highlight SpellBad term=reverse ctermbg=224 gui=undercurl guisp=Yellow guibg=Red
+    autocmd ColorScheme * highlight SpellBad term=reverse ctermbg=224 gui=undercurl guisp=Yellow guibg=NONE
     " ^ termguicolors relies on undercurl for misspellings, but many
     " terminals don't have that.
   augroup END
