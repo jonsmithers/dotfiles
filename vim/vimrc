@@ -753,7 +753,7 @@ endif
     set background=dark
     set autoread        "auto-load changes from disk
     if (s:os ==? 'MacOS')
-      set guifont=Monaco:h12
+      set guifont=Monaco:h16
     elseif (s:os ==? 'Windows')
       set guifont=Courier_New:h12
     endif
