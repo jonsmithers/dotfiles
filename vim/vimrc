@@ -344,6 +344,18 @@ endif
     Plug 'mattn/emmet-vim'
     " Faster html entry. I currently don't use this.
 
+    Plug 'mg979/vim-visual-multi'
+    let g:VM_mouse_mappings = 1
+    let g:VM_no_meta_mappings = 1
+    " multiple vursors. Seems to be faster than 'terryma/vim-multiple-cursors'. 
+    "
+    " Ctrl-N on a word to multiply your cursor on subsequent matches for batch
+    " editing. (Ctrl-S) to skip
+    "
+    " Ctrl-Up/Down to expand multiline cursor.
+    "
+    " \A to select all matches of word
+
     if (!exists('g:lithtml'))
       Plug 'mxw/vim-jsx'
     endif
@@ -399,10 +411,6 @@ endif
       augroup END
     endif
 
-
-    Plug 'terryma/vim-multiple-cursors'
-    " Like Sublime's Cmd-D. Ctrl-N on a word to multiply your cursor on
-    " subsequent matches for batch editing.
 
     Plug 'tomtom/tcomment_vim'
     " Toggle code comments. Mapped to Ctrl-//
