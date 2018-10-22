@@ -3,17 +3,6 @@ set -e
 cd "$(dirname "$0")"
 source ../_helpers.sh
 
-if [[ $(command -v nvim) ]] && prompt "Symlink for NeoVim (not entirely ironed out)"; then
-  echo "Creating symbolic link for NeoVim"
-  # I HAVENT REALLY IRONED THIS OUT WITH DOTPHILE SYMLINKS
-  mkdir -p ~/.vim
-  mkdir -p ${XDG_CONFIG_HOME:=$HOME/.config}
-  ln -s ~/.vim "$XDG_CONFIG_HOME/nvim"
-  ln -s ~/.vimrc ~/.config/nvim/init.vim
-else
-  echo "Skipping neovim symlinks"
-fi
-
 if prompt "Install Powerline fonts"; then
   echo "Installing Powerline fonts"
   git submodule init
