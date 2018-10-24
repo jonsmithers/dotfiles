@@ -229,7 +229,7 @@ endif
         :command! -nargs=* Rgexpand :exec 'Rg ' . expand(<q-args>)
 
         "search for word in working directory
-        :nnoremap <Leader>sw    :Rg  
+        :nnoremap <Leader>sw    :Rg  <Enter>
         :vnoremap <Leader>s     y:Rg "<Enter>
 
         :nnoremap <C-k>         :Buffers<Enter>
@@ -596,17 +596,12 @@ endif
     :nnoremap <C-l> 5zl
     :nnoremap Q <nop>
     :nnoremap <Leader>T :enew<cr>
-    :nnoremap <Leader>bk :bnext
-    :nnoremap <Leader>bj :bprevious
     let g:BASH_Ctrl_j = 'off' "this is undocumented!
-    " :nmap <C-j> :bprevious\
-    " :nmap <C-k> :bnext\
-    :nnoremap <Leader>x :NERDTreeClose<enter>:bd
-    :nnoremap <Leader>X :NERDTreeClose<enter>:bd!
+    :nnoremap <Leader>x :NERDTreeClose<enter>:bd<enter>
+    :nnoremap <Leader>X :NERDTreeClose<enter>:bd!<enter>
     :nnoremap <Leader><Leader> :w<Enter>
-    " :nmap <Leader>W :bd!\
-    :nnoremap <Leader><Tab> :b#
-          "most recent buffer
+    :nnoremap <Leader><Tab> :b#<enter>
+    " switch to most recent buffer
     :nnoremap <Leader>ss :syntax sync fromstart<enter>
     :nnoremap <Leader>BD :bufdo bd<enter>
 
@@ -673,8 +668,8 @@ endif
     endif
 
     " nerdtree stuff
-    :nnoremap <Leader>tt :NERDTreeToggle
-    :nnoremap <Leader>tf :NERDTreeFind
+    :nnoremap <Leader>tt :NERDTreeToggle<enter>
+    :nnoremap <Leader>tf :NERDTreeFind<enter>
     " close nerdtree if it's the only remaining buffer
     autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
