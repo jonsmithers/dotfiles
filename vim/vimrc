@@ -359,7 +359,7 @@ endif
     Plug 'mg979/vim-visual-multi'
     let g:VM_mouse_mappings = 1
     let g:VM_no_meta_mappings = 1
-    " multiple vursors. Seems to be faster than 'terryma/vim-multiple-cursors'. 
+    " multiple cursors. Seems to be faster than 'terryma/vim-multiple-cursors'.
     "
     " Ctrl-N on a word to multiply your cursor on subsequent matches for batch
     " editing. (Ctrl-S) to skip
@@ -725,7 +725,7 @@ endif
       augroup curshapestuff
         au VimEnter,InsertLeave * silent execute '!echo -ne "\e[2 q"' | redraw!
         au InsertEnter,InsertChange *
-              \ if v:insertmode == 'i' | 
+              \ if v:insertmode == 'i' |
               \   silent execute '!echo -ne "\e[6 q"' |
               \ elseif v:insertmode == 'r' |
               \   silent execute '!echo -ne "\e[4 q"' |
@@ -785,19 +785,16 @@ endif
     match TrailingSpace /\s\+\n/
   endfu
   command! TrailingSpaceHighlight call HighlightTrailingSpace()
-  command! TrailingSpaceDeleteAll :%s/\s\+\n//gc
+  command! TrailingSpaceDeleteAll :%s/\s\+\n/\r/gc
 
   " call clearmatches() " http://vim.wikia.com/wiki/Highlight_long_lines
   func! HighlightOverlength()
     highlight OverLength ctermbg=red ctermfg=white guibg=#592929
     match OverLength /\%81v.\+/
   endfu
-  func! SetWidthEightyFour()
-    :vertical resize 84
-  endfu
+  com! FormatBullets setlocal flp=^\\s*\\(-\\\\|\\d\\+\\.\\)\\s* " I want to autoindent paragraphs that start with "- " or "123. "
 
 " Basics
-  com! FormatBullets setlocal flp=^\\s*\\(-\\\\|\\d\\+\\.\\)\\s* " I want to autoindent paragraphs that start with "- " or "123. "
   if filereadable($VIMRUNTIME . '/defaults.vim')
     if !exists(":DiffOrig") " avoid unnecessary re-sourcing. For some reason it takes about 600ms
       source $VIMRUNTIME/defaults.vim " new in vim 8
