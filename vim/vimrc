@@ -237,7 +237,7 @@ endif
         :nnoremap <Leader>or    :History<Enter>
         :nnoremap <Leader>ft    :Filetypes<enter>
         :nnoremap <Leader>/     :History/<Enter>
-        :nnoremap <Leader><C-r> :History:<Enter>
+        :nnoremap q;            :History:<Enter>
         " (note - you can call histdel("cmd", "regexp") to delete mistaken history items)
         " :nmap <Leader>f~    :FZF ~<Enter>
 
