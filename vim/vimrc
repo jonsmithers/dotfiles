@@ -967,6 +967,7 @@ endif
     " autocmd Filetype javascript nnoremap <buffer> <space>js :ter ++rows=10 node %<cr>k
     autocmd Filetype javascript nnoremap <buffer> <space>js o:call RunNodeTerm()<cr>h
     autocmd Filetype javascript,html call MakeJSKeys()
+    autocmd Filetype python set omnifunc=pythoncomplete#Complete
     autocmd Filetype vim call MakeVimKeys()
     autocmd Filetype notes :command!-buffer MarkdownThing call OpenMarkdown()
     function! OpenMarkdown()
