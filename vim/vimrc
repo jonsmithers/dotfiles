@@ -1,13 +1,4 @@
 :scriptencoding utf8
-:let s:vimrcIsExecuting = 1
-
-" performance timing utils
-function! ResetStopwatch()
-  let s:stopwatch_start = reltime()
-endfunction
-function! PrintStopwatch()
-  echo reltimestr(reltime(s:stopwatch_start))
-endfunction
 
 if !exists('s:os')
   if has('win64') || has('win32') || has('win16')
@@ -17,7 +8,6 @@ if !exists('s:os')
   else
     let s:os = 'Linux'
   endif
-  " invoking system() takes a long time: let s:os = substitute(system('uname'), '\n', '', '')
 endif
 :let g:mapleader = ' '
 
@@ -1005,5 +995,3 @@ if !empty(glob('~/.vimrc-smithers')) " When I download this vimrc to a system th
     redraw!
   endfunction
 endif
-
-let s:vimrcIsExecuting = 0
