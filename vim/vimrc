@@ -11,8 +11,8 @@ if !exists('s:os')
 endif
 :let g:mapleader = ' '
 
-" Install vim-plug
-if (s:os != 'Windows')
+" Install vim-plug if it isn't already
+if (s:os !=# 'Windows')
   if empty(glob('~/.vim/autoload/plug.vim'))
     silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
           \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -238,41 +238,6 @@ endif
         inoremap <c-x>F <c-x><c-f>
               " Ctrl-X Shift-F will provide native c-x c-f functionality
 
-      " rg-results in quickfix (https://github.com/junegunn/fzf/wiki/Examples-(vim)#narrow-ag-results-within-vim)
-        "command! -nargs=* Qg call fzf#run({
-        "\ 'source':  printf('rg --no-heading --column --color always "%s"',
-        "\                   escape(empty(<q-args>) ? '^(?=.)' : <q-args>, '"\')),
-        "\ 'sink*':    function('<sid>ag_handler'),
-        "\ 'options': '--ansi --expect=ctrl-t,ctrl-v,ctrl-x --delimiter : --nth 1,4 '.
-        "\            '--multi --bind=ctrl-a:select-all,ctrl-d:deselect-all ',
-        "\ 'down':    '50%'
-        "\ })
-        "" \            '--color hl:68,hl+:110',
-        "function! s:ag_to_qf(line)
-        "  let l:parts = split(a:line, ':')
-        "  return {'filename': l:parts[0], 'lnum': l:parts[1], 'col': l:parts[2],
-        "        \ 'text': join(l:parts[3:], ':')}
-        "endfunction
-        "function! s:ag_handler(lines)
-        "  if len(a:lines) < 2 | return | endif
-
-        "  let l:cmd = get({'ctrl-x': 'split',
-        "               \ 'ctrl-v': 'vertical split',
-        "               \ 'ctrl-t': 'tabe'}, a:lines[0], 'e')
-        "  let l:list = map(a:lines[1:], 's:ag_to_qf(v:val)')
-
-        "  let l:first = l:list[0]
-        "  execute l:cmd escape(l:first.filename, ' %#\')
-        "  execute l:first.lnum
-        "  execute 'normal!' l:first.col.'|zz'
-
-        "  if len(l:list) > 1
-        "    call setqflist(l:list)
-        "    copen
-        "    wincmd p
-        "  endif
-        "endfunction
-
     Plug 'junegunn/goyo.vim', { 'on': 'Goyo' }
     " Distraction free mode. Good for coding and as well as prose writing.
       let g:goyo_width = 81
@@ -326,13 +291,8 @@ endif
         autocmd FileType dirvish silent! unmap <buffer> <C-p>
       augroup END
 
-    Plug 'leafgarland/typescript-vim'
-
     Plug 'markonm/traces.vim'
     " show a live preview of :substitute
-
-    Plug 'mattn/emmet-vim'
-    " Faster html entry. I currently don't use this.
 
     Plug 'mg979/vim-localhistory'
     let g:lh_basedir = '~/.vim/local_history/'
@@ -387,13 +347,20 @@ endif
 
     Plug 'ryanoasis/vim-devicons'
     " Shows pretty little icons when you use a nerdfont in your terminal.
-      if hostname() =~# 'asus-zenbook'
-        let g:webdevicons_enable = 0
-      else
+      if hostname() =~# 'smithers'
         let g:webdevicons_enable = 1
+      else
+        let g:webdevicons_enable = 0
       endif
     Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeFind', 'NERDTreeClose', 'NERDTreeToggle'] }
     " Project tree sidebar that kind of defies the philosophy of vim
+
+      :nnoremap <Leader>tt :NERDTreeToggle<enter>
+      :nnoremap <Leader>tf :NERDTreeFind<enter>
+      " close nerdtree if it's the only remaining buffer
+      augroup nerdtree
+        autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+      augroup END
 
     if (has('python') || has('python3'))
       Plug 'SirVer/ultisnips'
@@ -413,7 +380,6 @@ endif
       augroup END
     endif
 
-
     Plug 'tomtom/tcomment_vim'
     " Toggle code comments. Mapped to Ctrl-//
       let g:tcomment#replacements_xml = {} " don't substitute weird characters when commenting html lines
@@ -422,6 +388,12 @@ endif
     Plug 'tpope/vim-rhubarb'
     " Various integrated git tools. I use this a lot.
       nnoremap <Leader>gb :Gblame -w<cr>
+      " ~        reblame at hovered commit
+      " A        resize to author column
+      " D        resize to date column
+      " p        preview commit
+      " o        open commit in split
+      " O        open commit in tab
       nnoremap <leader>gs :Gstatus<cr>
       " http://vimcasts.org/episodes/fugitive-vim-working-with-the-git-index/
       " c-n, c-p jumps to files
@@ -437,7 +409,6 @@ endif
       "          [c,]c   jump to prev/next change
       "          c-w c-o nice way to exit
       "          c-w c-w goes between columns
-
 
     Plug 'tpope/vim-rsi'
     " add readline keybindings http://readline.kablamo.org/emacs.html
@@ -526,6 +497,7 @@ endif
 
     " language syntaxes
     Plug 'dag/vim-fish'
+    Plug 'leafgarland/typescript-vim'
     Plug 'luan/vim-concourse'
     Plug 'posva/vim-vue'
     Plug 'tfnico/vim-gradle'
@@ -656,12 +628,6 @@ endif
       tmap <C-u> <C-k><C-k><C-k><C-k><C-k><C-k><C-k><C-k><C-k><C-k><C-k><C-k><C-k>
       tmap <C-d> <C-j><C-j><C-j><C-j><C-j><C-j><C-j><C-j><C-j><C-j><C-j><C-j><C-j>
     endif
-
-    " nerdtree stuff
-    :nnoremap <Leader>tt :NERDTreeToggle<enter>
-    :nnoremap <Leader>tf :NERDTreeFind<enter>
-    " close nerdtree if it's the only remaining buffer
-    autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
   " terminal mode shortcuts
     if has('nvim')
