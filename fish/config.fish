@@ -272,7 +272,7 @@ end
   alias fzfp='fzf --preview "head --lines=40 {}"'
 
   function giff
-    g -c vim $argv[1] +Gdiff
+    g -c vim $argv[1] +Gvdiff
   end
 
   function howtousexargs
