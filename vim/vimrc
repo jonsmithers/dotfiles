@@ -184,7 +184,7 @@ endif
     " let g:lithtml=1
     if exists('g:lithtml')
       if (!empty(glob('~/git/vim-html-template-literals/'))) " 'command -v npm' takes about 150ms
-        " let g:VTHL_debugging = 1
+        " let g:VHTL_debugging = 1
         Plug 'jonsmithers/vim-html-template-literals', { 'dir': '~/git/vim-html-template-literals/' }
       else
         Plug 'jonsmithers/vim-html-template-literals'
@@ -347,7 +347,7 @@ endif
 
     Plug 'ryanoasis/vim-devicons'
     " Shows pretty little icons when you use a nerdfont in your terminal.
-      if hostname() =~# 'smithers'
+      if hostname() =~# 'Smithers.local'
         let g:webdevicons_enable = 1
       else
         let g:webdevicons_enable = 0
@@ -484,6 +484,7 @@ endif
     " git config --global mergetool.diffconflicts.cmd 'vim -c DiffConflicts "$MERGED" "$BASE" "$LOCAL" "$REMOTE"'
     " git config --global mergetool.diffconflicts.trustExitCode true
     " git config --global mergetool.keepBackup false
+    " git mergetool <file>
 
     if (!empty(glob('~/Dropbox/vim-notes')))
       Plug 'xolox/vim-notes'
