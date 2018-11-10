@@ -510,15 +510,16 @@ endif
     else
       set t_Co=256
     endif
+    Plug 'cormacrelf/vim-colors-github'
     Plug 'arcticicestudio/nord-vim'
-    Plug 'KKPMW/sacredforest-vim'
-    Plug 'NLKNguyen/papercolor-theme'
     Plug 'dracula/vim'
     Plug 'junegunn/seoul256.vim'
+    Plug 'KKPMW/sacredforest-vim'
     Plug 'mhartington/oceanic-next'
     Plug 'morhetz/gruvbox'
     Plug 'nanotech/jellybeans.vim'
     Plug 'nightsense/snow'
+    Plug 'NLKNguyen/papercolor-theme'
     Plug 'rakr/vim-one'
     Plug 'romainl/Apprentice'
 
@@ -838,6 +839,7 @@ endif
   com! LightPaper set background=light | colorscheme PaperColor
   com! LightSeoul set background=light | colorscheme seoul256
   com! LightSnow  set background=light | colorscheme snow
+  com! LightGitHub set background=light | colorscheme github
 
   augroup colorschemespellingfix
     autocmd!
