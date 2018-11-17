@@ -76,9 +76,13 @@ func! dotfile_extras#ProseMode()
   let b:sidescrolloff = &sidescrolloff
   let b:whichwrap     = &whichwrap
 
-  setlocal noautoindent nocopyindent nolist noshowcmd noshowmode nosmartindent spell
-  setlocal complete+=s formatoptions=an sidescrolloff=0 whichwrap+=h,l
+  setlocal nocopyindent nolist noshowcmd noshowmode nosmartindent spell
+  setlocal complete+=s formatoptions=tcq formatoptions+=an sidescrolloff=0 whichwrap+=h,l
   "        ^ complete from thesarus
+  "                    ^ default formatoptions
+  "                                      ^ add Auto-format and Numbered lists
+
+  set autoindent " appears necessary to have paragraph formatting keep indent past the 2nd line
 
   LightOne " setlocal bg=light
   hi SpellBad guibg=pink guifg=red
