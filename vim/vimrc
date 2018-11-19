@@ -889,6 +889,8 @@ endif
     " custom filetype behaviors
     autocmd FileType gitcommit setlocal spell
     autocmd FileType gitcommit call s:StartInsertIfEmpty()
+    autocmd FileType gitcommit normal gg
+    " ^ workaround weird issue where caret sometimes starts 2 lines down
     autocmd FileType text     setlocal spell
     autocmd Filetype markdown setlocal spell
 
