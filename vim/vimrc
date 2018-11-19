@@ -749,7 +749,7 @@ endif
     highlight OverLength ctermbg=red ctermfg=white guibg=#592929
     match OverLength /\%81v.\+/
   endfu
-  com! FormatBullets setlocal flp=^\\s*\\(-\\\\|\\d\\+\\.\\)\\s* " I want to autoindent paragraphs that start with "- " or "123. "
+  com! FormatPlusBullets setlocal fo+=n | setlocal flp=^\\s*\\(+\\\\|\\d\\+\\.\\)\\s* " allows you to use '+' as a bullet character ('-' and '*' are already covered by the format option 'q')
 
 " Basics
   if filereadable($VIMRUNTIME . '/defaults.vim')
