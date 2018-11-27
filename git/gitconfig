@@ -50,3 +50,5 @@
   trustExitCode = true
 [mergetool]
   keepBackup = false
+[branch]
+	sort = -authordate
