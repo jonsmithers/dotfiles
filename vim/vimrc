@@ -891,6 +891,8 @@ endif
     autocmd FileType gitcommit setlocal spell
     autocmd FileType gitcommit call s:StartInsertIfEmpty()
     autocmd FileType gitcommit normal gg
+    autocmd FileType gitcommit set comments+=fb:-,fb:+,fb:*
+    autocmd FileType gitcommit set formatoptions+=cq
     " ^ workaround weird issue where caret sometimes starts 2 lines down
     autocmd FileType text     setlocal spell
     autocmd Filetype markdown setlocal spell
