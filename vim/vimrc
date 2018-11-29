@@ -294,9 +294,11 @@ endif
     Plug 'markonm/traces.vim'
     " show a live preview of :substitute
 
-    Plug 'mg979/vim-localhistory'
+    Plug 'jonsmithers/vim-localhistory', { 'dir': '~/git/vim-localhistory/' }
     let g:lh_basedir = '~/.vim/local_history/'
     let g:local_history_disable_mappings = 1
+    let g:lh_autobackup_first = 1
+    let g:lh_quiet = 1
     let g:lh_autobackup_frequency = 60
     " LHwrite         : write a backup with date
     " LHwrite <name>  : write a named backup (snapshot)
