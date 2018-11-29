@@ -645,10 +645,11 @@ endif
   nnoremap <leader>; :
   vnoremap <leader>; :
 
-  " open current file in VSCode (and jump to cursor location)
-  :command! OpenInVSCode exe "silent !code --goto '" . expand("%") . ":" . line(".") . ":" . col(".") . "'" | redraw!
+  " open current file in VSCode or Idea (and jump to cursor location)
+  :command! OpenInVSCode    exe "silent !code --goto '" . expand("%") . ":" . line(".") . ":" . col(".") . "'"                    | redraw!
   :command! OpenCwdInVSCode exe "silent !code '" . getcwd() . "' --goto '" . expand("%") . ":" . line(".") . ":" . col(".") . "'" | redraw!
-  :command! Idea exe "silent !idea '" . getcwd() . "' '" . expand("%") . ":" . line(".") . "'" | redraw! | quit
+  :command! OpenInIdea      exe "silent !idea '" . getcwd() . "' '" . expand("%") . ":" . line(".") . "'"                         | redraw!
+  :command! Quit2Idea       exe "silent !idea '" . getcwd() . "' '" . expand("%") . ":" . line(".") . "'"                         | redraw! | quit
 
   " open url on current line
   func! OpenUrl()
