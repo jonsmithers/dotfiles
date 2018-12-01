@@ -59,6 +59,8 @@ function! dotfile_extras#ToggleScrollMode()
 endfunction
 
 func! dotfile_extras#ProseMode()
+  delcommand ProseMode
+  com CodeMode call dotfile_extras#CodeMode()
   Goyo
 
   " booleans
@@ -73,6 +75,7 @@ func! dotfile_extras#ProseMode()
   " non-booleans
   let b:complete      = &complete
   let b:formatoptions = &formatoptions
+  let b:formatlistpat = &formatlistpat
   let b:sidescrolloff = &sidescrolloff
   let b:whichwrap     = &whichwrap
 
@@ -84,15 +87,30 @@ func! dotfile_extras#ProseMode()
 
   set autoindent " appears necessary to have paragraph formatting keep indent past the 2nd line
 
-  LightOne " setlocal bg=light
-  hi SpellBad guibg=pink guifg=red
+  augroup prosemode
+    autocmd ColorScheme * hi EndOfBuffer ctermfg=bg guifg=bg
+    " hide "~" at end of buffer
+  augroup END
+
+  DarkSacredForest
+  hi SpellBad guifg=red
   " my terminals don't undercurl, as termguicolor would have them do, so
   " mispelled words must be highlighted
-  hi EndOfBuffer ctermfg=bg guifg=bg
-  " hide "~" at end of buffer
 endfu
 if (!exists('*dotfile_extras#CodeMode')) " this function sources vimrc and you can't redefine function while it's executing
   func dotfile_extras#CodeMode()
+    delcommand CodeMode
+    com ProseMode call dotfile_extras#ProseMode()
+
+    " unhide "~" at end of buffer
+    hi clear EndOfBuffer
+    hi link EndOfBuffer NonText
+
+    augroup prosemode
+      autocmd!
+    augroup END
+    augroup! prosemode
+
     Goyo!
     exec 'setlocal ' . (b:autoindent  ? '':'no') . 'autoindent'
     exec 'setlocal ' . (b:copyindent  ? '':'no') . 'copyindent'
