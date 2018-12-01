@@ -908,6 +908,12 @@ endif
     " ^ workaround weird issue where caret sometimes starts 2 lines down
     autocmd FileType text     setlocal spell
     autocmd Filetype markdown setlocal spell
+    " correct formatting for checklists
+    autocmd Filetype markdown set comments-=fb:-
+    autocmd Filetype markdown set comments+=fb:-\ [\ ]
+    autocmd Filetype markdown set comments+=fb:-\ [X]
+    autocmd Filetype markdown set comments+=fb:-
+    let g:markdown_folding = 1 " enable folding via vim's native markdown plugin
 
     function! s:StartInsertIfEmpty()
       if (empty(getline(1)))
