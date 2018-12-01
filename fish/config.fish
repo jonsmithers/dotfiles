@@ -85,6 +85,7 @@ set fish_greeting ""
     case asus-zenbook
       init_echo "asus init"
       set PATH ~/.npm-global/bin $PATH # npm config set prefix '~/.npm-global'
+      set PATH /var/lib/snapd/snap/bin/ $PATH # add snap binaries to path
       alias vim='gvim -v' # for clipboard support
 
       alias journal="gnome-terminal --command='wordsafe push /home/smithers/Dropbox/2-backup/journal__VeryImportant/journal --prepend-date-quietly' --full-screen --hide-menubar"
