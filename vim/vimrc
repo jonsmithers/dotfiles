@@ -17,6 +17,7 @@ if (s:os !=# 'Windows')
     silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
           \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     augroup vimplug
+      au!
       autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
     augroup END
   endif
@@ -26,6 +27,7 @@ else
     !md ~\vimfiles\autoload
     !(New-Object Net.WebClient).DownloadFile('https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim', $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath('~\vimfiles\autoload\plug.vim'))
     augroup vimplug
+      au!
       autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
     augroup END
   endif
@@ -172,6 +174,7 @@ endif
         return l:counts.total == 0 ? '✓' : ''
       endfunction
       augroup ale_stuff
+        au!
         autocmd User ALELint call s:MaybeUpdateLightline()
       augroup END
       function! s:MaybeUpdateLightline()
@@ -247,6 +250,7 @@ endif
         let b:quitting = 0
         let b:quitting_bang = 0
         augroup goyo_buffer
+          au!
           autocmd QuitPre <buffer> let b:quitting = 1
         augroup END
         cabbrev <buffer> q! let b:quitting_bang = 1 <bar> q!
@@ -262,6 +266,7 @@ endif
         endif
       endfunction
       augroup goyo_stuff
+        au!
         autocmd User GoyoEnter call <SID>goyo_enter()
         autocmd User GoyoLeave call <SID>goyo_leave()
       augroup END
@@ -287,6 +292,7 @@ endif
       " sort folders at top
       let g:dirvish_mode = ':sort ,^.*[\/],'
       augroup dirvish_stuff
+        au!
         autocmd FileType dirvish setlocal nonumber
         autocmd FileType dirvish silent! unmap <buffer> <C-p>
       augroup END
@@ -370,6 +376,7 @@ endif
       :nnoremap <Leader>tf :NERDTreeFind<enter>
       " close nerdtree if it's the only remaining buffer
       augroup nerdtree
+        au!
         autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
       augroup END
 
@@ -387,6 +394,7 @@ endif
       set updatetime=1000
       :nnoremap <Leader>td :TernDoc<cr>
       augroup tern_stuff
+        au!
         autocmd CompleteDone * pclose
       augroup END
     endif
@@ -693,6 +701,7 @@ endif
   if empty($TMUX)
     if (s:os ==? 'Linux')
       augroup curshapestuff
+        au!
         au VimEnter,InsertLeave * silent execute '!echo -ne "\e[2 q"' | redraw!
         au InsertEnter,InsertChange *
               \ if v:insertmode == 'i' |
@@ -890,6 +899,7 @@ endif
   endfunction
   " au VimEnter * nested if argc() == 0 | :call LoadSession() | endif
   augroup session_saving
+    au!
     au VimLeave * :call MakeSession()
   augroup END
   com! LoadSession call LoadSession()
