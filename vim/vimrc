@@ -584,7 +584,8 @@ endif
     Plug 'nightsense/snow'
     Plug 'NLKNguyen/papercolor-theme'
     Plug 'rakr/vim-one'
-    Plug 'romainl/Apprentice'
+    Plug 'romainl/Apprentice', { 'branch': 'fancylines-and-neovim' }
+    Plug 'chriskempson/base16-vim'
 
     if has('mac')
       Plug 'junegunn/vim-xmark', { 'do': 'make' }
