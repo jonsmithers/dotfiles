@@ -70,6 +70,10 @@ endif
     " editors. It's great. In a better world, every project would have a
     " .editorconfig file at its root.
 
+    Plug 'emilyst/match-count-statusline'
+    let g:match_count_disable_statusline = v:true
+    " defines MatchCountStatusline
+
     Plug 'Houl/ExplainPattern-vim'
 
     Plug 'itchyny/lightline.vim'
@@ -88,10 +92,11 @@ endif
       \       ['lineinfo'],
       \       ['percent'],
       \       ['readonly', 'linter_warnings', 'linter_errors', 'linter_ok'],
-      \       ['obsession'],
+      \       ['match_count', 'obsession'],
       \     ]
       \   },
       \   'component_function': {
+      \     'match_count': 'MatchCountStatusline',
       \     'obsession':   'LightlineObsessionStatus',
       \     'git_changes': 'LightLineChanges',
       \   },
