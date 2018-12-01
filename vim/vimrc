@@ -395,7 +395,7 @@ endif
       :nnoremap <Leader>td :TernDoc<cr>
       augroup tern_stuff
         au!
-        autocmd CompleteDone * pclose
+        autocmd CompleteDone javascript pclose
       augroup END
     endif
 
