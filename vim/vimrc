@@ -584,7 +584,7 @@ endif
     Plug 'nightsense/snow'
     Plug 'NLKNguyen/papercolor-theme'
     Plug 'rakr/vim-one'
-    Plug 'romainl/Apprentice', { 'branch': 'fancylines-and-neovim' }
+    Plug 'romainl/Apprentice'
     Plug 'chriskempson/base16-vim'
 
     if has('mac')
