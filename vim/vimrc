@@ -378,9 +378,7 @@ endif
       Plug 'mxw/vim-jsx'
     endif
 
-    Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
-    " extra requirement for vim:
-    "   npm install -g vim-node-rpc
+    " Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
     "
     " CocInstall coc-json
     " CocInstall coc-tsserver
