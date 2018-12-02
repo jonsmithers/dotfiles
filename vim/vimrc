@@ -206,7 +206,7 @@ endif
           " echom l:colorschemes[0] . ' matches ' . g:colors_name . '. ' . string(len(l:colorschemes))
           let g:lightline.colorscheme = l:colorschemes[0]
         else
-          echom 'no lightline colorscheme for ' . g:colors_name
+          " echom 'no lightline colorscheme for ' . g:colors_name
           if (exists('g:lightline.colorscheme'))
             unlet g:lightline.colorscheme
           endif
