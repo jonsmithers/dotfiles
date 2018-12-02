@@ -422,10 +422,6 @@ endif
       :nnoremap <Leader>tt :NERDTreeToggle<enter>
       :nnoremap <Leader>tf :NERDTreeFind<enter>
       " close nerdtree if it's the only remaining buffer
-      augroup nerdtree
-        au!
-        autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-      augroup END
 
     if (has('python') || has('python3'))
       Plug 'SirVer/ultisnips'
