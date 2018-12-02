@@ -211,17 +211,18 @@ endif
             unlet g:lightline.colorscheme
           endif
         endif
-        if exists('g:loaded_lightline')
+        if (exists('g:loaded_lightline') && exists('#lightline'))
+          "                                 ^ lightline is not disabled (e.g. by Goyo)
           call lightline#init()
           call lightline#colorscheme()
           call lightline#update()
         endif
       endfunction
+      function! s:lightline_colorscheme_list()
+        return map(globpath(&runtimepath,'autoload/lightline/colorscheme/*.vim',1,1), "fnamemodify(v:val,':t:r')")
+      endfunction
 
       command! -nargs=1 -complete=custom,s:lightline_colorschemes LightlineColorscheme call s:set_lightline_colorscheme(<q-args>)
-      function! s:lightline_colorscheme_list()
-        return map(globpath(&runtimepath,"autoload/lightline/colorscheme/*.vim",1,1), "fnamemodify(v:val,':t:r')")
-      endfunction
       function! s:lightline_colorschemes(...) abort
         return join(s:lightline_colorscheme_list(), "\n")
       endfunction
