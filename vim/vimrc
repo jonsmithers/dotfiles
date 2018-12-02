@@ -417,6 +417,7 @@ endif
       endif
     Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeFind', 'NERDTreeClose', 'NERDTreeToggle'] }
     " Project tree sidebar that kind of defies the philosophy of vim
+      let NERDTreeHijackNetrw=0 " let dirvish replace netrw
 
       :nnoremap <Leader>tt :NERDTreeToggle<enter>
       :nnoremap <Leader>tf :NERDTreeFind<enter>
