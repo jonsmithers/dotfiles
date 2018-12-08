@@ -448,6 +448,9 @@ endif
     " Toggle code comments. Mapped to Ctrl-//
       let g:tcomment#replacements_xml = {} " don't substitute weird characters when commenting html lines
 
+    Plug 'tpope/vim-eunuch'
+    ":Delete, :Chmod, :SudoWrite, :Rename, :Mkdir
+
     Plug 'tpope/vim-fugitive'
     Plug 'tpope/vim-rhubarb'
     " Various integrated git tools. I use this a lot.
