@@ -60,6 +60,7 @@ endif
 
     Plug 'ciaranm/detectindent'
     " Analyze current buffer and configure tabbing to match.
+      nnoremap <leader>di :DetectIndent<cr>
 
     Plug 'chrisbra/Colorizer'
     " Show hex colors by running :ColorHighlight or :ColorToggle
