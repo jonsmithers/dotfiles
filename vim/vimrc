@@ -470,7 +470,7 @@ endif
       " cc       runs commit
       " -        stages/unstages
       " D        diff
-      nnoremap <leader>gd :Gdiff<cr>
+      nnoremap <leader>gd :Gvdiff<cr>
       "          (left is index (staged), right is working)
       "          dp      diffput
       "          do      diffget (think "obtain")
