@@ -43,7 +43,7 @@ function fish_user_key_bindings
     function fzf_for_directories
         switch (commandline -t)[-1]
         case "!"
-            find . -type d | fzf > /tmp/fzf.result;
+            find . -type d | fzf --multi | tr '\n' ' ' > /tmp/fzf.result;
             commandline -t (cat /tmp/fzf.result); commandline -f repaint
         case "*"
             commandline -i 'D'
