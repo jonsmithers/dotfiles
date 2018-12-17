@@ -968,9 +968,9 @@ endif
     " custom filetype behaviors
     autocmd FileType gitcommit setlocal spell
     autocmd FileType gitcommit call s:StartInsertIfEmpty()
-    autocmd FileType gitcommit normal gg
     autocmd FileType gitcommit set comments+=fb:-,fb:+,fb:*
     autocmd FileType gitcommit set formatoptions+=cq
+    autocmd FileType gitcommit normal gg
     " ^ workaround weird issue where caret sometimes starts 2 lines down
     autocmd FileType text     setlocal spell
     autocmd Filetype markdown setlocal spell
@@ -993,12 +993,9 @@ endif
 
     " auto-reload vimrc whenever I save it
     autocmd BufWritePost vimrc,.vimrc, source $MYVIMRC | call lightline#disable() | call lightline#enable()
-    "                                                       "  ^ not entirely sure why all this craziness is necessary. It was necessary with Airline too!
 
     " disable syntax when editing huge files so vim stays snappy
     autocmd Filetype * if (getfsize(@%) > 500000) | setlocal syntax=OFF | endif
-    " auto detect indent for bower component files
-    autocmd Filetype * if (IsBowerComponent()) | :DetectIndent | endif
 
     " code execution
     autocmd Filetype python     nnoremap <buffer> <space>py :!python %<cr>
@@ -1035,13 +1032,6 @@ endif
   " :MakeEslint %
   " :MakeEslint src/ test/
   command! -nargs=? MakeEslint call dotfile_extras#MakeEslint(<q-args>)
-
-  function! IsBowerComponent()
-    return @% =~# 'bower_components'
-  endfunction
-
-  " lil debugging util
-  com! -nargs=1 Log execute 'silent! ! echo ' . fnameescape(<args>) . ' >> VIM_LOG'
 
 if !empty(glob('~/.vimrc-smithers')) " When I download this vimrc to a system that isn't mine
   command! RedownloadSmithersVimrc call RedownloadSmithersVimrcFunc()
