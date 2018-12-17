@@ -281,6 +281,10 @@ end
     echo "ls | sed '/s/.*/\"&\"/'"
   end
 
+  if command -v direnv > /dev/null
+    eval (direnv hook fish)
+  end
+
   if command -v lpass > /dev/null
     function laspas
       lpass show -c --password (lpass ls | fzf | awk '{print $(NF)}' | sed 's/\]//g')
