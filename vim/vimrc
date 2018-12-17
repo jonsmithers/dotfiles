@@ -866,6 +866,10 @@ endif
   "set t_vb=
   set belloff=all
 
+  " diffing
+  set diffopt+=algorithm:patience
+  set diffopt+=indent-heuristic
+
   :cabbrev h vert h
                     " execute [:h QUERY] to open help page in vertical split buffer
 
