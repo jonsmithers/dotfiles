@@ -625,6 +625,8 @@ endif
     :nnoremap <Leader>it :r! date "+\%Y\%m\%d"<Enter>kJ
     :com! InsertDate :r! date "+\%Y\%m\%d"
 
+    :nnoremap <leader>sdf :let @/ = ''<cr>
+
     :nnoremap <C-h> 5zh
     :nnoremap <C-l> 5zl
     :nnoremap Q <nop>
