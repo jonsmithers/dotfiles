@@ -64,6 +64,7 @@ endif
 
     Plug 'chrisbra/Colorizer'
     " Show hex colors by running :ColorHighlight or :ColorToggle
+    let g:colorizer_fgcontrast = 0
 
     Plug 'editorconfig/editorconfig-vim'
     " Configure different coding styles on a per-project basis and have vim
