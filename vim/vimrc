@@ -1005,11 +1005,6 @@ endif
     autocmd Filetype javascript,html call MakeJSKeys()
     autocmd Filetype python set omnifunc=pythoncomplete#Complete
     autocmd Filetype vim call MakeVimKeys()
-    autocmd Filetype notes :command!-buffer MarkdownThing call OpenMarkdown()
-    function! OpenMarkdown()
-      silent !Markdown.pl % > deleteme.html; open deleteme.html
-      redraw!
-    endfunction
 
   augroup END
 
