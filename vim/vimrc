@@ -61,6 +61,7 @@ endif
     Plug 'ciaranm/detectindent'
     " Analyze current buffer and configure tabbing to match.
       nnoremap <leader>di :DetectIndent<cr>
+      :let g:detectindent_preferred_indent = 2
 
     Plug 'chrisbra/Colorizer'
     " Show hex colors by running :ColorHighlight or :ColorToggle
@@ -94,7 +95,7 @@ endif
       \       ['lineinfo'],
       \       ['percent'],
       \       ['readonly', 'linter_warnings', 'linter_errors', 'linter_ok'],
-      \       ['match_count', 'obsession'],
+      \       ['obsession'],
       \     ]
       \   },
       \   'component_function': {
@@ -338,6 +339,8 @@ endif
     Plug 'junegunn/vim-easy-align'
     " Align chunks of code on a character/regex. Makes it really easy to have
     " nice formatting.
+      :xmap     ga <Plug>(EasyAlign)
+      :nnoremap ga <Plug>(EasyAlign)
 
     Plug 'justinmk/vim-dirvish'
     " directory viewer
@@ -394,8 +397,8 @@ endif
     " (see ":help *").
 
     Plug 'othree/html5.vim'
-    let g:html_indent_style1  = "inc"
-    let g:html_indent_script1 = "inc"
+    let g:html_indent_style1  = 'inc'
+    let g:html_indent_script1 = 'inc'
 
     if !exists('g:dumb_js')
       Plug 'pangloss/vim-javascript'
@@ -421,7 +424,7 @@ endif
       endif
     Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeFind', 'NERDTreeClose', 'NERDTreeToggle'] }
     " Project tree sidebar that kind of defies the philosophy of vim
-      let NERDTreeHijackNetrw=0 " let dirvish replace netrw
+      let g:NERDTreeHijackNetrw=0 " let dirvish replace netrw
 
       :nnoremap <Leader>tt :NERDTreeToggle<enter>
       :nnoremap <Leader>tf :NERDTreeFind<enter>
@@ -612,10 +615,20 @@ endif
   endif
 
 " Key Bindings
+
+  nnoremap <leader>; :
+  vnoremap <leader>; :
+
+  cnoremap <C-k> <up>
+  cnoremap <C-j> <down>
+
+  " search and replace
+  :vnoremap <C-r> y:%s/<C-r>0/<C-r>0/gc<left><left><left>
+
   " insert mode shortcuts
-    :inoremap <C-@> <C-Space>
-    :inoremap <C-Space> <C-x><C-o>
-    :inoremap jk 
+    " :inoremap <C-@> <C-Space>
+    " :inoremap <C-Space> <C-x><C-o>
+    :inoremap jk <Esc>
     " :inoremap II <Esc>I
     " :inoremap AA <Esc>A
     :inoremap jl <Esc>:
@@ -626,6 +639,7 @@ endif
     :nnoremap <Leader>it :r! date "+\%Y\%m\%d"<Enter>kJ
     :com! InsertDate :r! date "+\%Y\%m\%d"
 
+    " clear search
     :nnoremap <leader>sdf :let @/ = ''<cr>
 
     :nnoremap <C-h> 5zh
@@ -644,10 +658,6 @@ endif
     :let g:html_wrong_comments=1 "be lenient with html comment syntax. This is a must-have for documented Polymer code.
 
     map <F10> :echo map(synstack(line("."), col(".")), "synIDattr(v:val, 'name')")<cr>
-
-    " junegunn/vim-easy-align
-    :xmap ga <Plug>(EasyAlign)
-    :nnoremap ga <Plug>(EasyAlign)
 
     " CODE COPIED FROM https://github.com/zenbro/dotfiles/blob/master/.nvimrc#L151-L187
       " If split in given direction exists - jump, else create new split
@@ -686,16 +696,6 @@ endif
         endfor
       endfunction " }}}
 
-    " THIS DOES NOT WORK
-    func! FishCantEven(str)
-      set shell /usr/bin/fish
-      echom a:str
-      :exec '!'.a:str
-      " echo a:000
-      " set shell /bin/bash
-    endfunc
-    :com! -nargs=1 FishCantEven call FishCantEven(<args>)
-
     command! FormatJSON :%!python -m json.tool
 
     if has('nvim')
@@ -713,9 +713,6 @@ endif
 
 " Miscellanious commands
   com! JV exec "edit ~/.vim/plugged"
-
-  nnoremap <leader>; :
-  vnoremap <leader>; :
 
   " open current file in VSCode or Idea (and jump to cursor location)
   :command! OpenInVSCode    exe "silent !code --goto '" . expand("%") . ":" . line(".") . ":" . col(".") . "'"                    | redraw!
@@ -827,7 +824,7 @@ endif
 
 " Basics
   if filereadable($VIMRUNTIME . '/defaults.vim')
-    if !exists(":DiffOrig") " avoid unnecessary re-sourcing. For some reason it takes about 600ms
+    if !exists(':DiffOrig') " avoid unnecessary re-sourcing. For some reason it takes about 600ms
       source $VIMRUNTIME/defaults.vim " new in vim 8
     endif
     packadd! matchit " bundled default plugin
