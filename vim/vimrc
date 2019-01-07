@@ -864,7 +864,7 @@ endif
   set belloff=all
 
   " diffing
-  if v:version >= 801
+  if has('patch-8.1.0360')
     set diffopt+=algorithm:patience
     set diffopt+=indent-heuristic
   endif
