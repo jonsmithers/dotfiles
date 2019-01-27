@@ -281,6 +281,10 @@ end
     echo "ls | sed '/s/.*/\"&\"/'"
   end
 
+  # use autojump if available
+  [ -f /home/travis/Homebrew/share/autojump/autojump.fish ]; and source /home/travis/Homebrew/share/autojump/autojump.fish
+  [ -f /usr/share/autojump/autojump.fish ]; and source /usr/share/autojump/autojump.fish
+
   if command -v direnv > /dev/null
     eval (direnv hook fish)
   end

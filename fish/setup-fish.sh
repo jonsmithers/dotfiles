@@ -14,6 +14,16 @@ if [[ ! `command -v fish` ]] && prompt "Install fish"; then
   fi
 fi
 
+if [[ ! $(command -v autojump) ]] && prompt "Install autojump"; then 
+  if [ "$(uname)" == "Darwin" ]; then
+    brew install autojump
+  elif [[ $(command -v dnf) ]]; then
+    dnf install autojump-fish
+  elif [[ $(command -v apt) ]]; then
+    echo autojump installation not implemented 
+  fi
+fi
+
 source ../_helpers.sh
 if [[ ! `command -v fzf` ]] && prompt "Install fzf"; then
   git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
