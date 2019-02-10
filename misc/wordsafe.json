@@ -1,8 +1,7 @@
 {
   "editor": "vim",
   "editorArguments": [
-    "-c",
-    "ProseMode",
+    "+ProseMode",
     "-c",
     "set nofoldenable",
     "+",
