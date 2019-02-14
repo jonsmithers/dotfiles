@@ -8,27 +8,15 @@ endif
 
 function! dotfile_extras#MakeEslint(targets)
   let l:eslintBin = dotfile_extras#FindEslintBinary()
-  let l:targets = a:targets
+  let l:targets = expand(a:targets)
   if (len(l:targets) == 0)
     let l:targets = './'
   endif
   set errorformat+=%f:\ line\ %l\\,\ col\ %c\\,\ %trror\ -\ %m
   set errorformat+=%f:\ line\ %l\\,\ col\ %c\\,\ %tarning\ -\ %m
-  exec 'set makeprg=' . l:eslintBin
-  echom 'make ' . l:targets . ' --format compact'
-  exec 'make ' . l:targets . ' --format compact'
-endfunction
-function! dotfile_extras#FindEslintBinary()
-  let l:eslintBin = 'node_modules/.bin/eslint'
-  if (empty(glob(l:eslintBin)))
-    echom 'using global eslint'
-    let l:eslintBin = system('command -v eslint')
-  endif
-  if (empty(l:eslintBin))
-    echoerr "Can't find eslint"
-    return
-  endif
-  return l:eslintBin
+  exec 'set makeprg=npx'
+  echom 'make eslint ' . l:targets . ' --format compact'
+  exec 'make eslint ' . l:targets . ' --format compact'
 endfunction
 
 " puts all eslint issues into quickfix list
