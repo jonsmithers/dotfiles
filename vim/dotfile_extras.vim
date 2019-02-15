@@ -7,7 +7,6 @@ if (!exists('s:dotfile_extras_script'))
 endif
 
 function! dotfile_extras#MakeEslint(targets)
-  let l:eslintBin = dotfile_extras#FindEslintBinary()
   let l:targets = expand(a:targets)
   if (len(l:targets) == 0)
     let l:targets = './'
