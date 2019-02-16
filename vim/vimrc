@@ -1036,3 +1036,32 @@ if !empty(glob('~/.vimrc-smithers')) " When I download this vimrc to a system th
     redraw!
   endfunction
 endif
+
+if !empty(glob('~/.config/smithers/.vimrc')) " When I download this vimrc to a system that isn't mine
+
+  set runtimepath+=~/.config/smithers/.vim
+
+  command! RedownloadSmithersDotfiles call RedownloadSmithersDotfilesFunc()
+  function! RedownloadSmithersDotfilesFunc()
+
+    silent !curl https://raw.githubusercontent.com/jonsmithers/dotfiles/master/vim/vimrc > ~/.config/smithers/.vimrc
+
+    silent !mkdir -p ~/.config/smithers/.vim/autoload
+    silent !curl https://raw.githubusercontent.com/jonsmithers/dotfiles/master/vim/dotfile_extras.vim > ~/.config/smithers/.vim/autoload/dotfile_extras.vim
+
+    silent !mkdir -p ~/.config/smithers/.vim/spell
+    silent !curl https://raw.githubusercontent.com/jonsmithers/dotfiles/master/vim/en.utf-8.add > ~/.config/smithers/.vim/spell/en.utf-8.add
+
+    silent !mkdir -p ~/.config/smithers/bin
+    silent !curl https://raw.githubusercontent.com/jonsmithers/dotfiles/master/bin/tracker > ~/.config/smithers/bin/tracker
+
+    if (!empty(glob('~/.vimrc-smithers')))
+      silent !rm ~/.vimrc-smithers
+    endif
+    if (!empty(glob('~/.vim/autoload/dotfile_extras.vim')))
+      silent !rm ~/.vim/autoload/dotfile_extras.vim
+    endif
+
+    redraw!
+  endfunction
+endif
