@@ -1027,6 +1027,7 @@ endif
   " :MakeEslint src/ test/
   command! -nargs=? MakeEslint call dotfile_extras#MakeEslint(<q-args>)
 
+" THIS IS DEPRECATED. SEE NEXT SECTION
 if !empty(glob('~/.vimrc-smithers')) " When I download this vimrc to a system that isn't mine
   command! RedownloadSmithersVimrc call RedownloadSmithersVimrcFunc()
   function! RedownloadSmithersVimrcFunc()
@@ -1037,7 +1038,12 @@ if !empty(glob('~/.vimrc-smithers')) " When I download this vimrc to a system th
   endfunction
 endif
 
-if !empty(glob('~/.config/smithers/.vimrc')) " When I download this vimrc to a system that isn't mine
+if !empty(glob('~/.config/smithers/.vimrc'))
+
+  " HOW TO UNINVASIVELY USE MY VIM CONFIG ON SOMEONE ELSES COMPUTER:
+  " mkdir ~/.config/smithers
+  " curl https://raw.githubusercontent.com/jonsmithers/dotfiles/master/vim/vimrc > ~/.config/smithers/.vimrc
+  " vim -Nu ~/.config/smithers/.vimrc
 
   set runtimepath+=~/.config/smithers/.vim
 
@@ -1055,6 +1061,7 @@ if !empty(glob('~/.config/smithers/.vimrc')) " When I download this vimrc to a s
     silent !mkdir -p ~/.config/smithers/bin
     silent !curl https://raw.githubusercontent.com/jonsmithers/dotfiles/master/bin/tracker > ~/.config/smithers/bin/tracker
 
+    " clean up my old way of doing this
     if (!empty(glob('~/.vimrc-smithers')))
       silent !rm ~/.vimrc-smithers
     endif
