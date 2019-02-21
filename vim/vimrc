@@ -1041,9 +1041,10 @@ endif
 if !empty(glob('~/.config/smithers/.vimrc'))
 
   " HOW TO UNINVASIVELY USE MY VIM CONFIG ON SOMEONE ELSES COMPUTER:
-  " mkdir ~/.config/smithers
+  " mkdir -p ~/.config/smithers
   " curl https://raw.githubusercontent.com/jonsmithers/dotfiles/master/vim/vimrc > ~/.config/smithers/.vimrc
   " vim -Nu ~/.config/smithers/.vimrc
+  " # ln -s ~/.config/smithers/.vimrc ~/.vimrc
 
   set runtimepath+=~/.config/smithers/.vim
 
