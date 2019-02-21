@@ -13,9 +13,17 @@ function! dotfile_extras#MakeEslint(targets)
   endif
   set errorformat+=%f:\ line\ %l\\,\ col\ %c\\,\ %trror\ -\ %m
   set errorformat+=%f:\ line\ %l\\,\ col\ %c\\,\ %tarning\ -\ %m
-  exec 'set makeprg=npx'
-  echom 'make eslint ' . l:targets . ' --format compact'
-  exec 'make eslint ' . l:targets . ' --format compact'
+  if (executable('yarn'))
+    set makeprg=yarn\ exec\ eslint\ --\ --format\ compact
+  elseif (executable('npx'))
+    set makeprg=npx\ eslint\ --format\ compact
+  else
+    echoerr 'Both yarn and npx are missing'
+    return
+  endif
+  echom &makeprg . ' ' . l:targets
+  exec 'make! ' . l:targets
+  copen
 endfunction
 
 " puts all eslint issues into quickfix list
