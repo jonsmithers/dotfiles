@@ -1061,6 +1061,7 @@ if !empty(glob('~/.config/smithers/.vimrc'))
 
     silent !mkdir -p ~/.config/smithers/bin
     silent !curl https://raw.githubusercontent.com/jonsmithers/dotfiles/master/bin/tracker > ~/.config/smithers/bin/tracker
+    silent !curl https://raw.githubusercontent.com/jonsmithers/dotfiles/master/git/git-website > ~/.config/smithers/bin/git-website
 
     " clean up my old way of doing this
     if (!empty(glob('~/.vimrc-smithers')))
