@@ -1060,7 +1060,7 @@ if !empty(glob('~/.config/smithers/.vimrc'))
     silent !curl https://raw.githubusercontent.com/jonsmithers/dotfiles/master/vim/en.utf-8.add > ~/.config/smithers/.vim/spell/en.utf-8.add
 
     silent !mkdir -p ~/.config/smithers/bin
-    silent !curl https://raw.githubusercontent.com/jonsmithers/dotfiles/master/bin/tracker > ~/.config/smithers/bin/tracker
+    silent !curl https://raw.githubusercontent.com/jonsmithers/dotfiles/master/git/git-tracker > ~/.config/smithers/bin/git-tracker
     silent !curl https://raw.githubusercontent.com/jonsmithers/dotfiles/master/git/git-website > ~/.config/smithers/bin/git-website
 
     " clean up my old way of doing this
@@ -1069,6 +1069,9 @@ if !empty(glob('~/.config/smithers/.vimrc'))
     endif
     if (!empty(glob('~/.vim/autoload/dotfile_extras.vim')))
       silent !rm ~/.vim/autoload/dotfile_extras.vim
+    endif
+    if (!empty(glob('~/.config/smithers/bin/tracker')))
+      silent !rm ~/.config/smithers/bin/tracker
     endif
 
     redraw!

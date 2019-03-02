@@ -1,0 +1,45 @@
+#! /usr/bin/env bash
+
+if [[ -z "$PIVOTAL_TRACKER_PROJECT" ]]; then
+  echo "Missing \$PIVOTAL_TRACKER_PROJECT environment variable"
+  exit 1
+fi
+
+# echo hi $1
+arg="$1"
+
+if [[ "$arg" = "--help" ]] || [[ "$arg" = "help" ]]; then
+  cat <<- END
+git-tracker
+
+SYNOPSIS
+        git tracker [<refspec>]
+END
+  exit 0
+fi
+
+if [[ -z "$1" ]]; then
+  arg=HEAD
+fi
+if [[ "$1" =~ ^#?[0-9]{8}$ ]]; then
+  echo specifiyng tracker id directly is not implemented
+  exit 1
+else
+  if ! commit_sha=$(git rev-parse $arg 2> /dev/null); then
+    echo "error getting commit sha for \"$arg\""
+    exit 1
+  fi
+  story_id=$(git show "$commit_sha" | grep -e '#[[:digit:]]\{9\}' --only-matching)
+  if [[ -z "$story_id" ]]; then
+    echo "Story id not found in commit $commit_sha"
+    exit 1
+  fi
+fi
+
+if [[ $(command -v open) ]]; then
+  open_cmd=open
+else
+  open_cmd=xdg-open
+fi
+
+$open_cmd "https://www.pivotaltracker.com/n/projects/$PIVOTAL_TRACKER_PROJECT/stories/${story_id//\#/}"
