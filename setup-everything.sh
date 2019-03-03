@@ -1,7 +1,11 @@
 #!/bin/bash
 source _helpers.sh
 if prompt "Symlink dotfiles?"; then
-  ./dotphile
+  if [[ $(python --version 2>&1) =~ ^Python\ 3\. ]]; then
+    ./dotphile3
+  else
+    ./dotphile
+  fi
 fi
 vim/setup-vim.sh
 git/setup-git.sh

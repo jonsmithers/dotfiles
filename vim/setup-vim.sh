@@ -39,5 +39,5 @@ if [[ ! -d "$SWAP_DIR" ]]; then
   echo "Creating swap file directory"
   echo_and_run mkdir -p "$SWAP_DIR"
 else
-  echo "Swap file directory already exists"
+  echo "Skipping creation of swap file directory"
 fi
