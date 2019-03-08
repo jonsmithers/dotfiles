@@ -34,10 +34,12 @@ fi
 
 # todo - install grip? pip install? use brew?
 
-SWAP_DIR="$HOME/.config/vimswap" 
-if [[ ! -d "$SWAP_DIR" ]]; then
-  echo "Creating swap file directory"
-  echo_and_run mkdir -p "$SWAP_DIR"
+# SWAP_DIR="$HOME/.config/vimswap"
+BACK_DIR="$HOME/.config/vimbackup"
+
+if [[ ! -d "$BACK_DIR" ]] && (prompt "Create vim backup directory"); then
+  echo "Creating vim backup file directory"
+  echo_and_run mkdir -p "$BACK_DIR"
 else
-  echo "Skipping creation of swap file directory"
+  echo "Skipping creation of vim backup file directory"
 fi

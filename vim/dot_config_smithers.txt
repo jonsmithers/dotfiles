@@ -1,0 +1,24 @@
+Congratulations on finding ~/.config/smithers. This is a way for me (Smithers)
+to non-invasively download/update some of my personal configuration files on a
+machine that isn't mine.
+
+It should be safe to delete this directory. However, if the following command
+prints something, then you've been relying on my vimrc. 
+
+    vim +CheckForSmithers +q
+
+In that case, "~/.vimrc" is probably symlinked to "~/.config/smithers/.vimrc".
+You could "mv ~/.config/smithers/.vimrc ~/.vimrc" to keep relying on it.
+
+=== How to download this directory =============================================
+
+    mkdir -p ~/.config/smithers
+    curl https://raw.githubusercontent.com/jonsmithers/dotfiles/master/vim/vimrc > ~/.config/smithers/.vimrc
+    vim -Nu ~/.config/smithers/.vimrc
+    vim -Nu ~/.config/smithers/.vimrc +RedownloadSmithersDotfiles
+    # (OPTIONAL): echo ":source ~/.config/smithers/.vimrc" >> ~/.vimrc
+    # (OPTIONAL): ln -s ~/.config/smithers/.vimrc ~/.vimrc
+
+================================================================================
+
+vim: tw=80:ft=help
