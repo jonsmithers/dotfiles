@@ -1068,7 +1068,9 @@ if !empty(glob('~/.config/smithers/.vimrc'))
 
     silent !mkdir -p ~/.config/smithers/bin
     silent !curl https://raw.githubusercontent.com/jonsmithers/dotfiles/master/git/git-tracker > ~/.config/smithers/bin/git-tracker
+    silent !chmod +x                                                                             ~/.config/smithers/bin/git-tracker
     silent !curl https://raw.githubusercontent.com/jonsmithers/dotfiles/master/git/git-website > ~/.config/smithers/bin/git-website
+    silent !chmod +x                                                                             ~/.config/smithers/bin/git-website
 
     silent !mkdir -p ~/.config/smithers/vimbackup
 
