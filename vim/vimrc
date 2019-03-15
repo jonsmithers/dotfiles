@@ -1,3 +1,8 @@
+" personal vimrc
+" Author:       Jon Smithers <mail@jonsmithers.link>
+" URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
+" Last Updated: 2019-03-14
+
 :scriptencoding utf8
 
 if !exists('s:os')
@@ -1088,5 +1093,24 @@ if !empty(glob('~/.config/smithers/.vimrc'))
     redraw!
   endfunction
 endif
+
+augroup updatetimestamp
+  au!
+  autocmd BufWritePre vimrc,.vimrc,dotfile_extras.vim       call UpdateTimeStamp()
+  autocmd BufWritePre en.utf-8.add,git-tracker,git-website  call UpdateTimeStamp()
+augroup END
+function! UpdateTimeStamp()
+  " ignore for fugitive files
+  if (match(expand('%'), '^fugitive') == 0)
+    return
+  endif
+  let l:save_view = winsaveview()
+  if (line('$') <= 10)
+    silent! keeppatterns    :%s/\(^\("\|#\) Last Updated:\)\zs.*/\=' ' . strftime('%Y-%m-%d')
+  else
+    silent! keeppatterns :1,10s/\(^\("\|#\) Last Updated:\)\zs.*/\=' ' . strftime('%Y-%m-%d')
+  endif
+  call winrestview(l:save_view)
+endfunction
 
 command! CheckForSmithers exec "silent! !echo This is Smithers\\' vimrc" | q

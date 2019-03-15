@@ -1,5 +1,8 @@
-" these functions aren't loaded at startup, but only when they are invoked
+" dotfile_extras.vim - Optional/deferred vim configurations 
 " (see :help autoload)
+" Author:       Jon Smithers <mail@jonsmithers.link>
+" URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/dotfile_extras.vim
+" Last Updated: 2019-03-14
 
 if (!exists('s:dotfile_extras_script'))
   let s:dotfile_extras_script = expand('<sfile>')
