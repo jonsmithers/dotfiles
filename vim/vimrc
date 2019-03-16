@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <mail@jonsmithers.link>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2019-03-14
+" Last Updated: 2019-03-15
 
 :scriptencoding utf8
 
@@ -520,6 +520,8 @@ endif
         endif
       endif
     endfunction
+
+    Plug 'tpope/vim-repeat'
 
     if (!empty(glob('~/Dropbox/vimwiki')))
       Plug 'vimwiki/vimwiki'
