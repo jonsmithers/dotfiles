@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <mail@jonsmithers.link>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2019-03-15
+" Last Updated: 2019-03-17
 
 :scriptencoding utf8
 
@@ -940,10 +940,10 @@ endif
 
   if has('nvim')
     let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-    :DarkGruv
+    silent! :DarkGruv
     set nofixeol      " don't insert EOL at end of file
   else
-    colorscheme apprentice
+    silent! colorscheme apprentice
   end
 
 " simple session restoration http://vim.wikia.com/wiki/Go_away_and_come_back
@@ -1054,8 +1054,7 @@ endif
 if !empty(glob('~/.config/smithers/.vimrc'))
 
   " HOW TO UNINVASIVELY USE MY VIM CONFIG ON SOMEONE ELSES COMPUTER:
-  " mkdir -p ~/.config/smithers
-  " curl https://raw.githubusercontent.com/jonsmithers/dotfiles/master/vim/vimrc > ~/.config/smithers/.vimrc
+  " curl -fLo ~/.config/smithers/.vimrc https://raw.githubusercontent.com/jonsmithers/dotfiles/master/vim/vimrc --create-dirs
   " vim -Nu ~/.config/smithers/.vimrc
   " # ln -s ~/.config/smithers/.vimrc ~/.vimrc
 
@@ -1064,20 +1063,15 @@ if !empty(glob('~/.config/smithers/.vimrc'))
   command! RedownloadSmithersDotfiles call RedownloadSmithersDotfilesFunc()
   function! RedownloadSmithersDotfilesFunc()
 
-    silent !curl https://raw.githubusercontent.com/jonsmithers/dotfiles/master/vim/vimrc > ~/.config/smithers/.vimrc
-    silent !curl https://raw.githubusercontent.com/jonsmithers/dotfiles/master/vim/dot_config_smithers.txt > ~/.config/smithers/readme.txt
+    silent !curl -fLo ~/.config/smithers/.vimrc                           https://raw.githubusercontent.com/jonsmithers/dotfiles/master/vim/vimrc                   --create-dirs
+    silent !curl -fLo ~/.config/smithers/readme.txt                       https://raw.githubusercontent.com/jonsmithers/dotfiles/master/vim/dot_config_smithers.txt --create-dirs
+    silent !curl -fLo ~/.config/smithers/.vim/autoload/dotfile_extras.vim https://raw.githubusercontent.com/jonsmithers/dotfiles/master/vim/dotfile_extras.vim      --create-dirs
+    silent !curl -fLo ~/.config/smithers/.vim/spell/en.utf-8.add          https://raw.githubusercontent.com/jonsmithers/dotfiles/master/vim/en.utf-8.add            --create-dirs
+    silent !curl -fLo ~/.config/smithers/bin/git-tracker                  https://raw.githubusercontent.com/jonsmithers/dotfiles/master/git/git-tracker             --create-dirs
+    silent !curl -fLo ~/.config/smithers/bin/git-website                  https://raw.githubusercontent.com/jonsmithers/dotfiles/master/git/git-website             --create-dirs
 
-    silent !mkdir -p ~/.config/smithers/.vim/autoload
-    silent !curl https://raw.githubusercontent.com/jonsmithers/dotfiles/master/vim/dotfile_extras.vim > ~/.config/smithers/.vim/autoload/dotfile_extras.vim
-
-    silent !mkdir -p ~/.config/smithers/.vim/spell
-    silent !curl https://raw.githubusercontent.com/jonsmithers/dotfiles/master/vim/en.utf-8.add > ~/.config/smithers/.vim/spell/en.utf-8.add
-
-    silent !mkdir -p ~/.config/smithers/bin
-    silent !curl https://raw.githubusercontent.com/jonsmithers/dotfiles/master/git/git-tracker > ~/.config/smithers/bin/git-tracker
-    silent !chmod +x                                                                             ~/.config/smithers/bin/git-tracker
-    silent !curl https://raw.githubusercontent.com/jonsmithers/dotfiles/master/git/git-website > ~/.config/smithers/bin/git-website
-    silent !chmod +x                                                                             ~/.config/smithers/bin/git-website
+    silent !chmod +x  ~/.config/smithers/bin/git-tracker
+    silent !chmod +x  ~/.config/smithers/bin/git-website
 
     silent !mkdir -p ~/.config/smithers/vimbackup
 
@@ -1100,6 +1094,7 @@ augroup updatetimestamp
   au!
   autocmd BufWritePre vimrc,.vimrc,dotfile_extras.vim       call UpdateTimeStamp()
   autocmd BufWritePre en.utf-8.add,git-tracker,git-website  call UpdateTimeStamp()
+  autocmd BufWritePre dotphile                              call UpdateTimeStamp()
 augroup END
 function! UpdateTimeStamp()
   " ignore for fugitive files

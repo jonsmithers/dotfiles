@@ -16,9 +16,8 @@ want to:
 
 === How to download this directory from scratch ================================
 
-    mkdir -p ~/.config/smithers
-    curl https://raw.githubusercontent.com/jonsmithers/dotfiles/master/vim/vimrc > ~/.config/smithers/.vimrc
-    vim -Nu ~/.config/smithers/.vimrc +RedownloadSmithersDotfiles
+    curl -fLo ~/.config/smithers/.vimrc https://raw.githubusercontent.com/jonsmithers/dotfiles/master/vim/vimrc --create-dirs
+    vim -Nu ~/.config/smithers/.vimrc +RedownloadSmithersDotfiles +q
     # (OPTIONAL): echo ":source ~/.config/smithers/.vimrc" >> ~/.vimrc
     # (OPTIONAL): ln -s ~/.config/smithers/.vimrc ~/.vimrc
 
