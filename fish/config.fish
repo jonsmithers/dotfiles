@@ -404,3 +404,10 @@ end
     git branch --all | grep -v HEAD | sed "s/.* //" | sed "s#remotes/[^/]*/##" | sort -u | fzf > /tmp/fzf.result;
     echo (cat /tmp/fzf.result) | pbcopy
   end
+
+  function encrypt
+    openssl aes-256-cbc -a -salt -in "$argv[1]" -out "$argv[2]"
+  end
+  function decrypt
+    openssl aes-256-cbc -d -a -in "$argv[1]" -out "$argv[2]"
+  end
