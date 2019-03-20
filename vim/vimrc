@@ -578,6 +578,7 @@ endif
     " language syntaxes
     Plug 'dag/vim-fish'
     Plug 'leafgarland/typescript-vim'
+    Plug 'peitalin/vim-jsx-typescript'
     Plug 'luan/vim-concourse'
     Plug 'posva/vim-vue'
     Plug 'tfnico/vim-gradle'
