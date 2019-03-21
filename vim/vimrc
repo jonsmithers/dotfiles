@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <mail@jonsmithers.link>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2019-03-17
+" Last Updated: 2019-03-20
 
 :scriptencoding utf8
 
@@ -442,17 +442,17 @@ endif
       " ^ workaround bug https://github.com/SirVer/ultisnips/issues/711
     endif
 
-    if (!empty(glob('/usr/local/bin/npm')) || !empty(glob('/home/smithers/.npm-global/bin/npm'))) " 'command -v npm' takes about 150ms
-      Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
-    " Intelligent completion for JavaScript. It's amazing.
-      let g:tern_show_signature_in_pum = 1
-      set updatetime=1000
-      :nnoremap <Leader>td :TernDoc<cr>
-      augroup tern_stuff
-        au!
-        autocmd CompleteDone javascript pclose
-      augroup END
-    endif
+    " if (!empty(glob('/usr/local/bin/npm')) || !empty(glob('/home/smithers/.npm-global/bin/npm'))) " 'command -v npm' takes about 150ms
+    "   Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
+    " " Intelligent completion for JavaScript. It's amazing.
+    "   let g:tern_show_signature_in_pum = 1
+    "   set updatetime=1000
+    "   :nnoremap <Leader>td :TernDoc<cr>
+    "   augroup tern_stuff
+    "     au!
+    "     autocmd CompleteDone javascript pclose
+    "   augroup END
+    " endif
 
     Plug 'tomtom/tcomment_vim'
     " Toggle code comments. Mapped to Ctrl-//
