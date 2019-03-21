@@ -282,7 +282,7 @@ end
   end
 
   # use autojump if available
-  [ -f /home/travis/Homebrew/share/autojump/autojump.fish ]; and source /home/travis/Homebrew/share/autojump/autojump.fish
+  [ -f /usr/local/Cellar/autojump/*/share/autojump/autojump.fish ]; and source /usr/local/Cellar/autojump/*/share/autojump/autojump.fish
   [ -f /usr/share/autojump/autojump.fish ]; and source /usr/share/autojump/autojump.fish
 
   if command -v direnv > /dev/null
