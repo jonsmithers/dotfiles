@@ -282,8 +282,10 @@ end
   end
 
   # use autojump if available
-  [ -f /usr/local/Cellar/autojump/*/share/autojump/autojump.fish ]; and source /usr/local/Cellar/autojump/*/share/autojump/autojump.fish
   [ -f /usr/share/autojump/autojump.fish ]; and source /usr/share/autojump/autojump.fish
+  for path in /usr/local/Cellar/autojump/*/share/autojump/autojump.fish # "for" allows me to execute a glob that might not match anything
+    source $path; and break
+  end
 
   if command -v direnv > /dev/null
     eval (direnv hook fish)
