@@ -536,6 +536,10 @@ endif
       \     'path': '$HOME/Dropbox/vimwiki'
       \   },
       \ ] " 'syntax': 'markdown', 'ext': '.md'}]
+      nnoremap <leader>wf :FilesWithPreview ~/Dropbox/vimwiki/md<cr>
+
+      command! -bang -nargs=? -complete=dir FilesWithPreview
+            \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
     endif
 
     Plug 'w0rp/ale'
