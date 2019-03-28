@@ -1,8 +1,8 @@
 # Author:       Jon Smithers <mail@jonsmithers.link>
-# Last Updated: 2019-03-14
+# Last Updated: 2019-03-28
 # URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/en.utf-8.add
+
 Anya
-CUI
 Carsen
 FOUO
 GDPR
@@ -10,9 +10,11 @@ Havasu Falls
 Jillette
 Keola
 Kessel Run
+Kristal
 Leidos
 Lombok
 Mastercard
+Mileground Road
 Moosejaw
 Morgantown
 Nalgene
@@ -22,6 +24,7 @@ Redux
 Tough Mudder
 TypeScript
 Vaadin
+WordSafe
 angstiness
 angsty
 async
@@ -30,10 +33,16 @@ baselayer
 carabiner
 chai
 colorscheme
+config
+ctrl
+dotfile
+dotfiles
 fzf
 github
+invasively
 javascript
 jonsmithers
+json
 junegunn
 kafka
 linux
@@ -48,6 +57,7 @@ param
 phosphenes
 reddit
 snuck
+unix
 url
 vaadin
 vimscript
