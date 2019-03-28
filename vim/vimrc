@@ -646,6 +646,9 @@ endif
     :inoremap jl <Esc>:
     :imap \t <Esc>:r! date "+\%Y\%m\%d"<Enter>kJA
 
+    :inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
+    " https://castel.dev/post/lecture-notes-1/
+
   " normal mode shortucts
     "insert time:
     :nnoremap <Leader>it :r! date "+\%Y\%m\%d"<Enter>kJ
