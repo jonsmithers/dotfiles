@@ -2,7 +2,7 @@
 " (see :help autoload)
 " Author:       Jon Smithers <mail@jonsmithers.link>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/dotfile_extras.vim
-" Last Updated: 2019-03-14
+" Last Updated: 2019-03-28
 
 if (!exists('s:dotfile_extras_script'))
   let s:dotfile_extras_script = expand('<sfile>')
@@ -91,9 +91,6 @@ func! dotfile_extras#ProseMode()
   augroup END
 
   DarkSacredForest
-  hi SpellBad guifg=red
-  " my terminals don't undercurl, as termguicolor would have them do, so
-  " mispelled words must be highlighted
 endfu
 if (!exists('*dotfile_extras#CodeMode')) " this function sources vimrc and you can't redefine function while it's executing
   func dotfile_extras#CodeMode()

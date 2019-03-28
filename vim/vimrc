@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <mail@jonsmithers.link>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2019-03-20
+" Last Updated: 2019-03-28
 
 :scriptencoding utf8
 
@@ -936,12 +936,11 @@ endif
   com! LightSnow  set background=light | colorscheme snow
   com! LightGitHub set background=light | colorscheme github
 
-  augroup colorschemespellingfix
-    autocmd!
-    autocmd ColorScheme * highlight SpellBad term=reverse ctermbg=224 gui=undercurl guisp=Yellow guibg=NONE
-    " ^ termguicolors relies on undercurl for misspellings, but many
-    " terminals don't have that.
-  augroup END
+  if (!has('gui_running'))
+    set t_Cs=
+    " vim has a bug that prevents undercurl from falling back to underline
+    " when not supported https://github.com/vim/vim/issues/3471
+  endif
 
   if has('nvim')
     let $NVIM_TUI_ENABLE_TRUE_COLOR=1
