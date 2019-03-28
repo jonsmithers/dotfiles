@@ -91,6 +91,10 @@ func! dotfile_extras#ProseMode()
   augroup END
 
   DarkSacredForest
+  nnoremap <leader><leader> :silent w<cr>:redraw!<cr>
+
+  highlight link EntryDateLine Comment
+  match EntryDateLine /^\w\w\w \w\w\w \d\d\? \d\d\d\d \d\d\?:\d\d:\d\d \?\(AM\|PM\)\?$/
 endfu
 if (!exists('*dotfile_extras#CodeMode')) " this function sources vimrc and you can't redefine function while it's executing
   func dotfile_extras#CodeMode()
