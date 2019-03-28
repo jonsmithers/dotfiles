@@ -16,7 +16,9 @@ if !exists('s:os')
 endif
 :let g:mapleader = ' '
 
-" Install vim-plug if it isn't already
+" ┌───────────────────┐
+" │ download vim-plug │
+" └───────────────────┘
 if (s:os !=# 'Windows')
   if empty(glob('~/.vim/autoload/plug.vim'))
     silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
@@ -38,7 +40,9 @@ else
   endif
 endif
 
-" VIM PLUG
+" ┌──────────┐
+" │ vim-plug │
+" └──────────┘
   call plug#begin('~/.vim/plugged')
 
     Plug 'AndrewRadev/splitjoin.vim'
@@ -626,8 +630,9 @@ endif
     let g:python3_host_prog='/usr/bin/python3'
   endif
 
-" Key Bindings
-
+" ┌──────────────┐
+" │ Key Mappings │
+" └──────────────┘
   nnoremap <leader>; :
   vnoremap <leader>; :
 
