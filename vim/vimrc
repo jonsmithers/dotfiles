@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <mail@jonsmithers.link>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2019-03-28
+" Last Updated: 2019-04-02
 
 :scriptencoding utf8
 
@@ -529,7 +529,12 @@ endif
 
     if (!empty(glob('~/Dropbox/vimwiki')))
       Plug 'vimwiki/vimwiki'
-    " Quick access to a personal wiki. In vim.
+      " Quick access to a personal wiki. In vim.
+      " <space>ww to open wiki index
+      " <space>wf to fuzzy find wiki filenames (with preview!)
+      " <space>wF to fuzzy find wiki line contents (could use improvement)
+      " WriteWikiNote to write a new wiki note
+
       let g:vimwiki_list = [
       \   {
       \     'path': '$HOME/Dropbox/vimwiki/md',
@@ -541,9 +546,25 @@ endif
       \   },
       \ ] " 'syntax': 'markdown', 'ext': '.md'}]
       nnoremap <leader>wf :FilesWithPreview ~/Dropbox/vimwiki/md<cr>
+      nnoremap <leader>wF :call VimWikiLines()<cr>
+      " nnoremap <leader>wF :call fzf#vim#grep('rg --column --line-number --no-heading --color=always . $HOME/Dropbox/vimwiki/md \| tr -d "\017"', 1, 0)<cr>
 
       command! -bang -nargs=? -complete=dir FilesWithPreview
             \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
+
+      command! -nargs=+ WriteWikiNote call WriteWikiNoteFunc(<q-args>)
+
+      func! WriteWikiNoteFunc(filename)
+        let l:writePath = '$HOME/Dropbox/vimwiki/md/' . a:filename . '.md'
+        exec ':save ' . expand(l:writePath)
+      endfunc
+      func! VimWikiLines()
+        " load all vimwiki notes
+        for l:filename in split(expand('$HOME/Dropbox/vimwiki/md/*'), '\n')
+          exec 'badd '.l:filename
+        endfor
+        Lines
+      endfunc
     endif
 
     Plug 'w0rp/ale'
