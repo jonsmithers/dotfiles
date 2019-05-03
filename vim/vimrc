@@ -16,6 +16,10 @@ if !exists('s:os')
 endif
 :let g:mapleader = ' '
 
+if (s:os ==# 'Windows')
+  set enc=utf-8
+endif
+
 " ┌───────────────────┐
 " │ download vim-plug │
 " └───────────────────┘
@@ -537,12 +541,12 @@ endif
 
       let g:vimwiki_list = [
       \   {
-      \     'path': '$HOME/Dropbox/vimwiki/md',
+      \     'path': glob('~/Dropbox/vimwiki/md'),
       \     'syntax': 'markdown',
       \     'ext': '.md',
       \   },
       \   {
-      \     'path': '$HOME/Dropbox/vimwiki'
+      \     'path': glob('~/Dropbox/vimwiki')
       \   },
       \ ] " 'syntax': 'markdown', 'ext': '.md'}]
       nnoremap <leader>wf :FilesWithPreview ~/Dropbox/vimwiki/md<cr>
@@ -895,12 +899,14 @@ endif
 
   set completeopt=menuone,longest,preview " make completion menu awesome
   set directory=/var/tmp,/tmp,.
-  set backupdir=~/.config/smithers/vimbackup,~/.config/vimbackup,/var/tmp
-  set backup
-  augroup vimrc_backup
-    autocmd!
-    au BufWritePre * let &bex = '-' . strftime("%Y%m%d-%H%M%S") . '.vimbackup'
-  augroup END
+  if (s:os !=# 'Windows')
+    set backupdir=~/.config/smithers/vimbackup,~/.config/vimbackup,/var/tmp
+    set backup
+    augroup vimrc_backup
+      autocmd!
+      au BufWritePre * let &bex = '-' . strftime("%Y%m%d-%H%M%S") . '.vimbackup'
+    augroup END
+  endif
 
   set sessionoptions-=options " for some reason, vim won't restore with syntax highlighting without this. https://stackoverflow.com/questions/9281438/syntax-highlighting-doesnt-work-after-restore-a-previous-vim-session
 
