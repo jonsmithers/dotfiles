@@ -941,19 +941,8 @@ endif
   set smarttab      " delete multiple spaces at once (as if deleting a tab character)
   com! -nargs=1 Tab      set      tabstop=<args> | set      shiftwidth=<args> "| set softtabstop=<args>
   com! -nargs=1 LocalTab setlocal tabstop=<args> | setlocal shiftwidth=<args> "| set softtabstop=<args>
-  " if (hostname() == "Smithers.local")
-  "   :Tab 4
-  " elseif (hostname() == "zamperini2")
-  "   :Tab 2
-  " elseif (hostname() == "zamperini4")
-  "   :Tab 2
-  " endif
-
-  " autocmd Filetype vimrc setlocal expandtab tabstop=2 shiftwidth=2 softtabstop=2
-
-  " func! JSFormatting()
-  "   autocmd FileType javascript setlocal equalprg=js-beautify\ --stdin
-  " endfu
+  :Tab 2
+  " ^ to be overwritten by editorconfig whenever possible
 
 " Theme shortcuts
   com! Default    set background=dark  | colorscheme default
@@ -1096,8 +1085,8 @@ endif
 if !empty(glob('~/.config/smithers/.vimrc'))
 
   " HOW TO UNINVASIVELY USE MY VIM CONFIG ON SOMEONE ELSES COMPUTER:
-  " curl -fLo ~/.config/smithers/.vimrc https://raw.githubusercontent.com/jonsmithers/dotfiles/master/vim/vimrc --create-dirs
-  " vim -Nu ~/.config/smithers/.vimrc
+  " curl --create-dirs -fLo ~/.config/smithers/.vimrc https://raw.githubusercontent.com/jonsmithers/dotfiles/master/vim/vimrc
+  " vim -Nu ~/.config/smithers/.vimrc +RedownloadSmithersDotfiles
   " # ln -s ~/.config/smithers/.vimrc ~/.vimrc
 
   set runtimepath+=~/.config/smithers/.vim
