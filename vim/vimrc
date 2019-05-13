@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <mail@jonsmithers.link>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2019-04-02
+" Last Updated: 2019-05-13
 
 :scriptencoding utf8
 
@@ -445,9 +445,12 @@ endif
 
     if (has('python') || has('python3'))
       Plug 'SirVer/ultisnips'
-      " I use this for Polymer element templates.
-      let g:UltiSnipsSnippetDirectories = ['~/.vim/UltiSnips', 'UltiSnips']
+      " let g:UltiSnipsSnippetDirectories = ['~/.vim/UltiSnips', 'UltiSnips']
       " ^ workaround bug https://github.com/SirVer/ultisnips/issues/711
+
+      let g:UltiSnipsExpandTrigger = '<tab>'
+      let g:UltiSnipsJumpForwardTrigger = '<tab>'
+      let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
     endif
 
     " if (!empty(glob('/usr/local/bin/npm')) || !empty(glob('/home/smithers/.npm-global/bin/npm'))) " 'command -v npm' takes about 150ms
