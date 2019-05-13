@@ -166,7 +166,12 @@ function! dotfile_extras#ToggleTerm()
     exe 'buffer' . s:termbuf
   else
     echom s:termbuf . ' does not exist'
-    terminal ++curwin
+    if has('nvim')
+      terminal
+      startinsert
+    else
+      terminal ++curwin
+    endif
     let s:termbuf=bufnr('%')
     "tnoremap <buffer> <F4> <C-\><C-n>:close<cr>
     tnoremap <buffer> <F4> <C-w><C-q>
