@@ -2,7 +2,7 @@
 " (see :help autoload)
 " Author:       Jon Smithers <mail@jonsmithers.link>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/dotfile_extras.vim
-" Last Updated: 2019-03-28
+" Last Updated: 2019-05-12
 
 if (!exists('s:dotfile_extras_script'))
   let s:dotfile_extras_script = expand('<sfile>')
@@ -93,8 +93,11 @@ func! dotfile_extras#ProseMode()
   DarkSacredForest
   nnoremap <leader><leader> :silent w<cr>:redraw!<cr>
 
+  " these things should probably be done as a file-type plugin.
   highlight link EntryDateLine Comment
   match EntryDateLine /^\w\w\w \w\w\w \d\d\? \d\d\d\d \d\d\?:\d\d:\d\d \?\(AM\|PM\)\?$/
+  set comments+=b:\|
+  set comments+=b:\>
 endfu
 if (!exists('*dotfile_extras#CodeMode')) " this function sources vimrc and you can't redefine function while it's executing
   func dotfile_extras#CodeMode()
