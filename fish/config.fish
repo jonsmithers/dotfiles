@@ -311,7 +311,14 @@ end
           tmux new-session          \; send-keys "cd "(pwd) \; send-keys Enter
         end
       else if test 'help' = "$argv[1]"
-        echo "nah"
+        echo "\
+USAGE:
+
+  tsh
+    Attach to existing session or create a new one if none exists
+
+  tsh new
+    Create new session in current working directory"
         return
       else
         # attach to existing session or create one
