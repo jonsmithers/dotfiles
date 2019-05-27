@@ -14,11 +14,12 @@ if !exists('s:os')
     let s:os = 'Linux'
   endif
 endif
-:let g:mapleader = ' '
 
 if (s:os ==# 'Windows')
-  set enc=utf-8
+  set encoding=utf-8
 endif
+
+:let g:mapleader = ' '
 
 " ┌───────────────────┐
 " │ download vim-plug │
