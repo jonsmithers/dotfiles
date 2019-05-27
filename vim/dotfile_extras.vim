@@ -2,7 +2,7 @@
 " (see :help autoload)
 " Author:       Jon Smithers <mail@jonsmithers.link>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/dotfile_extras.vim
-" Last Updated: 2019-05-12
+" Last Updated: 2019-05-16
 
 if (!exists('s:dotfile_extras_script'))
   let s:dotfile_extras_script = expand('<sfile>')
@@ -78,10 +78,11 @@ func! dotfile_extras#ProseMode()
   let b:whichwrap     = &whichwrap
 
   setlocal nocopyindent nolist noshowcmd noshowmode nosmartindent spell
-  setlocal complete+=s formatoptions=tcq formatoptions+=an sidescrolloff=0 whichwrap+=h,l
+  setlocal complete+=s formatoptions=tcq formatoptions+=an formatoptions+=ro sidescrolloff=0 whichwrap+=h,l
   "        ^ complete from thesarus
   "                    ^ default formatoptions
   "                                      ^ add Auto-format and Numbered lists
+  "                                                        ^ insert comment leader for <cr> and "                                      o
 
   set autoindent " appears necessary to have paragraph formatting keep indent past the 2nd line
 
@@ -93,11 +94,7 @@ func! dotfile_extras#ProseMode()
   DarkSacredForest
   nnoremap <leader><leader> :silent w<cr>:redraw!<cr>
 
-  " these things should probably be done as a file-type plugin.
-  highlight link EntryDateLine Comment
-  match EntryDateLine /^\w\w\w \w\w\w \d\d\? \d\d\d\d \d\d\?:\d\d:\d\d \?\(AM\|PM\)\?$/
-  set comments+=b:\|
-  set comments+=b:\>
+  set filetype=sjournal
 endfu
 if (!exists('*dotfile_extras#CodeMode')) " this function sources vimrc and you can't redefine function while it's executing
   func dotfile_extras#CodeMode()
