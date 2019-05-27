@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <mail@jonsmithers.link>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2019-05-13
+" Last Updated: 2019-05-27
 
 :scriptencoding utf8
 
@@ -1119,6 +1119,23 @@ if !empty(glob('~/.config/smithers/.vimrc'))
 
     redraw!
   endfunction
+endif
+
+if (s:os ==# 'Windows')
+  function! DownloadWindowsVimrc(overwrite)
+    set shell=C:\\WINDOWS\\system32\\WindowsPowerShell\\v1.0\\powershell.exe
+    let l:destinationFile = $MYVIMRC
+    if (!a:overwrite)
+      let l:destinationFile .= '_LATEST'
+    endif
+    exec ":!(New-Object Net.WebClient).DownloadFile('https://raw.githubusercontent.com/jonsmithers/dotfiles/master/vim/vimrc', $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath('" . l:destinationFile . "'))"
+    if (!a:overwrite)
+      :tabnew $MYVIMRC
+      :exec ':vertical diffsplit ' . l:destinationFile
+    endif
+  endfunction
+
+  command! DownloadWindowsVimrc call DownloadWindowsVimrc(<bang>0)
 endif
 
 augroup updatetimestamp
