@@ -1001,7 +1001,9 @@ endif
   " au VimEnter * nested if argc() == 0 | :call LoadSession() | endif
   augroup session_saving
     au!
-    au VimLeave * :call MakeSession()
+    if (s:os !=# 'Windows')
+      au VimLeave * :call MakeSession()
+    endif
   augroup END
   com! LoadSession call LoadSession()
 
