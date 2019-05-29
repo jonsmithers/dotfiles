@@ -50,10 +50,21 @@ function fish_user_key_bindings
         end
     end
 
+    function fzf_for_commits
+        switch (commandline -t)[-1]
+        case "!"
+            git log --oneline | fzf --height=30 --multi --preview="git show {+1}" | cut -d' ' -f1 | tr '\n' ' ' | sed 's/[[:space:]]$//' > /tmp/fzf.result;
+            commandline -t (cat /tmp/fzf.result); commandline -f repaint
+        case "*"
+            commandline -i 'C'
+        end
+    end
+
     bind -M insert B fzf_for_git_branch
     bind -M insert L fzf_for_local_git_branch
     bind -M insert T fzf_for_tags
     bind -M insert D fzf_for_directories
+    bind -M insert C fzf_for_commits
 
     bind ! bind_bang
     bind '$' bind_dollar
