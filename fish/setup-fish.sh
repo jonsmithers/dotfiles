@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 cd "$(dirname "$0")"
 
 source ../_helpers.sh
@@ -6,7 +7,7 @@ source ../_helpers.sh
 # curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisher
 #
 
-if [[ ! `command -v fish` ]] && prompt "Install fish"; then 
+if [[ ! $(command -v fish) ]] && prompt "Install fish"; then
   if [ "$(uname)" == "Darwin" ]; then
     brew install fish
   else
@@ -14,28 +15,27 @@ if [[ ! `command -v fish` ]] && prompt "Install fish"; then
   fi
 fi
 
-if [[ ! $(command -v autojump) ]] && prompt "Install autojump"; then 
+if [[ ! $(command -v autojump) ]] && prompt "Install autojump"; then
   if [ "$(uname)" == "Darwin" ]; then
     brew install autojump
   elif [[ $(command -v dnf) ]]; then
     dnf install autojump-fish
   elif [[ $(command -v apt) ]]; then
-    echo autojump installation not implemented 
+    echo autojump installation not implemented
   fi
 fi
 
-source ../_helpers.sh
-if [[ ! `command -v fzf` ]] && prompt "Install fzf"; then
+if [[ ! $(command -v fzf) ]] && prompt "Install fzf"; then
   git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
   ~/.fzf/install --all
 else
   echo "Skipping fzf installation"
 fi
 
-if [[ ! `command -v rg` ]] && prompt "Install rg"; then
+if [[ ! $(command -v rg) ]] && prompt "Install rg"; then
   if [ "$(uname)" == "Darwin" ]; then
     brew install ripgrep
-  elif [[ `command -v dnf` ]]; then
+  elif [[ $(command -v dnf) ]]; then
     sudo dnf install ripgrep
   elif prompt "Download hardcoded 0.8.1 rg version for debian?"; then
     curl -LO https://github.com/BurntSushi/ripgrep/releases/download/0.8.1/ripgrep_0.8.1_amd64.deb
