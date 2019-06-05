@@ -1,0 +1,12 @@
+Location to add commands:
+
+    Settings > Devices > Keyboard > Custom Shortcuts
+
+Commands:
+
+    /home/smithers/bin/run-or-raise Navigator.Firefox                    firefox
+    /home/smithers/bin/run-or-raise gnome-terminal-server.Gnome-terminal gnome-terminal
+    /home/smithers/bin/run-or-raise google-chrome.Google-chrome          google-chrome
+    /home/smithers/bin/run-or-raise tilix.Tilix                          tilix
+
+    tilix --quake
