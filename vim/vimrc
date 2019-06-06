@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <mail@jonsmithers.link>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2019-05-27
+" Last Updated: 2019-06-06
 
 :scriptencoding utf8
 
@@ -553,6 +553,16 @@ endif
       \     'path': glob('~/Dropbox/vimwiki')
       \   },
       \ ] " 'syntax': 'markdown', 'ext': '.md'}]
+
+      " source vimwiki on ALL markdown files (this is default)
+      let g:vimwiki_global_ext = 1
+
+      " disable binding that conflicts with dirvish
+      augroup disable_vimwiki_conflicting_binding
+        autocmd!
+        autocmd Filetype markdown nmap <silent><buffer> <leader>zxcv <Plug>VimwikiRemoveHeaderLevel
+      augroup end
+
       nnoremap <leader>wf :FilesWithPreview ~/Dropbox/vimwiki/md<cr>
       nnoremap <leader>wF :call VimWikiLines()<cr>
       " nnoremap <leader>wF :call fzf#vim#grep('rg --column --line-number --no-heading --color=always . $HOME/Dropbox/vimwiki/md \| tr -d "\017"', 1, 0)<cr>
