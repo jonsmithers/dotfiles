@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <mail@jonsmithers.link>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2019-06-06
+" Last Updated: 2019-06-11
 
 :scriptencoding utf8
 
@@ -71,6 +71,13 @@ endif
 
     Plug 'alvan/vim-closetag'
     " Automatically close html tags.
+
+    if !has('patch-8.1.1365')
+      " mitigate modeline security vulnerability in older vims https://github.com/numirias/security/blob/master/doc/2019-06-04_ace-vim-neovim.md
+      set nomodeline
+      Plug 'ciaranm/securemodelines'
+      let g:secure_modelines_verbose = 1
+    endif
 
     Plug 'ciaranm/detectindent'
     " Analyze current buffer and configure tabbing to match.
