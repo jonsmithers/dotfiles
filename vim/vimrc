@@ -816,17 +816,9 @@ endif
   " Change Cursor Style Dependent On Mode: https://github.com/mhinz/vim-galore#change-cursor-style-dependent-on-mode
   if empty($TMUX)
     if (s:os ==? 'Linux')
-      augroup curshapestuff
-        au!
-        au VimEnter,InsertLeave * silent execute '!echo -ne "\e[2 q"' | redraw!
-        au InsertEnter,InsertChange *
-              \ if v:insertmode == 'i' |
-              \   silent execute '!echo -ne "\e[6 q"' |
-              \ elseif v:insertmode == 'r' |
-              \   silent execute '!echo -ne "\e[4 q"' |
-              \ endif
-        au VimLeave * silent execute '!echo -ne "\e[ q"' |
-      augroup END
+      " https://stackoverflow.com/a/42118416/1480704 
+      let &t_SI = "\e[6 q"
+      let &t_EI = "\e[2 q"
     elseif (s:os ==? 'MacOS')
       let &t_SI = "\<Esc>]50;CursorShape=1\x7"
       let &t_EI = "\<Esc>]50;CursorShape=0\x7"
