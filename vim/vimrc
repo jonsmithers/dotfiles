@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <mail@jonsmithers.link>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2019-06-14
+" Last Updated: 2019-06-19
 
 :scriptencoding utf8
 
@@ -273,6 +273,8 @@ endif
         Plug 'jonsmithers/vim-html-template-literals'
       endif
     endif
+    let g:html_indent_style1  = 'inc'
+    let g:html_indent_script1 = 'inc'
 
     Plug 'jonsmithers/pivotal-tracker-fzf.vim', (empty(glob('~/git/pivotal-tracker-fzf.vim/')) ? { 'for': 'gitcommit' } : { 'dir': '~/git/pivotal-tracker-fzf.vim' })
 
@@ -423,10 +425,6 @@ endif
     Plug 'nelstrom/vim-visual-star-search'
     " Bring "*" key behavior into visual mode. Extremely useful.
     " (see ":help *").
-
-    Plug 'othree/html5.vim'
-    let g:html_indent_style1  = 'inc'
-    let g:html_indent_script1 = 'inc'
 
     if !exists('g:dumb_js')
       Plug 'pangloss/vim-javascript'
