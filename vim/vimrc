@@ -460,6 +460,11 @@ endif
       let g:UltiSnipsExpandTrigger = '<tab>'
       let g:UltiSnipsJumpForwardTrigger = '<tab>'
       let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
+
+      augroup ultisnip
+        au!
+        autocmd Filetype typescript :UltiSnipsAddFiletypes javascript
+      augroup END
     endif
 
     " if (!empty(glob('/usr/local/bin/npm')) || !empty(glob('/home/smithers/.npm-global/bin/npm'))) " 'command -v npm' takes about 150ms
