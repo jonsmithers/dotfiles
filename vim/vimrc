@@ -454,7 +454,7 @@ endif
 
     if (has('python') || has('python3'))
       Plug 'SirVer/ultisnips'
-      " let g:UltiSnipsSnippetDirectories = ['~/.vim/UltiSnips', 'UltiSnips']
+      let g:UltiSnipsSnippetDirectories = [$HOME.'/.vim/UltiSnips', $HOME.'/.config/smithers/UltiSnips']
       " ^ workaround bug https://github.com/SirVer/ultisnips/issues/711
 
       let g:UltiSnipsExpandTrigger = '<tab>'
@@ -1112,6 +1112,10 @@ if !empty(glob('~/.config/smithers/.vimrc'))
     silent !chmod +x  ~/.config/smithers/bin/git-website
 
     silent !mkdir -p ~/.config/smithers/vimbackup
+
+    silent !mkdir -p ~/.config/smithers/UltiSnips
+    silent !curl -fLo ~/.config/smithers/UltiSnips/javascript.snippets    https://raw.githubusercontent.com/jonsmithers/dotfiles/master/vim/UltiSnips/javascript.snippets --create-dirs
+    silent !curl -fLo ~/.config/smithers/UltiSnips/typescript.snippets    https://raw.githubusercontent.com/jonsmithers/dotfiles/master/vim/UltiSnips/typescript.snippets --create-dirs
 
     " clean up my old way of doing this
     if (!empty(glob('~/.vimrc-smithers')))
