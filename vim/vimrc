@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <mail@jonsmithers.link>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2019-06-11
+" Last Updated: 2019-06-14
 
 :scriptencoding utf8
 
@@ -71,6 +71,13 @@ endif
 
     Plug 'alvan/vim-closetag'
     " Automatically close html tags.
+      let g:closetag_filetypes = 'html,xhtml,phtml,javascript,typescript'
+      let g:closetag_regions = {
+            \ 'typescript.tsx': 'jsxRegion,tsxRegion,litHtmlRegion',
+            \ 'javascript.jsx': 'jsxRegion,litHtmlRegion',
+            \ 'javascript':     'litHtmlRegion',
+            \ 'typescript':     'litHtmlRegion',
+            \ }
 
     if !has('patch-8.1.1365')
       " mitigate modeline security vulnerability in older vims https://github.com/numirias/security/blob/master/doc/2019-06-04_ace-vim-neovim.md
