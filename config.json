@@ -24,7 +24,6 @@
     "./misc/wordsafe.json":              "~/.config/wordsafe/config.json",
     "./tmux/reattach-to-user-namespace": "~/bin/reattach-to-user-namespace",
     "./tmux/tmux.conf":                  "~/.tmux.conf",
-    "./vim/UltiSnips":                   "~/.config/nvim/UltiSnips",
     "./vim/UltiSnips":                   "~/.vim/UltiSnips",
     "./vim/dotfile_extras.vim":          "~/.vim/autoload/dotfile_extras.vim",
     "./vim/en.utf-8.add":                "~/.vim/spell/en.utf-8.add",
