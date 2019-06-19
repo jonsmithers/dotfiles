@@ -692,6 +692,9 @@ endif
     :inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
     " https://castel.dev/post/lecture-notes-1/
 
+    :inoremap <C-k> <c-o>gwip
+    " reformat current paragraph without leaving insert mode
+
   " normal mode shortucts
     "insert time:
     :nnoremap <Leader>it :r! date "+\%Y\%m\%d"<Enter>kJ
