@@ -621,16 +621,6 @@ endif
     " git config --global mergetool.keepBackup false
     " git mergetool <file>
 
-    if (!empty(glob('~/Dropbox/vim-notes')))
-      Plug 'xolox/vim-notes'
-      Plug 'xolox/vim-misc'
-    " Quickly write and access notes that sync to Dropbox
-      let g:notes_directories = ['~/Dropbox/vim-notes']
-      let g:notes_smart_quotes = 0
-      let g:notes_suffix = '.txt'
-      let g:notes_conceal_bold = 0
-    endif
-
     " language syntaxes
     Plug 'dag/vim-fish'
     Plug 'leafgarland/typescript-vim'
