@@ -814,20 +814,20 @@ endif
   " Quickly Edit Your Macros:  https://github.com/mhinz/vim-galore#quickly-edit-your-macros
   nnoremap <leader>m  :<c-u><c-r><c-r>='let @'. v:register .' = '. string(getreg(v:register))<cr><c-f><left>
   " Change Cursor Style Dependent On Mode: https://github.com/mhinz/vim-galore#change-cursor-style-dependent-on-mode
-  if empty($TMUX)
-    if (s:os ==? 'Linux')
-      " https://stackoverflow.com/a/42118416/1480704 
-      let &t_SI = "\e[6 q"
-      let &t_EI = "\e[2 q"
-    elseif (s:os ==? 'MacOS')
+  if (s:os ==? 'Linux')
+    " https://stackoverflow.com/a/42118416/1480704 
+    let &t_SI = "\e[6 q"
+    let &t_EI = "\e[2 q"
+  elseif (s:os ==? 'MacOS')
+    if empty($TMUX)
       let &t_SI = "\<Esc>]50;CursorShape=1\x7"
       let &t_EI = "\<Esc>]50;CursorShape=0\x7"
       let &t_SR = "\<Esc>]50;CursorShape=2\x7"
+    else
+      let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+      let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+      let &t_SR = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=2\x7\<Esc>\\"
     endif
-  else
-    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
-    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
-    let &t_SR = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=2\x7\<Esc>\\"
   endif
 
 " Viewer
