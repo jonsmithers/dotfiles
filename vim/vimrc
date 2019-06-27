@@ -637,7 +637,7 @@ endif
     let g:concourse_tags_autosave = 0
 
     " colorschemes
-    if (has('termguicolors'))
+    if (has('termguicolors') && empty($TMUX))
       set termguicolors
     else
       set t_Co=256
