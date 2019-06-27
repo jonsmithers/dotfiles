@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <mail@jonsmithers.link>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2019-06-19
+" Last Updated: 2019-06-27
 
 :scriptencoding utf8
 
@@ -818,6 +818,7 @@ endif
     " https://stackoverflow.com/a/42118416/1480704 
     let &t_SI = "\e[6 q"
     let &t_EI = "\e[2 q"
+    let &t_SR = "\e[3 q"
   elseif (s:os ==? 'MacOS')
     if empty($TMUX)
       let &t_SI = "\<Esc>]50;CursorShape=1\x7"
