@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <mail@jonsmithers.link>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2019-06-27
+" Last Updated: 2019-07-25
 
 :scriptencoding utf8
 
@@ -764,19 +764,6 @@ endif
 
     command! FormatJSON :%!python -m json.tool
 
-    if has('nvim')
-      tmap <C-u> <C-k><C-k><C-k><C-k><C-k><C-k><C-k><C-k><C-k><C-k><C-k><C-k><C-k>
-      tmap <C-d> <C-j><C-j><C-j><C-j><C-j><C-j><C-j><C-j><C-j><C-j><C-j><C-j><C-j>
-    endif
-
-  " terminal mode shortcuts
-    if has('nvim')
-      :tnoremap <C-w> <C-\><C-n><C-w>
-      " conflicts with FZF
-      " :tmap <C-j> <C-\><C-n>:bprevious<Enter>
-      " :tmap <C-k> <C-\><C-n>:bnext<Enter>
-    endif
-
 " Miscellanious commands
   com! JV exec "edit ~/.vim/plugged"
 
@@ -1045,6 +1032,30 @@ endif
 
     if (v:version >= 810)
       autocmd TerminalOpen * setlocal nonumber norelativenumber
+    endif
+
+    if has('nvim')
+      :tnoremap <C-w> <C-\><C-n><C-w>
+    endif
+
+
+    " https://www.reddit.com/r/neovim/comments/cger8p/how_quickly_close_a_terminal_buffer/eupal7q/
+    if has('nvim')
+      augroup terminal_settings
+        autocmd!
+        autocmd TermOpen term://* set nonumber
+
+        autocmd BufWinEnter,WinEnter term://* startinsert
+        autocmd BufLeave term://* stopinsert
+        " autocmd TermOpen term://* startinsert
+
+        " Ignore various filetypes as those will close terminal automatically
+        " Ignore fzf, ranger, coc
+        autocmd TermClose term://*
+              \ if (expand('<afile>') !~ "fzf") && (expand('<afile>') !~ "ranger") && (expand('<afile>') !~ "coc") |
+              \   call nvim_input('<CR>')  |
+              \ endif
+      augroup END
     endif
 
     " auto-reload vimrc whenever I save it
