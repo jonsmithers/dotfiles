@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <mail@jonsmithers.link>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2019-07-25
+" Last Updated: 2019-07-30
 
 :scriptencoding utf8
 
@@ -94,6 +94,11 @@ endif
     Plug 'chrisbra/Colorizer'
     " Show hex colors by running :ColorHighlight or :ColorToggle
     let g:colorizer_fgcontrast = 0
+
+    " Plug 'cohama/lexima.vim'
+    if (!empty(globpath(&rtp, 'autoload/shutter.vim')))
+      call shutter#Init()
+    endif
 
     Plug 'editorconfig/editorconfig-vim'
     " Configure different coding styles on a per-project basis and have vim
