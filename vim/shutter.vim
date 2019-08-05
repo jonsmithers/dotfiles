@@ -1,48 +1,50 @@
-" TODO
-" What about when a quoted string spans across multiple lines in prose?
+" Author:       Jon Smithers <mail@jonsmithers.link>
+" Last Updated: 2019-08-05
+" URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/shutter.vim
+" About:        Auto-closes paired characters (parens, brackets, and tags)
+
+" COOL FEATURES:
+" * Do not auto-close for a pre-existing RHS
+" GUIDING RPINCIPLES:
+" * Should not require any change in muscle memory
+
+" TODO: What about when a quoted string spans across multiple lines in prose?
 "
-" WHAT ABOUT THIS:
+" TODO: WHAT ABOUT THIS:
 " ((   |)
 " and inserting ')'. Currently you have to press ')' twice to actually
-" complete all pairs. Is it worth detecting if there's other missing pairs? We
-" would search backwards and then forwards. If the backward search works but
-" the forward search doesn't, then we insert a paren instead of skipping
-
-" COOL FEATURES
-" * Do not auto-close for a pre-existing RHS
-
-" GUIDING RPINCIPLES
-" Should not require any change in muscle memory
-
-" contexts you can enable in
-" 1. entire filetype
-" 2. region within filetype (i.e. lit-html, jsx, html script tag, html css tag)
+" complete all pairs. This breaks muscle memory. Is it worth detecting if
+" there's other missing pairs? We would search backwards and then forwards. If
+" the backward search works but the forward search doesn't, then we insert a
+" paren instead of skipping
+"
+" TODO: add ability to close multi-line tag openers
 
 fun! shutter#Init()
+  " used to source this file
 endfun
 
 let s:config = {}
-let s:config.shutters = [
-      \ { 'trigger': '>', 'close': '....', },
-      \ { 'trigger': '(', 'close': ')', },
-      \ { 'trigger': '[', 'close': ']', },
-      \ { 'trigger': '{', 'close': '}', },
-      \ ]
 let s:config.symmetric_spacing = [
       \ { 'patternAtOffset': '()' },
       \ { 'patternAtOffset': '{}' },
       \ ]
+        " we exclude [] because it makes it difficult to type the markdown
+        " todo item "[ ]"
 let s:config.format_on_newline = [
       \ { 'patternAtOffset': '><\/[a-zA-Z\-]\+>', 'filetypes': [ 'html', 'xml'], 'regions': { 'javascript': ['litHtmlRegion', 'jsxRegion'] } },
       \ { 'patternAtOffset': '()' },
       \ { 'patternAtOffset': '[]' },
       \ { 'patternAtOffset': '{}' },
       \ ]
-let s:config.shutters = {
-      \}
+
+fun!s:Debug(msg)
+  if (exists('g:shutter_debug'))
+    echom a:msg
+  endif
+endfun
 
 function <SID>MaybeCloseTag()
-
 
   " syntax/filetype check
   let l:syntax = map(synstack(line('.'), col('.')), "synIDattr(v:val, 'name')")
@@ -52,7 +54,7 @@ function <SID>MaybeCloseTag()
   if (index(['javascript', 'typescript', 'javascript.tsx', 'typescript.tsx'], &filetype) != -1)
     let l:doNothing = 1
     for l:region in ['jsxRegion', 'tsxRegion', 'litHtmlRegion']
-      echom 'testing ' . l:region
+      call Debug('testing ' . l:region)
       if index(l:syntax, l:region) != -1
         let l:doNothing = 0
         break
@@ -76,7 +78,7 @@ function GetTagName()
   let l:line = l:line . '>'
   let l:matchlist = matchlist(l:line, '<\([a-zA-Z\-]\+\)[^<>]*>$')
   if (len(l:matchlist) ==# 0)
-    " TODO: search previous lines using searchpair()
+    " TODO: search previous lines for tag name using searchpair()
     return ''
   endif
   let l:tagname = l:matchlist[1]
@@ -128,7 +130,7 @@ fun! <SID>StartOrCloseSymmetricPair(BHS)
   " do nothing for vimscript comments
   if (a:BHS ==# '"' && &filetype ==# 'vim' )
     " -1 != match(getline('.')[col('.')], '^\s*$')
-    echom 'vimscript comment'
+    call s:Debug('vimscript comment')
     return '"'
   endif
   return a:BHS . a:BHS . "\<Left>"
@@ -137,10 +139,10 @@ endfun
 fun! StartPair(LHS, RHS)
   let l:char = CharUnderCursor()
   let l:nextchar = CharAfterCursor()
-  echom 'nextchar ' . l:nextchar
+  call s:Debug('nextchar ' . l:nextchar)
 
   if (match(l:char, "^[0-9a-zA-Z\"']$") == 0)
-    echom 'match blacklist character'
+    call s:Debug('match blacklist character')
     return a:LHS
   endif
   " " do nothing if there's junk immediately after the cursor
@@ -174,7 +176,7 @@ fun! StartPair(LHS, RHS)
   let l:newlinecontent = l:newlinecontent . a:RHS
   let l:newlinecontent = l:newlinecontent . getline('.')[col('.')-1:-1]
   call setline('.', l:newlinecontent)
-  echom 'posA ' . string(l:posA) . ' posB ' . string(l:posB) . ' countA ' . l:matchCountA
+  call s:Debug('posA ' . string(l:posA) . ' posB ' . string(l:posB) . ' countA ' . l:matchCountA)
   return a:LHS
 endfun
 fun! ClosePair2(LHS, RHS)
@@ -185,10 +187,10 @@ fun! ClosePair2(LHS, RHS)
     let l:pos = getpos('.')[1:]
     let l:matchCount = searchpair('\M' . a:LHS, '', a:RHS, 'bWm', '', line('w0'))
     call cursor(l:pos)
-    echom 'match count ' . string(l:matchCount) . ' - ' . a:LHS . ', ' . a:RHS
+    call s:Debug('match count ' . string(l:matchCount) . ' - ' . a:LHS . ', ' . a:RHS)
     if (l:matchCount > 0)
-      echom 'before ' . getline('.')[0:col('.')-2]
-      echom 'after ' . getline('.')[col('.')-0:-1]
+      call s:Debug('before ' . getline('.')[0:col('.')-2])
+      call s:Debug('after ' . getline('.')[col('.')-0:-1])
       " TODO does not handle col == 1
       let l:newlinecontent = getline('.')[0:col('.')-2] . getline('.')[col('.')-0:-1]
       call setline('.', l:newlinecontent)
@@ -209,7 +211,7 @@ fun! <SID>ClosePair(LHS, RHS)
     let l:pos = getpos('.')[1:]
     let l:matchCount = searchpair('\M' . a:LHS, '', a:RHS, 'bWm', '', line('w0'))
     call cursor(l:pos)
-    echom 'match count ' . string(l:matchCount) . ' - ' . a:LHS . ', ' . a:RHS
+    call s:Debug('match count ' . string(l:matchCount) . ' - ' . a:LHS . ', ' . a:RHS)
     if (l:matchCount > 0)
       return "\<right>"
     endif
@@ -221,17 +223,17 @@ fun! <SID>Backspace()
   let l:line = getline('.')
   for l:pattern in ['()', '[]', '{}', '""', "''"]
     if (-1 !=# match(l:line, l:pattern, col('.')-2))
-      echom 'DELETE2'
+      call s:Debug('DELETE2')
       return "\<delete>\<backspace>"
     endif
   endfor
   for l:pattern in ['(  )', '[  ]', '{  }']
     if (-1 !=# match(l:line, '\M' . l:pattern, col('.')-4))
-      echom 'DELETE'
+      call s:Debug('DELETE')
       return "\<delete>\<backspace>"
     endif
   endfor
-  echom 'normal backspace'
+  call s:Debug('normal backspace')
   return "\<backspace>"
 endfun
 fun! <SID>Delete()
