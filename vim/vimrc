@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <mail@jonsmithers.link>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2019-07-30
+" Last Updated: 2019-08-13
 
 :scriptencoding utf8
 
@@ -30,7 +30,7 @@ if (s:os !=# 'Windows')
           \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     augroup vimplug
       au!
-      autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+      autocmd VimEnter * PlugInstall --sync | exec 'source ' . expand('<sfile>')
     augroup END
   endif
 else
@@ -1064,7 +1064,7 @@ endif
     endif
 
     " auto-reload vimrc whenever I save it
-    autocmd BufWritePost vimrc,.vimrc, source $MYVIMRC | call lightline#disable() | call lightline#enable()
+    autocmd BufWritePost vimrc,.vimrc, exec 'source ' . expand('<sfile>') | call lightline#disable() | call lightline#enable()
 
     " disable syntax when editing huge files so vim stays snappy
     autocmd Filetype * if (getfsize(@%) > 500000) | setlocal syntax=OFF | endif
