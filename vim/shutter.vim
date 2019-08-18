@@ -5,6 +5,7 @@
 
 " COOL FEATURES:
 " * Do not auto-close for a pre-existing RHS
+" * Does a better job of not skipping over RHS insertion when you actually intend to insert one
 " GUIDING RPINCIPLES:
 " * Should not require any change in muscle memory
 
@@ -193,17 +194,30 @@ fun! ClosePair2(LHS, RHS)
   if (CharUnderCursor() ==# a:RHS)
     let l:pos = getpos('.')[1:]
     let l:matchCount = searchpair('\M' . a:LHS, '', a:RHS, 'bWm', '', line('w0'))
-    call cursor(l:pos)
     call s:Debug('match count ' . string(l:matchCount) . ' - ' . a:LHS . ', ' . a:RHS)
     if (l:matchCount > 0)
       call s:Debug('before ' . getline('.')[0:col('.')-2])
       call s:Debug('after ' . getline('.')[col('.')-0:-1])
+
+      " EXPERIMENTAL: see if the NEXT pair start is missing a pair end, then
+      " we DON'T skip insert
+      let l:matchCount = searchpair('\M' . a:LHS, '', a:RHS, 'bWm', '', line('w0'))
+      call s:Debug('second match count ' . string(l:matchCount))
+      if (l:matchCount > 0)
+        let l:matchCount = searchpair('\M' . a:LHS, '', a:RHS, 'Wm', '', line('w0'))
+        if (l:matchCount == 0)
+          call cursor(l:pos)
+          return a:RHS
+        end
+      endif
+
+      call cursor(l:pos)
       " TODO does not handle col == 1
       let l:newlinecontent = getline('.')[0:col('.')-2] . getline('.')[col('.')-0:-1]
       call setline('.', l:newlinecontent)
-      return a:RHS
     endif
   endif
+
   return a:RHS
 endfun
 " )|) INSERTS PAREN
