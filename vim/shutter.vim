@@ -85,23 +85,24 @@ function GetTagName()
   return l:tagname
 endfunction
 
-inoremap <expr> > <SID>MaybeCloseTag()
-inoremap <expr> <cr> MaybeSplitTag()
-" inoremap <expr> " match(CharUnderCursor(), '\w') != -1 ? '"' : '""'."\<Left>"
-inoremap <expr> " <SID>StartOrCloseSymmetricPair('"')
-inoremap <expr> ' <SID>StartOrCloseSymmetricPair("'")
-inoremap ( <c-r>=StartPair('(', ')')<cr>
-inoremap ) <c-r>=ClosePair2('(', ')')<cr>
-inoremap <space> <c-r>=StretchPair()<cr>
-" inoremap <expr> <space> <SID>StretchPair()
-inoremap { <c-r>=StartPair('{', '}')<cr>
-inoremap [ <c-r>=StartPair('[', ']')<cr>
-inoremap <expr> ] <SID>ClosePair('[', ']')
-inoremap <expr> } <SID>ClosePair('{', '}')
-inoremap <expr> <backspace> <SID>Backspace()
+inoremap <silent> <expr> > <SID>MaybeCloseTag()
+inoremap <silent> <expr> <cr> MaybeSplitTag()
+" inoremap <silent> <expr> " match(CharUnderCursor(), '\w') != -1 ? '"' : '""'."\<Left>"
+inoremap <silent> <expr> " <SID>StartOrCloseSymmetricPair('"')
+inoremap <silent> <expr> ' <SID>StartOrCloseSymmetricPair("'")
+inoremap <silent> ( <c-r>=StartPair('(', ')')<cr>
+inoremap <silent> ) <c-r>=ClosePair2('(', ')')<cr>
+inoremap <silent> <space> <c-r>=StretchPair()<cr>
+" inoremap <silent> <expr> <space> <SID>StretchPair()
+inoremap <silent> { <c-r>=StartPair('{', '}')<cr>
+inoremap <silent> [ <c-r>=StartPair('[', ']')<cr>
+inoremap <silent> <expr> ] <SID>ClosePair('[', ']')
+inoremap <silent> <expr> } <SID>ClosePair('{', '}')
+inoremap <silent> <expr> <backspace> <SID>Backspace()
 " imap <expr> <Del> <SID>Delete() " doesn't work with c-d?
 "
 fun! StretchPair()
+  call s:HideVimCursorSpasm()
   let l:textAtOffset = getline('.')[col('.')-1-1:]
   for l:splitter in s:config.symmetric_spacing
     if (exists('l:splitter.patternAtOffset') && -1 !=# match(l:textAtOffset, l:splitter.patternAtOffset))
@@ -111,6 +112,10 @@ fun! StretchPair()
     endif
   endfor
   return ' '
+endfun
+
+fun! s:HideVimCursorSpasm()
+  if !has('nvim') | redraw | end "hide cursor spasm that only occurs in vim
 endfun
 
 " 'sdf |     SHOULD INSERT SINGLE QUOTE
@@ -137,6 +142,7 @@ fun! <SID>StartOrCloseSymmetricPair(BHS)
 endfun
 
 fun! StartPair(LHS, RHS)
+  call s:HideVimCursorSpasm()
   let l:char = CharUnderCursor()
   let l:nextchar = CharAfterCursor()
   call s:Debug('nextchar ' . l:nextchar)
@@ -180,6 +186,7 @@ fun! StartPair(LHS, RHS)
   return a:LHS
 endfun
 fun! ClosePair2(LHS, RHS)
+  call s:HideVimCursorSpasm()
   if (CharUnderCursor() !=# a:RHS)
     return a:RHS
   endif
