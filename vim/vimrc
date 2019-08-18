@@ -314,8 +314,8 @@ endif
         :nnoremap <C-p>         :Files<Enter>
         :nnoremap <Leader>or    :History<Enter>
         :nnoremap <Leader>ft    :Filetypes<enter>
-        :nnoremap <Leader>/     :History/<Enter>
-        :nnoremap q;            :History:<Enter>
+        :nnoremap <Leader>f/    :History/<Enter>
+        :nnoremap <Leader>f:    :History:<Enter>
         " (note - you can call histdel("cmd", "regexp") to delete mistaken history items)
         " :nmap <Leader>f~    :FZF ~<Enter>
 
@@ -481,6 +481,7 @@ endif
 
     Plug 'tomtom/tcomment_vim'
     " Toggle code comments. Mapped to Ctrl-//
+      " NOTE: ctrl-// doesn't work in gvim. Instead use ctrl-__
       let g:tcomment#replacements_xml = {} " don't substitute weird characters when commenting html lines
 
     Plug 'tpope/vim-eunuch'
