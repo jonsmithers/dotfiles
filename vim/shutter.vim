@@ -228,13 +228,13 @@ endfun
 
 fun! <SID>Backspace()
   let l:line = getline('.')
-  for l:pattern in ['()', '[]', '{}', '""', "''"]
+  for l:pattern in ['^()', '^[]', '^{}', '^""', "^''"]
     if (-1 !=# match(l:line, l:pattern, col('.')-2))
       call s:Debug('DELETE2')
       return "\<delete>\<backspace>"
     endif
   endfor
-  for l:pattern in ['(  )', '[  ]', '{  }']
+  for l:pattern in ['^(  )', '^[  ]', '^{  }']
     if (-1 !=# match(l:line, '\M' . l:pattern, col('.')-4))
       call s:Debug('DELETE')
       return "\<delete>\<backspace>"
