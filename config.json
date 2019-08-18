@@ -33,7 +33,6 @@
     "./vim/ideavimrc":                   "~/.ideavimrc",
     "./vim/nvim_init.vim":               "~/.config/nvim/init.vim",
     "./vim/syntax/":                     "~/.vim/syntax",
-    "./vim/tern-config":                 "~/.tern-config",
     "./vim/vim-plug-extras.vim":         "~/.vim/vim-plug-extras.vim",
     "./vim/vimrc":                       "~/.vimrc",
     "./vim/vrapperrc":                   "~/.vrapperrc"
