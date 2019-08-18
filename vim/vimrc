@@ -421,6 +421,12 @@ endif
       " CocInstall coc-tsserver
       " CocInstall coc-html
       " CocInstall coc-css
+      :nmap ]i <Plug>(coc-diagnostic-next)
+      :nmap ]I <Plug>(coc-diagnostic-next-error)
+      :nmap [i <Plug>(coc-diagnostic-prev)
+      :nmap [I <Plug>(coc-diagnostic-prev-error)
+      :nmap <Leader>cd <Plug>(coc-definition)
+      :nmap <Leader>ci <Plug>(coc-diagnostic-info)
     endif
 
     Plug 'nelstrom/vim-visual-star-search'
