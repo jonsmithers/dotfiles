@@ -1,5 +1,5 @@
 " Author:       Jon Smithers <mail@jonsmithers.link>
-" Last Updated: 2019-08-05
+" Last Updated: 2019-08-18
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/shutter.vim
 " About:        Auto-closes paired characters (parens, brackets, and tags)
 
@@ -106,7 +106,7 @@ fun! StretchPair()
   call s:HideVimCursorSpasm()
   let l:textAtOffset = getline('.')[col('.')-1-1:]
   for l:splitter in s:config.symmetric_spacing
-    if (exists('l:splitter.patternAtOffset') && -1 !=# match(l:textAtOffset, l:splitter.patternAtOffset))
+    if (exists('l:splitter.patternAtOffset') && -1 !=# match(l:textAtOffset, '^' . l:splitter.patternAtOffset))
       let l:newlinecontent = getline('.')[0:col('.')-2] . ' ' . getline('.')[col('.')-1:-1]
       call setline('.', l:newlinecontent)
       return ' '
