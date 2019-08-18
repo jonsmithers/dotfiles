@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <mail@jonsmithers.link>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2019-08-13
+" Last Updated: 2019-08-18
 
 :scriptencoding utf8
 
@@ -442,20 +442,15 @@ endif
       let g:eregex_default_enable = 0
       nnoremap <Leader>m/ :M/
 
-    Plug 'ryanoasis/vim-devicons'
-    " Shows pretty little icons when you use a nerdfont in your terminal.
-      if hostname() =~# 'Smithers.local'
-        let g:webdevicons_enable = 1
-      else
-        let g:webdevicons_enable = 0
-      endif
-    Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeFind', 'NERDTreeClose', 'NERDTreeToggle'] }
-    " Project tree sidebar that kind of defies the philosophy of vim
+    let s:nerdtree_triggers = ['NERDTreeFind', 'NERDTreeClose', 'NERDTreeToggle', 'NERDTreeRefreshRoot']
+
+    call plug#('scrooloose/nerdtree', { 'on': s:nerdtree_triggers })
       let g:NERDTreeHijackNetrw=0 " let dirvish replace netrw
 
-      :nnoremap <Leader>tt :NERDTreeToggle<enter>
-      :nnoremap <Leader>tf :NERDTreeFind<enter>
-      " close nerdtree if it's the only remaining buffer
+      :nnoremap <Leader>tt :NERDTreeToggle<enter><c-w>p
+      :nnoremap <Leader>tF :NERDTreeFind<enter>
+      :nnoremap <Leader>tf :NERDTreeFind<enter><c-w>p
+      :nnoremap <Leader>tr :NERDTreeRefreshRoot<cr>
 
     if (has('python') || has('python3'))
       Plug 'SirVer/ultisnips'
@@ -603,6 +598,21 @@ endif
       endfunc
     endif
 
+    call plug#('Xuyuanp/nerdtree-git-plugin', { 'on': s:nerdtree_triggers })
+      let g:NERDTreeIndicatorMapCustom = {
+          \ "Modified"  : '*',
+          \ "Staged"    : '+',
+          \ "Untracked" : '✭',
+          \ "Renamed"   : '➜',
+          \ "Unmerged"  : '═',
+          \ "Deleted"   : '✖',
+          \ "Dirty"     : '*',
+          \ "Clean"     : '✔︎',
+          \ 'Ignored'   : '☒',
+          \ "Unknown"   : '?'
+          \ }
+
+
     if (!has('nvim')) | Plug 'w0rp/ale' | endif
     " Asynchronous linting of all kinds. I use this for bash scripting, fish
     " shell, vim, javascript, and more.
@@ -718,8 +728,24 @@ endif
     :nnoremap Q <nop>
     :nnoremap <Leader>T :enew<cr>
     let g:BASH_Ctrl_j = 'off' "this is undocumented!
-    :nnoremap <Leader>x :NERDTreeClose<enter>:bd<enter>
-    :nnoremap <Leader>X :NERDTreeClose<enter>:bd!<enter>
+    :nnoremap <silent> <Leader>x :call CloseFileWithNerdTree(v:false)<cr>
+    :nnoremap <silent> <Leader>X :call CloseFileWithNerdTree(v:true)<cr>
+    func! CloseFileWithNerdTree(force)
+      let l:nerdtreeopen = exists("g:NERDTree") && g:NERDTree.IsOpen()
+      if (l:nerdtreeopen)
+        :NERDTreeClose
+      endif
+      if (a:force)
+        bd!
+      else
+        bd
+      end
+      if (l:nerdtreeopen)
+        :NERDTreeToggle
+        :wincmd p
+      endif
+    endfun
+
     :nnoremap <Leader><Leader> :w<Enter>
     :nnoremap <Leader><Tab> :b#<enter>
     " switch to most recent buffer
