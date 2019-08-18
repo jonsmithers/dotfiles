@@ -116,7 +116,7 @@ fun! StretchPair()
 endfun
 
 fun! s:HideVimCursorSpasm()
-  if !has('nvim') | redraw | end "hide cursor spasm that only occurs in vim
+  if !has('nvim') && !has('gui_running') | redraw | end "hide cursor spasm that only occurs in vim
 endfun
 
 " 'sdf |     SHOULD INSERT SINGLE QUOTE
