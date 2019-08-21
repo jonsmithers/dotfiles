@@ -155,11 +155,9 @@ call plug#begin('~/.vim/plugged')
     \       ['lineinfo'],
     \       ['percent'],
     \       ['readonly', 'linter_warnings', 'linter_errors', 'linter_ok'],
-    \       ['obsession'],
     \     ]
     \   },
     \   'component_function': {
-    \     'obsession':   'LightlineObsessionStatus',
     \     'git_changes': 'LightLineChanges',
     \   },
     \   'component_expand': {
@@ -183,11 +181,6 @@ call plug#begin('~/.vim/plugged')
     \ }
     " let g:lightline.separator.right = ''
     " let g:lightline.separator.left =  ''
-    fun! LightlineObsessionStatus()
-      if exists('*ObsessionStatus')
-        return ObsessionStatus('session on', 'session paused', '')
-      endif
-    endfun
     fun! LightLineChanges()
       let l:hunkSummary = v:null
       if exists('*GitGutterGetHunkSummary')
@@ -298,7 +291,7 @@ call plug#begin('~/.vim/plugged')
 
   Plug 'junegunn/fzf'
   Plug 'junegunn/fzf.vim'
-  " Incredible fuzzy search for all sorts of things. Best plugin ever.
+  " Incredible fuzzy search for all sorts of things.
   " {{{
     " customize fzf colors to match color scheme
     let g:fzf_colors =
@@ -528,36 +521,6 @@ call plug#begin('~/.vim/plugged')
 
   Plug 'tpope/vim-unimpaired'
   " Add lots of very useful pair-related keybindings. See :help unimpaired
-
-  Plug 'tpope/vim-obsession'
-  " Keeps an always-up-to-date vim session (if enabled)
-  " {{{
-    " Use :Sesh to resume, :Sesh! to start a fresh session
-    command! -bang Sesh call Sesh(<bang>0)
-    function! Sesh(bang)
-      let l:file = '/tmp/vim-session.vim'
-      let l:isTracking = !empty(ObsessionStatus('tracking', '')) " true for both off and paused
-      if (a:bang) " replace persisted session
-        if (l:isTracking)
-          Obsession!
-        endif
-        if (filereadable(l:file))
-          call delete(l:file)
-        endif
-        exec 'Obsession ' . l:file
-      else " restore session if possible or start tracking current
-        if (!l:isTracking)
-          if (filereadable(l:file))
-            exec 'source ' . l:file
-          else
-            exec 'Obsession ' . l:file
-          endif
-        else
-          echom 'already tracking'
-        endif
-      endif
-    endfunction
-  " }}}
 
   Plug 'tpope/vim-repeat'
   " Improve the versatility of the "." repeat command
