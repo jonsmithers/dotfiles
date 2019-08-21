@@ -911,10 +911,10 @@ let g:html_wrong_comments=1
     set wildmenu      "show suggestions for vim commands
     set incsearch     "incremental search (something else also turns this on)
     syntax enable
-    set mouse=a       " default in Vim 8 defaults.vim
     set backspace=indent,eol,start
     set history=200		" keep 200 lines of command line history
   endif
+  set mouse=a       "already set in Vim 8 defaults.vim, but Fedora undoes it! (https://lists.fedoraproject.org/archives/list/users@lists.fedoraproject.org/thread/HZJVN3LVFS2YC3H7EZRPJEYEPAGKEVH2/)
   set ttimeoutlen=0 "timeout instantly when pressing esc during visual mode
   set foldmethod=syntax
   set foldlevelstart=99
