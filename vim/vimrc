@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <mail@jonsmithers.link>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2019-08-18
+" Last Updated: 2019-08-20
 
 :scriptencoding utf8
 
@@ -24,6 +24,7 @@ endif
 " ┌───────────────────┐
 " │ download vim-plug │
 " └───────────────────┘
+" {{{
 if (s:os !=# 'Windows')
   if empty(glob('~/.vim/autoload/plug.vim'))
     silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
@@ -44,379 +45,387 @@ else
     augroup END
   endif
 endif
+" }}}
 
-" ┌──────────┐
-" │ vim-plug │
-" └──────────┘
-  call plug#begin('~/.vim/plugged')
+" {{{ Personal vim-plug utils
+com! -nargs=+ PlugIfNeovim call s:plugIfNeovim(<args>)
+com! -nargs=+ PlugDevelop call s:plugDev(<args>)
+fun! s:plugIfNeovim(repo, ...)
+  if a:0 > 1
+    return s:err('Invalid number of arguments (1..2)')
+  endif
+  let l:opts = a:0 == 1 ? a:1 : { }
+  if (has('nvim'))
+    call plug#(a:repo, l:opts)
+  endif
+endfun
+fun! s:plugDev(repo, ...)
+  if a:0 > 1
+    return s:err('Invalid number of arguments (1..2)')
+  endif
+  let l:devPath = '~/git/' . split(a:repo, '/')[1]
+  let l:opts = a:0 == 1 ? a:1 : { }
+  if (!empty(glob(l:devPath)))
+    call extend(l:opts, { 'dir': l:devPath })
+    call plug#(a:repo, l:opts)
+  else
+    call plug#(a:repo, l:opts)
+  endif
+endfun
+fun! s:err(msg)
+  echohl ErrorMsg
+  echom '[vimrc] '.a:msg
+  echohl None
+endfun
+let s:nerdtree_triggers = ['NERDTreeFind', 'NERDTreeClose', 'NERDTreeToggle', 'NERDTreeRefreshRoot']
+" }}}
 
-    Plug 'AndrewRadev/splitjoin.vim'
-    " gJ on first line to join object literal into one line
-    " gS to split one-line object into multiple lines
+" ┌─────────┐
+" │ plugins │
+" └─────────┘
+call plug#begin('~/.vim/plugged')
 
-    " Plug 'airblade/vim-gitgutter'
-    " Show indicators for what's been modified/added/deleted.
-    " :nmap <Leader>ga :GitGutterStageHunk<Enter>
-    " :nmap <Leader>ga :GitGutterStageHunk<Enter>
-    " :nmap <Leader>gH :GitGutterLineHighlightsToggle<Enter>
-    " :nmap <Leader>gn :GitGutterNextHunk<Enter>
-    " :nmap <Leader>gN :GitGutterPrevHunk<Enter>
-    " :nmap <Leader>gP :GitGutterPreviewHunk<Enter>
-    " :nmap <Leader>gu :GitGutterUndoHunk<Enter>
+  Plug 'AndrewRadev/splitjoin.vim'
+  " gJ on first line to join object literal into one line
+  " gS to split one-line object into multiple lines
 
-    Plug 'mhinz/vim-signify'
-    " Git info in gutter
+  Plug 'mhinz/vim-signify'
+  " Git info in gutter
+  " {{{
     " [c,]c jump to prev/next change
     " [C,]C jump to last/first change
+  " }}}
 
-    " Plug 'alvan/vim-closetag'
-    " Automatically close html tags.
-      " let g:closetag_filetypes = 'html,xhtml,phtml,javascript,typescript'
-      " let g:closetag_regions = {
-      "       \ 'typescript.tsx': 'jsxRegion,tsxRegion,litHtmlRegion',
-      "       \ 'javascript.jsx': 'jsxRegion,litHtmlRegion',
-      "       \ 'javascript':     'litHtmlRegion',
-      "       \ 'typescript':     'litHtmlRegion',
-      "       \ }
+  " Plug 'alvan/vim-closetag'
+  " {{{
+    " Automatically close html tags. Tends to conflict with other plugins and
+    " vim features
+    " let g:closetag_filetypes = 'html,xhtml,phtml,javascript,typescript'
+    " let g:closetag_regions = {
+    "       \ 'typescript.tsx': 'jsxRegion,tsxRegion,litHtmlRegion',
+    "       \ 'javascript.jsx': 'jsxRegion,litHtmlRegion',
+    "       \ 'javascript':     'litHtmlRegion',
+    "       \ 'typescript':     'litHtmlRegion',
+    "       \ }
+  " }}}
 
+  " {{{ security patch
     if !has('patch-8.1.1365')
       " mitigate modeline security vulnerability in older vims https://github.com/numirias/security/blob/master/doc/2019-06-04_ace-vim-neovim.md
       set nomodeline
       Plug 'ciaranm/securemodelines'
       let g:secure_modelines_verbose = 1
     endif
+  " }}}
 
-    Plug 'ciaranm/detectindent'
-    " Analyze current buffer and configure tabbing to match.
-      nnoremap <leader>di :DetectIndent<cr>
-      :let g:detectindent_preferred_indent = 2
+  Plug 'ciaranm/detectindent' 
+  " Analyze current buffer and configure tabbing to match.
+  " {{{
+    nnoremap <leader>di :DetectIndent<cr>
+    :let g:detectindent_preferred_indent = 2
+  " }}}
 
-    Plug 'chrisbra/Colorizer'
-    " Show hex colors by running :ColorHighlight or :ColorToggle
+  Plug 'chrisbra/Colorizer'
+  " Show hex colors by running :ColorHighlight or :ColorToggle
+  " {{{
     let g:colorizer_fgcontrast = 0
+  " }}}
 
-    " Plug 'cohama/lexima.vim'
-    if (!empty(globpath(&rtp, 'autoload/shutter.vim')))
-      call shutter#Init()
-    endif
+  Plug 'editorconfig/editorconfig-vim'
+  " Adhere to .editorconfig files
 
-    Plug 'editorconfig/editorconfig-vim'
-    " Configure different coding styles on a per-project basis and have vim
-    " automatically adjust. There are equivalent plugins for all major code
-    " editors. It's great. In a better world, every project would have a
-    " .editorconfig file at its root.
+  Plug 'Houl/ExplainPattern-vim'
+  " Use :ExplainPattern to explain a vim-flavored regex
 
-    " Plug 'emilyst/match-count-statusline'
-    " let g:match_count_disable_statusline = v:true
-    " defines MatchCountStatusline
-
-    Plug 'Houl/ExplainPattern-vim'
-
-    Plug 'itchyny/lightline.vim'
-    " inspired by https://statico.github.io/vim3.html#lightline-powerline-airline-and-status-bars
-      set laststatus=2 "always show airline, instead of only after splitview
-      set noshowmode   "lightline will show mode for me
-      set showcmd      "shows size of visual selection BELOW lightline
-      let g:lightline = {
-      \   'active': {
-      \     'left': [
-      \       ['mode', 'paste'],
-      \       ['filename', 'modified'],
-      \       ['git_changes'],
-      \     ],
-      \     'right': [
-      \       ['lineinfo'],
-      \       ['percent'],
-      \       ['readonly', 'linter_warnings', 'linter_errors', 'linter_ok'],
-      \       ['obsession'],
-      \     ]
-      \   },
-      \   'component_function': {
-      \     'match_count': 'MatchCountStatusline',
-      \     'obsession':   'LightlineObsessionStatus',
-      \     'git_changes': 'LightLineChanges',
-      \   },
-      \   'component_expand': {
-      \     'linter_warnings': 'LightlineLinterWarnings',
-      \     'linter_errors':   'LightlineLinterErrors',
-      \     'linter_ok':       'LightlineLinterOK',
-      \   },
-      \   'component_type': {
-      \     'readonly':        'error',
-      \     'linter_warnings': 'warning',
-      \     'linter_errors':   'error'
-      \   },
-      \   'separator': {
-      \     'left': '',
-      \     'right': ''
-      \   },
-      \   'enable': {
-      \     'statusline': 1,
-      \     'tabline': 0
-      \   }
-      \ }
-      " let g:lightline.separator.right = ''
-      " let g:lightline.separator.left =  ''
-      function! LightlineObsessionStatus()
-        if exists('*ObsessionStatus')
-          return ObsessionStatus('session', 'session paused')
+  Plug 'itchyny/lightline.vim'
+  " Highly customizable bottom status bar
+  " {{{
+    " Some inspiration for this configuration is taken from https://statico.github.io/vim3.html#lightline-powerline-airline-and-status-bars
+    set laststatus=2 "always show status bar (even when there are no splits)
+    set noshowmode   "lightline will show mode for me
+    set showcmd      "shows size of visual selection BELOW lightline
+    let g:lightline = {
+    \   'active': {
+    \     'left': [
+    \       ['mode', 'paste'],
+    \       ['filename', 'modified'],
+    \       ['git_changes'],
+    \     ],
+    \     'right': [
+    \       ['lineinfo'],
+    \       ['percent'],
+    \       ['readonly', 'linter_warnings', 'linter_errors', 'linter_ok'],
+    \       ['obsession'],
+    \     ]
+    \   },
+    \   'component_function': {
+    \     'obsession':   'LightlineObsessionStatus',
+    \     'git_changes': 'LightLineChanges',
+    \   },
+    \   'component_expand': {
+    \     'linter_warnings': 'LightlineLinterWarnings',
+    \     'linter_errors':   'LightlineLinterErrors',
+    \     'linter_ok':       'LightlineLinterOK',
+    \   },
+    \   'component_type': {
+    \     'readonly':        'error',
+    \     'linter_warnings': 'warning',
+    \     'linter_errors':   'error'
+    \   },
+    \   'separator': {
+    \     'left': '',
+    \     'right': ''
+    \   },
+    \   'enable': {
+    \     'statusline': 1,
+    \     'tabline': 0
+    \   }
+    \ }
+    " let g:lightline.separator.right = ''
+    " let g:lightline.separator.left =  ''
+    fun! LightlineObsessionStatus()
+      if exists('*ObsessionStatus')
+        return ObsessionStatus('session on', 'session paused', '')
+      endif
+    endfun
+    fun! LightLineChanges()
+      let l:hunkSummary = v:null
+      if exists('*GitGutterGetHunkSummary')
+        let l:hunkSummary = GitGutterGetHunkSummary()
+      elseif exists('g:loaded_signify') && sy#buffer_is_active()
+        let l:hunkSummary = sy#repo#get_stats()
+      endif
+      if (empty(l:hunkSummary))
+        return ''
+      else
+        let [ l:added, l:modified, l:removed ] = l:hunkSummary
+        let l:total = (l:added + l:modified + l:removed)
+        let l:output = ''
+        if (l:added != 0)
+          let l:output .= printf('+%d ', l:added)
         endif
-      endfunction
-      function! LightLineChanges()
-        let l:hunkSummary = v:null
-        if exists('*GitGutterGetHunkSummary')
-          let l:hunkSummary = GitGutterGetHunkSummary()
-        elseif exists('g:loaded_signify') && sy#buffer_is_active()
-          let l:hunkSummary = sy#repo#get_stats()
+        if (l:modified != 0)
+          let l:output .= printf('~%d ', l:modified)
         endif
-        if (empty(l:hunkSummary))
-          return ''
-        else
-          let [ l:added, l:modified, l:removed ] = l:hunkSummary
-          let l:total = (l:added + l:modified + l:removed)
-          let l:output = ''
-          if (l:added != 0)
-            let l:output .= printf('+%d ', l:added)
-          endif
-          if (l:modified != 0)
-            let l:output .= printf('~%d ', l:modified)
-          endif
-          if (l:removed != 0)
-            let l:output .= printf('-%d ', l:removed)
-          endif
-          return '(' . l:output . ')'
+        if (l:removed != 0)
+          let l:output .= printf('-%d ', l:removed)
         endif
-      endfunction
-      function! LightlineLinterWarnings() abort
-        if (&readonly)
-          return ''
+        return '(' . l:output . ')'
+      endif
+    endfun
+    fun! LightlineLinterWarnings() abort
+      if (&readonly)
+        return ''
+      endif
+      let l:counts = ale#statusline#Count(bufnr(''))
+      let l:all_errors = l:counts.error + l:counts.style_error
+      let l:all_non_errors = l:counts.total - l:all_errors
+      return l:all_non_errors == 0 ? '' : printf('%d ▲', l:all_non_errors)
+    endfun
+    fun! LightlineLinterErrors() abort
+      if (&readonly)
+        return ''
+      endif
+      let l:counts = ale#statusline#Count(bufnr(''))
+      let l:all_errors = l:counts.error + l:counts.style_error
+      let l:all_non_errors = l:counts.total - l:all_errors
+      return l:all_errors == 0 ? '' : printf('%d ✗', l:all_errors)
+    endfun
+    fun! LightlineLinterOK() abort
+      if (&readonly)
+        return ''
+      endif
+      let l:counts = ale#statusline#Count(bufnr(''))
+      let l:all_errors = l:counts.error + l:counts.style_error
+      let l:all_non_errors = l:counts.total - l:all_errors
+      return l:counts.total == 0 ? '✓' : ''
+    endfun
+    augroup LightlineColorscheme
+      autocmd!
+      autocmd ColorScheme * call s:matchLightlineColorscheme()
+      autocmd User ALELint call s:maybeUpdateLightline()
+    augroup END
+    fun! s:maybeUpdateLightline()
+      " Update and show lightline but only if it's visible (e.g., not in Goyo)
+      if exists('#lightline')
+        call lightline#update()
+      end
+    endfun
+    fun! s:matchLightlineColorscheme() abort
+      func! s:MatchesColorscheme(idx, val) abort
+        let l:lightlineScheme = a:val
+        let l:lightlineScheme = substitute(l:lightlineScheme, '_.*', '', '')
+        let l:result = (-1 != match(g:colors_name, l:lightlineScheme))
+        return l:result
+      endfunc
+      let l:colorschemes = s:getLightlineColorschemes()
+      call filter(l:colorschemes, function('s:MatchesColorscheme'))
+      if (len(l:colorschemes) > 0)
+        " echom l:colorschemes[0] . ' matches ' . g:colors_name . '. ' . string(len(l:colorschemes))
+        let g:lightline.colorscheme = l:colorschemes[0]
+      else
+        " echom 'no lightline colorscheme for ' . g:colors_name
+        if (exists('g:lightline.colorscheme'))
+          unlet g:lightline.colorscheme
         endif
-        let l:counts = ale#statusline#Count(bufnr(''))
-        let l:all_errors = l:counts.error + l:counts.style_error
-        let l:all_non_errors = l:counts.total - l:all_errors
-        return l:all_non_errors == 0 ? '' : printf('%d ▲', l:all_non_errors)
-      endfunction
-      function! LightlineLinterErrors() abort
-        if (&readonly)
-          return ''
-        endif
-        let l:counts = ale#statusline#Count(bufnr(''))
-        let l:all_errors = l:counts.error + l:counts.style_error
-        let l:all_non_errors = l:counts.total - l:all_errors
-        return l:all_errors == 0 ? '' : printf('%d ✗', l:all_errors)
-      endfunction
-      function! LightlineLinterOK() abort
-        if (&readonly)
-          return ''
-        endif
-        let l:counts = ale#statusline#Count(bufnr(''))
-        let l:all_errors = l:counts.error + l:counts.style_error
-        let l:all_non_errors = l:counts.total - l:all_errors
-        return l:counts.total == 0 ? '✓' : ''
-      endfunction
-      augroup ale_stuff
-        au!
-        autocmd User ALELint call s:MaybeUpdateLightline()
-      augroup END
-      function! s:MaybeUpdateLightline()
-        " Update and show lightline but only if it's visible (e.g., not in Goyo)
-        if exists('#lightline')
-          call lightline#update()
-        end
-      endfunction
-
-      augroup LightlineColorscheme
-        autocmd!
-        autocmd ColorScheme * call s:lightline_match_colorscheme()
-      augroup END
-      function! s:lightline_match_colorscheme() abort
-        func! s:MatchesColorscheme(idx, val) abort
-          let l:lightlineScheme = a:val
-          let l:lightlineScheme = substitute(l:lightlineScheme, '_.*', '', '')
-          let l:result = (-1 != match(g:colors_name, l:lightlineScheme))
-          return l:result
-        endfunc
-        let l:colorschemes = s:lightline_colorscheme_list()
-        call filter(l:colorschemes, function('s:MatchesColorscheme'))
-        if (len(l:colorschemes) > 0)
-          " echom l:colorschemes[0] . ' matches ' . g:colors_name . '. ' . string(len(l:colorschemes))
-          let g:lightline.colorscheme = l:colorschemes[0]
-        else
-          " echom 'no lightline colorscheme for ' . g:colors_name
-          if (exists('g:lightline.colorscheme'))
-            unlet g:lightline.colorscheme
-          endif
-        endif
-        if (exists('g:loaded_lightline') && exists('#lightline'))
-          "                                 ^ lightline is not disabled (e.g. by Goyo)
-          call lightline#init()
-          call lightline#colorscheme()
-          call lightline#update()
-        endif
-      endfunction
-      function! s:lightline_colorscheme_list()
-        return map(globpath(&runtimepath,'autoload/lightline/colorscheme/*.vim',1,1), "fnamemodify(v:val,':t:r')")
-      endfunction
-
-      command! -nargs=1 -complete=custom,s:lightline_colorschemes LightlineColorscheme call s:set_lightline_colorscheme(<q-args>)
-      function! s:lightline_colorschemes(...) abort
-        return join(s:lightline_colorscheme_list(), "\n")
-      endfunction
-      function! s:set_lightline_colorscheme(name) abort
-        let g:lightline.colorscheme = a:name
+      endif
+      if (exists('g:loaded_lightline') && exists('#lightline'))
+        "                                 ^ lightline is not disabled (e.g. by Goyo)
         call lightline#init()
         call lightline#colorscheme()
         call lightline#update()
-      endfunction
+      endif
+    endfun
+    fun! s:getLightlineColorschemes()
+      return map(globpath(&runtimepath,'autoload/lightline/colorscheme/*.vim',1,1), "fnamemodify(v:val,':t:r')")
+    endfun
+    command! -nargs=1 -complete=custom,s:lightlineColorschemeCompletion LightlineColorscheme call s:setLightlineColorscheme(<q-args>)
+    function! s:lightlineColorschemeCompletion(...) abort
+      return join(s:getLightlineColorschemes(), "\n")
+    endfunction
+    function! s:setLightlineColorscheme(name) abort
+      let g:lightline.colorscheme = a:name
+      call lightline#init()
+      call lightline#colorscheme()
+      call lightline#update()
+    endfunction
+  " }}}
 
-    if (!empty(glob('~/git/vim-html-template-literals/')))
-      let g:htl_debug = 1
-      Plug 'jonsmithers/vim-html-template-literals', { 'dir': '~/git/vim-html-template-literals/' }
-    else
-      Plug 'jonsmithers/vim-html-template-literals'
-    endif
-    let g:html_indent_style1  = 'inc'
-    let g:html_indent_script1 = 'inc'
+  Plug 'jonsmithers/apprentice-lightline-experimental'
+  " A custom theme I made to go with the apprentice theme
 
-    Plug 'jonsmithers/pivotal-tracker-fzf.vim', (empty(glob('~/git/pivotal-tracker-fzf.vim/')) ? { 'for': 'gitcommit' } : { 'dir': '~/git/pivotal-tracker-fzf.vim' })
+  PlugDevelop 'jonsmithers/pivotal-tracker-fzf.vim', { 'for': 'gitcommit' }
 
-    " Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all --no-zsh' }
-    Plug 'junegunn/fzf'
-    Plug 'junegunn/fzf.vim'
-    " Incredible fuzzy search for all sorts of things. Best plugin ever.
+  Plug 'junegunn/fzf'
+  Plug 'junegunn/fzf.vim'
+  " Incredible fuzzy search for all sorts of things. Best plugin ever.
+  " {{{
+    " customize fzf colors to match color scheme
+    let g:fzf_colors =
+    \ { 'fg':      ['fg', 'Normal'],
+      \ 'bg':      ['bg', 'Normal'],
+      \ 'hl':      ['fg', 'Comment'],
+      \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+      \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+      \ 'hl+':     ['fg', 'Statement'],
+      \ 'info':    ['fg', 'PreProc'],
+      \ 'border':  ['fg', 'Ignore'],
+      \ 'prompt':  ['fg', 'Conditional'],
+      \ 'pointer': ['fg', 'Exception'],
+      \ 'marker':  ['fg', 'Keyword'],
+      \ 'spinner': ['fg', 'Label'],
+      \ 'header':  ['fg', 'Comment'] }
 
-      " customize fzf colors to match color scheme
-        let g:fzf_colors =
-        \ { 'fg':      ['fg', 'Normal'],
-          \ 'bg':      ['bg', 'Normal'],
-          \ 'hl':      ['fg', 'Comment'],
-          \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-          \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-          \ 'hl+':     ['fg', 'Statement'],
-          \ 'info':    ['fg', 'PreProc'],
-          \ 'border':  ['fg', 'Ignore'],
-          \ 'prompt':  ['fg', 'Conditional'],
-          \ 'pointer': ['fg', 'Exception'],
-          \ 'marker':  ['fg', 'Keyword'],
-          \ 'spinner': ['fg', 'Label'],
-          \ 'header':  ['fg', 'Comment'] }
+    " fzf bindings
+    :command! -bang -nargs=* Rg  call fzf#vim#grep('rg --column --line-number --no-heading --color=always               '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
+    :command! -bang -nargs=* Rgi call fzf#vim#grep('rg --column --line-number --no-heading --color=always --ignore-case '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
+    :command! -nargs=* Rgexpand :exec 'Rg ' . expand(<q-args>)
 
-      " fzf bindings
-        :command! -bang -nargs=* Rg  call fzf#vim#grep('rg --column --line-number --no-heading --color=always               '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
-        :command! -bang -nargs=* Rgi call fzf#vim#grep('rg --column --line-number --no-heading --color=always --ignore-case '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
-        :command! -nargs=* Rgexpand :exec 'Rg ' . expand(<q-args>)
+    "search for word in working directory
+    :nnoremap <Leader>sw    :Rg  <Enter>
+    :vnoremap <Leader>s     y:Rg "<Enter>
 
-        "search for word in working directory
-        :nnoremap <Leader>sw    :Rg  <Enter>
-        :vnoremap <Leader>s     y:Rg "<Enter>
+    :nnoremap <C-k>         :Buffers<Enter>
+    :nnoremap <C-p>         :Files<Enter>
+    :nnoremap <Leader>or    :History<Enter>
+    :nnoremap <Leader>ft    :Filetypes<enter>
+    :nnoremap <Leader>f/    :History/<Enter>
+    :nnoremap <Leader>f:    :History:<Enter>
+    " (note - you can call histdel("cmd", "regexp") to delete mistaken history items)
 
-        :nnoremap <C-k>         :Buffers<Enter>
-        :nnoremap <C-p>         :Files<Enter>
-        :nnoremap <Leader>or    :History<Enter>
-        :nnoremap <Leader>ft    :Filetypes<enter>
-        :nnoremap <Leader>f/    :History/<Enter>
-        :nnoremap <Leader>f:    :History:<Enter>
-        " (note - you can call histdel("cmd", "regexp") to delete mistaken history items)
-        " :nmap <Leader>f~    :FZF ~<Enter>
+    " fuzzy relative filepath completion!
+    inoremap <expr> <c-x><c-f> fzf#vim#complete#path(
+          \ "find . -path '*/\.*' -prune -o -print \| sed '1d;s:^..::'",
+          \ fzf#wrap({'dir': expand('%:p:h')}))
+    inoremap <c-x>F <c-x><c-f>
+          " Ctrl-X Shift-F will provide native c-x c-f functionality
+  " }}}
 
-        " fuzzy relative filepath completion!
-        inoremap <expr> <c-x><c-f> fzf#vim#complete#path(
-              \ "find . -path '*/\.*' -prune -o -print \| sed '1d;s:^..::'",
-              \ fzf#wrap({'dir': expand('%:p:h')}))
-        inoremap <c-x>F <c-x><c-f>
-              " Ctrl-X Shift-F will provide native c-x c-f functionality
-
-    Plug 'junegunn/goyo.vim', { 'on': 'Goyo' }
-    " Distraction free mode. Good for coding and as well as prose writing.
-      let g:goyo_width = 81
-      " make vim close the First time you do :quit
-      " https://github.com/junegunn/goyo.vim/wiki/Customization
-      function! s:goyo_enter()
-        let b:quitting = 0
-        let b:quitting_bang = 0
-        augroup goyo_buffer
-          au!
-          autocmd QuitPre <buffer> let b:quitting = 1
-        augroup END
-        cabbrev <buffer> q! let b:quitting_bang = 1 <bar> q!
-      endfunction
-      function! s:goyo_leave()
-        " Quit Vim if this is the only remaining buffer
-        if b:quitting && len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1
-          if b:quitting_bang
-            qa!
-          else
-            qa
-          endif
+  Plug 'junegunn/goyo.vim', { 'on': 'Goyo' }
+  " Distraction free mode. Good for coding and as well as prose writing.
+  " {{{
+    let g:goyo_width = 81
+    " make vim close the First time you do :quit
+    " https://github.com/junegunn/goyo.vim/wiki/Customization
+    function! s:goyo_enter()
+      let b:quitting = 0
+      let b:quitting_bang = 0
+      augroup goyo_buffer
+        au!
+        autocmd QuitPre <buffer> let b:quitting = 1
+      augroup END
+      cabbrev <buffer> q! let b:quitting_bang = 1 <bar> q!
+    endfunction
+    function! s:goyo_leave()
+      " Quit Vim if this is the only remaining buffer
+      if b:quitting && len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1
+        if b:quitting_bang
+          qa!
+        else
+          qa
         endif
-      endfunction
-      augroup goyo_stuff
-        au!
-        autocmd User GoyoEnter call <SID>goyo_enter()
-        autocmd User GoyoLeave call <SID>goyo_leave()
-      augroup END
+      endif
+    endfunction
+    augroup goyo_stuff
+      au!
+      autocmd User GoyoEnter call <SID>goyo_enter()
+      autocmd User GoyoLeave call <SID>goyo_leave()
+    augroup END
+  " }}}
 
-    Plug 'junegunn/vim-journal'
+  Plug 'junegunn/limelight.vim'
+  " :Limelight for distraction-free fanciness
 
-    Plug 'junegunn/limelight.vim'
-
-    Plug 'junegunn/rainbow_parentheses.vim'
+  Plug 'junegunn/rainbow_parentheses.vim'
+  " :RainbowParentheses to color matching parens/brackets
+  " {{{
     let g:rainbow#pairs = [['(', ')'], ['[', ']'], ['{', '}']]
+  " }}}
 
-    Plug 'junegunn/gv.vim', { 'on': 'GV' }
-    " :GV to open git view (commit browser)
+  Plug 'junegunn/gv.vim', { 'on': 'GV' }
+  " :GV to open git view (commit browser)
 
-    Plug 'junegunn/vader.vim', { 'on': 'Vader', 'for': 'vader' }
+  Plug 'junegunn/vader.vim', { 'on': 'Vader', 'for': 'vader' }
+  " Testing framework for vim plugins
 
-    Plug 'junegunn/vim-easy-align'
-    " Align chunks of code on a character/regex. Makes it really easy to have
-    " nice formatting.
-      :xmap     ga <Plug>(EasyAlign)
-      :nnoremap ga <Plug>(EasyAlign)
+  Plug 'junegunn/vim-easy-align'
+  " Vertically align code
+  " {{{
+    :xmap     ga <Plug>(EasyAlign)
+    :nnoremap ga <Plug>(EasyAlign)
+  " }}}
 
-    Plug 'justinmk/vim-dirvish'
-    " directory viewer
-      " sort folders at top
-      let g:dirvish_mode = ':sort ,^.*[\/],'
-      augroup dirvish_stuff
-        au!
-        autocmd FileType dirvish setlocal nonumber
-        autocmd FileType dirvish silent! unmap <buffer> <C-p>
-      augroup END
+  Plug 'justinmk/vim-dirvish'
+  " Directory viewer
+  " {{{
+    " sort folders at top
+    let g:dirvish_mode = ':sort ,^.*[\/],'
+    augroup dirvish_stuff
+      au!
+      autocmd FileType dirvish setlocal nonumber
+      autocmd FileType dirvish silent! unmap <buffer> <C-p>
+    augroup END
+  " }}}
 
-    Plug 'markonm/traces.vim'
-    " show a live preview of :substitute
+  Plug 'markonm/traces.vim'
+  " Show a live preview of :substitute
 
-    " Plug 'jonsmithers/vim-localhistory', { 'dir': '~/git/vim-localhistory/' }
-    " let g:lh_basedir = '~/.vim/local_history/'
-    " let g:local_history_disable_mappings = 1
-    " let g:lh_autobackup_first = 1
-    " let g:lh_quiet = 1
-    " let g:lh_autobackup_frequency = 60
-    " LHwrite         : write a backup with date
-    " LHwrite <name>  : write a named backup (snapshot)
-    " LHdated         : load a backup with a date
-    " LHsnapshot      : load a snapshot
-    " LHdiff          : select a backup and open a split diff window
-    " LHdelete        : delete backups for current dir (all types)
-    " LHall           : load any backup
-
-    Plug 'mg979/vim-visual-multi'
-    let g:VM_mouse_mappings = 1
-    let g:VM_no_meta_mappings = 1
-    " multiple cursors. Seems to be faster than 'terryma/vim-multiple-cursors'.
-    "
+  Plug 'mg979/vim-visual-multi'
+  " Multiple cursors. Seems to be faster than 'terryma/vim-multiple-cursors'.
+  " {{{
     " Ctrl-N on a word to multiply your cursor on subsequent matches for batch
     " editing. (Ctrl-S) to skip
     "
     " Ctrl-Up/Down to expand multiline cursor.
     "
     " \A to select all matches of word
+    let g:VM_mouse_mappings = 1
+    let g:VM_no_meta_mappings = 1
+  " }}}
 
-    Plug 'mxw/vim-jsx'
-
-    if (has('nvim'))
-      Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
+  if (has('nvim'))
+    Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
+    " {{{
       " CocInstall coc-json
       " CocInstall coc-tsserver
       " CocInstall coc-html
@@ -427,42 +436,44 @@ endif
       :nmap [I <Plug>(coc-diagnostic-prev-error)
       :nmap <Leader>cd <Plug>(coc-definition)
       :nmap <Leader>ci <Plug>(coc-diagnostic-info)
-    endif
+    " }}}
+  endif
 
-    Plug 'nelstrom/vim-visual-star-search'
-    " Bring "*" key behavior into visual mode. Extremely useful.
-    " (see ":help *").
+  Plug 'nelstrom/vim-visual-star-search'
+  " Bring "*" key behavior into visual mode. Extremely useful. (see ":help *").
 
-    if !exists('g:dumb_js')
-      Plug 'pangloss/vim-javascript'
-      " Vastly improved syntax highlighting.
-    endif
-      let g:javascript_plugin_jsdoc = 1
-      command! FastJS let g:dumb_js = 1 | source $MYVIMRC
-      command! SlowJS unlet g:dumb_js | source $MYVIMRC
+  Plug 'pangloss/vim-javascript'
+  " Vastly improved syntax highlighting.
+  " {{{
+    let g:javascript_plugin_jsdoc = 1
+  " }}}
 
-    Plug 'othree/eregex.vim'
-    " Lets me use more standard regex.
-      " Search with :M/[regex]
-      " Substitute with <range> :S/regex/string/
-      let g:eregex_default_enable = 0
-      nnoremap <Leader>m/ :M/
+  Plug 'othree/eregex.vim'
+  " Lets you use more standard regex within vim
+  " {{{
+    " Search with :M/[regex]
+    " Substitute with <range> :S/regex/string/
+    let g:eregex_default_enable = 0
+    nnoremap <Leader>m/ :M/
+  " }}}
 
-    let s:nerdtree_triggers = ['NERDTreeFind', 'NERDTreeClose', 'NERDTreeToggle', 'NERDTreeRefreshRoot']
+  call plug#('scrooloose/nerdtree', { 'on': s:nerdtree_triggers })
+  " Project tree explorer
+  " {{{
+    let g:NERDTreeHijackNetrw=0 " let dirvish replace netrw
 
-    call plug#('scrooloose/nerdtree', { 'on': s:nerdtree_triggers })
-      let g:NERDTreeHijackNetrw=0 " let dirvish replace netrw
+    :nnoremap <Leader>tt :NERDTreeToggle<enter><c-w>p
+    :nnoremap <Leader>tF :NERDTreeFind<enter>
+    :nnoremap <Leader>tf :NERDTreeFind<enter><c-w>p
+    :nnoremap <Leader>tr :NERDTreeRefreshRoot<cr>
+  " }}}
 
-      :nnoremap <Leader>tt :NERDTreeToggle<enter><c-w>p
-      :nnoremap <Leader>tF :NERDTreeFind<enter>
-      :nnoremap <Leader>tf :NERDTreeFind<enter><c-w>p
-      :nnoremap <Leader>tr :NERDTreeRefreshRoot<cr>
-
-    if (has('python') || has('python3'))
-      Plug 'SirVer/ultisnips'
+  if (has('python') || has('python3'))
+    Plug 'SirVer/ultisnips'
+    " Code snippets
+    " {{{
       let g:UltiSnipsSnippetDirectories = [$HOME.'/.vim/UltiSnips', $HOME.'/.config/smithers/UltiSnips']
       " ^ workaround bug https://github.com/SirVer/ultisnips/issues/711
-
       let g:UltiSnipsExpandTrigger = '<tab>'
       let g:UltiSnipsJumpForwardTrigger = '<tab>'
       let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
@@ -471,67 +482,61 @@ endif
         au!
         autocmd Filetype typescript :UltiSnipsAddFiletypes javascript
       augroup END
-    endif
+    " }}}
+  endif
 
-    " if (!empty(glob('/usr/local/bin/npm')) || !empty(glob('/home/smithers/.npm-global/bin/npm'))) " 'command -v npm' takes about 150ms
-    "   Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
-    " " Intelligent completion for JavaScript. It's amazing.
-    "   let g:tern_show_signature_in_pum = 1
-    "   set updatetime=1000
-    "   :nnoremap <Leader>td :TernDoc<cr>
-    "   augroup tern_stuff
-    "     au!
-    "     autocmd CompleteDone javascript pclose
-    "   augroup END
-    " endif
+  Plug 'tomtom/tcomment_vim'
+  " Toggle code comments. Mapped to Ctrl-//
+  " {{{
+    " NOTE: ctrl-// doesn't work in gvim. Instead use ctrl-__
+    let g:tcomment#replacements_xml = {} " don't substitute weird characters when commenting html lines
+  " }}}
 
-    Plug 'tomtom/tcomment_vim'
-    " Toggle code comments. Mapped to Ctrl-//
-      " NOTE: ctrl-// doesn't work in gvim. Instead use ctrl-__
-      let g:tcomment#replacements_xml = {} " don't substitute weird characters when commenting html lines
+  Plug 'tpope/vim-eunuch'
+  ":Delete, :Chmod, :SudoWrite, :Rename, :Mkdir
 
-    Plug 'tpope/vim-eunuch'
-    ":Delete, :Chmod, :SudoWrite, :Rename, :Mkdir
+  Plug 'tpope/vim-fugitive'
+  Plug 'tpope/vim-rhubarb'
+  " Various integrated git tools. I use this a lot.
+  " {{{
+    nnoremap <Leader>gb :Gblame -w<cr>
+    " ~        reblame at hovered commit
+    " A        resize to author column
+    " D        resize to date column
+    " p        preview commit
+    " o        open commit in split
+    " O        open commit in tab
+    nnoremap <leader>gs :Gstatus<cr>
+    " http://vimcasts.org/episodes/fugitive-vim-working-with-the-git-index/
+    " c-n, c-p jumps to files
+    " p        runs add --patch
+    " cc       runs commit
+    " -        stages/unstages
+    " D        diff
+    nnoremap <leader>gd :Gvdiff<cr>
+    "          (left is index (staged), right is working)
+    "          dp      diffput
+    "          do      diffget (think "obtain")
+    "          :w      write to index/working copy
+    "          [c,]c   jump to prev/next change
+    "          c-w c-o nice way to exit
+    "          c-w c-w goes between columns
+  " }}}
 
-    Plug 'tpope/vim-fugitive'
-    Plug 'tpope/vim-rhubarb'
-    " Various integrated git tools. I use this a lot.
-      nnoremap <Leader>gb :Gblame -w<cr>
-      " ~        reblame at hovered commit
-      " A        resize to author column
-      " D        resize to date column
-      " p        preview commit
-      " o        open commit in split
-      " O        open commit in tab
-      nnoremap <leader>gs :Gstatus<cr>
-      " http://vimcasts.org/episodes/fugitive-vim-working-with-the-git-index/
-      " c-n, c-p jumps to files
-      " p        runs add --patch
-      " cc       runs commit
-      " -        stages/unstages
-      " D        diff
-      nnoremap <leader>gd :Gvdiff<cr>
-      "          (left is index (staged), right is working)
-      "          dp      diffput
-      "          do      diffget (think "obtain")
-      "          :w      write to index/working copy
-      "          [c,]c   jump to prev/next change
-      "          c-w c-o nice way to exit
-      "          c-w c-w goes between columns
+  Plug 'tpope/vim-rsi'
+  " Add readline keybindings http://readline.kablamo.org/emacs.html
 
-    Plug 'tpope/vim-rsi'
-    " add readline keybindings http://readline.kablamo.org/emacs.html
+  Plug 'tpope/vim-unimpaired'
+  " Add lots of very useful pair-related keybindings. See :help unimpaired
 
-    Plug 'tpope/vim-unimpaired'
-
-    Plug 'tpope/vim-obsession'
-    " :Obsession ~/.vim/obsessions/
-    " :source ~/.vim/obsessions/Session.vim
+  Plug 'tpope/vim-obsession'
+  " Keeps an always-up-to-date vim session (if enabled)
+  " {{{
+    " Use :Sesh to resume, :Sesh! to start a fresh session
     command! -bang Sesh call Sesh(<bang>0)
     function! Sesh(bang)
-      let l:file = $HOME . '/.vim/obsessions/Session.vim'
-      let l:isTracking = !empty(ObsessionStatus('tracking', '')) " true for both off and pused
-
+      let l:file = '/tmp/vim-session.vim'
+      let l:isTracking = !empty(ObsessionStatus('tracking', '')) " true for both off and paused
       if (a:bang) " replace persisted session
         if (l:isTracking)
           Obsession!
@@ -552,17 +557,19 @@ endif
         endif
       endif
     endfunction
+  " }}}
 
-    Plug 'tpope/vim-repeat'
+  Plug 'tpope/vim-repeat'
+  " Improve the versatility of the "." repeat command
 
-    if (!empty(glob('~/Dropbox/vimwiki')))
-      Plug 'vimwiki/vimwiki'
-      " Quick access to a personal wiki. In vim.
+  if (!empty(glob('~/Dropbox/vimwiki')))
+    Plug 'vimwiki/vimwiki'
+    " Quick access to a personal wiki. In vim.
+    " {{{
       " <space>ww to open wiki index
       " <space>wf to fuzzy find wiki filenames (with preview!)
       " <space>wF to fuzzy find wiki line contents (could use improvement)
       " WriteWikiNote to write a new wiki note
-
       let g:vimwiki_list = [
       \   {
       \     'path': glob('~/Dropbox/vimwiki/md'),
@@ -603,224 +610,193 @@ endif
         endfor
         Lines
       endfunc
+    " }}}
     endif
 
-    call plug#('Xuyuanp/nerdtree-git-plugin', { 'on': s:nerdtree_triggers })
-      let g:NERDTreeIndicatorMapCustom = {
-          \ "Modified"  : '*',
-          \ "Staged"    : '+',
-          \ "Untracked" : '✭',
-          \ "Renamed"   : '➜',
-          \ "Unmerged"  : '═',
-          \ "Deleted"   : '✖',
-          \ "Dirty"     : '*',
-          \ "Clean"     : '✔︎',
-          \ 'Ignored'   : '☒',
-          \ "Unknown"   : '?'
-          \ }
+  call plug#('Xuyuanp/nerdtree-git-plugin', { 'on': s:nerdtree_triggers })
+  " Show git indicators in nerdtree
+  " {{{
+    let g:NERDTreeIndicatorMapCustom = {
+        \ "Modified"  : '*',
+        \ "Staged"    : '+',
+        \ "Untracked" : '✭',
+        \ "Renamed"   : '➜',
+        \ "Unmerged"  : '═',
+        \ "Deleted"   : '✖',
+        \ "Dirty"     : '*',
+        \ "Clean"     : '✔︎',
+        \ 'Ignored'   : '☒',
+        \ "Unknown"   : '?'
+        \ }
+    " }}}
 
 
-    if (!has('nvim')) | Plug 'w0rp/ale' | endif
-    " Asynchronous linting of all kinds. I use this for bash scripting, fish
-    " shell, vim, javascript, and more.
-      let g:ale_linters = {
-        \ 'html': ['eslint'],
-        \ 'javascript': ['eslint'],
-        \ 'java': [],
-        \ 'typescript': ['tsserver']
-      \}
-      let g:ale_linter_aliases = { 'html': ['html', 'javascript'] }
-      let g:ale_echo_msg_format = '%linter%: %s (%code%)'
-      let g:ale_fixers = {
-            \ 'javascript': ['eslint'],
-            \ 'html': ['eslint'],
-            \}
-      :nnoremap <Leader>an :ALENextWrap<Enter>
+  if (!has('nvim')) | Plug 'w0rp/ale' | endif
+  " Awesome asynchronous linting of all kinds
+  " {{{
+    let g:ale_completion_enabled = 1
+    let g:ale_linters = {
+      \ 'html': ['eslint'],
+      \ 'javascript': ['eslint'],
+      \ 'java': [],
+      \ 'typescript': ['tsserver']
+    \}
+    let g:ale_linter_aliases = { 'html': ['html', 'javascript'] }
+    let g:ale_echo_msg_format = '%linter%: %s (%code%)'
+    let g:ale_fixers = {
+          \ 'javascript': ['eslint'],
+          \ 'html': ['eslint'],
+          \}
+    :nnoremap <Leader>an :ALENextWrap<Enter>
+  " }}}
 
+  " Plug 'wellle/targets.vim'
+  " Advanced vim text objects. Sometimes this is slow.
 
-    " Plug 'wellle/targets.vim'
-    " Advanced vim text objects. Sometimes this is slow.
-
-    Plug 'whiteinge/diffconflicts'
+  Plug 'whiteinge/diffconflicts'
+  " {{{
     " git config --global merge.tool diffconflicts
     " git config --global mergetool.diffconflicts.cmd 'vim -c DiffConflicts "$MERGED" "$BASE" "$LOCAL" "$REMOTE"'
     " git config --global mergetool.diffconflicts.trustExitCode true
     " git config --global mergetool.keepBackup false
     " git mergetool <file>
+  " }}}
 
-    " language syntaxes
-    Plug 'dag/vim-fish'
-    Plug 'leafgarland/typescript-vim'
-    Plug 'peitalin/vim-jsx-typescript'
-    Plug 'luan/vim-concourse'
-    Plug 'posva/vim-vue'
-    Plug 'tfnico/vim-gradle'
-    Plug 'vim-scripts/groovyindent-unix'
-    let g:concourse_tags_autosave = 0
+  " language syntaxes
+  Plug 'dag/vim-fish'
+  Plug 'leafgarland/typescript-vim'
+  Plug 'peitalin/vim-jsx-typescript'
+  Plug 'luan/vim-concourse'
+  Plug 'posva/vim-vue'
+  Plug 'tfnico/vim-gradle'
+  Plug 'vim-scripts/groovyindent-unix'
+  let g:concourse_tags_autosave = 0
+  Plug 'mxw/vim-jsx'
+  PlugDevelop 'jonsmithers/vim-html-template-literals'
+  let g:html_indent_style1  = 'inc'
+  let g:html_indent_script1 = 'inc'
 
-    " colorschemes
-    if (has('termguicolors') && empty($TMUX))
-      set termguicolors
-    else
-      set t_Co=256
-    endif
-    Plug 'cormacrelf/vim-colors-github'
-    Plug 'arcticicestudio/nord-vim'
-    Plug 'dracula/vim'
-    Plug 'junegunn/seoul256.vim'
-    Plug 'KKPMW/sacredforest-vim'
-    Plug 'mhartington/oceanic-next'
-    Plug 'morhetz/gruvbox'
-    Plug 'nanotech/jellybeans.vim'
-    Plug 'nightsense/snow'
-    Plug 'NLKNguyen/papercolor-theme'
-    Plug 'rakr/vim-one'
-    Plug 'romainl/Apprentice'
-    Plug 'chriskempson/base16-vim'
-
-    if has('mac')
-      Plug 'junegunn/vim-xmark', { 'do': 'make' }
-    endif
-
-    "run :PlugInstall to install new plugins
-  call plug#end()
-
-  if (!empty(glob('~/.vim/vim-plug-extras.vim')))
-    source ~/.vim/vim-plug-extras.vim
+  " colorschemes
+  if (has('termguicolors') && empty($TMUX))
+    set termguicolors
+  else
+    set t_Co=256
   endif
+  Plug 'cormacrelf/vim-colors-github'
+  Plug 'arcticicestudio/nord-vim'
+  Plug 'dracula/vim'
+  Plug 'junegunn/seoul256.vim'
+  Plug 'KKPMW/sacredforest-vim'
+  Plug 'mhartington/oceanic-next'
+  Plug 'morhetz/gruvbox'
+  Plug 'nanotech/jellybeans.vim'
+  Plug 'nightsense/snow'
+  Plug 'NLKNguyen/papercolor-theme'
+  Plug 'rakr/vim-one'
+  Plug 'romainl/Apprentice'
+  Plug 'chriskempson/base16-vim'
 
-  if (hostname() ==# 'Smithers.local')
-    let g:python3_host_prog='/usr/local/bin/python3'
-  elseif (hostname() ==# 'zamperini4')
-    let g:python3_host_prog='/usr/bin/python3'
-  endif
+call plug#end()
+
+if (!empty(globpath(&rtp, 'autoload/shutter.vim')))
+  call shutter#Init()
+  " auto-closes parens and brackets
+endif
+
+if (!empty(glob('~/.vim/vim-plug-extras.vim')))
+  source ~/.vim/vim-plug-extras.vim
+endif
 
 " ┌──────────────┐
 " │ Key Mappings │
 " └──────────────┘
+" {{{
   nnoremap <leader>; :
   vnoremap <leader>; :
 
-  cnoremap <C-k> <up>
-  cnoremap <C-j> <down>
-
   " search and replace
-  :vnoremap <C-r> y:%s/<C-r>0/<C-r>0/gc<left><left><left>
+  vnoremap <c-r> y:%s/<c-r>0/<c-r>0/gc<left><left><left>
 
-  " insert mode shortcuts
-    " :inoremap <C-@> <C-Space>
-    " :inoremap <C-Space> <C-x><C-o>
-    :inoremap jk <Esc>
-    " :inoremap II <Esc>I
-    " :inoremap AA <Esc>A
-    :inoremap jl <Esc>:
-    :imap \t <Esc>:r! date "+\%Y\%m\%d"<Enter>kJA
+  inoremap jk <Esc>
+  inoremap jl <Esc>:
 
-    :inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
-    " https://castel.dev/post/lecture-notes-1/
+  " https://castel.dev/post/lecture-notes-1/
+  inoremap <c-l> <c-g>u<Esc>[s1z=`]a<c-g>u
 
-    :inoremap <C-k> <c-o>gwip
-    " reformat current paragraph without leaving insert mode
+  " reformat current paragraph without leaving insert mode
+  inoremap <c-k> <c-o>gwip
 
-  " normal mode shortucts
-    "insert time:
-    :nnoremap <Leader>it :r! date "+\%Y\%m\%d"<Enter>kJ
-    :com! InsertDate :r! date "+\%Y\%m\%d"
+  " clear search
+  nnoremap <leader>sdf :let @/ = ''<cr>
 
-    " clear search
-    :nnoremap <leader>sdf :let @/ = ''<cr>
+  " horizontal scroll
+  nnoremap <C-h> 5zh
+  nnoremap <C-l> 5zl
 
-    :nnoremap <C-h> 5zh
-    :nnoremap <C-l> 5zl
-    :nnoremap Q <nop>
-    :nnoremap <Leader>T :enew<cr>
-    let g:BASH_Ctrl_j = 'off' "this is undocumented!
-    :nnoremap <silent> <Leader>x :call CloseFileWithNerdTree(v:false)<cr>
-    :nnoremap <silent> <Leader>X :call CloseFileWithNerdTree(v:true)<cr>
-    func! CloseFileWithNerdTree(force)
-      let l:nerdtreeopen = exists("g:NERDTree") && g:NERDTree.IsOpen()
-      if (l:nerdtreeopen)
-        :NERDTreeClose
-      endif
-      if (a:force)
-        bd!
-      else
-        bd
-      end
-      if (l:nerdtreeopen)
-        :NERDTreeToggle
-        :wincmd p
-      endif
-    endfun
+  " disable confusing and near-obsolete ex mode
+  nnoremap Q <nop>
 
-    :nnoremap <Leader><Leader> :w<Enter>
-    :nnoremap <Leader><Tab> :b#<enter>
-    " switch to most recent buffer
-    :nnoremap <Leader>ss :syntax sync fromstart<enter>
-    :nnoremap <Leader>BD :bufdo bd<enter>
+  nnoremap <silent> <leader>x :call CloseBufferWithNerdTree(v:false)<cr>
+  nnoremap <silent> <leader>X :call CloseBufferWithNerdTree(v:true)<cr>
+  fun! CloseBufferWithNerdTree(force)
+    let l:nerdtreeopen = exists("g:NERDTree") && g:NERDTree.IsOpen()
+    if (l:nerdtreeopen)
+      :NERDTreeClose
+    endif
+    if (a:force)
+      bd!
+    else
+      bd
+    end
+    if (l:nerdtreeopen)
+      :NERDTreeToggle
+      :wincmd p
+    endif
+  endfun
 
-    :let g:html_wrong_comments=1 "be lenient with html comment syntax. This is a must-have for documented Polymer code.
+  " quick save
+  nnoremap <Leader><Leader> :w<Enter>
 
-    map <F10> :echo map(synstack(line("."), col(".")), "synIDattr(v:val, 'name')")<cr>
+  " switch with most recent buffer
+  nnoremap <Leader><Tab> :b#<enter>
 
-    " CODE COPIED FROM https://github.com/zenbro/dotfiles/blob/master/.nvimrc#L151-L187
-      " If split in given direction exists - jump, else create new split
-      function! JumpOrOpenNewSplit(key, cmd, fzf) " {{{
-        let l:current_window = winnr()
-        execute 'wincmd' a:key
-        if l:current_window == winnr()
-          execute a:cmd
-          if a:fzf
-            Files
-          else
-            Dirvish %:p:h
-          endif
+  " refresh syntax if it gets out of whack (sometimes useful for large files of deeply-nested syntaxes (e.g. <script> tags)))
+  nnoremap <Leader>ss :syntax sync fromstart<enter>
+
+  nnoremap <F10> :echo map(synstack(line("."), col(".")), "synIDattr(v:val, 'name')")<cr>
+
+  nnoremap <F6> :let $VIM_DIR=expand('%:p:h')<CR>:terminal<CR>cd $VIM_DIR<CR>clear<CR>
+
+  nnoremap <F4>    :call dotfile_extras#ToggleTerm()<CR>
+
+  " window navigation {{{
+    " If split in given direction exists - jump, else create new split
+    " (code taken from https://github.com/zenbro/dotfiles/blob/master/.nvimrc#L151-L187)
+    nnoremap <silent> <Leader>hh       :call JumpOrOpenNewSplit('h', ':leftabove  vsplit', 0)<CR>
+    nnoremap <silent> <Leader>ll       :call JumpOrOpenNewSplit('l', ':rightbelow vsplit', 0)<CR>
+    nnoremap <silent> <Leader>kk       :call JumpOrOpenNewSplit('k', ':leftabove  split',  0)<CR>
+    nnoremap <silent> <Leader>jj       :call JumpOrOpenNewSplit('j', ':rightbelow split',  0)<CR>
+    nnoremap <silent> <Leader>h<Space> :call JumpOrOpenNewSplit('h', ':leftabove  vsplit', 1)<CR>
+    nnoremap <silent> <Leader>l<Space> :call JumpOrOpenNewSplit('l', ':rightbelow vsplit', 1)<CR>
+    nnoremap <silent> <Leader>k<Space> :call JumpOrOpenNewSplit('k', ':leftabove  split',  1)<CR>
+    nnoremap <silent> <Leader>j<Space> :call JumpOrOpenNewSplit('j', ':rightbelow split',  1)<CR>
+    fun! JumpOrOpenNewSplit(key, cmd, fzf)
+      let l:current_window = winnr()
+      execute 'wincmd' a:key
+      if l:current_window == winnr()
+        execute a:cmd
+        if a:fzf
+          Files
         else
-          if a:fzf
-            Files
-          endif
+          Dirvish %:p:h
         endif
-      endfunction " }}}
-      nnoremap <silent> <Leader>hh :call JumpOrOpenNewSplit('h', ':leftabove vsplit', 0)<CR>
-      nnoremap <silent> <Leader>ll :call JumpOrOpenNewSplit('l', ':rightbelow vsplit', 0)<CR>
-      nnoremap <silent> <Leader>kk :call JumpOrOpenNewSplit('k', ':leftabove split', 0)<CR>
-      nnoremap <silent> <Leader>jj :call JumpOrOpenNewSplit('j', ':rightbelow split', 0)<CR>
-      " Same as above, except it opens unite at the end
-      nnoremap <silent> <Leader>h<Space> :call JumpOrOpenNewSplit('h', ':leftabove vsplit', 1)<CR>
-      nnoremap <silent> <Leader>l<Space> :call JumpOrOpenNewSplit('l', ':rightbelow vsplit', 1)<CR>
-      nnoremap <silent> <Leader>k<Space> :call JumpOrOpenNewSplit('k', ':leftabove split', 1)<CR>
-      nnoremap <silent> <Leader>j<Space> :call JumpOrOpenNewSplit('j', ':rightbelow split', 1)<CR>
-      " Delete all hidden buffers
-      nnoremap <silent> <Leader><BS>b :call DeleteHiddenBuffers()<CR>
-      function! DeleteHiddenBuffers() " {{{
-        let l:tpbl=[]
-        call map(range(1, tabpagenr('$')), 'extend(l:tpbl, tabpagebuflist(v:val))')
-        for l:buf in filter(range(1, bufnr('$')), 'bufexists(v:val) && index(l:tpbl, v:val)==-1')
-          silent execute 'bwipeout' l:buf
-        endfor
-      endfunction " }}}
-
-    command! FormatJSON :%!python -m json.tool
-
-" Miscellanious commands
-  com! JV exec "edit ~/.vim/plugged"
-
-  " open current file in VSCode or Idea (and jump to cursor location)
-  :command! OpenInVSCode    exe "silent !code --goto '" . expand("%") . ":" . line(".") . ":" . col(".") . "'"                    | redraw!
-  :command! OpenCwdInVSCode exe "silent !code '" . getcwd() . "' --goto '" . expand("%") . ":" . line(".") . ":" . col(".") . "'" | redraw!
-  :command! OpenInIdea      exe "silent !idea '" . getcwd() . "' '" . expand("%") . ":" . line(".") . "'"                         | redraw!
-  :command! Quit2Idea       exe "silent !idea '" . getcwd() . "' '" . expand("%") . ":" . line(".") . "'"                         | redraw! | quit
-
-  " open url on current line
-  func! OpenUrl()
-    exec 'silent !python -mwebbrowser "'.(fnameescape(matchstr (getline('.'), 'https\?://[a-zA-Z0-9\./\-?=\&+@,!:_#]\+[^,.) \"]'))).'" 2> /dev/null > /dev/null' | redraw!
-  endfu
-  com! TestUrl exec 'echom            "'.(fnameescape(matchstr (getline('.'), 'https\?://[a-zA-Z0-9\./\-?=\&+@,!:_#]\+[^,.) \"]'))).'"'
-  nnoremap <Leader>ou :call OpenUrl()<Enter>
-  " toggle plugins and syntax to make vim really fast
-  " com! Fast :GitGutterToggle | :ALEToggle | :if exists("g:syntax_on") | syntax off | else | syntax enable | endif
-  com! Fast :ALEDisable | syntax off
-  com! Slow :ALEEnable  | syntax on
+      else
+        if a:fzf
+          Files
+        endif
+      endif
+    endfunction
+  " }}}
 
   " https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
   nnoremap <expr> n  'Nn'[v:searchforward]
@@ -838,7 +814,50 @@ endif
   nnoremap ]<space>  :<c-u>put =repeat(nr2char(10), v:count1)<cr>
   " Quickly Edit Your Macros:  https://github.com/mhinz/vim-galore#quickly-edit-your-macros
   nnoremap <leader>m  :<c-u><c-r><c-r>='let @'. v:register .' = '. string(getreg(v:register))<cr><c-f><left>
-  " Change Cursor Style Dependent On Mode: https://github.com/mhinz/vim-galore#change-cursor-style-dependent-on-mode
+" }}} keybindings
+
+"be lenient with html comment syntax. This is a must-have for documented Polymer code.
+let g:html_wrong_comments=1
+
+" {{{ COMMANDS
+  command! FormatJSON :%!python -m json.tool
+
+  command! BufferDeleteHidden call BufferDeleteHidden()
+  function! BufferDeleteHidden()
+    let l:tpbl=[]
+    call map(range(1, tabpagenr('$')), 'extend(l:tpbl, tabpagebuflist(v:val))')
+    for l:buf in filter(range(1, bufnr('$')), 'bufexists(v:val) && index(l:tpbl, v:val)==-1')
+      silent execute 'bwipeout' l:buf
+    endfor
+  endfunction
+
+  command! JV exec "edit ~/.vim/plugged"
+  command! OpenInVSCode    exe "silent !code --goto '" . expand("%") . ":" . line(".") . ":" . col(".") . "'"                    | redraw!
+  command! OpenCwdInVSCode exe "silent !code '" . getcwd() . "' --goto '" . expand("%") . ":" . line(".") . ":" . col(".") . "'" | redraw!
+  command! OpenInIdea      exe "silent !idea '" . getcwd() . "' '" . expand("%") . ":" . line(".") . "'"                         | redraw!
+  command! Quit2Idea       exe "silent !idea '" . getcwd() . "' '" . expand("%") . ":" . line(".") . "'"                         | redraw! | quit
+
+  " open url on current line
+  func! OpenUrl()
+    exec 'silent !python -mwebbrowser "'.(fnameescape(matchstr (getline('.'), 'https\?://[a-zA-Z0-9\./\-?=\&+@,!:_#]\+[^,.) \"]'))).'" 2> /dev/null > /dev/null' | redraw!
+  endfu
+  com! TestUrl exec 'echom            "'.(fnameescape(matchstr (getline('.'), 'https\?://[a-zA-Z0-9\./\-?=\&+@,!:_#]\+[^,.) \"]'))).'"'
+  nnoremap <Leader>ou :call OpenUrl()<Enter>
+
+  func! HighlightTrailingSpace()
+    highlight TrailingSpace ctermbg=red ctermfg=white guibg=#592929
+    match TrailingSpace /\s\+\n/
+  endfu
+  command! TrailingSpaceHighlight call HighlightTrailingSpace()
+  command! TrailingSpaceDeleteAll :%s/\s\+\n/\r/gc
+
+  func! HighlightOverlength()
+    highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+    match OverLength /\%81v.\+/
+  endfu
+" }}}
+
+" Change Cursor Style Dependent On Mode: https://github.com/mhinz/vim-galore#change-cursor-style-dependent-on-mode {{{
   if (s:os ==? 'Linux')
     " https://stackoverflow.com/a/42118416/1480704 
     let &t_SI = "\e[6 q"
@@ -855,13 +874,7 @@ endif
       let &t_SR = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=2\x7\<Esc>\\"
     endif
   endif
-
-" Viewer
-  func! Reader()
-      :AnsiEsc
-      set laststatus=0
-      set nonumber
-  endfu
+" }}}
 
 " Experimental scroll mode
   nnoremap zs 0zz:call dotfile_extras#ToggleScrollMode()<Enter>
@@ -870,12 +883,8 @@ endif
   set nojoinspaces  " prevent vim from inserting 2 spaces after periods.
   com! ProseMode    call dotfile_extras#ProseMode()
   com! SoftWrapMode call dotfile_extras#SoftWrappedProcessorMode()
-  nnoremap <F4>    :call dotfile_extras#ToggleTerm()<CR>
 
-
-  map <F6> :let $VIM_DIR=expand('%:p:h')<CR>:terminal<CR>cd $VIM_DIR<CR>clear<CR>
-
-"# GUI Customization
+" GUI Settings {{{
   if has('gui_running')
     set background=dark
     set autoread        "auto-load changes from disk
@@ -890,21 +899,7 @@ endif
     :set guioptions-=r  "remove right-hand scroll bar
     :set guioptions-=L  "remove left-hand scroll bar
   endif
-
-" Rare Tools
-  func! HighlightTrailingSpace()
-    highlight TrailingSpace ctermbg=red ctermfg=white guibg=#592929
-    match TrailingSpace /\s\+\n/
-  endfu
-  command! TrailingSpaceHighlight call HighlightTrailingSpace()
-  command! TrailingSpaceDeleteAll :%s/\s\+\n/\r/gc
-
-  " call clearmatches() " http://vim.wikia.com/wiki/Highlight_long_lines
-  func! HighlightOverlength()
-    highlight OverLength ctermbg=red ctermfg=white guibg=#592929
-    match OverLength /\%81v.\+/
-  endfu
-  com! FormatPlusBullets setlocal fo+=n | setlocal flp=^\\s*\\(+\\\\|\\d\\+\\.\\)\\s* " allows you to use '+' as a bullet character ('-' and '*' are already covered by the format option 'q')
+" }}}
 
 " Basics
   if filereadable($VIMRUNTIME . '/defaults.vim')
@@ -1061,6 +1056,8 @@ endif
     autocmd Filetype markdown set comments+=fb:-\ [X]
     autocmd Filetype markdown set comments+=fb:-
     let g:markdown_folding = 1 " enable folding via vim's native markdown plugin
+    autocmd FileType vim set foldmethod=marker
+    " let g:vimsyn_folding = 'af' " is too slow
 
     function! s:StartInsertIfEmpty()
       if (empty(getline(1)))
@@ -1159,6 +1156,7 @@ if !empty(glob('~/.config/smithers/.vimrc'))
     silent !curl -fLo ~/.config/smithers/.vimrc                           https://raw.githubusercontent.com/jonsmithers/dotfiles/master/vim/vimrc                   --create-dirs
     silent !curl -fLo ~/.config/smithers/readme.txt                       https://raw.githubusercontent.com/jonsmithers/dotfiles/master/vim/dot_config_smithers.txt --create-dirs
     silent !curl -fLo ~/.config/smithers/.vim/autoload/dotfile_extras.vim https://raw.githubusercontent.com/jonsmithers/dotfiles/master/vim/dotfile_extras.vim      --create-dirs
+    silent !curl -fLo ~/.config/smithers/.vim/autoload/shutter.vim        https://raw.githubusercontent.com/jonsmithers/dotfiles/master/vim/shutter.vim             --create-dirs
     silent !curl -fLo ~/.config/smithers/.vim/spell/en.utf-8.add          https://raw.githubusercontent.com/jonsmithers/dotfiles/master/vim/en.utf-8.add            --create-dirs
     silent !curl -fLo ~/.config/smithers/bin/git-tracker                  https://raw.githubusercontent.com/jonsmithers/dotfiles/master/git/git-tracker             --create-dirs
     silent !curl -fLo ~/.config/smithers/bin/git-website                  https://raw.githubusercontent.com/jonsmithers/dotfiles/master/git/git-website             --create-dirs
