@@ -32,7 +32,6 @@
     "./vim/ftplugin":                    "~/.vim/ftplugin",
     "./vim/ideavimrc":                   "~/.ideavimrc",
     "./vim/nvim_init.vim":               "~/.config/nvim/init.vim",
-    "./vim/shutter.vim":                 "~/.vim/autoload/shutter.vim",
     "./vim/syntax/":                     "~/.vim/syntax",
     "./vim/vim-plug-extras.vim":         "~/.vim/vim-plug-extras.vim",
     "./vim/vimrc":                       "~/.vimrc",
