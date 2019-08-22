@@ -844,8 +844,8 @@ let g:html_wrong_comments=1
 
 " Prose
   set nojoinspaces  " prevent vim from inserting 2 spaces after periods.
-  com! ProseMode    call dotfile_extras#ProseMode()
-  com! SoftWrapMode call dotfile_extras#SoftWrappedProcessorMode()
+  com! ProseMode    call js_prose#ProseMode()
+  com! SoftWrapMode call js_prose#SoftWrappedProcessorMode()
 
 " GUI Settings {{{
   if has('gui_running')
