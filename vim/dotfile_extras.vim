@@ -27,34 +27,3 @@ function! dotfile_extras#ToggleScrollMode()
   endif
 endfunction
 
-" visor style terminal buffer
-  " https://www.reddit.com/r/neovim/comments/3cu8fl/quick_visor_style_terminal_buffer/
-if (!exists('s:termbuf'))
-  let s:termbuf = 0
-endif
-function! dotfile_extras#ToggleTerm()
-  let l:OPEN_TERMINAL_WINDOW = 'botright 70 vsplit'
-  if (s:termbuf && bufexists(s:termbuf))
-    let l:winnr = bufwinnr(s:termbuf)
-    if (l:winnr == -1)
-      exec l:OPEN_TERMINAL_WINDOW
-      exe 'buffer' . s:termbuf
-    else
-      exe l:winnr . 'wincmd w'
-    endif
-  else
-    exec l:OPEN_TERMINAL_WINDOW
-    echom s:termbuf . ' does not exist'
-    if has('nvim')
-      terminal
-      startinsert
-    else
-      terminal ++curwin
-    endif
-    let s:termbuf=bufnr('%')
-    "tnoremap <buffer> <F4> <C-\><C-n>:close<cr>
-    tnoremap <buffer> <F4> <C-w><C-q>
-    nnoremap <buffer> <F4> i<C-w><C-q>
-    vnoremap <buffer> <F4> <esc>i<C-w><C-q>
-  endif
-endfunction
