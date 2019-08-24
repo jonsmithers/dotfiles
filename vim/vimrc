@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <mail@jonsmithers.link>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2019-08-23
+" Last Updated: 2019-08-24
 
 :scriptencoding utf8
 
@@ -890,9 +890,6 @@ let g:html_wrong_comments=1
   endif
 " }}}
 
-" Experimental scroll mode
-  nnoremap zs 0zz:call dotfile_extras#ToggleScrollMode()<Enter>
-
 " Prose
   set nojoinspaces  " prevent vim from inserting 2 spaces after periods.
   com! ProseMode    call js_prose#ProseMode()
@@ -1243,7 +1240,8 @@ endif
 
 augroup updatetimestamp
   au!
-  autocmd BufWritePre vimrc,.vimrc,dotfile_extras.vim       call UpdateTimeStamp()
+  autocmd BufWritePre vimrc,.vimrc                          call UpdateTimeStamp()
+  autocmd BufWritePre misc.vim                              call UpdateTimeStamp()
   autocmd BufWritePre shutter.vim                           call UpdateTimeStamp()
   autocmd BufWritePre en.utf-8.add,git-tracker,git-website  call UpdateTimeStamp()
   autocmd BufWritePre dotphile                              call UpdateTimeStamp()
