@@ -669,15 +669,6 @@ call plug#begin('~/.vim/plugged')
 
 call plug#end()
 
-if (!empty(globpath(&rtp, 'autoload/shutter.vim')))
-  call shutter#Init()
-  " auto-closes parens and brackets
-endif
-
-if (!empty(glob('~/.vim/vim-plug-extras.vim')))
-  source ~/.vim/vim-plug-extras.vim
-endif
-
 " ┌──────────────┐
 " │ Key Mappings │
 " └──────────────┘

@@ -1,5 +1,5 @@
 " Author:       Jon Smithers <mail@jonsmithers.link>
-" Last Updated: 2019-08-18
+" Last Updated: 2019-08-23
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/shutter.vim
 " About:        Auto-closes paired characters (parens, brackets, and tags)
 
@@ -20,10 +20,6 @@
 " paren instead of skipping
 "
 " TODO: add ability to close multi-line tag openers
-
-fun! shutter#Init()
-  " used to source this file
-endfun
 
 let s:config = {}
 let s:config.symmetric_spacing = [

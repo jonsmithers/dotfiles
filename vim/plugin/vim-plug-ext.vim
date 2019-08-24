@@ -62,4 +62,5 @@
     execute 'Explore' l:dir
   endfunction
 " }}}
+
 " vim:foldmethod=marker:
