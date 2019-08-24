@@ -42,17 +42,17 @@ if (!exists('s:termbuf'))
   let s:termbuf = 0
 endif
 function! dotfile_extras#ToggleTerm()
-
-  "normal mx
-  "normal H
-  botright 20 split
-  "wincmd p
-  "normal `x
-  "wincmd p
-
+  let l:OPEN_TERMINAL_WINDOW = 'botright 70 vsplit'
   if (s:termbuf && bufexists(s:termbuf))
-    exe 'buffer' . s:termbuf
+    let l:winnr = bufwinnr(s:termbuf)
+    if (l:winnr == -1)
+      exec l:OPEN_TERMINAL_WINDOW
+      exe 'buffer' . s:termbuf
+    else
+      exe l:winnr . 'wincmd w'
+    endif
   else
+    exec l:OPEN_TERMINAL_WINDOW
     echom s:termbuf . ' does not exist'
     if has('nvim')
       terminal
