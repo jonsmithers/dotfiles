@@ -999,6 +999,27 @@ let g:html_wrong_comments=1
   augroup END
   com! LoadSession call LoadSession()
 
+" fix neovim's terminal behavior to match vim's {{{
+" https://www.reddit.com/r/neovim/comments/cger8p/how_quickly_close_a_terminal_buffer/eupal7q/
+  if has('nvim')
+    augroup terminal_settings
+      autocmd!
+      autocmd TermOpen term://* set nonumber
+
+      autocmd BufWinEnter,WinEnter term://* startinsert
+      autocmd BufLeave term://* stopinsert
+      " autocmd TermOpen term://* startinsert
+
+      " Ignore various filetypes as those will close terminal automatically
+      " Ignore fzf, ranger, coc
+      autocmd TermClose term://*
+            \ if (expand('<afile>') !~ "fzf") && (expand('<afile>') !~ "ranger") && (expand('<afile>') !~ "coc") |
+            \   call nvim_input('<CR>')  |
+            \ endif
+    augroup END
+  endif
+" }}}
+
 " Auto Commands
   augroup vimrc_autocomamnds
     autocmd!
@@ -1034,62 +1055,67 @@ let g:html_wrong_comments=1
       :tnoremap <C-w> <C-\><C-n><C-w>
     endif
 
-
-    " https://www.reddit.com/r/neovim/comments/cger8p/how_quickly_close_a_terminal_buffer/eupal7q/
-    if has('nvim')
-      augroup terminal_settings
-        autocmd!
-        autocmd TermOpen term://* set nonumber
-
-        autocmd BufWinEnter,WinEnter term://* startinsert
-        autocmd BufLeave term://* stopinsert
-        " autocmd TermOpen term://* startinsert
-
-        " Ignore various filetypes as those will close terminal automatically
-        " Ignore fzf, ranger, coc
-        autocmd TermClose term://*
-              \ if (expand('<afile>') !~ "fzf") && (expand('<afile>') !~ "ranger") && (expand('<afile>') !~ "coc") |
-              \   call nvim_input('<CR>')  |
-              \ endif
-      augroup END
-    endif
-
     " auto-reload vimrc whenever I save it
     autocmd BufWritePost vimrc,.vimrc, exec 'source ' . expand('<sfile>') | call lightline#disable() | call lightline#enable()
 
     " disable syntax when editing huge files so vim stays snappy
     autocmd Filetype * if (getfsize(@%) > 500000) | setlocal syntax=OFF | endif
 
-    " code execution
-    autocmd Filetype python     nnoremap <buffer> <space>py :!python %<cr>
-    "autocmd Filetype javascript nnoremap <buffer> <space>js :!node %<cr>
-    " autocmd Filetype javascript nnoremap <buffer> <space>js :ter ++rows=10 node %<cr>k
-    autocmd Filetype javascript nnoremap <buffer> <space>js o:call RunNodeTerm()<cr>h
-    autocmd Filetype javascript,html,typescript call MakeJSKeys()
-    autocmd Filetype python set omnifunc=pythoncomplete#Complete
-    autocmd Filetype vim call MakeVimKeys()
+    autocmd Filetype javascript                 call s:ftplugin_javascript()
+    autocmd Filetype javascript,html,typescript call s:ftplugin_javascripty()
+    autocmd Filetype python                     nnoremap <buffer> <space>py :!python %<cr>
+    autocmd Filetype python                     set omnifunc=pythoncomplete#Complete
+    autocmd Filetype vim                        call s:ftplugin_vim()
 
   augroup END
 
-  function! RunNodeTerm()
-    call term_start('node ' . expand('%'), { 'vertical': 1, 'term_cols': 80, 'norestore': 1 })
-  endfunction
-  function! MakeJSKeys()
-    :nnoremap <buffer> <Leader>il oconsole.log();F)i
-    :nnoremap <buffer> <Leader>iL oconsole.log('%c', 'font-size:15px');F,hi
-    :nnoremap <buffer> <Leader>liw yiwoconsole.log('0', 0);<Esc>
-    :nnoremap <buffer> <Leader>lif yiwoconsole.log('0()');<Esc>
-    :nnoremap <buffer> <Leader>liF yiwoconsole.log('%c0()', 'font-size:15px');<Esc>^2w
-    :nnoremap <buffer> <Leader>gif yiwf{oconsole.group('0');<Esc>]}Oconsole.groupEnd();<Esc>^
-  endfunction
-  function! MakeVimKeys()
+  fun! s:ftplugin_javascript()
+    nnoremap <buffer> <space>js :call s:ftplugin_javascript_open_node_terminal()<cr><c-w>o
+  endfun
+  fun! s:ftplugin_javascripty()
+    nnoremap <buffer> <Leader>il oconsole.log();F)i
+    nnoremap <buffer> <Leader>iL oconsole.log('%c', 'font-size:15px');F,hi
+    nnoremap <buffer> <Leader>liw yiwoconsole.log('0', 0);<Esc>
+    nnoremap <buffer> <Leader>lif yiwoconsole.log('0()');<Esc>
+    nnoremap <buffer> <Leader>liF yiwoconsole.log('%c0()', 'font-size:15px');<Esc>^2w
+    nnoremap <buffer> <Leader>gif yiwf{oconsole.group('0');<Esc>]}Oconsole.groupEnd();<Esc>^
+
+    " Example Usages:
+    " :MakeEslint %
+    " :MakeEslint src/ test/
+    command! -nargs=? MakeEslint call s:MakeEslint(<q-args>)
+  endfun
+  fun! s:MakeEslint(targets)
+    let l:targets = expand(a:targets)
+    if (len(l:targets) == 0)
+      let l:targets = './'
+    endif
+    set errorformat+=%f:\ line\ %l\\,\ col\ %c\\,\ %trror\ -\ %m
+    set errorformat+=%f:\ line\ %l\\,\ col\ %c\\,\ %tarning\ -\ %m
+    if (executable('yarn'))
+      set makeprg=yarn\ exec\ eslint\ --\ --format\ compact
+    elseif (executable('npx'))
+      set makeprg=npx\ eslint\ --format\ compact
+    else
+      echoerr 'Both yarn and npx are missing'
+      return
+    endif
+    echom &makeprg . ' ' . l:targets
+    exec 'make! ' . l:targets
+    copen
+  endfun
+  fun! s:ftplugin_javascript_open_node_terminal()
+    if (has('nvim'))
+      " when I actually need this I'll have to read up on termopen()
+      call feedkeys(':write !node')
+    else
+      call term_start('node', { 'in_io': 'buffer', 'in_buf': bufnr('%'), 'vertical': 1, 'term_cols': 80, 'norestore': 1 })
+    endif
+  endfun
+
+  function! s:ftplugin_vim()
     :nnoremap <buffer> <Leader>il oechom ''i
   endfunction
-
-  " Example Usages:
-  " :MakeEslint %
-  " :MakeEslint src/ test/
-  command! -nargs=? MakeEslint call dotfile_extras#MakeEslint(<q-args>)
 
 " THIS IS DEPRECATED. SEE NEXT SECTION
 if !empty(glob('~/.vimrc-smithers')) " When I download this vimrc to a system that isn't mine

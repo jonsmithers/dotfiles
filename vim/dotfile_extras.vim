@@ -2,32 +2,12 @@
 " (see :help autoload)
 " Author:       Jon Smithers <mail@jonsmithers.link>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/dotfile_extras.vim
-" Last Updated: 2019-08-21
+" Last Updated: 2019-08-23
 
 if (!exists('s:dotfile_extras_script'))
   let s:dotfile_extras_script = expand('<sfile>')
   autocmd BufWritePost dotfile_extras.vim exec 'source ' . s:dotfile_extras_script
 endif
-
-function! dotfile_extras#MakeEslint(targets)
-  let l:targets = expand(a:targets)
-  if (len(l:targets) == 0)
-    let l:targets = './'
-  endif
-  set errorformat+=%f:\ line\ %l\\,\ col\ %c\\,\ %trror\ -\ %m
-  set errorformat+=%f:\ line\ %l\\,\ col\ %c\\,\ %tarning\ -\ %m
-  if (executable('yarn'))
-    set makeprg=yarn\ exec\ eslint\ --\ --format\ compact
-  elseif (executable('npx'))
-    set makeprg=npx\ eslint\ --format\ compact
-  else
-    echoerr 'Both yarn and npx are missing'
-    return
-  endif
-  echom &makeprg . ' ' . l:targets
-  exec 'make! ' . l:targets
-  copen
-endfunction
 
 " puts all eslint issues into quickfix list
 function! dotfile_extras#rungulpeslint()
