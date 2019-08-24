@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <mail@jonsmithers.link>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2019-08-21
+" Last Updated: 2019-08-23
 
 :scriptencoding utf8
 
@@ -46,6 +46,14 @@ else
   endif
 endif
 " }}}
+
+" ┌─────────────────────────┐
+" │ install missing plugins │
+" └─────────────────────────┘
+autocmd VimEnter *
+  \  if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
+  \|   PlugInstall --sync | q
+  \| endif
 
 " {{{ Personal vim-plug utils
 com! -nargs=+ PlugIfNeovim call s:plugIfNeovim(<args>)
