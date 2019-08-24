@@ -496,6 +496,9 @@ call plug#begin('~/.vim/plugged')
   Plug 'tpope/vim-eunuch'
   ":Delete, :Chmod, :SudoWrite, :Rename, :Mkdir
 
+  Plug 'tpope/vim-endwise'
+  " Automatically insert endif/endfunction/end/fi/esac
+
   Plug 'tpope/vim-fugitive'
   Plug 'tpope/vim-rhubarb'
   " Various integrated git tools. I use this a lot.
