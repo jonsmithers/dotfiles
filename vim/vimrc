@@ -757,7 +757,8 @@ call plug#end()
       let s:termbuf = 0
     endif
 
-    let l:OPEN_TERMINAL_WINDOW = 'botright 70 vsplit'
+    " let l:OPEN_TERMINAL_WINDOW = 'botright 20 split'
+    let l:OPEN_TERMINAL_WINDOW = '20 split'
     if (s:termbuf && bufexists(s:termbuf))
       let l:winnr = bufwinnr(s:termbuf)
       if (l:winnr == -1)
