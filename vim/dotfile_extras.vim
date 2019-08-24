@@ -9,15 +9,6 @@ if (!exists('s:dotfile_extras_script'))
   autocmd BufWritePost dotfile_extras.vim exec 'source ' . s:dotfile_extras_script
 endif
 
-" puts all eslint issues into quickfix list
-function! dotfile_extras#rungulpeslint()
-  " expects the built-in 'compact' formatter
-  set errorformat+=%f:\ line\ %l\\,\ col\ %c\\,\ %trror\ -\ %m
-  set errorformat+=%f:\ line\ %l\\,\ col\ %c\\,\ %tarning\ -\ %m
-  set makeprg=gulp
-  make eslint --machine-format
-endfunction
-
 function! dotfile_extras#ToggleScrollMode()
   if exists('s:scroll_mode')
     unmap k
