@@ -1167,17 +1167,6 @@ let g:html_wrong_comments=1
     :nnoremap <buffer> <Leader>il oechom ''i
   endfunction
 
-" THIS IS DEPRECATED. SEE NEXT SECTION
-if !empty(glob('~/.vimrc-smithers')) " When I download this vimrc to a system that isn't mine
-  command! RedownloadSmithersVimrc call RedownloadSmithersVimrcFunc()
-  function! RedownloadSmithersVimrcFunc()
-    silent !curl https://raw.githubusercontent.com/jonsmithers/dotfiles/master/vim/vimrc > ~/.vimrc-smithers
-    silent !mkdir -p ~/.vim/autoload
-    silent !curl https://raw.githubusercontent.com/jonsmithers/dotfiles/master/vim/dotfile_extras.vim > ~/.vim/autoload/dotfile_extras.vim
-    redraw!
-  endfunction
-endif
-
 if !empty(glob('~/.config/smithers/.vimrc'))
 
   " HOW TO UNINVASIVELY USE MY VIM CONFIG ON SOMEONE ELSES COMPUTER:
@@ -1192,8 +1181,7 @@ if !empty(glob('~/.config/smithers/.vimrc'))
 
     silent !curl -fLo ~/.config/smithers/.vimrc                           https://raw.githubusercontent.com/jonsmithers/dotfiles/master/vim/vimrc                   --create-dirs
     silent !curl -fLo ~/.config/smithers/readme.txt                       https://raw.githubusercontent.com/jonsmithers/dotfiles/master/vim/dot_config_smithers.txt --create-dirs
-    silent !curl -fLo ~/.config/smithers/.vim/autoload/dotfile_extras.vim https://raw.githubusercontent.com/jonsmithers/dotfiles/master/vim/dotfile_extras.vim      --create-dirs
-    silent !curl -fLo ~/.config/smithers/.vim/autoload/shutter.vim        https://raw.githubusercontent.com/jonsmithers/dotfiles/master/vim/shutter.vim             --create-dirs
+    silent !curl -fLo ~/.config/smithers/.vim/plugin/shutter.vim          https://raw.githubusercontent.com/jonsmithers/dotfiles/master/vim/plugin/shutter.vim      --create-dirs
     silent !curl -fLo ~/.config/smithers/.vim/spell/en.utf-8.add          https://raw.githubusercontent.com/jonsmithers/dotfiles/master/vim/en.utf-8.add            --create-dirs
     silent !curl -fLo ~/.config/smithers/bin/git-tracker                  https://raw.githubusercontent.com/jonsmithers/dotfiles/master/git/git-tracker             --create-dirs
     silent !curl -fLo ~/.config/smithers/bin/git-website                  https://raw.githubusercontent.com/jonsmithers/dotfiles/master/git/git-website             --create-dirs
@@ -1208,14 +1196,11 @@ if !empty(glob('~/.config/smithers/.vimrc'))
     silent !curl -fLo ~/.config/smithers/UltiSnips/typescript.snippets    https://raw.githubusercontent.com/jonsmithers/dotfiles/master/vim/UltiSnips/typescript.snippets --create-dirs
 
     " clean up my old way of doing this
-    if (!empty(glob('~/.vimrc-smithers')))
-      silent !rm ~/.vimrc-smithers
+    if (!empty(glob('~/.config/smithers/.vim/autoload/dotfile_extras.vim')))
+      silent !rm ~/.config/smithers/.vim/autoload/dotfile_extras.vim
     endif
-    if (!empty(glob('~/.vim/autoload/dotfile_extras.vim')))
-      silent !rm ~/.vim/autoload/dotfile_extras.vim
-    endif
-    if (!empty(glob('~/.config/smithers/bin/tracker')))
-      silent !rm ~/.config/smithers/bin/tracker
+    if (!empty(glob('~/.config/smithers/.vim/autoload/shutter.vim')))
+      silent !rm ~/.config/smithers/.vim/autoload/shutter.vim
     endif
 
     redraw!
