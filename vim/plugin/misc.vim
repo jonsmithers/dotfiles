@@ -10,8 +10,8 @@ if (!exists('s:misc_script'))
 endif
 
 " alternate scroll mode {{{
-  nnoremap zs 0zz:call s:toggleScrollMode()<Enter>
-  function! s:toggleScrollMode()
+  nnoremap zs 0zz:call <SID>ToggleScrollMode()<Enter>
+  function! <SID>ToggleScrollMode()
     if exists('s:scroll_mode')
       unmap k
       unmap j
