@@ -52,7 +52,7 @@ endif
 " └─────────────────────────┘
 autocmd VimEnter *
   \  if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
-  \|   PlugInstall --sync | q
+  \|   PlugInstall --sync | q | echom "Installed new plugins"
   \| endif
 
 " {{{ Personal vim-plug utils
