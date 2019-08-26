@@ -464,8 +464,8 @@ call plug#begin('~/.vim/plugged')
     let g:NERDTreeHijackNetrw=0 " let dirvish replace netrw
 
     :nnoremap <Leader>tt :NERDTreeToggle<enter><c-w>p
-    :nnoremap <Leader>tF :NERDTreeFind<enter>
-    :nnoremap <Leader>tf :NERDTreeFind<enter><c-w>p
+    :nnoremap <Leader>tf :NERDTreeFind<enter>
+    :nnoremap <Leader>tF :NERDTreeFind<enter><c-w>p
     :nnoremap <Leader>tr :NERDTreeRefreshRoot<cr>
   " }}}
 
