@@ -1145,10 +1145,10 @@ let g:html_wrong_comments=1
     endif
     set errorformat+=%f:\ line\ %l\\,\ col\ %c\\,\ %trror\ -\ %m
     set errorformat+=%f:\ line\ %l\\,\ col\ %c\\,\ %tarning\ -\ %m
-    if (executable('yarn'))
-      set makeprg=yarn\ exec\ eslint\ --\ --format\ compact
+    if (executable('yarn') && !empty(glob('yarn.lock')))
+      set makeprg=yarn\ exec\ eslint\ --\ --format\ compact\ --ext\ '.js,.jsx,.ts,.tsx'
     elseif (executable('npx'))
-      set makeprg=npx\ eslint\ --format\ compact
+      set makeprg=npx\ eslint\ --format\ compact\ --ext\ '.js,.jsx,.ts,.tsx'
     else
       echoerr 'Both yarn and npx are missing'
       return
