@@ -151,10 +151,10 @@ fun! StartPair(LHS, RHS)
   " (second) we can NOT find a starting pair item
   let l:pos = getpos('.')[1:]
   let l:matchCountA = s:moveToNextOfPair(a:LHS, a:RHS)
-  " We use '\M' so that the '[' isn't interpreted differently
   let l:posA = getpos('.')[1:]
   let l:posB = ''
-  if (l:matchCountA > 0)
+  if (l:matchCountA > 0 || l:char == a:RHS)
+    call s:Debug('count a ' . l:matchCountA)
     let l:matchCountB = s:moveToPrevOfPair(a:LHS, a:RHS)
     let l:posB = getpos('.')[1:]
     if (l:matchCountB == 0)
