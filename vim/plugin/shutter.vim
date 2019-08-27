@@ -107,14 +107,13 @@ fun! s:HideVimCursorSpasm()
   if !has('nvim') && !has('gui_running') | redraw | end "hide cursor spasm that only occurs in vim
 endfun
 
-" 'sdf |     SHOULD INSERT SINGLE QUOTE
 fun! <SID>StartOrCloseSymmetricPair(BHS)
   let l:char = CharUnderCursor()
   if (l:char ==# a:BHS)
     return "\<Right>"
   end
   " do nothing if there's an odd number of BHS characters in this line
-  if (((len(split(getline('.'), a:BHS))-1) % 2) == 1)
+  if (((len(split(' ' . getline('.') . ' ', a:BHS))-1) % 2) == 1)
     return a:BHS
   endif
   " do nothing if we're touching letters on the LHS (as in "Don't")
