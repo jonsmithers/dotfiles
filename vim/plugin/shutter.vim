@@ -236,7 +236,7 @@ fun! <SID>Backspace()
     endif
   endfor
   for l:pattern in ['^(  )', '^[  ]', '^{  }']
-    if (-1 !=# match(l:line, '\M' . l:pattern, col('.')-4))
+    if (-1 !=# match(l:line, '\M' . l:pattern, col('.')-3))
       call s:Debug('DELETE')
       return "\<delete>\<backspace>"
     endif
