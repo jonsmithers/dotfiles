@@ -1,5 +1,5 @@
 " Author:       Jon Smithers <mail@jonsmithers.link>
-" Last Updated: 2019-08-26
+" Last Updated: 2019-08-27
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/shutter.vim
 " About:        Auto-closes paired characters (parens, brackets, and tags)
 
@@ -10,14 +10,6 @@
 " * Should not require any change in muscle memory
 
 " TODO: What about when a quoted string spans across multiple lines in prose?
-"
-" TODO: WHAT ABOUT THIS:
-" ((   |)
-" and inserting ')'. Currently you have to press ')' twice to actually
-" complete all pairs. This breaks muscle memory. Is it worth detecting if
-" there's other missing pairs? We would search backwards and then forwards. If
-" the backward search works but the forward search doesn't, then we insert a
-" paren instead of skipping
 "
 " TODO: add ability to close multi-line tag openers
 
@@ -158,12 +150,12 @@ fun! StartPair(LHS, RHS)
   " this check, we check that we can (first) find a closing pair item, but
   " (second) we can NOT find a starting pair item
   let l:pos = getpos('.')[1:]
-  let l:matchCountA = searchpair('\M' . a:LHS, '', a:RHS, 'Wmr', '', line('w$')) " moves cursor to RHS if found
+  let l:matchCountA = s:moveToNextOfPair(a:LHS, a:RHS)
   " We use '\M' so that the '[' isn't interpreted differently
   let l:posA = getpos('.')[1:]
   let l:posB = ''
   if (l:matchCountA > 0)
-    let l:matchCountB = searchpair('\M' . a:LHS, '', a:RHS, 'Wmb', '', line('w0'))
+    let l:matchCountB = s:moveToPrevOfPair(a:LHS, a:RHS)
     let l:posB = getpos('.')[1:]
     if (l:matchCountB == 0)
       call cursor(l:pos)
@@ -189,7 +181,7 @@ fun! ClosePair2(LHS, RHS)
   endif
   if (CharUnderCursor() ==# a:RHS)
     let l:pos = getpos('.')[1:]
-    let l:matchCount = searchpair('\M' . a:LHS, '', a:RHS, 'bWm', '', line('w0'))
+    let l:matchCount = s:moveToPrevOfPair(a:LHS, a:RHS)
     call s:Debug('match count ' . string(l:matchCount) . ' - ' . a:LHS . ', ' . a:RHS)
     if (l:matchCount > 0)
       call s:Debug('before ' . getline('.')[0:col('.')-2])
@@ -197,9 +189,9 @@ fun! ClosePair2(LHS, RHS)
 
       " EXPERIMENTAL: see if the NEXT pair start is missing a pair end, then
       " we DON'T skip insert
-      let l:matchCount = searchpair('\M' . a:LHS, '', a:RHS, 'bWm', '', line('w0'))
+      let l:matchCount = s:moveToPrevOfPair(a:LHS, a:RHS)
       if (l:matchCount > 0)
-        let l:matchCount = searchpair('\M' . a:LHS, '', a:RHS, 'Wm', '', line('w$'))
+        let l:matchCount = s:moveToNextOfPair(a:LHS, a:RHS)
         if (l:matchCount == 0)
           call cursor(l:pos)
           return a:RHS
@@ -225,7 +217,7 @@ fun! <SID>ClosePair(LHS, RHS)
   endif
   if (CharUnderCursor() ==# a:RHS)
     let l:pos = getpos('.')[1:]
-    let l:matchCount = searchpair('\M' . a:LHS, '', a:RHS, 'bWm', '', line('w0'))
+    let l:matchCount = s:moveToPrevOfPair(a:LHS, a:RHS)
     call cursor(l:pos)
     call s:Debug('match count ' . string(l:matchCount) . ' - ' . a:LHS . ', ' . a:RHS)
     if (l:matchCount > 0)
@@ -286,4 +278,12 @@ fun! MaybeSplitTag()
     endif
   endfor
   return "\<cr>"
+endfun
+
+fun! s:moveToNextOfPair(LHS, RHS)
+  return searchpair('\M' . a:LHS, '', a:RHS, 'Wm', '', line('w$'))
+endfun
+
+fun! s:moveToPrevOfPair(LHS, RHS)
+  return searchpair('\M' . a:LHS, '', a:RHS, 'Wmb', '', line('w0'))
 endfun
