@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <mail@jonsmithers.link>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2019-08-24
+" Last Updated: 2019-08-27
 
 :scriptencoding utf8
 
@@ -680,26 +680,23 @@ call plug#end()
   vnoremap <leader>; :
 
   " search and replace (works well with Traces.vim)
-  vnoremap <c-r>A y:%substitute&<c-r>0&<c-r>0&gc<left><left><left>
-  vnoremap <c-r>c y:%substitute&<c-r>0&&gc<left><left><left>
-  vnoremap <expr> <c-r>I <SID>ReplaceInsert()
-  fun! <SID>ReplaceInsert()
-    call feedkeys('y', 'x')
-    echom ">" . $0 . "<><"
-    let l:selection = s:getVisualSelection()
-    return 'y:%substitute&' . l:selection . '&' . l:selection . "&gc\<left>\<left>\<left>" . repeat("\<left>", len(l:selection))
+  vnoremap <c-r>A y:call ReplaceAppend()<cr>
+  vnoremap <c-r>c y:call ReplaceChange()<cr>
+  vnoremap <c-r>I y:call ReplaceInsert()<cr>
+  fun! ReplaceAppend()
+    let l:selection = escape(@0, '/\')
+    call feedkeys(":%substitute/\\V" . l:selection . '/' . l:selection . "/gc\<left>\<left>\<left>")
+    return ''
   endfun
-  fun! s:getVisualSelection()
-    " https://stackoverflow.com/a/6271254/1480704
-    let [line_start, column_start] = getpos("'<")[1:2]
-    let [line_end, column_end] = getpos("'>")[1:2]
-    let lines = getline(line_start, line_end)
-    if len(lines) == 0
-      return ''
-    endif
-    let lines[-1] = lines[-1][: column_end - (&selection == 'inclusive' ? 1 : 2)]
-    let lines[0] = lines[0][column_start - 1:]
-    return join(lines, "\n")
+  fun! ReplaceChange()
+    let l:selection = escape(@0, '/\')
+    call feedkeys(":%substitute/\\V" . l:selection . '/' . "/gc\<left>\<left>\<left>")
+    return ''
+  endfun
+  fun! ReplaceInsert()
+    let l:selection = escape(@0, '/\')
+    call feedkeys(":%substitute/\\V" . l:selection . '/' . l:selection . "/gc\<left>\<left>\<left>" . repeat("\<left>", len(l:selection)))
+    return ''
   endfun
 
   inoremap jk <Esc>
