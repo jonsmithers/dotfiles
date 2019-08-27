@@ -1,5 +1,5 @@
 " Author:       Jon Smithers <mail@jonsmithers.link>
-" Last Updated: 2019-08-23
+" Last Updated: 2019-08-26
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/shutter.vim
 " About:        Auto-closes paired characters (parens, brackets, and tags)
 
@@ -41,7 +41,7 @@ fun!s:Debug(msg)
   endif
 endfun
 
-function <SID>MaybeCloseTag()
+fun! <SID>MaybeCloseTag()
 
   " syntax/filetype check
   let l:syntax = map(synstack(line('.'), col('.')), "synIDattr(v:val, 'name')")
@@ -51,7 +51,7 @@ function <SID>MaybeCloseTag()
   if (index(['javascript', 'typescript', 'javascript.tsx', 'typescript.tsx'], &filetype) != -1)
     let l:doNothing = 1
     for l:region in ['jsxRegion', 'tsxRegion', 'litHtmlRegion']
-      call Debug('testing ' . l:region)
+      call s:Debug('testing ' . l:region)
       if index(l:syntax, l:region) != -1
         let l:doNothing = 0
         break
@@ -67,9 +67,9 @@ function <SID>MaybeCloseTag()
     return '>'
   endif
   return '></' . l:tagname . '>' . repeat("\<Left>", 3+len(l:tagname))
-endfunction
+endfun
 
-function GetTagName()
+fun! GetTagName()
   let l:line = getline('.')
   let l:line = strpart(l:line, 0, col('.')-1) " remove part after cursor
   let l:line = l:line . '>'
@@ -80,7 +80,7 @@ function GetTagName()
   endif
   let l:tagname = l:matchlist[1]
   return l:tagname
-endfunction
+endfun
 
 inoremap <silent> <expr> > <SID>MaybeCloseTag()
 inoremap <silent> <expr> <cr> MaybeSplitTag()
@@ -198,9 +198,8 @@ fun! ClosePair2(LHS, RHS)
       " EXPERIMENTAL: see if the NEXT pair start is missing a pair end, then
       " we DON'T skip insert
       let l:matchCount = searchpair('\M' . a:LHS, '', a:RHS, 'bWm', '', line('w0'))
-      call s:Debug('second match count ' . string(l:matchCount))
       if (l:matchCount > 0)
-        let l:matchCount = searchpair('\M' . a:LHS, '', a:RHS, 'Wm', '', line('w0'))
+        let l:matchCount = searchpair('\M' . a:LHS, '', a:RHS, 'Wm', '', line('w$'))
         if (l:matchCount == 0)
           call cursor(l:pos)
           return a:RHS
