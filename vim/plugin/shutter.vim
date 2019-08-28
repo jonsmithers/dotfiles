@@ -1,13 +1,23 @@
 " Author:       Jon Smithers <mail@jonsmithers.link>
 " Last Updated: 2019-08-27
-" URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/shutter.vim
-" About:        Auto-closes paired characters (parens, brackets, and tags)
+" URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/plugin/shutter.vim
 
-" COOL FEATURES:
-" * Do not auto-close for a pre-existing RHS
-" * Does a better job of not skipping over RHS insertion when you actually intend to insert one
-" GUIDING RPINCIPLES:
-" * Should not require any change in muscle memory
+" ABOUT:
+" Shutter.vim auto-closes paired characters like ( [ { " '. It also
+" auto-closes tags like <div> inside appropriate filetypes.
+"
+" Unlike most equivalent plugins or IDE implementations of this, shutter.vim
+" aims to avoid forcing the user to rewire muscle memory.
+"
+" Characteristics:
+" - It does not auto-close a pair if you're in a spot where you're less likely
+"   to want it auto-closed.
+" - It does not auto-close a pair if there exists a matching right-hand-side
+"   character within the viewport.
+" - It does a better job of LETTING you insert a pair-closing character even
+"   when your cursor is already on top of a pair-closing character. This
+"   accomplished by checking to see if there is a missing right-hand-side pair
+"   character.
 
 " TODO: What about when a quoted string spans across multiple lines in prose?
 "
