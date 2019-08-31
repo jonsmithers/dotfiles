@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <mail@jonsmithers.link>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2019-08-27
+" Last Updated: 2019-08-31
 
 :scriptencoding utf8
 
@@ -437,6 +437,16 @@ call plug#begin('~/.vim/plugged')
       :nmap [I <Plug>(coc-diagnostic-prev-error)
       :nmap <Leader>cd <Plug>(coc-definition)
       :nmap <Leader>ci <Plug>(coc-diagnostic-info)
+      " underline error text
+      fun! s:matchUnderlineToColorscheme()
+        let l:errormsg_color = synIDattr(synIDtrans(hlID("ErrorMsg")), "fg#")
+        hi clear CocUnderline
+        exec 'hi CocUnderline cterm=undercurl gui=undercurl guisp=' . l:errormsg_color
+      endfun
+      augroup coc_custom
+        au!
+        autocmd ColorScheme * call s:matchUnderlineToColorscheme()
+      augroup end
     " }}}
   endif
 
@@ -987,24 +997,57 @@ let g:html_wrong_comments=1
   :Tab 2
   " ^ to be overwritten by editorconfig whenever possible
 
-" Theme shortcuts
-  com! Default    set background=dark  | colorscheme default
-  com! DarkGruv   set background=dark  | colorscheme gruvbox
-  com! DarkOcean  set background=dark  | colorscheme OceanicNext
-  com! DarkPaper  set background=dark  | colorscheme PaperColor
-  com! DarkOne    set background=dark  | colorscheme one
-  com! DarkSeoul  set background=dark  | colorscheme seoul256
-  com! DarkSacredForest                  colorscheme sacredforest
-  com! DarkApprentice                    colorscheme apprentice
-  com! DarkSnow   set background=dark  | colorscheme snow
-  com! DarkNord   set background=dark  | colorscheme nord
-  com! LightOne   set background=light | colorscheme one
-  com! LightGruv  set background=light | colorscheme gruvbox
-  com! LightOcean set background=light | colorscheme OceanicNextLight
-  com! LightPaper set background=light | colorscheme PaperColor
-  com! LightSeoul set background=light | colorscheme seoul256
-  com! LightSnow  set background=light | colorscheme snow
-  com! LightGitHub set background=light | colorscheme github
+" Colorscheme things
+" {{{
+  com! Default          set background=dark  | colorscheme default
+  com! DarkGruv         set background=dark  | colorscheme gruvbox
+  com! DarkOcean        set background=dark  | colorscheme OceanicNext
+  com! DarkPaper        set background=dark  | colorscheme PaperColor
+  com! DarkOne          set background=dark  | colorscheme one
+  com! DarkSeoul        set background=dark  | colorscheme seoul256
+  com! DarkSacredForest set background=dark  | colorscheme sacredforest
+  com! DarkApprentice   set background=dark  | colorscheme apprentice
+  com! DarkSnow         set background=dark  | colorscheme snow
+  com! DarkNord         set background=dark  | colorscheme nord
+  com! LightOne         set background=light | colorscheme one
+  com! LightGruv        set background=light | colorscheme gruvbox
+  com! LightOcean       set background=light | colorscheme OceanicNextLight
+  com! LightPaper       set background=light | colorscheme PaperColor
+  com! LightSeoul       set background=light | colorscheme seoul256
+  com! LightSnow        set background=light | colorscheme snow
+  com! LightGitHub      set background=light | colorscheme github
+
+  augroup expose_colors_to_shell
+    au!
+    autocmd ColorScheme * call s:matchShellColors()
+    fun! s:matchShellColors()
+      if (&shell =~# 'fish')
+        let l:fishColorMap = {
+              \ 'fish_color_command': 'Normal',
+              \ 'fish_color_error': 'ErrorMsg',
+              \ 'fish_color_operator': 'PreProc',
+              \ 'fish_color_selection': 'CursorLine' ,
+              \ }
+        for [l:fishVar, l:source] in items(l:fishColorMap)
+          let l:normalBg = synIDattr(synIDtrans(hlID('Normal')), "bg#")
+          let l:thisBg = synIDattr(synIDtrans(hlID(l:source)), "bg#")
+          let l:color = ''
+          if (empty(l:thisBg) || l:thisBg == l:normalBg)
+            let l:color = synIDattr(synIDtrans(hlID(l:source)), 'fg#')
+          else
+            let l:color = l:thisBg
+          endif
+          let l:color = l:color[1:]
+          " echom l:fishVar . ' --> ' . l:color . ' (' . l:source . ')'
+          exec 'let $' . l:fishVar . '="' . l:color . '"'
+        endfor
+        " autocmd ColorScheme * let $fish_color_command='black'
+      else
+        let $vim_background=&background
+        let $vim_colorscheme=g:colors_name
+      endif
+    endfun
+  augroup end
 
   if (!has('gui_running'))
     set t_Cs=
@@ -1012,13 +1055,18 @@ let g:html_wrong_comments=1
     " when not supported https://github.com/vim/vim/issues/3471
   endif
 
+  if (!exists('g:colors_name'))
+    if (has('nvim'))
+      silent! LightOne
+    else
+      silent! DarkApprentice
+    endif
+  endif
   if has('nvim')
-    let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-    silent! :DarkGruv
-    set nofixeol      " don't insert EOL at end of file
-  else
-    silent! colorscheme apprentice
+    " let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+    " ^ I don't know what this does
   end
+" }}}
 
 " simple session restoration http://vim.wikia.com/wiki/Go_away_and_come_back
   function! MakeSession()
@@ -1106,7 +1154,8 @@ let g:html_wrong_comments=1
     endif
 
     " auto-reload vimrc whenever I save it
-    autocmd BufWritePost vimrc,.vimrc, exec 'source ' . expand('<sfile>') | call lightline#disable() | call lightline#enable()
+    autocmd BufWritePost vimrc,.vimrc, exec 'source ' . expand('<sfile>')
+    " I used to additionally "call lightline#disable() | call lightline#enable()" here
 
     " disable syntax when editing huge files so vim stays snappy
     autocmd Filetype * if (getfsize(@%) > 500000) | setlocal syntax=OFF | endif
