@@ -147,6 +147,7 @@ call plug#begin('~/.vim/plugged')
   " Show hex colors by running :ColorHighlight or :ColorToggle
   " {{{
     let g:colorizer_fgcontrast = 0
+    let g:colorizer_hex_pattern = ['#\?', '\%(\x\{6}\)', '']
   " }}}
 
   Plug 'editorconfig/editorconfig-vim'
@@ -447,6 +448,11 @@ call plug#begin('~/.vim/plugged')
       :nmap [I <Plug>(coc-diagnostic-prev-error)
       :nmap <Leader>cd <Plug>(coc-definition)
       :nmap <Leader>ci <Plug>(coc-diagnostic-info)
+      :nmap <Leader>ca <Plug>(coc-diagnostic-info)
+      :nmap <Leader>cr <Plug>(coc-rename)
+      :nmap <Leader>ca <Plug>(coc-codeaction)
+      :vmap <Leader>ca <Plug>(coc-codeaction-selected)
+
       " underline error text
       fun! s:matchUnderlineToColorscheme()
         let l:errormsg_color = synIDattr(synIDtrans(hlID("ErrorMsg")), "fg#")
@@ -482,6 +488,7 @@ call plug#begin('~/.vim/plugged')
   " Project tree explorer
   " {{{
     let g:NERDTreeHijackNetrw=0 " let dirvish replace netrw
+    let g:NERDTreeMinimalUI=1
 
     :nnoremap <silent> <Leader>tt :NERDTreeToggle<enter><c-w>p
     :nnoremap <silent> <Leader>tf :NERDTreeFind<enter>
