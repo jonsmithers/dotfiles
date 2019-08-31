@@ -97,12 +97,22 @@ call plug#begin('~/.vim/plugged')
   " gJ on first line to join object literal into one line
   " gS to split one-line object into multiple lines
 
-  Plug 'mhinz/vim-signify'
-  " Git info in gutter
+  Plug 'airblade/vim-gitgutter'
   " {{{
-    " [c,]c jump to prev/next change
-    " [C,]C jump to last/first change
+    :nmap <Leader>ga :GitGutterStageHunk<Enter>
+    augroup gitgutter_custom
+      au!
+      " update on save
+      autocmd BufWritePost * GitGutter
+    augroup END
+    " Plug 'mhinz/vim-signify'
+    " Git info in gutter
+    " {{{
+      " [c,]c jump to prev/next change
+      " [C,]C jump to last/first change
+    " }}}
   " }}}
+
 
   " Plug 'alvan/vim-closetag'
   " {{{
