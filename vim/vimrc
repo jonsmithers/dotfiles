@@ -336,12 +336,12 @@ call plug#begin('~/.vim/plugged')
     :nnoremap <Leader>sw    :Rg  <Enter>
     :vnoremap <Leader>s     y:Rg "<Enter>
 
-    :nnoremap <C-k>         :Buffers<Enter>
-    :nnoremap <C-p>         :Files<Enter>
-    :nnoremap <Leader>or    :History<Enter>
-    :nnoremap <Leader>ft    :Filetypes<enter>
-    :nnoremap <Leader>f/    :History/<Enter>
-    :nnoremap <Leader>f:    :History:<Enter>
+    :nnoremap <silent> <C-k>         :Buffers<Enter>
+    :nnoremap <silent> <C-p>         :Files<Enter>
+    :nnoremap <silent> <Leader>or    :History<Enter>
+    :nnoremap <silent> <Leader>ft    :Filetypes<enter>
+    :nnoremap <silent> <Leader>f/    :History/<Enter>
+    :nnoremap <silent> <Leader>f:    :History:<Enter>
     " (note - you can call histdel("cmd", "regexp") to delete mistaken history items)
 
     " fuzzy relative filepath completion!
@@ -483,10 +483,10 @@ call plug#begin('~/.vim/plugged')
   " {{{
     let g:NERDTreeHijackNetrw=0 " let dirvish replace netrw
 
-    :nnoremap <Leader>tt :NERDTreeToggle<enter><c-w>p
-    :nnoremap <Leader>tf :NERDTreeFind<enter>
-    :nnoremap <Leader>tF :NERDTreeFind<enter><c-w>p
-    :nnoremap <Leader>tr :NERDTreeRefreshRoot<cr>
+    :nnoremap <silent> <Leader>tt :NERDTreeToggle<enter><c-w>p
+    :nnoremap <silent> <Leader>tf :NERDTreeFind<enter>
+    :nnoremap <silent> <Leader>tF :NERDTreeFind<enter><c-w>p
+    :nnoremap <silent> <Leader>tr :NERDTreeRefreshRoot<cr>
   " }}}
 
   if (has('python') || has('python3'))
@@ -729,7 +729,7 @@ call plug#end()
   inoremap <c-k> <c-o>gwip
 
   " clear search
-  nnoremap <leader>sdf :let @/ = ''<cr>
+  nnoremap <silent> <leader>sdf :let @/ = ''<cr>
 
   " horizontal scroll
   nnoremap <C-h> 5zh
@@ -757,7 +757,7 @@ call plug#end()
   endfun
 
   " quick save
-  nnoremap <Leader><Leader> :w<Enter>
+  nnoremap <silent> <Leader><Leader> :w<Enter>
 
   " switch with most recent buffer
   nnoremap <Leader><Tab> :b#<enter>
