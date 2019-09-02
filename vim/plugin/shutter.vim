@@ -1,5 +1,5 @@
 " Author:       Jon Smithers <mail@jonsmithers.link>
-" Last Updated: 2019-08-27
+" Last Updated: 2019-09-03
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/plugin/shutter.vim
 
 " ABOUT:
@@ -39,7 +39,7 @@ let s:config.format_on_newline = [
 
 fun!s:Debug(msg)
   if (exists('g:shutter_debug'))
-    echom a:msg
+    echom 'shutter ' . line('.') . ': ' . a:msg
   endif
 endfun
 
@@ -86,7 +86,7 @@ endfun
 
 inoremap <silent> <expr> > <SID>MaybeCloseTag()
 inoremap <silent> <expr> <cr> MaybeSplitTag()
-" inoremap <silent> <expr> " match(CharUnderCursor(), '\w') != -1 ? '"' : '""'."\<Left>"
+" inoremap <silent> <expr> " match(s:charUnderCursor(), '\w') != -1 ? '"' : '""'."\<Left>"
 inoremap <silent> <expr> " <SID>StartOrCloseSymmetricPair('"')
 inoremap <silent> <expr> ' <SID>StartOrCloseSymmetricPair("'")
 inoremap <silent> ( <c-r>=StartPair('(', ')')<cr>
@@ -103,6 +103,8 @@ inoremap <silent> <expr> <backspace> <SID>Backspace()
 fun! StretchPair()
   call s:HideVimCursorSpasm()
   let l:textAtOffset = getline('.')[col('.')-1-1:]
+
+  " insert double space
   for l:splitter in s:config.symmetric_spacing
     if (exists('l:splitter.patternAtOffset') && -1 !=# match(l:textAtOffset, '^' . l:splitter.patternAtOffset))
       let l:newlinecontent = getline('.')[0:col('.')-2] . ' ' . getline('.')[col('.')-1:-1]
@@ -110,6 +112,19 @@ fun! StretchPair()
       return ' '
     endif
   endfor
+
+  " always insert space nomrally when preceding char is a comma
+  if (s:stringRelativeToCursor(-1,0) ==# ',')
+    return ' '
+  endif
+
+  " if 1 space from a bracket char, move cursor right without inserting
+  if (s:includes([' }', ' )'], s:stringRelativeToCursor(0,2)))
+    let l:newlinecontent = getline('.')[0:col('.')-2] . getline('.')[col('.')-0:-1]
+    call setline('.', l:newlinecontent)
+    return ' '
+  endif
+
   return ' '
 endfun
 
@@ -118,7 +133,7 @@ fun! s:HideVimCursorSpasm()
 endfun
 
 fun! <SID>StartOrCloseSymmetricPair(BHS)
-  let l:char = CharUnderCursor()
+  let l:char = s:charUnderCursor()
   if (l:char ==# a:BHS)
     return "\<Right>"
   end
@@ -127,7 +142,7 @@ fun! <SID>StartOrCloseSymmetricPair(BHS)
     return a:BHS
   endif
   " do nothing if we're touching letters on the LHS (as in "Don't")
-  if (match(CharBeforeCursor(), '\w') != -1)
+  if (match(s:charBeforeCursor(), '\w') != -1)
     return a:BHS
   endif
   " do nothing for vimscript comments
@@ -141,8 +156,8 @@ endfun
 
 fun! StartPair(LHS, RHS)
   call s:HideVimCursorSpasm()
-  let l:char = CharUnderCursor()
-  let l:nextchar = CharAfterCursor()
+  let l:char = s:charUnderCursor()
+  let l:nextchar = s:charAfterCursor()
   call s:Debug('nextchar ' . l:nextchar)
 
   if (match(l:char, "^[0-9a-zA-Z\"']$") == 0)
@@ -185,10 +200,10 @@ fun! StartPair(LHS, RHS)
 endfun
 fun! ClosePair2(LHS, RHS)
   call s:HideVimCursorSpasm()
-  if (CharUnderCursor() !=# a:RHS)
+  if (s:charUnderCursor() !=# a:RHS)
     return a:RHS
   endif
-  if (CharUnderCursor() ==# a:RHS)
+  if (s:charUnderCursor() ==# a:RHS)
     let l:pos = getpos('.')[1:]
     let l:matchCount = s:moveToPrevOfPair(a:LHS, a:RHS)
     call s:Debug('match count ' . string(l:matchCount) . ' - ' . a:LHS . ', ' . a:RHS)
@@ -221,10 +236,10 @@ endfun
 " ((|) INSERTS PAREN????? MAYBE THIS IS TOO HARD
 fun! <SID>ClosePair(LHS, RHS)
   " do nothing we're not typing over an existing RHS
-  if (CharUnderCursor() !=# a:RHS)
+  if (s:charUnderCursor() !=# a:RHS)
     return a:RHS
   endif
-  if (CharUnderCursor() ==# a:RHS)
+  if (s:charUnderCursor() ==# a:RHS)
     let l:pos = getpos('.')[1:]
     let l:matchCount = s:moveToPrevOfPair(a:LHS, a:RHS)
     call cursor(l:pos)
@@ -267,14 +282,35 @@ fun! <SID>Delete()
   return "\<del>"
 endfun
 
-fun! CharUnderCursor()
-  return getline('.')[col('.')-1]
+fun! s:charUnderCursor()
+  return s:stringRelativeToCursor(0, 1)
+  " return getline('.')[col('.')-1]
 endfun
-fun! CharBeforeCursor()
-  return getline('.')[col('.')-2]
+fun! s:charBeforeCursor()
+  return s:stringRelativeToCursor(-1, 0)
+  " return getline('.')[col('.')-2]
 endfun
-fun! CharAfterCursor()
-  return getline('.')[col('.')]
+fun! s:charAfterCursor()
+  return s:stringRelativeToCursor(1, 2)
+  " return getline('.')[col('.')]
+endfun
+fun! s:stringRelativeToCursor(startOffset, endOffset)
+  let l:cursor = col('.')-1
+  let l:start = l:cursor + a:startOffset
+  let l:end = l:cursor + a:endOffset - 1
+  if ((l:start) < 0)
+    let l:start = 0
+  end
+  return getline('.')[l:start:l:end]
+endfun
+
+fun! s:includes(haystack, needle)
+  for l:hay in a:haystack
+    if (l:hay) == a:needle
+      return v:true
+    endif
+  endfor
+  return v:false
 endfun
 
 fun! MaybeSplitTag()
