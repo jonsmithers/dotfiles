@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <mail@jonsmithers.link>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2019-08-31
+" Last Updated: 2019-09-04
 
 :scriptencoding utf8
 
@@ -97,34 +97,17 @@ call plug#begin('~/.vim/plugged')
   " gJ on first line to join object literal into one line
   " gS to split one-line object into multiple lines
 
-  Plug 'airblade/vim-gitgutter'
+  Plug 'airblade/vim-gitgutter', { 'on': 'GitGutterEnable'}
   " {{{
-    :nmap <Leader>ga :GitGutterStageHunk<Enter>
-    augroup gitgutter_custom
-      au!
-      " update on save
-      autocmd BufWritePost * GitGutter
-    augroup END
-    " Plug 'mhinz/vim-signify'
-    " Git info in gutter
-    " {{{
-      " [c,]c jump to prev/next change
-      " [C,]C jump to last/first change
-    " }}}
-  " }}}
-
-
-  " Plug 'alvan/vim-closetag'
-  " {{{
-    " Automatically close html tags. Tends to conflict with other plugins and
-    " vim features
-    " let g:closetag_filetypes = 'html,xhtml,phtml,javascript,typescript'
-    " let g:closetag_regions = {
-    "       \ 'typescript.tsx': 'jsxRegion,tsxRegion,litHtmlRegion',
-    "       \ 'javascript.jsx': 'jsxRegion,litHtmlRegion',
-    "       \ 'javascript':     'litHtmlRegion',
-    "       \ 'typescript':     'litHtmlRegion',
-    "       \ }
+    " I use vim-signify in lieu of gitgutter because it's faster. However,
+    " gitgutter has a killer feature to stage the hunk under cursor. So I
+    " disable every aspect of gitgutter, and temporarily enable it just when I
+    " want to use this feature.
+    let g:gitgutter_enabled = 0
+    let g:gitgutter_signs = 0
+    let g:gitgutter_async = 0
+    let g:gitgutter_map_keys = 0
+    :nmap <silent> <Leader>ga :GitGutterEnable<cr>:GitGutterStageHunk<cr>:GitGutterDisable<cr>:SignifyRefresh<cr>:echo 'staged hunk'<cr>
   " }}}
 
   " {{{ security patch
@@ -202,10 +185,10 @@ call plug#begin('~/.vim/plugged')
     " let g:lightline.separator.left =  ''
     fun! LightLineChanges()
       let l:hunkSummary = v:null
-      if exists('*GitGutterGetHunkSummary')
-        let l:hunkSummary = GitGutterGetHunkSummary()
-      elseif exists('g:loaded_signify') && sy#buffer_is_active()
+      if exists('g:loaded_signify') && sy#buffer_is_active()
         let l:hunkSummary = sy#repo#get_stats()
+      elseif exists('*GitGutterGetHunkSummary')
+        let l:hunkSummary = GitGutterGetHunkSummary()
       endif
       if (empty(l:hunkSummary))
         return ''
@@ -433,6 +416,13 @@ call plug#begin('~/.vim/plugged')
     " \A to select all matches of word
     let g:VM_mouse_mappings = 1
     let g:VM_no_meta_mappings = 1
+  " }}}
+
+  Plug 'mhinz/vim-signify'
+  " Git info in gutter
+  " {{{
+    " [c,]c jump to prev/next change
+    " [C,]C jump to last/first change
   " }}}
 
   if (has('nvim'))
