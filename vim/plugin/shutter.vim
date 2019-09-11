@@ -1,5 +1,5 @@
 " Author:       Jon Smithers <mail@jonsmithers.link>
-" Last Updated: 2019-09-10
+" Last Updated: 2019-09-11
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/plugin/shutter.vim
 
 " ABOUT:
@@ -84,24 +84,22 @@ fun! GetTagName()
   return l:tagname
 endfun
 
-inoremap <silent> <expr> > <SID>MaybeCloseTag()
-inoremap <silent> <expr> <cr> MaybeSplitTag()
-" inoremap <silent> <expr> " match(s:charUnderCursor(), '\w') != -1 ? '"' : '""'."\<Left>"
-inoremap <silent> <expr> " <SID>StartOrCloseSymmetricPair('"')
-inoremap <silent> <expr> ' <SID>StartOrCloseSymmetricPair("'")
-inoremap <silent> ( <c-r>=StartPair('(', ')')<cr>
-inoremap <silent> ) <c-r>=ClosePair2('(', ')')<cr>
-inoremap <silent> <space> <c-r>=StretchPair()<cr>
-" inoremap <silent> <expr> <space> <SID>StretchPair()
-inoremap <silent> { <c-r>=StartPair('{', '}')<cr>
-inoremap <silent> [ <c-r>=StartPair('[', ']')<cr>
-inoremap <silent> <expr> ] <SID>ClosePair('[', ']')
-inoremap <silent> <expr> } <SID>ClosePair('{', '}')
-inoremap <silent> <expr> <backspace> <SID>Backspace()
+inoremap <expr> >           <SID>MaybeCloseTag()
+inoremap <expr> <cr>        MaybeSplitTagOrPair()
+inoremap <expr> "           <SID>StartOrCloseSymmetricPair('"')
+inoremap <expr> '           <SID>StartOrCloseSymmetricPair("'")
+inoremap        (           <c-r>=StartPair('(', ')')<cr>
+inoremap        )           <c-r>=ClosePair2('(', ')')<cr>
+inoremap        <space>     <c-r>=StretchPair()<cr>
+inoremap        {           <c-r>=StartPair('{', '}')<cr>
+inoremap        [           <c-r>=StartPair('[', ']')<cr>
+inoremap <expr> ]           <SID>ClosePair('[', ']')
+inoremap <expr> }           <SID>ClosePair('{', '}')
+inoremap <expr> <backspace> <SID>Backspace()
 " imap <expr> <Del> <SID>Delete() " doesn't work with c-d?
-"
+
 fun! StretchPair()
-  call s:HideVimCursorSpasm()
+  call s:hideMappingMessage()
   let l:textAtOffset = getline('.')[col('.')-1-1:]
 
   " insert double space
@@ -128,8 +126,10 @@ fun! StretchPair()
   return ' '
 endfun
 
-fun! s:HideVimCursorSpasm()
-  if !has('nvim') && !has('gui_running') | redraw | end "hide cursor spasm that only occurs in vim
+fun! s:hideMappingMessage()
+  " we could just add <silent> to the mapping, but that causes the cursor to
+  " spasm in the terminal (but not for nvim)
+  echo ''
 endfun
 
 fun! <SID>StartOrCloseSymmetricPair(BHS)
@@ -159,7 +159,7 @@ fun! <SID>StartOrCloseSymmetricPair(BHS)
 endfun
 
 fun! StartPair(LHS, RHS)
-  call s:HideVimCursorSpasm()
+  call s:hideMappingMessage()
   let l:char = s:charUnderCursor()
   let l:nextchar = s:charAfterCursor()
   call s:Debug('nextchar ' . l:nextchar)
@@ -203,7 +203,7 @@ fun! StartPair(LHS, RHS)
   return a:LHS
 endfun
 fun! ClosePair2(LHS, RHS)
-  call s:HideVimCursorSpasm()
+  call s:hideMappingMessage()
   if (s:charUnderCursor() !=# a:RHS)
     return a:RHS
   endif
@@ -314,7 +314,8 @@ fun! s:includes(haystack, needle)
   return v:false
 endfun
 
-fun! MaybeSplitTag()
+" TODO I don't think this is working
+fun! MaybeSplitTagOrPair()
   let l:textAtOffset = getline('.')[col('.')-1-1:]
   for l:splitter in s:config.format_on_newline
     if (exists('l:splitter.patternAtOffset') && -1 !=# match(l:textAtOffset, l:splitter.patternAtOffset))
