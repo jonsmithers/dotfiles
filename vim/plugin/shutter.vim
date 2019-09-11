@@ -1,5 +1,5 @@
 " Author:       Jon Smithers <mail@jonsmithers.link>
-" Last Updated: 2019-09-03
+" Last Updated: 2019-09-10
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/plugin/shutter.vim
 
 " ABOUT:
@@ -141,6 +141,10 @@ fun! <SID>StartOrCloseSymmetricPair(BHS)
   if (((len(split(' ' . getline('.') . ' ', a:BHS))-1) % 2) == 1)
     return a:BHS
   endif
+  " do nothing if we're touching letters on the RHS
+  if (match(s:charAfterCursor(), '\w') != -1)
+    return a:BHS
+  endif
   " do nothing if we're touching letters on the LHS (as in "Don't")
   if (match(s:charBeforeCursor(), '\w') != -1)
     return a:BHS
@@ -231,9 +235,6 @@ fun! ClosePair2(LHS, RHS)
 
   return a:RHS
 endfun
-" )|) INSERTS PAREN
-" (|) MOVES RIGHT
-" ((|) INSERTS PAREN????? MAYBE THIS IS TOO HARD
 fun! <SID>ClosePair(LHS, RHS)
   " do nothing we're not typing over an existing RHS
   if (s:charUnderCursor() !=# a:RHS)
