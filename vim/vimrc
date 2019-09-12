@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <mail@jonsmithers.link>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2019-09-11
+" Last Updated: 2019-09-12
 
 :scriptencoding utf8
 
@@ -527,7 +527,7 @@ call plug#begin('~/.vim/plugged')
     " p        preview commit
     " o        open commit in split
     " O        open commit in tab
-    nnoremap <leader>gs :Gstatus<cr>
+    nnoremap <leader>gs :vert Gstatus<cr>
     " http://vimcasts.org/episodes/fugitive-vim-working-with-the-git-index/
     " c-n, c-p jumps to files
     " p        runs add --patch
@@ -995,6 +995,7 @@ let g:html_wrong_comments=1
         exec 'vertical diffsplit ' . a:selectedBackupFile
         setlocal readonly
         setlocal nobuflisted
+        setlocal buftype=nowrite
         autocmd QuitPre <buffer> diffoff!
         autocmd BufHidden <buffer> diffoff!
         wincmd p
@@ -1003,12 +1004,44 @@ let g:html_wrong_comments=1
             \ 'sink': funcref('s:backupDiffSink'),
             \ 'source': l:backupFiles,
             \ 'options': [
-            \   '--prompt', 'diff with backup file ',
+            \   '--prompt', 'backup file> ',
             \   '--preview', 'diff --report-identical-files ' . expand('%') . ' {}'
             \ ]
             \ }))
     endfun
   endif
+  " }}}
+
+  " git file history {{{
+    command! Versions call <sid>DiffWithGitVersion()
+    nnoremap <leader>vd :call <sid>DiffWithGitVersion()<cr>
+    fun! <sid>DiffWithGitVersion()
+      " TODO handle file moves
+      call fzf#run(fzf#wrap({
+            \ 'source': 'git log --follow --oneline ' . expand('%'),
+            \ 'sink': funcref('s:gitFileVersionSink'),
+            \ 'options': [
+            \   '--prompt', 'file version> ',
+            \   '--preview', 'git diff {1} ' . expand('%')
+            \ ] }))
+    endfun
+    fun! s:gitFileVersionSink(selectedVersion)
+      diffoff!
+      let l:version = split(a:selectedVersion, ' ')[0]
+      let l:currentFile = expand('%')
+      let l:currentFileType = &filetype
+      vertical new
+      exec 'read ! git show ' . l:version . ':' . l:currentFile
+      let &filetype=l:currentFileType
+      setlocal readonly
+      setlocal nobuflisted
+      setlocal buftype=nofile
+      autocmd QuitPre <buffer> diffoff!
+      autocmd BufHidden <buffer> diffoff!
+      diffthis
+      wincmd p
+      diffthis
+    endfun
   " }}}
 
   set sessionoptions-=options " for some reason, vim won't restore with syntax highlighting without this. https://stackoverflow.com/questions/9281438/syntax-highlighting-doesnt-work-after-restore-a-previous-vim-session
