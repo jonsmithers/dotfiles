@@ -966,30 +966,22 @@ let g:html_wrong_comments=1
   " local file history {{{
   if (s:os !=# 'Windows')
 
-    let s:backupDirs = [
-          \ '~/.config/smithers/vimbackup',
-          \ '~/.config/vimbackup',
-          \ '/var/tmp',
-          \ ]
+    set backupdir=~/.config/smithers/vimbackup,~/.config/vimbackup,/var/tmp
+    set backup
 
-    call map(s:backupDirs, { -> expand(v:val)}) " expand home directory
-
-    let &backupdir=join(s:backupDirs, ',')
-    let &backup=1
+    command! Backups     call <sid>DiffWithBackup()
+    nnoremap <leader>bd :call <sid>DiffWithBackup()<cr>
 
     augroup vimrc_backup
       autocmd!
       au BufWritePre * let &backupext = '-' . strftime("%Y%m%d-%H%M%S") . '.vimbackup'
     augroup END
 
-    command! Backups     call <SID>DiffWithBackup()
-    nnoremap <leader>bd :call <sid>DiffWithBackup()<cr>
     fun! <sid>DiffWithBackup()
       let l:backupFiles = []
-      for l:backupDir in s:backupDirs
-        let l:backupFiles += split(glob(l:backupDir . '/' . expand('%:t') . '-*.vimbackup'), '\n')
+      for l:backupDir in split(&backupdir, ',')
+        let l:backupFiles += sort(split(glob(l:backupDir . '/' . expand('%:t') . '-*.vimbackup'), '\n'))
       endfor
-      call sort(l:backupFiles)
       call reverse(l:backupFiles)
       fun! s:backupDiffSink(selectedBackupFile)
         exec 'vertical diffsplit ' . a:selectedBackupFile
