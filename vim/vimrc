@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <mail@jonsmithers.link>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2019-09-04
+" Last Updated: 2019-09-11
 
 :scriptencoding utf8
 
@@ -962,14 +962,54 @@ let g:html_wrong_comments=1
 
   set completeopt=menuone,longest,preview " make completion menu awesome
   set directory=/var/tmp,/tmp,.
+
+  " local file history {{{
   if (s:os !=# 'Windows')
-    set backupdir=~/.config/smithers/vimbackup,~/.config/vimbackup,/var/tmp
-    set backup
+
+    let s:backupDirs = [
+          \ '~/.config/smithers/vimbackup',
+          \ '~/.config/vimbackup',
+          \ '/var/tmp',
+          \ ]
+
+    call map(s:backupDirs, { -> expand(v:val)}) " expand home directory
+
+    let &backupdir=join(s:backupDirs, ',')
+    let &backup=1
+
     augroup vimrc_backup
       autocmd!
-      au BufWritePre * let &bex = '-' . strftime("%Y%m%d-%H%M%S") . '.vimbackup'
+      au BufWritePre * let &backupext = '-' . strftime("%Y%m%d-%H%M%S") . '.vimbackup'
     augroup END
+
+    command! Backups     call <SID>DiffWithBackup()
+    nnoremap <leader>bd :call <sid>DiffWithBackup()<cr>
+    fun! <sid>DiffWithBackup()
+      let l:backupFiles = []
+      for l:backupDir in s:backupDirs
+        let l:backupFiles += split(glob(l:backupDir . '/' . expand('%:t') . '-*.vimbackup'), '\n')
+      endfor
+      call sort(l:backupFiles)
+      call reverse(l:backupFiles)
+      fun! s:backupDiffSink(selectedBackupFile)
+        exec 'vertical diffsplit ' . a:selectedBackupFile
+        setlocal readonly
+        setlocal nobuflisted
+        autocmd QuitPre <buffer> diffoff!
+        autocmd BufHidden <buffer> diffoff!
+        wincmd p
+      endfun
+      call fzf#run(fzf#wrap({
+            \ 'sink': funcref('s:backupDiffSink'),
+            \ 'source': l:backupFiles,
+            \ 'options': [
+            \   '--prompt', 'diff with backup file ',
+            \   '--preview', 'diff --report-identical-files ' . expand('%') . ' {}'
+            \ ]
+            \ }))
+    endfun
   endif
+  " }}}
 
   set sessionoptions-=options " for some reason, vim won't restore with syntax highlighting without this. https://stackoverflow.com/questions/9281438/syntax-highlighting-doesnt-work-after-restore-a-previous-vim-session
 
