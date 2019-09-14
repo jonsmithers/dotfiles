@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <mail@jonsmithers.link>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2019-09-12
+" Last Updated: 2019-09-14
 
 :scriptencoding utf8
 
@@ -795,7 +795,7 @@ call plug#end()
       endif
       let s:termbuf=bufnr('%')
       "tnoremap <buffer> <F4> <C-\><C-n>:close<cr>
-      tnoremap <buffer> <F4> <C-w><C-q>
+      tmap <buffer> <F4> <C-w><C-q>
       nnoremap <buffer> <F4> i<C-w><C-q>
       vnoremap <buffer> <F4> <esc>i<C-w><C-q>
     endif
