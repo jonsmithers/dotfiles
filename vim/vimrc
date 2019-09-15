@@ -579,6 +579,7 @@ call plug#begin('~/.vim/plugged')
         autocmd!
 
         autocmd BufEnter $HOME/Dropbox/vimwiki/md/*.md command! -buffer ArchiveNote :Move %:h/archive/%:t
+        autocmd BufEnter $HOME/Dropbox/vimwiki/md/archive/*.md delcommand ArchiveNote
 
         " disable binding that conflicts with dirvish
         autocmd Filetype markdown nmap <silent><buffer> <leader>zxcv <Plug>VimwikiRemoveHeaderLevel
@@ -986,6 +987,7 @@ let g:html_wrong_comments=1
   set hidden        " leave buffers without saving
 
   set completeopt=menuone,longest,preview " make completion menu awesome
+
   set directory=/var/tmp,/tmp,.
 
   " local file history {{{
@@ -1048,7 +1050,7 @@ let g:html_wrong_comments=1
             \ 'source': l:fzfSelectables,
             \ 'options': [
             \   '--prompt', 'backup file> ',
-            \   '--preview', "diff --report-identical-files '" . escape(expand('%'), "'") . "' {1}",
+            \   '--preview', "diff --color=always --report-identical-files {1} '" . escape(expand('%'), "'") . "'",
             \   '--with-nth=2',
             \   '--delimiter=<<fake-delimiter>>'
             \ ]
@@ -1067,7 +1069,7 @@ let g:html_wrong_comments=1
             \ 'sink': funcref('s:gitFileVersionSink'),
             \ 'options': [
             \   '--prompt', 'file version> ',
-            \   '--preview', 'git diff {1} ' . expand('%')
+            \   '--preview', 'git diff --color=always --word-diff=color --unified=0 {1} ' . expand('%')
             \ ] }))
     endfun
     fun! s:gitFileVersionSink(selectedVersion)
