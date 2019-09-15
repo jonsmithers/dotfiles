@@ -673,10 +673,13 @@ call plug#begin('~/.vim/plugged')
   else
     set t_Co=256
   endif
-  Plug 'cormacrelf/vim-colors-github'
   Plug 'arcticicestudio/nord-vim'
+  Plug 'ayu-theme/ayu-vim'
+  Plug 'chriskempson/base16-vim'
+  Plug 'cormacrelf/vim-colors-github'
   Plug 'dracula/vim'
   Plug 'junegunn/seoul256.vim'
+  Plug 'kjssad/quantum.vim'
   Plug 'KKPMW/sacredforest-vim'
   Plug 'mhartington/oceanic-next'
   Plug 'morhetz/gruvbox'
@@ -685,7 +688,6 @@ call plug#begin('~/.vim/plugged')
   Plug 'NLKNguyen/papercolor-theme'
   Plug 'rakr/vim-one'
   Plug 'romainl/Apprentice'
-  Plug 'chriskempson/base16-vim'
 
 call plug#end()
 
@@ -1072,6 +1074,7 @@ let g:html_wrong_comments=1
 " Colorscheme things
 " {{{
   com! Default          set background=dark  | colorscheme default
+  com! DarkAyu          set background=dark  | let ayucolor="dark" | colorscheme ayu
   com! DarkGruv         set background=dark  | colorscheme gruvbox
   com! DarkOcean        set background=dark  | colorscheme OceanicNext
   com! DarkPaper        set background=dark  | colorscheme PaperColor
@@ -1081,6 +1084,8 @@ let g:html_wrong_comments=1
   com! DarkApprentice   set background=dark  | colorscheme apprentice
   com! DarkSnow         set background=dark  | colorscheme snow
   com! DarkNord         set background=dark  | colorscheme nord
+  com! DarkQuantum      set background=dark  | colorscheme quantum
+  com! LightAyu         set background=light | let ayucolor="light" | colorscheme ayu
   com! LightOne         set background=light | colorscheme one
   com! LightGruv        set background=light | colorscheme gruvbox
   com! LightOcean       set background=light | colorscheme OceanicNextLight
@@ -1088,6 +1093,8 @@ let g:html_wrong_comments=1
   com! LightSeoul       set background=light | colorscheme seoul256
   com! LightSnow        set background=light | colorscheme snow
   com! LightGitHub      set background=light | colorscheme github
+  com! LightQuantum     set background=light | colorscheme quantum
+  com! MirageAyu        set background=dark  | let ayucolor="mirage" | colorscheme ayu
 
   augroup expose_colors_to_shell
     au!
