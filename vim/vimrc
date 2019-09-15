@@ -991,8 +991,9 @@ let g:html_wrong_comments=1
   " local file history {{{
   if (s:os !=# 'Windows')
 
-    set backupdir=~/.config/smithers/vimbackup,~/.config/vimbackup,/var/tmp
+    set backupdir=~/.config/smithers/vimbackup/,~/.config/vimbackup//,/var/tmp//
     set backup
+    " 'backupskip=/tmp/*' is set by default
 
     command! Backups     call <sid>DiffWithBackup()
     nnoremap <leader>bd :call <sid>DiffWithBackup()<cr>
@@ -1003,26 +1004,53 @@ let g:html_wrong_comments=1
     augroup END
 
     fun! <sid>DiffWithBackup()
-      let l:backupFiles = []
+      let l:fzfSelectables = []
       for l:backupDir in split(&backupdir, ',')
-        let l:backupFiles += sort(split(glob(l:backupDir . '/' . expand('%:t') . '-*.vimbackup'), '\n'))
+        let l:basePath = l:backupDir
+        if (l:backupDir[-2:] == '//')
+          let l:basePath = l:basePath[:-2]
+          let l:basePath .= substitute(expand('%:p'), '/', '%', 'g')
+        else
+          if (l:backupDir[-1:] != '/')
+            let l:basePath .= '/'
+          endif
+          let l:basePath .= expand('%:t')
+        endif
+        let l:newBackupFiles = sort(split(glob(l:basePath . '-*.vimbackup'), '\n'))
+
+        fun! s:toUserReadableFormat(filepath, basePath)
+          let l:result = a:filepath
+          let l:result = substitute(l:result, '\V' . a:basePath, '', '')
+          let l:result = substitute(l:result, '^-', '', '')
+          let l:result = substitute(l:result, '.vimbackup', '', '')
+          let l:year   = l:result[0:3]
+          let l:month  = l:result[4:5]
+          let l:day    = l:result[6:7]
+          let l:hour   = l:result[09:10]
+          let l:minute = l:result[11:12]
+          let l:second = l:result[13:14]
+          let l:result = l:year . '-' . l:month . '-' . l:day . ' ' . l:hour . ':' . l:minute . ':' . l:second
+          return l:result
+        endfun
+        let l:fzfSelectables += map(copy(l:newBackupFiles), {-> v:val . '<<fake-delimiter>>' . s:toUserReadableFormat(v:val, l:basePath)})
       endfor
-      call reverse(l:backupFiles)
+      call reverse(l:fzfSelectables)
       fun! s:backupDiffSink(selectedBackupFile)
-        exec 'vertical diffsplit ' . a:selectedBackupFile
-        setlocal readonly
-        setlocal nobuflisted
-        setlocal buftype=nowrite
+        let l:selectedBackupFile = escape(split(a:selectedBackupFile, '<<fake-delimiter>>')[0], '%')
+        exec 'vertical diffsplit ' . l:selectedBackupFile
+        setlocal readonly nobuflisted bufhidden=wipe buftype=nowrite noswapfile
         autocmd QuitPre <buffer> diffoff!
         autocmd BufHidden <buffer> diffoff!
         wincmd p
       endfun
       call fzf#run(fzf#wrap({
             \ 'sink': funcref('s:backupDiffSink'),
-            \ 'source': l:backupFiles,
+            \ 'source': l:fzfSelectables,
             \ 'options': [
             \   '--prompt', 'backup file> ',
-            \   '--preview', 'diff --report-identical-files ' . expand('%') . ' {}'
+            \   '--preview', "diff --report-identical-files '" . escape(expand('%'), "'") . "' {1}",
+            \   '--with-nth=2',
+            \   '--delimiter=<<fake-delimiter>>'
             \ ]
             \ }))
     endfun
@@ -1050,9 +1078,7 @@ let g:html_wrong_comments=1
       vertical new
       exec 'read ! git show ' . l:version . ':' . l:currentFile
       let &filetype=l:currentFileType
-      setlocal readonly
-      setlocal nobuflisted
-      setlocal buftype=nofile
+      setlocal readonly nomodified nobuflisted bufhidden=delete buftype=nofile noswapfile
       autocmd QuitPre <buffer> diffoff!
       autocmd BufHidden <buffer> diffoff!
       diffthis
