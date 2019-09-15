@@ -18,6 +18,7 @@ func! js_prose#ProseMode()
   let b:formatlistpat = &formatlistpat
   let b:sidescrolloff = &sidescrolloff
   let b:whichwrap     = &whichwrap
+  let b:filetype      = &filetype
 
   setlocal nocopyindent nolist noshowcmd noshowmode nosmartindent spell
   setlocal complete+=s formatoptions=tcq formatoptions+=an formatoptions+=ro sidescrolloff=0 whichwrap+=h,l
@@ -30,11 +31,11 @@ func! js_prose#ProseMode()
 
   augroup prosemode
     au!
-    autocmd ColorScheme * hi EndOfBuffer ctermfg=bg guifg=bg
+    autocmd ColorScheme <buffer> hi EndOfBuffer ctermfg=bg guifg=bg
     " hide "~" at end of buffer
   augroup END
 
-  LightGitHub
+  " LightGitHub
   " DarkSacredForest
   nnoremap <leader><leader> :silent w<cr>:redraw!<cr>
 
@@ -66,9 +67,17 @@ if (!exists('*js_prose#CodeMode')) " this function sources vimrc and you can't r
     exec 'setlocal formatoptions='.b:formatoptions
     exec 'setlocal sidescrolloff='.b:sidescrolloff
     exec 'setlocal whichwrap='    .b:whichwrap
+    exec 'setlocal filetype='     .b:filetype
     source $MYVIMRC
   endfu
 endif
+fun! js_prose#ToggleProseMode()
+  if (exists(':ProseMode'))
+    ProseMode
+  else
+    CodeMode
+  endif
+endfun
 
 
 " I very rarely use this because scrolling can get really funky (a paragraph
