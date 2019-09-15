@@ -575,10 +575,14 @@ call plug#begin('~/.vim/plugged')
       " source vimwiki on ALL markdown files (this is default)
       let g:vimwiki_global_ext = 1
 
-      " disable binding that conflicts with dirvish
-      augroup disable_vimwiki_conflicting_binding
+      augroup vimrc_vimwiki
         autocmd!
+
+        autocmd BufEnter $HOME/Dropbox/vimwiki/md/*.md command! -buffer ArchiveNote :Move %:h/archive/%:t
+
+        " disable binding that conflicts with dirvish
         autocmd Filetype markdown nmap <silent><buffer> <leader>zxcv <Plug>VimwikiRemoveHeaderLevel
+
       augroup end
 
       nnoremap <leader>wf :FilesWithPreview ~/Dropbox/vimwiki/md<cr>
@@ -588,9 +592,8 @@ call plug#begin('~/.vim/plugged')
       command! -bang -nargs=? -complete=dir FilesWithPreview
             \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
 
-      command! -nargs=+ WriteWikiNote call WriteWikiNoteFunc(<q-args>)
-
-      func! WriteWikiNoteFunc(filename)
+      command! -nargs=+ WriteWikiNote call s:writeWikiNote(<q-args>)
+      func! s:writeWikiNote(filename)
         let l:writePath = '$HOME/Dropbox/vimwiki/md/' . a:filename . '.md'
         exec ':save ' . expand(l:writePath)
       endfunc
