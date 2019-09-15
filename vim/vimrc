@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <mail@jonsmithers.link>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2019-09-14
+" Last Updated: 2019-09-15
 
 :scriptencoding utf8
 
@@ -651,6 +651,23 @@ call plug#begin('~/.vim/plugged')
     " git config --global mergetool.diffconflicts.trustExitCode true
     " git config --global mergetool.keepBackup false
     " git mergetool <file>
+  " }}}
+
+  Plug 'Yggdroot/indentLine'
+  " {{{
+    " let g:indentLine_char_list = ['|', '¦', '┆', '┊']
+    let g:indentLine_enabled = 0
+    nnoremap [o<tab> :IndentLinesEnable<cr>
+    nnoremap ]o<tab> :IndentLinesDisable<cr>
+    nnoremap yo<tab> :IndentLinesToggle<cr>
+    let g:indentLine_char = '┊'
+    augroup vimrc_indentline
+      au!
+      autocmd ColorScheme * call s:matchIndentLine()
+    augroup END
+    fun! s:matchIndentLine()
+      let g:indentLine_color_gui = synIDattr(synIDtrans(hlID('Comment')), "fg#")
+    endfun
   " }}}
 
   " language syntaxes
