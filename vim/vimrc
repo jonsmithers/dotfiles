@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <mail@jonsmithers.link>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2019-09-15
+" Last Updated: 2019-09-16
 
 :scriptencoding utf8
 
@@ -119,7 +119,7 @@ call plug#begin('~/.vim/plugged')
     endif
   " }}}
 
-  Plug 'ciaranm/detectindent' 
+  Plug 'ciaranm/detectindent'
   " Analyze current buffer and configure tabbing to match.
   " {{{
     nnoremap <leader>di :DetectIndent<cr>
@@ -914,7 +914,7 @@ let g:html_wrong_comments=1
 
 " Change Cursor Style Dependent On Mode: https://github.com/mhinz/vim-galore#change-cursor-style-dependent-on-mode {{{
   if (s:os ==? 'Linux')
-    " https://stackoverflow.com/a/42118416/1480704 
+    " https://stackoverflow.com/a/42118416/1480704
     let &t_SI = "\e[6 q"
     let &t_EI = "\e[2 q"
     let &t_SR = "\e[3 q"
@@ -1039,6 +1039,7 @@ let g:html_wrong_comments=1
       call reverse(l:fzfSelectables)
       fun! s:backupDiffSink(selectedBackupFile)
         let l:selectedBackupFile = escape(split(a:selectedBackupFile, '<<fake-delimiter>>')[0], '%')
+        diffoff!
         exec 'vertical diffsplit ' . l:selectedBackupFile
         setlocal readonly nobuflisted bufhidden=wipe buftype=nowrite noswapfile
         autocmd QuitPre <buffer> diffoff!
@@ -1068,7 +1069,7 @@ let g:html_wrong_comments=1
             \ 'source': 'git log --follow --oneline ' . expand('%'),
             \ 'sink': funcref('s:gitFileVersionSink'),
             \ 'options': [
-            \   '--prompt', 'file version> ',
+            \   '--prompt', 'git version> ',
             \   '--preview', 'git diff --color=always --word-diff=color --unified=0 {1} ' . expand('%')
             \ ] }))
     endfun
@@ -1403,37 +1404,44 @@ if (s:os ==# 'Windows')
   command! DownloadWindowsVimrc call DownloadWindowsVimrc(<bang>0)
 endif
 
-augroup updatetimestamp
-  au!
-  autocmd BufWritePre vimrc,.vimrc                          call UpdateTimeStamp()
-  autocmd BufWritePre misc.vim                              call UpdateTimeStamp()
-  autocmd BufWritePre shutter.vim                           call UpdateTimeStamp()
-  autocmd BufWritePre en.utf-8.add,git-tracker,git-website  call UpdateTimeStamp()
-  autocmd BufWritePre dotphile                              call UpdateTimeStamp()
-augroup END
-function! UpdateTimeStamp()
-  " ignore for fugitive files
-  if (match(expand('%'), '^fugitive') == 0)
-    return
-  endif
-  let l:save_view = winsaveview()
-  let l:now = strftime('%Y-%m-%d')
+" {{{ auto-update 'Last Updated' comment line in certain filetypes
+  augroup vimrc_updatetimestamp
+    au!
+    autocmd BufWritePre vimrc,.vimrc                          call s:updateTimeStamp()
+    autocmd BufWritePre misc.vim                              call s:updateTimeStamp()
+    autocmd BufWritePre shutter.vim                           call s:updateTimeStamp()
+    autocmd BufWritePre en.utf-8.add,git-tracker,git-website  call s:updateTimeStamp()
+    autocmd BufWritePre dotphile                              call s:updateTimeStamp()
+  augroup END
+  function! s:updateTimeStamp()
+    " ignore for fugitive files
+    if (match(expand('%'), '^fugitive') == 0)
+      return
+    endif
+    let l:save_view = winsaveview()
+    let l:now = strftime('%Y-%m-%d')
 
-  call cursor(1, 1)
-  let l:lastUpdated = matchlist(getline(search('Last Updated', 'W', 10)), 'Last Updated: \(.*\)')[1]
-  if (l:lastUpdated ==# l:now)
+    call cursor(1, 1)
+    let l:matchlist = matchlist(getline(search('Last Updated', 'W', 10)), 'Last Updated: \(.*\)')
+    if (!len(l:matchlist))
+      call winrestview(l:save_view)
+      return
+    endif
+    let l:lastUpdated = l:matchlist[1]
+    if (l:lastUpdated ==# l:now)
+      call winrestview(l:save_view)
+      return
+    end
+
+    " normal <c-o>
+    if (line('$') <= 10)
+      silent! keeppatterns    :%s/\(^\("\|#\) Last Updated:\)\zs.*/\=' ' . l:now
+    else
+      silent! keeppatterns :1,10s/\(^\("\|#\) Last Updated:\)\zs.*/\=' ' . l:now
+    endif
     call winrestview(l:save_view)
-    return
-  end
-
-  " normal <c-o>
-  if (line('$') <= 10)
-    silent! keeppatterns    :%s/\(^\("\|#\) Last Updated:\)\zs.*/\=' ' . l:now
-  else
-    silent! keeppatterns :1,10s/\(^\("\|#\) Last Updated:\)\zs.*/\=' ' . l:now
-  endif
-  call winrestview(l:save_view)
-endfunction
+  endfunction
+" }}}
 
 command! CheckForSmithers exec "silent! !echo This is Smithers\\' vimrc" | q
 
