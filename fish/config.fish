@@ -16,7 +16,7 @@ set fish_greeting ""
 # simple filesystem navigation
   # http://jeroenjanssens.com/2013/08/16/quickly-navigate-your-filesystem-from-the-command-line.html
 set MARKPATH $HOME/.marks
-function jump
+function oldjump
   cd "$MARKPATH/$argv"; or echo No such mark $argv;
 end
 function mark
@@ -274,11 +274,16 @@ if test -d ~/bin
   set PATH ~/bin $PATH
 end
 
-# initialize autojump (if available)
-[ -f /usr/share/autojump/autojump.fish ]; and source /usr/share/autojump/autojump.fish
-for path in /usr/local/Cellar/autojump/*/share/autojump/autojump.fish # "for" allows me to execute a glob that might not match anything
-  source $path; and break
+# initialize jump if available
+if command -v jump > /dev/null
+  status --is-interactive; and source (jump shell fish | psub)
 end
+
+# initialize autojump (if available)
+# [ -f /usr/share/autojump/autojump.fish ]; and source /usr/share/autojump/autojump.fish
+# for path in /usr/local/Cellar/autojump/*/share/autojump/autojump.fish # "for" allows me to execute a glob that might not match anything
+#   source $path; and break
+# end
 
 # initialize direnv (if available)
 if command -v direnv > /dev/null

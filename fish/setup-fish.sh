@@ -15,15 +15,26 @@ if [[ ! $(command -v fish) ]] && prompt "Install fish"; then
   fi
 fi
 
-if [[ ! $(command -v autojump) ]] && prompt "Install autojump"; then
-  if [ "$(uname)" == "Darwin" ]; then
-    brew install autojump
+if [[ ! $(command -v jump) ]] && prompt "Install jump"; then
+  if [[ $(command -v brew) ]]; then
+    brew install jump
   elif [[ $(command -v dnf) ]]; then
-    dnf install autojump-fish
-  elif [[ $(command -v apt) ]]; then
-    echo autojump installation not implemented
+    wget https://github.com/gsamokovarov/jump/releases/download/v0.23.0/jump_0.23.0_amd64.deb
+    sudo dpkg --ignoreos -i jump_0.23.0_amd64.deb
+  else
+    echo jump installation not implemented
   fi
 fi
+
+# if [[ ! $(command -v autojump) ]] && prompt "Install autojump"; then
+#   if [ "$(uname)" == "Darwin" ]; then
+#     brew install autojump
+#   elif [[ $(command -v dnf) ]]; then
+#     dnf install autojump-fish
+#   elif [[ $(command -v apt) ]]; then
+#     echo autojump installation not implemented
+#   fi
+# fi
 
 if [[ ! $(command -v fzf) ]] && prompt "Install fzf"; then
   git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
