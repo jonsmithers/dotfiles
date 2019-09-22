@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <mail@jonsmithers.link>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2019-09-16
+" Last Updated: 2019-09-22
 
 :scriptencoding utf8
 
@@ -674,7 +674,7 @@ call plug#begin('~/.vim/plugged')
     endfun
   " }}}
 
-  " language syntaxes
+  " language plugins {{{
   Plug 'dag/vim-fish'
   Plug 'leafgarland/typescript-vim'
   Plug 'peitalin/vim-jsx-typescript'
@@ -687,9 +687,15 @@ call plug#begin('~/.vim/plugged')
   PlugDevelop 'jonsmithers/vim-html-template-literals'
   let g:html_indent_style1  = 'inc'
   let g:html_indent_script1 = 'inc'
+  Plug 'rust-lang/rust.vim'
+  Plug 'fatih/vim-go'
+  " }}}
 
-  " colorschemes
-  if (has('termguicolors') && empty($TMUX))
+  " colorscheme plugins {{{
+  if &term == 'alacritty'
+    let &term='xterm-256color'
+  endif
+  if (has('termguicolors'))
     set termguicolors
   else
     set t_Co=256
@@ -709,6 +715,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'NLKNguyen/papercolor-theme'
   Plug 'rakr/vim-one'
   Plug 'romainl/Apprentice'
+  " }}}
 
 call plug#end()
 
@@ -980,6 +987,7 @@ let g:html_wrong_comments=1
   set autoindent
   set smartindent
   set hlsearch      " default in NeoVim
+  set wildignore=**/node_modules/**
 
   set splitbelow    " more natural split behavior
   set splitright    " more natural split behavior
@@ -1188,7 +1196,7 @@ let g:html_wrong_comments=1
 
   if (!exists('g:colors_name'))
     if (has('nvim'))
-      silent! LightOne
+      silent! MirageAyu
     else
       silent! DarkApprentice
     endif
