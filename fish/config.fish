@@ -26,6 +26,14 @@ function unmark
   rm -i "$MARKPATH/$argv[1]"
 end
 
+# this section should duplicate ~/.profile
+if test -d "$HOME/.cargo/bin"
+  set PATH $HOME/.cargo/bin $PATH
+end
+if test -d /usr/local/go/bin
+  set PATH /usr/local/go/bin $PATH
+end
+
 switch (uname)
   case Darwin
     init_echo "Mac init"
@@ -63,7 +71,6 @@ switch (hostname)
     alias morning="gnome-terminal --command='wordsafe push /home/smithers/Dropbox/2-backup/journal__VeryImportant/morning --prepend-date-quietly' --full-screen --hide-menubar"
     #alias journal="guake -t; gnome-terminal --command='wordsafe j' --full-screen --hide-menubar"
     export TMPDIR="/tmp/" # not sure why this suddenly became necessary
-    set PATH /usr/local/go/bin $PATH
     set PATH /home/smithers/.linuxbrew/sbin $PATH
     set PATH /home/smithers/.linuxbrew/bin $PATH
     set XDG_DATA_DIRS /home/smithers/.linuxbrew/share:$XDG_DATA_DIRS
@@ -82,7 +89,6 @@ switch (hostname)
     set NODEJS_HOME /usr/lib/nodejs/node-v6.6.0
     set PATH $NODEJS_HOME/bin $PATH    # because node and npm are here
     set PATH ~/.npm-packages/bin $PATH # because ~/.npmrc has: "prefix = ${HOME}/.npm-packages"
-    set PATH /usr/local/go/bin $PATH
     set -x GOPATH ~/go-workspace
 
   case zamperini2
@@ -94,7 +100,6 @@ switch (hostname)
 
     alias lamemp3='lame -V0 -h -b 160 --vbr-new'
 
-    set PATH /usr/local/go/bin/ $PATH
     set PATH /home/smithers/.gopath/bin $PATH
     set -x GOPATH /home/smithers/.gopath
 
