@@ -38,7 +38,7 @@ let s:config.format_on_newline = [
       \ { 'patternAtOffset': '{}' },
       \ ]
 
-fun!s:Debug(msg)
+fun! s:debug(msg)
   if (exists('g:shutter_debug'))
     echom 'shutter ' . line('.') . ': ' . a:msg
   endif
@@ -54,7 +54,7 @@ fun! <SID>MaybeCloseTag()
   if (index(['javascript', 'typescript', 'javascript.tsx', 'typescript.tsx'], &filetype) != -1)
     let l:doNothing = 1
     for l:region in ['jsxRegion', 'tsxRegion', 'litHtmlRegion']
-      call s:Debug('testing ' . l:region)
+      call s:debug('testing ' . l:region)
       if index(l:syntax, l:region) != -1
         let l:doNothing = 0
         break
@@ -85,19 +85,61 @@ fun! GetTagName()
   return l:tagname
 endfun
 
-inoremap <expr> >           <SID>MaybeCloseTag()
-inoremap <expr> <cr>        MaybeSplitTagOrPair()
-inoremap <expr> "           <SID>StartOrCloseSymmetricPair('"')
-inoremap <expr> '           <SID>StartOrCloseSymmetricPair("'")
-inoremap        (           <c-r>=StartPair('(', ')')<cr>
-inoremap        )           <c-r>=ClosePair2('(', ')')<cr>
-inoremap        <space>     <c-r>=StretchPair()<cr>
-inoremap        {           <c-r>=StartPair('{', '}')<cr>
-inoremap        [           <c-r>=StartPair('[', ']')<cr>
-inoremap <expr> ]           <SID>ClosePair('[', ']')
-inoremap <expr> }           <SID>ClosePair('{', '}')
-inoremap <expr> <backspace> <SID>Backspace()
-" imap <expr> <Del> <SID>Delete() " doesn't work with c-d?
+nnoremap <silent> yoS :ShutterToggle<CR>
+command! ShutterToggle call s:toggle()
+let s:is_enabled=0
+fun! s:toggle()
+  if (s:is_enabled)
+    call s:disable()
+  else
+    call shutter#enable(0)
+  endif
+endfun
+
+nnoremap [oS :ShutterEnable<CR>
+command! ShutterEnable call shutter#enable(0)
+fun! shutter#enable(shush)
+  let s:is_enabled=1
+  inoremap <expr> >           <SID>MaybeCloseTag()
+  inoremap <expr> <CR>        MaybeSplitTagOrPair()
+  inoremap <expr> "           <SID>StartOrCloseSymmetricPair('"')
+  inoremap <expr> '           <SID>StartOrCloseSymmetricPair("'")
+  inoremap        (           <c-r>=StartPair('(', ')')<CR>
+  inoremap        )           <c-r>=ClosePair2('(', ')')<CR>
+  inoremap        <space>     <c-r>=StretchPair()<CR>
+  inoremap        {           <c-r>=StartPair('{', '}')<CR>
+  inoremap        [           <c-r>=StartPair('[', ']')<CR>
+  inoremap <expr> ]           <SID>ClosePair('[', ']')
+  inoremap <expr> }           <SID>ClosePair('{', '}')
+  inoremap <expr> <backspace> <SID>Backspace()
+  " imap <expr> <Del> <SID>Delete() " doesn't work with c-d?
+  if !a:shush
+    echo 'shutter enabled'
+  endif
+endfun
+" call shutter#enable(1)
+nnoremap ]oS :ShutterDisable<CR>
+command! ShutterDisable call s:disable()
+fun! s:disable()
+  if (!s:is_enabled)
+    echo 'shutter already disabled'
+    return
+  endif
+  let s:is_enabled = 0
+  iunmap >
+  imap <CR> <CR><Plug>DiscretionaryEnd
+  iunmap "
+  iunmap '
+  iunmap (
+  iunmap )
+  iunmap <space>
+  iunmap {
+  iunmap [
+  iunmap ]
+  iunmap }
+  iunmap <backspace>
+  echo 'shutter disabled'
+endfun
 
 fun! StretchPair()
   call s:hideMappingMessage()
@@ -143,8 +185,10 @@ fun! <SID>StartOrCloseSymmetricPair(BHS)
     return a:BHS
   endif
   " do nothing if we're touching letters on the RHS
-  if (match(s:charAfterCursor(), '\w') != -1)
+  if (match(s:charAfterCursor(), '\S') != -1)
     return a:BHS
+  else
+    call s:debug('char after cursor ' . s:charAfterCursor())
   endif
   " do nothing if we're touching letters on the LHS (as in "Don't")
   if (match(s:charBeforeCursor(), '\w') != -1)
@@ -153,7 +197,7 @@ fun! <SID>StartOrCloseSymmetricPair(BHS)
   " do nothing for vimscript comments
   if (a:BHS ==# '"' && &filetype ==# 'vim' )
     " -1 != match(getline('.')[col('.')], '^\s*$')
-    call s:Debug('vimscript comment')
+    call s:debug('vimscript comment')
     return '"'
   endif
   return a:BHS . a:BHS . "\<Left>"
@@ -163,10 +207,10 @@ fun! StartPair(LHS, RHS)
   call s:hideMappingMessage()
   let l:char = s:charUnderCursor()
   let l:nextchar = s:charAfterCursor()
-  call s:Debug('nextchar ' . l:nextchar)
+  call s:debug('nextchar ' . l:nextchar)
 
   if (match(l:char, "^[0-9a-zA-Z\"']$") == 0)
-    call s:Debug('match blacklist character')
+    call s:debug('match blacklist character')
     return a:LHS
   endif
   " " do nothing if there's junk immediately after the cursor
@@ -183,7 +227,7 @@ fun! StartPair(LHS, RHS)
   let l:posA = getpos('.')[1:]
   let l:posB = ''
   if (l:matchCountA > 0 || l:char == a:RHS)
-    call s:Debug('count a ' . l:matchCountA)
+    call s:debug('count a ' . l:matchCountA)
     let l:matchCountB = s:moveToPrevOfPair(a:LHS, a:RHS)
     let l:posB = getpos('.')[1:]
     if (l:matchCountB == 0)
@@ -200,7 +244,7 @@ fun! StartPair(LHS, RHS)
   let l:newlinecontent = l:newlinecontent . a:RHS
   let l:newlinecontent = l:newlinecontent . getline('.')[col('.')-1:-1]
   call setline('.', l:newlinecontent)
-  call s:Debug('posA ' . string(l:posA) . ' posB ' . string(l:posB) . ' countA ' . l:matchCountA)
+  call s:debug('posA ' . string(l:posA) . ' posB ' . string(l:posB) . ' countA ' . l:matchCountA)
   return a:LHS
 endfun
 fun! ClosePair2(LHS, RHS)
@@ -211,10 +255,10 @@ fun! ClosePair2(LHS, RHS)
   if (s:charUnderCursor() ==# a:RHS)
     let l:pos = getpos('.')[1:]
     let l:matchCount = s:moveToPrevOfPair(a:LHS, a:RHS)
-    call s:Debug('match count ' . string(l:matchCount) . ' - ' . a:LHS . ', ' . a:RHS)
+    call s:debug('match count ' . string(l:matchCount) . ' - ' . a:LHS . ', ' . a:RHS)
     if (l:matchCount > 0)
-      call s:Debug('before ' . getline('.')[0:col('.')-2])
-      call s:Debug('after ' . getline('.')[col('.')-0:-1])
+      call s:debug('before ' . getline('.')[0:col('.')-2])
+      call s:debug('after ' . getline('.')[col('.')-0:-1])
 
       " EXPERIMENTAL: see if the NEXT pair start is missing a pair end, then
       " we DON'T skip insert
@@ -245,7 +289,7 @@ fun! <SID>ClosePair(LHS, RHS)
     let l:pos = getpos('.')[1:]
     let l:matchCount = s:moveToPrevOfPair(a:LHS, a:RHS)
     call cursor(l:pos)
-    call s:Debug('match count ' . string(l:matchCount) . ' - ' . a:LHS . ', ' . a:RHS)
+    call s:debug('match count ' . string(l:matchCount) . ' - ' . a:LHS . ', ' . a:RHS)
     if (l:matchCount > 0)
       return "\<right>"
     endif
@@ -257,17 +301,17 @@ fun! <SID>Backspace()
   let l:line = getline('.')
   for l:pattern in ['^()', '^[]', '^{}', '^""', "^''"]
     if (-1 !=# match(l:line, l:pattern, col('.')-2))
-      call s:Debug('DELETE2')
+      call s:debug('DELETE2')
       return "\<delete>\<backspace>"
     endif
   endfor
   for l:pattern in ['^(  )', '^[  ]', '^{  }']
     if (-1 !=# match(l:line, '\M' . l:pattern, col('.')-3))
-      call s:Debug('DELETE')
+      call s:debug('DELETE')
       return "\<delete>\<backspace>"
     endif
   endfor
-  call s:Debug('normal backspace')
+  call s:debug('normal backspace')
   return "\<backspace>"
 endfun
 fun! <SID>Delete()
@@ -322,7 +366,7 @@ fun! MaybeSplitTagOrPair()
     if (exists('l:splitter.patternAtOffset') && -1 !=# match(l:textAtOffset, l:splitter.patternAtOffset))
       " We do not insert a tab character because filetype's indent file is
       " responsible for correctly indenting this
-      return "\<cr>\<c-o>O"
+      return "\<CR>\<c-o>O"
     endif
   endfor
 
