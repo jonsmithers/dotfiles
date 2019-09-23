@@ -1,5 +1,5 @@
 " Author:       Jon Smithers <mail@jonsmithers.link>
-" Last Updated: 2019-09-11
+" Last Updated: 2019-09-22
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/plugin/shutter.vim
 
 " ABOUT:
@@ -18,6 +18,7 @@
 "   when your cursor is already on top of a pair-closing character. This
 "   accomplished by checking to see if there is a missing right-hand-side pair
 "   character.
+" - It maps <CR> without clobbering vim-endwise
 
 " TODO: What about when a quoted string spans across multiple lines in prose?
 "
@@ -324,7 +325,12 @@ fun! MaybeSplitTagOrPair()
       return "\<cr>\<c-o>O"
     endif
   endfor
-  return "\<cr>"
+
+  if exists('*EndwiseDiscretionary')
+    return "\<CR>\<C-R>=EndwiseDiscretionary()\<CR>"
+  else
+    return "\<CR>"
+  endif
 endfun
 
 fun! s:moveToNextOfPair(LHS, RHS)
