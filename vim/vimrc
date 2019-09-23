@@ -727,22 +727,22 @@ call plug#end()
   vnoremap <leader>; :
 
   " search and replace (works well with Traces.vim)
-  vnoremap <c-r>A y:call ReplaceAppend()<cr>
-  vnoremap <c-r>c y:call ReplaceChange()<cr>
-  vnoremap <c-r>I y:call ReplaceInsert()<cr>
-  fun! ReplaceAppend()
+  vnoremap <c-r>A y:call <SID>ReplaceAppend()<cr>
+  vnoremap <c-r>c y:call <SID>ReplaceChange()<cr>
+  vnoremap <c-r>I y:call <SID>ReplaceInsert()<cr>
+  fun! <SID>ReplaceAppend()
     let l:selection = escape(@0, '/\')
-    call feedkeys(":%substitute/\\V" . l:selection . '/' . l:selection . "/gc\<left>\<left>\<left>")
+    call feedkeys(":%substitute/\\V\\C" . l:selection . '/' . l:selection . "/gc\<left>\<left>\<left>")
     return ''
   endfun
-  fun! ReplaceChange()
+  fun! <SID>ReplaceChange()
     let l:selection = escape(@0, '/\')
-    call feedkeys(":%substitute/\\V" . l:selection . '/' . "/gc\<left>\<left>\<left>")
+    call feedkeys(":%substitute/\\V\\C" . l:selection . '/' . "/gc\<left>\<left>\<left>")
     return ''
   endfun
-  fun! ReplaceInsert()
+  fun! <SID>ReplaceInsert()
     let l:selection = escape(@0, '/\')
-    call feedkeys(":%substitute/\\V" . l:selection . '/' . l:selection . "/gc\<left>\<left>\<left>" . repeat("\<left>", len(l:selection)))
+    call feedkeys(":%substitute/\\V\\C" . l:selection . '/' . l:selection . "/gc\<left>\<left>\<left>" . repeat("\<left>", len(l:selection)))
     return ''
   endfun
 
