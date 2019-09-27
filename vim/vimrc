@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <mail@jonsmithers.link>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2019-09-22
+" Last Updated: 2019-09-27
 
 :scriptencoding utf8
 
@@ -634,7 +634,7 @@ call plug#begin('~/.vim/plugged')
       \ 'html': ['eslint'],
       \ 'javascript': ['eslint'],
       \ 'java': [],
-      \ 'typescript': ['tsserver']
+      \ 'typescript': ['tsserver', 'eslint']
     \}
     let g:ale_linter_aliases = { 'html': ['html', 'javascript'] }
     let g:ale_echo_msg_format = '%linter%: %s (%code%)'
@@ -1156,8 +1156,11 @@ let g:html_wrong_comments=1
   com! LightQuantum     set background=light | colorscheme quantum
   com! MirageAyu        set background=dark  | let ayucolor="mirage" | colorscheme ayu
 
-  augroup expose_colors_to_shell
+  augroup vimrc_colorscheme
     au!
+    " work around issue with iTerm rendering undercurl/underline badly
+    autocmd ColorScheme * highlight SpellBad cterm=NONE
+    " expose colorscheme colors to fish shell
     autocmd ColorScheme * call s:matchShellColors()
     fun! s:matchShellColors()
       if (&shell =~# 'fish')
