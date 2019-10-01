@@ -36,6 +36,7 @@
     "./vim/plugin/vim-plug-ext.vim":     "~/.vim/plugin/vim-plug-ext.vim",
     "./vim/syntax/":                     "~/.vim/syntax",
     "./vim/vimrc":                       "~/.vimrc",
-    "./vim/vrapperrc":                   "~/.vrapperrc"
+    "./vim/vrapperrc":                   "~/.vrapperrc",
+    "./zsh/zshrc":                       "~/.zshrc"
   }
 }
