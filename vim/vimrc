@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <mail@jonsmithers.link>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2019-09-27
+" Last Updated: 2019-10-01
 
 :scriptencoding utf8
 
@@ -424,6 +424,15 @@ call plug#begin('~/.vim/plugged')
     " [c,]c jump to prev/next change
     " [C,]C jump to last/first change
   " }}}
+
+  Plug 'mzlogin/vim-markdown-toc'
+  " {{{
+    " :GenTocGFM
+    " :GenTocGitLab
+    " :UpdateToc
+    let g:vmt_auto_update_on_save = 1
+  " }}}
+
 
   if (has('nvim'))
     Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
@@ -1280,6 +1289,8 @@ let g:html_wrong_comments=1
     autocmd Filetype markdown set comments+=fb:-
     let g:markdown_folding = 1 " enable folding via vim's native markdown plugin
     " let g:vimsyn_folding = 'af' " is too slow
+
+    autocmd Filetype sh set comments+=fb:#
 
     function! s:StartInsertIfEmpty()
       if (empty(getline(1)))
