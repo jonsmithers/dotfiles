@@ -1,24 +1,30 @@
 #! /usr/bin/env bash
 # Author:       Jon Smithers <mail@jonsmithers.link>
-# Last Updated: 2019-03-14
+# Last Updated: 2019-09-27
 # URL:          https://github.com/jonsmithers/dotfiles/blob/master/git/git-tracker
 
-if [[ -z "$PIVOTAL_TRACKER_PROJECT" ]]; then
-  echo "Missing \$PIVOTAL_TRACKER_PROJECT environment variable"
-  exit 1
-fi
+RED='\033[0;31m'
+YELLOW='\033[1;33m'
+NORMAL='\033[0m'
+BOLD='\033[1m'
 
-# echo hi $1
 arg="$1"
 
 if [[ "$arg" = "--help" ]] || [[ "$arg" = "help" ]]; then
   cat <<- END
 git-tracker
 
+NAME
+        git-tracker - open browser to tracker id mentioned in commit
 SYNOPSIS
         git tracker [<refspec>]
 END
   exit 0
+fi
+
+if [[ -z "$PIVOTAL_TRACKER_PROJECT" ]]; then
+  echo -e "$RED""Missing $BOLD\$PIVOTAL_TRACKER_PROJECT$NORMAL$RED environment variable""$NORMAL"
+  exit 1
 fi
 
 if [[ -z "$1" ]]; then
@@ -34,7 +40,7 @@ else
   fi
   story_id=$(git show "$commit_sha" | grep -e '#[[:digit:]]\{9\}' --only-matching)
   if [[ -z "$story_id" ]]; then
-    echo "Story id not found in commit $commit_sha"
+    echo -e "$YELLOW""Story id not found in commit $commit_sha""$NORMAL"
     exit 1
   fi
 fi
