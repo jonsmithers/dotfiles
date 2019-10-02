@@ -18,9 +18,12 @@ fi
 if [[ ! $(command -v jump) ]] && prompt "Install jump"; then
   if [[ $(command -v brew) ]]; then
     brew install jump
-  elif [[ $(command -v dnf) ]]; then
+  elif [[ "$(command -v dnf)" ]]; then
+    wget https://github.com/gsamokovarov/jump/releases/download/v0.23.0/jump_0.23.0_amd64.rpm
+    sudo dpkg -i jump_0.23.0_amd64.rpm
+  elif command -v apt > /dev/null; then
     wget https://github.com/gsamokovarov/jump/releases/download/v0.23.0/jump_0.23.0_amd64.deb
-    sudo dpkg --ignoreos -i jump_0.23.0_amd64.deb
+    sudo dpkg -i jump_0.23.0_amd64.deb
   else
     echo jump installation not implemented
   fi
