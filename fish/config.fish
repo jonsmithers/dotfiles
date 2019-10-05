@@ -50,8 +50,13 @@ switch (uname)
     end
 
     alias open="xdg-open"
-    alias pbcopy='xsel --clipboard --input'
-    alias pbpaste='xsel --clipboard --output'
+    if ! grep -q Microsoft /proc/version
+      alias pbcopy='xsel --clipboard --input'
+      alias pbpaste='xsel --clipboard --output'
+    else
+      alias pbcopy='clip.exe'
+      alias pbpaste='powershell.exe -command "Get-Clipboard"'
+    end
 end
 switch (hostname)
   case asus-zenbook

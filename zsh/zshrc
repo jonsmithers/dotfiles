@@ -176,6 +176,11 @@ fi
 
 if [[ "$(uname)" == "Linux" ]]; then
   alias open="xdg-open"
-  alias pbcopy='xsel --clipboard --input'
-  alias pbpaste='xsel --clipboard --output'
+  if ! grep -q Microsoft /proc/version; then
+    alias pbcopy='xsel --clipboard --input'
+    alias pbpaste='xsel --clipboard --output'
+  else
+    alias pbcopy='clip.exe'
+    alias pbpaste='powershell.exe -command "Get-Clipboard"'
+  fi
 fi
