@@ -26,6 +26,7 @@
   treename = log --graph --all
   dfw = diff --word-diff=color
   dfwMin = diff --color-words='\\w+|.'
+  lol = log --graph --decorate --oneline
   lola = log --graph --decorate --oneline --all
 
   # launch the di2e jira ticket for the current branch
