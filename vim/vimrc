@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <mail@jonsmithers.link>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2019-10-01
+" Last Updated: 2019-10-30
 
 :scriptencoding utf8
 
@@ -494,6 +494,9 @@ call plug#begin('~/.vim/plugged')
     :nnoremap <silent> <Leader>tF :NERDTreeFind<enter><c-w>p
     :nnoremap <silent> <Leader>tr :NERDTreeRefreshRoot<cr>
   " }}}
+
+  Plug 'rbong/vim-flog'
+  " GV.vim with more features
 
   if (has('python') || has('python3'))
     Plug 'SirVer/ultisnips'
