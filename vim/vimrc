@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <mail@jonsmithers.link>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2019-10-30
+" Last Updated: 2019-11-10
 
 :scriptencoding utf8
 
@@ -1008,7 +1008,7 @@ let g:html_wrong_comments=1
 
   set completeopt=menuone,longest,preview " make completion menu awesome
 
-  set directory=/var/tmp,/tmp,.
+  set directory=/var/tmp//,/tmp//,.
 
   " local file history {{{
   if (s:os !=# 'Windows')
