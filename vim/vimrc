@@ -497,6 +497,12 @@ call plug#begin('~/.vim/plugged')
 
   Plug 'rbong/vim-flog'
   " GV.vim with more features
+  " {{{
+    " a           - toggle --all
+    " <C-N>/<C-P> - next/preview next commit
+    " ]r, [r      - next/prev ref
+    " y<C-G>      - yank commit hash
+  " }}}
 
   if (has('python') || has('python3'))
     Plug 'SirVer/ultisnips'
