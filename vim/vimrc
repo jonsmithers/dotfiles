@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <mail@jonsmithers.link>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2019-11-10
+" Last Updated: 2019-11-13
 
 :scriptencoding utf8
 
@@ -504,7 +504,7 @@ call plug#begin('~/.vim/plugged')
     " y<C-G>      - yank commit hash
   " }}}
 
-  if (has('python') || has('python3'))
+  if ((has('python') || has('python3')) && !empty(glob($HOME.'/.vim/UltiSnips')))
     Plug 'SirVer/ultisnips'
     " Code snippets
     " {{{
