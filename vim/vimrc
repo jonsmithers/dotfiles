@@ -474,6 +474,8 @@ call plug#begin('~/.vim/plugged')
     let g:javascript_plugin_jsdoc = 1
   " }}}
 
+  Plug 'psliwka/vim-smoothie'
+
   Plug 'othree/eregex.vim'
   " Lets you use more standard regex within vim
   " {{{
