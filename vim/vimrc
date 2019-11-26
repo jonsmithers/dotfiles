@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <mail@jonsmithers.link>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2019-11-13
+" Last Updated: 2019-11-25
 
 :scriptencoding utf8
 
@@ -1096,8 +1096,9 @@ let g:html_wrong_comments=1
             \ 'sink': funcref('s:gitFileVersionSink'),
             \ 'options': [
             \   '--prompt', 'git version> ',
-            \   '--preview', 'git diff --color=always --word-diff=color --unified=0 {1} ' . expand('%')
+            \   '--preview', 'git show --color=always --format= {1} ' . expand('%') . ' | grep -v "^....new file" | tail -n +5'
             \ ] }))
+            "   '--preview', 'git diff --color=always --word-diff=color --unified=0 {1} ' . expand('%')
     endfun
     fun! s:gitFileVersionSink(selectedVersion)
       diffoff!
