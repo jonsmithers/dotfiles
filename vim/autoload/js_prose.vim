@@ -1,6 +1,6 @@
 func! js_prose#ProseMode()
   delcommand ProseMode
-  com CodeMode call js_prose#CodeMode()
+  command -buffer CodeMode call js_prose#CodeMode()
   Goyo
 
   " booleans
@@ -20,14 +20,13 @@ func! js_prose#ProseMode()
   let b:whichwrap     = &whichwrap
   let b:filetype      = &filetype
 
-  setlocal nocopyindent nolist noshowcmd noshowmode nosmartindent spell
+  setlocal nocopyindent nolist noshowcmd noshowmode nosmartindent spell autoindent
+  "                                                                     ^ appears necessary to have paragraph formatting keep indent past the 2nd line
   setlocal complete+=s formatoptions=tcq formatoptions+=an formatoptions+=ro sidescrolloff=0 whichwrap+=h,l
   "        ^ complete from thesarus
   "                    ^ default formatoptions
   "                                      ^ add Auto-format and Numbered lists
   "                                                        ^ insert comment leader for <cr> and "                                      o
-
-  set autoindent " appears necessary to have paragraph formatting keep indent past the 2nd line
 
   augroup prosemode
     au!
@@ -35,9 +34,13 @@ func! js_prose#ProseMode()
     " hide "~" at end of buffer
   augroup END
 
+  " Plugins that add a <cr> mapping (like vim-endwise) probably don't make it
+  " <buffer> mapping, so this buffer mapping won't destroy it.
+  inoremap <buffer> <cr> <cr><cr>
+
   " LightGitHub
   " DarkSacredForest
-  nnoremap <leader><leader> :silent w<cr>:redraw!<cr>
+  " nnoremap <leader><leader> :silent w<cr>:redraw!<cr>
 
   set filetype=sjournal
 endfu
@@ -68,6 +71,9 @@ if (!exists('*js_prose#CodeMode')) " this function sources vimrc and you can't r
     exec 'setlocal sidescrolloff='.b:sidescrolloff
     exec 'setlocal whichwrap='    .b:whichwrap
     exec 'setlocal filetype='     .b:filetype
+
+    iunmap <buffer> <cr>
+
     source $MYVIMRC
   endfu
 endif
@@ -90,8 +96,14 @@ func! js_prose#SoftWrappedProcessorMode()
   setlocal wrap
   setlocal linebreak
   setlocal breakindent
+  setlocal nolist
   map <buffer> j gj
   map <buffer> k gk
+  map <buffer> $ g$
+  map <buffer> 0 g0
+  map <buffer> ^ g^
+  nnoremap <buffer> A g$i
+  nnoremap <buffer> I g0i
   " setlocal formatprg=par -jw80
   "setlocal spell spelllang=en_us
   "set thesaurus+=/Users/sbrown/.vim/thesaurus/mthesaur.txt
