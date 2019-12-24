@@ -189,6 +189,40 @@ if [[ "$(uname)" == "Linux" ]]; then
   fi
 fi
 
+if command -v tmux > /dev/null; then
+  tsh() {
+    if test 'new' = "$argv[1]"; then
+      if tmux ls; then
+        tmux attach \; new-window \; send-keys "cd "$(pwd) \; send-keys Enter
+      else
+        tmux new-session          \; send-keys "cd "$(pwd) \; send-keys Enter
+      fi
+    elif [[ "$argv[1]" =~ '^-?-?help$' ]]; then
+      cat <<-EOF
+				ABOUT
+
+				    tsh is a thin wrapper util for tmux.
+
+				USAGE
+
+				  - tsh
+
+				        Attaches to existing session or create a new one if none exists
+
+				  - tsh new
+
+				        Creates new tmux window using current working directory"
+
+			EOF
+    elif [[ -n "$argv[1]" ]]; then
+      echo Not sure what to do about argument \"$argv[1]\"
+    else
+      # attach to existing session or create one
+      tmux a || tmux
+    fi
+  }
+fi
+
 if command -v fzf > /dev/null; then
   fzfCommits() {
     git log --oneline | fzf --height=30 --multi --preview="git show {+1} --color=always" | cut -d' ' -f1 | tr '\n' ' ' | sed 's/[[:space:]]$//'
