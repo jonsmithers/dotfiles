@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <mail@jonsmithers.link>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2019-11-29
+" Last Updated: 2019-12-24
 
 :scriptencoding utf8
 
@@ -1478,6 +1478,10 @@ endif
     call winrestview(l:save_view)
   endfunction
 " }}}
+
+if (exists('$VIM_TERMINAL'))
+  command Unwrap let g:file = expand('%') | bdelete | exec 'silent !echo -e "\033]51;[\"drop\", \"'.g:file.'\"]\007"' | q
+endif
 
 command! CheckForSmithers exec "silent! !echo This is Smithers\\' vimrc" | q
 
