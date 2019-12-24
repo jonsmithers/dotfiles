@@ -153,9 +153,6 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 setopt complete_aliases
-if command -v gvim > /dev/null; then
-  alias vim='gvim -v'
-fi
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -d ~/.config/zsh/zsh-autosuggestions ] && source ~/.config/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 if command -v jump > /dev/null; then
