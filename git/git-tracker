@@ -12,18 +12,21 @@ arg="$1"
 
 if [[ "$arg" = "--help" ]] || [[ "$arg" = "help" ]]; then
   cat <<- END
-git-tracker
-
 NAME
-        git-tracker - open browser to tracker id mentioned in commit
+        ptracker - Open Pivotal Tracker id mentioned in commit message
+
 SYNOPSIS
-        git tracker [<refspec>]
+        ptracker [<refspec>]
+
+DESCRIPTION
+        Opens Pivotal Tracker to the story id mentioned in commit message
+        denoted by <refspec> (defaults to HEAD).
 END
   exit 0
 fi
 
-if [[ -z "$PIVOTAL_TRACKER_PROJECT" ]]; then
-  echo -e "$RED""Missing $BOLD\$PIVOTAL_TRACKER_PROJECT$NORMAL$RED environment variable""$NORMAL"
+if [[ -z "$PIVOTAL_TRACKER_PROJECT_ID" ]]; then
+  echo -e "$RED""Missing $BOLD\$PIVOTAL_TRACKER_PROJECT_ID$NORMAL$RED environment variable""$NORMAL"
   exit 1
 fi
 
@@ -51,4 +54,4 @@ else
   open_cmd=xdg-open
 fi
 
-$open_cmd "https://www.pivotaltracker.com/n/projects/$PIVOTAL_TRACKER_PROJECT/stories/${story_id//\#/}"
+$open_cmd "https://www.pivotaltracker.com/n/projects/$PIVOTAL_TRACKER_PROJECT_ID/stories/${story_id//\#/}"
