@@ -1,6 +1,13 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
+if test -d "$HOME/.local/bin"; then
+  export PATH=$HOME/.local/bin:$PATH
+fi
+if test -d "$HOME/.npm-global"; then
+  export PATH=$HOME/.npm-global/bin:$PATH
+fi
+
 # Path to your oh-my-zsh installation.
 export ZSH="/home/smithers/.oh-my-zsh"
 
@@ -93,7 +100,7 @@ source $ZSH/oh-my-zsh.sh
         else
           local git_outgoing_color=$fg[green]
         fi
-        local git_upstream_difference="${git_upstream_difference}${git_outgoing_color}⇡"
+        local git_upstream_difference="${git_upstream_difference}⇡"
       fi
       if [[ "$commits_to_pull" -ne 0 ]]; then
         if [[ "$commits_to_push" != 0 ]]; then
@@ -103,7 +110,7 @@ source $ZSH/oh-my-zsh.sh
         else
           local git_incoming_color=$fg[green]
         fi
-        local git_upstream_difference="${git_upstream_difference}${git_outgoing_color}⇣"
+        local git_upstream_difference="${git_upstream_difference}⇣"
       fi
     fi
     echo $git_upstream_difference
