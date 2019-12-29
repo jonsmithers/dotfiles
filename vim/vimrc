@@ -538,6 +538,7 @@ call plug#begin('~/.vim/plugged')
 
   Plug 'tpope/vim-fugitive'
   Plug 'tpope/vim-rhubarb'
+  Plug 'shumphrey/fugitive-gitlab.vim'
   " Various integrated git tools. I use this a lot.
   " {{{
     nnoremap <Leader>gb :Gblame -w<cr>
