@@ -906,6 +906,10 @@ let g:html_wrong_comments=1
 " {{{ COMMANDS
   command! FormatJSON :%!python -m json.tool
 
+  if (exists('$VIM_TERMINAL'))
+    command Unwrap let g:file = expand('%') | bdelete | exec 'silent !echo -e "\033]51;[\"drop\", \"'.g:file.'\"]\007"' | q
+  endif
+
   command! BufferDeleteHidden call BufferDeleteHidden()
   function! BufferDeleteHidden()
     let l:tpbl=[]
@@ -1478,10 +1482,6 @@ endif
     call winrestview(l:save_view)
   endfunction
 " }}}
-
-if (exists('$VIM_TERMINAL'))
-  command Unwrap let g:file = expand('%') | bdelete | exec 'silent !echo -e "\033]51;[\"drop\", \"'.g:file.'\"]\007"' | q
-endif
 
 command! CheckForSmithers exec "silent! !echo This is Smithers\\' vimrc" | q
 
