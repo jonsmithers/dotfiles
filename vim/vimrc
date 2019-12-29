@@ -905,6 +905,7 @@ let g:html_wrong_comments=1
 
 " {{{ COMMANDS
   command! FormatJSON :%!python -m json.tool
+  command! FormatXML :%!python -c "import xml.dom.minidom, sys; print(xml.dom.minidom.parse(sys.stdin).toprettyxml())"
 
   if (exists('$VIM_TERMINAL'))
     command Unwrap let g:file = expand('%') | bdelete | exec 'silent !echo -e "\033]51;[\"drop\", \"'.g:file.'\"]\007"' | q
