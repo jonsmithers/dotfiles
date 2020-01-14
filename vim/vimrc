@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <mail@jonsmithers.link>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2019-12-28
+" Last Updated: 2020-01-13
 
 :scriptencoding utf8
 
@@ -664,6 +664,8 @@ call plug#begin('~/.vim/plugged')
           \ 'html': ['eslint'],
           \}
     :nnoremap <Leader>an :ALENextWrap<Enter>
+    :nnoremap <Leader>ah :ALEHover<Enter>
+    :nnoremap <Leader>af :ALEFix<Enter>
   " }}}
 
   " Plug 'wellle/targets.vim'
@@ -1452,7 +1454,7 @@ endif
     autocmd BufWritePre vimrc,.vimrc                          call s:updateTimeStamp()
     autocmd BufWritePre misc.vim                              call s:updateTimeStamp()
     autocmd BufWritePre shutter.vim                           call s:updateTimeStamp()
-    autocmd BufWritePre en.utf-8.add,git-tracker,git-website  call s:updateTimeStamp()
+    autocmd BufWritePre en.utf-8.add,ptracker,git-website     call s:updateTimeStamp()
     autocmd BufWritePre dotphile                              call s:updateTimeStamp()
   augroup END
   function! s:updateTimeStamp()
