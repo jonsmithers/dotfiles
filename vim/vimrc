@@ -1339,6 +1339,7 @@ let g:html_wrong_comments=1
 
     autocmd Filetype javascript                 call s:ftplugin_javascript()
     autocmd Filetype javascript,html,typescript call s:ftplugin_javascripty()
+    autocmd Filetype typescriptreact            call s:ftplugin_javascripty()
     autocmd Filetype python                     nnoremap <buffer> <space>py :!python %<cr>
     autocmd Filetype python                     set omnifunc=pythoncomplete#Complete
     autocmd Filetype vim                        call s:ftplugin_vim()
