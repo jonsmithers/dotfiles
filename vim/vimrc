@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <mail@jonsmithers.link>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2020-01-13
+" Last Updated: 2020-01-29
 
 :scriptencoding utf8
 
@@ -573,6 +573,8 @@ call plug#begin('~/.vim/plugged')
 
   Plug 'tpope/vim-repeat'
   " Improve the versatility of the "." repeat command
+
+  Plug 'tpope/vim-surround'
 
   if (!empty(glob('~/Dropbox/vimwiki')))
     Plug 'vimwiki/vimwiki'
