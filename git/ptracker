@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 # Author:       Jon Smithers <mail@jonsmithers.link>
-# Last Updated: 2019-12-28
+# Last Updated: 2020-02-14
 # URL:          https://github.com/jonsmithers/dotfiles/blob/master/git/ptracker
 
 RED='\033[0;31m'
@@ -37,13 +37,19 @@ if [[ "$1" =~ ^#?[0-9]{8}$ ]]; then
   echo specifiyng tracker id directly is not implemented
   exit 1
 else
-  if ! commit_sha=$(git rev-parse $arg 2> /dev/null); then
-    echo "error getting commit sha for \"$arg\""
-    exit 1
-  fi
-  story_id=$(git show "$commit_sha" | grep -e '#[[:digit:]]\{9\}' --only-matching)
+  commits_ago=0
+  while [[ -z $story_id ]] && [[ $commits_ago -lt 10 ]]; do
+    if ! commit_sha=$(git rev-parse $arg~$commits_ago 2> /dev/null); then
+      echo "error getting commit sha for \"$arg\""
+      exit 1
+    fi
+    story_id=$(git show "$commit_sha" | grep -e '#[[:digit:]]\{9\}' --only-matching)
+    if [[ -z "$story_id" ]]; then
+      echo -e "$YELLOW""Story id not found in commit $arg~$commits_ago""$NORMAL"
+    fi
+    commits_ago=$((commits_ago+1))
+  done
   if [[ -z "$story_id" ]]; then
-    echo -e "$YELLOW""Story id not found in commit $commit_sha""$NORMAL"
     exit 1
   fi
 fi
