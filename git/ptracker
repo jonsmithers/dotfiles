@@ -39,13 +39,16 @@ if [[ "$1" =~ ^#?[0-9]{8}$ ]]; then
 else
   commits_ago=0
   while [[ -z $story_id ]] && [[ $commits_ago -lt 10 ]]; do
-    if ! commit_sha=$(git rev-parse $arg~$commits_ago 2> /dev/null); then
+    commit_name=$arg~$commits_ago
+    if ! commit_sha=$(git rev-parse $commit_name 2> /dev/null); then
       echo "error getting commit sha for \"$arg\""
       exit 1
     fi
     story_id=$(git show "$commit_sha" | grep -e '#[[:digit:]]\{9\}' --only-matching)
     if [[ -z "$story_id" ]]; then
-      echo -e "$YELLOW""Story id not found in commit $arg~$commits_ago""$NORMAL"
+      echo -e "$YELLOW""Story id not found in commit $commit_name""$NORMAL"
+    else
+      echo -e "Story id found in commit $commit_name"
     fi
     commits_ago=$((commits_ago+1))
   done
