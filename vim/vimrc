@@ -334,6 +334,9 @@ call plug#begin('~/.vim/plugged')
           \ fzf#wrap({'dir': expand('%:p:h')}))
     inoremap <c-x>F <c-x><c-f>
           " Ctrl-X Shift-F will provide native c-x c-f functionality
+    if (has('patch-8.2.205')) " terminal popups!
+      let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
+    endif
   " }}}
 
   Plug 'junegunn/goyo.vim', { 'on': 'Goyo' }
