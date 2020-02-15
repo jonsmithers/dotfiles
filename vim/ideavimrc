@@ -1,9 +1,9 @@
 :imap jk 
-:nmap \t :r! date "+\%Y\%m\%d"<Enter>kJ
-:inoremap II <Esc>I
-:inoremap AA <Esc>A
-:nmap \t :r! date "+\%Y\%m\%d"<Enter>kJ
-:imap \t <Esc>:r! date "+\%Y\%m\%d"<Enter>kJA
-:nmap \l oconsole.log();F)i
-:nmap \L oconsole.log('%c', 'font-size:15px');F,hi
-:vmap \t yIconsole.time("A");opIconsole.timeEnd("A");
+:let mapleader = ' '
+:nnoremap <buffer> <Leader>il oconsole.log();F)i
+:nnoremap <buffer> <Leader>iL oconsole.log('%c', 'font-size:15px');F,hi
+:nnoremap <buffer> <Leader>liw yiwoconsole.log('0', 0);<Esc>
+:nnoremap <buffer> <Leader>lif yiwoconsole.log('0()');<Esc>
+:nnoremap <buffer> <Leader>liF yiwoconsole.log('%c0()', 'font-size:15px');<Esc>^2w
+:nnoremap <buffer> <Leader>gif yiwf{oconsole.group('0');<Esc>]}Oconsole.groupEnd();<Esc>^
+set surround
