@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <mail@jonsmithers.link>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2020-01-29
+" Last Updated: 2020-02-15
 
 :scriptencoding utf8
 
@@ -433,38 +433,6 @@ call plug#begin('~/.vim/plugged')
     let g:vmt_auto_update_on_save = 1
   " }}}
 
-
-  if (has('nvim'))
-    Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
-    " {{{
-      " CocInstall coc-json
-      " CocInstall coc-tsserver
-      " CocInstall coc-html
-      " CocInstall coc-css
-      :nmap ]i <Plug>(coc-diagnostic-next)
-      :nmap ]I <Plug>(coc-diagnostic-next-error)
-      :nmap [i <Plug>(coc-diagnostic-prev)
-      :nmap [I <Plug>(coc-diagnostic-prev-error)
-      :nmap <Leader>cd <Plug>(coc-definition)
-      :nmap <Leader>ci <Plug>(coc-diagnostic-info)
-      :nmap <Leader>ca <Plug>(coc-diagnostic-info)
-      :nmap <Leader>cr <Plug>(coc-rename)
-      :nmap <Leader>ca <Plug>(coc-codeaction)
-      :vmap <Leader>ca <Plug>(coc-codeaction-selected)
-
-      " underline error text
-      fun! s:matchUnderlineToColorscheme()
-        let l:errormsg_color = synIDattr(synIDtrans(hlID("ErrorMsg")), "fg#")
-        hi clear CocUnderline
-        exec 'hi CocUnderline cterm=undercurl gui=undercurl guisp=' . l:errormsg_color
-      endfun
-      augroup coc_custom
-        au!
-        autocmd ColorScheme * call s:matchUnderlineToColorscheme()
-      augroup end
-    " }}}
-  endif
-
   Plug 'nelstrom/vim-visual-star-search'
   " Bring "*" key behavior into visual mode. Extremely useful. (see ":help *").
 
@@ -472,6 +440,26 @@ call plug#begin('~/.vim/plugged')
   " Vastly improved syntax highlighting.
   " {{{
     let g:javascript_plugin_jsdoc = 1
+  " }}}
+
+  Plug 'prabirshrestha/vim-lsp'
+  Plug 'prabirshrestha/async.vim'
+  Plug 'prabirshrestha/asyncomplete.vim'
+  Plug 'prabirshrestha/asyncomplete-lsp.vim'
+  Plug 'mattn/vim-lsp-settings'
+  " {{{
+    " :LspInstallServer install lsp server for current filetype
+    " :LspStatus to check lsp server
+    let g:lsp_diagnostics_echo_cursor = 1 " enable echo under cursor when in normal mode
+    let g:lsp_highlight_references_enabled = 1
+    :nnoremap <Leader>la :LspCodeAction<cr>
+    :nnoremap <Leader>ljd :LspDefinition<cr>
+    :nnoremap <Leader>lF :LspFormat<cr>
+    :nnoremap <Leader>lh :LspHover<cr>
+    " troubleshooting:
+    " let g:lsp_log_verbose = 1
+    " let g:lsp_log_file = expand('~/.vim-lsp.log')
+    " let g:asyncomplete_log_file = expand('~/asyncomplete.log')
   " }}}
 
   Plug 'psliwka/vim-smoothie'
@@ -657,7 +645,7 @@ call plug#begin('~/.vim/plugged')
       \ 'html': ['eslint'],
       \ 'javascript': ['eslint'],
       \ 'java': [],
-      \ 'typescript': ['tsserver', 'eslint']
+      \ 'typescript': ['eslint']
     \}
     let g:ale_linter_aliases = { 'html': ['html', 'javascript'] }
     let g:ale_echo_msg_format = '%linter%: %s (%code%)'
