@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <mail@jonsmithers.link>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2020-02-15
+" Last Updated: 2020-02-29
 
 :scriptencoding utf8
 
@@ -453,12 +453,21 @@ call plug#begin('~/.vim/plugged')
   " {{{
     " :LspInstallServer install lsp server for current filetype
     " :LspStatus to check lsp server
-    let g:lsp_diagnostics_echo_cursor = 1 " enable echo under cursor when in normal mode
-    let g:lsp_highlight_references_enabled = 1
-    :nnoremap <Leader>la :LspCodeAction<cr>
-    :nnoremap <Leader>ljd :LspDefinition<cr>
-    :nnoremap <Leader>lF :LspFormat<cr>
-    :nnoremap <Leader>lh :LspHover<cr>
+    if (has('patch-8.2.205'))
+      let g:lsp_diagnostics_float_cursor = 1
+    else
+      let g:lsp_diagnostics_echo_cursor = 1 " enable echo under cursor when in normal mode
+    endif
+    :nmap <Leader>la <plug>(lsp-code-action)
+    :nmap <Leader>ljd <plug>(lsp-definition)
+    :nmap <Leader>lh <plug>(lsp-hover)
+    :nmap <Leader>lr <plug>(lsp-rename)
+    :nmap ]i <plug>(lsp-next-diagnostic)
+    :nmap [i <plug>(lsp-previous-diagnostic)
+    :nmap ]I <plug>(lsp-next-error)
+    :nmap [I <plug>(lsp-previous-error)
+    " not supported in typescriptrreact
+    " :vmap <Leader>lF <plug>(lsp-document-range-format)
     " troubleshooting:
     " let g:lsp_log_verbose = 1
     " let g:lsp_log_file = expand('~/.vim-lsp.log')
