@@ -575,6 +575,18 @@ call plug#begin('~/.vim/plugged')
   " Improve the versatility of the "." repeat command
 
   Plug 'tpope/vim-surround'
+  " {{{
+    " mappings to quickly modify surrounding chars like ",],),},',<tag>
+    " NORMAL MODE:
+    "   ds<SURROUND> to delete surround
+    "   cs<SURROUND><SURROUND> to change surround from/to
+    "   ys<TEXT-OBJECT><SURROUND> to surround text object
+    "   yS<TEXT-OBJECT><SURROUND> to surround text object on new line
+    " VISUAL MODE:
+    "   S<SURROUND>
+    " INSERT MODE:
+    "   <C-g>s<SURROUND>
+  " }}}
 
   if (!empty(glob('~/Dropbox/vimwiki')))
     Plug 'vimwiki/vimwiki'
@@ -684,6 +696,7 @@ call plug#begin('~/.vim/plugged')
 
   Plug 'Yggdroot/indentLine'
   " {{{
+    " more obvious visual depiction of indentation
     " let g:indentLine_char_list = ['|', '¦', '┆', '┊']
     let g:indentLine_enabled = 0
     nnoremap [o<tab> :IndentLinesEnable<cr>
@@ -710,7 +723,8 @@ call plug#begin('~/.vim/plugged')
   Plug 'tfnico/vim-gradle'
   Plug 'vim-scripts/groovyindent-unix'
   let g:concourse_tags_autosave = 0
-  Plug 'mxw/vim-jsx'
+  Plug 'MaxMEllon/vim-jsx-pretty'
+  let g:vim_jsx_pretty_colorful_config = 1
   PlugDevelop 'jonsmithers/vim-html-template-literals'
   let g:html_indent_style1  = 'inc'
   let g:html_indent_script1 = 'inc'
@@ -933,9 +947,9 @@ let g:html_wrong_comments=1
 
   " open url on current line
   func! OpenUrl()
-    exec 'silent !python -mwebbrowser '.(shellescape(matchstr (getline('.'), 'https\?://[a-zA-Z0-9\./\-?=\&+@,!:_#%*;:]\+[^,.) \"]'), '#')).' 2> /dev/null > /dev/null' | redraw!
+    exec 'silent !python -mwebbrowser '.(shellescape(matchstr (getline('.'), 'https\?://[a-zA-Z0-9\./\-?=\&+@,!:_#%*;:~]\+[^,.) \"]'), '#')).' 2> /dev/null > /dev/null' | redraw!
   endfu
-  com! TestUrl exec 'echom            '.(shellescape(matchstr (getline('.'), 'https\?://[a-zA-Z0-9\./\-?=\&+@,!:_#%*;:]\+[^,.) \"]'), '#'))
+  com! TestUrl exec 'echom            '.(shellescape(matchstr (getline('.'), 'https\?://[a-zA-Z0-9\./\-?=\&+@,!:_#%*;:~]\+[^,.) \"]'), '#'))
   nnoremap <Leader>ou :call OpenUrl()<Enter>
 
   func! HighlightTrailingSpace()
