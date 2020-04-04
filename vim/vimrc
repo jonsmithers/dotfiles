@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <mail@jonsmithers.link>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2020-02-29
+" Last Updated: 2020-04-04
 
 :scriptencoding utf8
 
@@ -1105,7 +1105,7 @@ let g:html_wrong_comments=1
             \ 'source': l:fzfSelectables,
             \ 'options': [
             \   '--prompt', 'backup file> ',
-            \   '--preview', "git diff --color=always {1} '" . escape(expand('%'), "'") . "'",
+            \   '--preview', 'git diff --color=always {1} ' . s:currentFileInSingleQuotes() . s:omitDiffHeaders,
             \   '--with-nth=2',
             \   '--delimiter=<<fake-delimiter>>'
             \ ]
@@ -1114,19 +1114,23 @@ let g:html_wrong_comments=1
   endif
   " }}}
 
+  let s:omitDiffHeaders = ' | grep -v "^\[1m\(diff\|index\|+++\|---\) "'
+  fun! s:currentFileInSingleQuotes()
+    return "'"..escape(expand('%'), "'").."'"
+  endfun
+
   " git file history {{{
     command! Versions call <sid>DiffWithGitVersion()
     nnoremap <leader>vd :call <sid>DiffWithGitVersion()<cr>
     fun! <sid>DiffWithGitVersion()
       " TODO handle file moves
       call fzf#run(fzf#wrap({
-            \ 'source': 'git log --follow --oneline ' . expand('%'),
+            \ 'source': 'git log --follow --oneline ' . s:currentFileInSingleQuotes(),
             \ 'sink': funcref('s:gitFileVersionSink'),
             \ 'options': [
             \   '--prompt', 'git version> ',
-            \   '--preview', 'git show --color=always --format= {1} ' . expand('%') . ' | grep -v "^....new file" | tail -n +5'
+            \   '--preview', 'git show --color=always {1} --format="%n%Cblue%b%CresetAuthor: %an" ' . s:currentFileInSingleQuotes() . s:omitDiffHeaders . ' | grep -v "^\[36m@@"'
             \ ] }))
-            "   '--preview', 'git diff --color=always --word-diff=color --unified=0 {1} ' . expand('%')
     endfun
     fun! s:gitFileVersionSink(selectedVersion)
       diffoff!
