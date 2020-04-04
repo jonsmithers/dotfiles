@@ -311,13 +311,20 @@ call plug#begin('~/.vim/plugged')
       \ 'spinner': ['fg', 'Label'],
       \ 'header':  ['fg', 'Comment'] }
 
-    " fzf bindings
-    :command! -bang -nargs=* Rg  call fzf#vim#grep('rg --column --line-number --no-heading --color=always               '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
-    :command! -bang -nargs=* Rgi call fzf#vim#grep('rg --column --line-number --no-heading --color=always --ignore-case '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
-    :command! -nargs=* Rgexpand :exec 'Rg ' . expand(<q-args>)
+    function! RipgrepFzf(query, fullscreen)
+      let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case %s || true'
+      let initial_command = printf(command_fmt, shellescape(a:query))
+      let reload_command = printf(command_fmt, '{q}')
+      let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
+      call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
+    endfunction
+
+    command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
+    :nnoremap <leader>F     :RG<Enter>
+    :nnoremap <C-F>         :RG<Enter>
 
     "search for word in working directory
-    :nnoremap <Leader>sw    :Rg  <Enter>
+    :nnoremap <Leader>sw    :RG  <Enter>
     :vnoremap <Leader>s     y:Rg "<Enter>
 
     :nnoremap <silent> <C-k>         :Buffers<Enter>
