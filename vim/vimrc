@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <mail@jonsmithers.link>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2020-04-04
+" Last Updated: 2020-04-06
 
 :scriptencoding utf8
 
@@ -311,20 +311,23 @@ call plug#begin('~/.vim/plugged')
       \ 'spinner': ['fg', 'Label'],
       \ 'header':  ['fg', 'Comment'] }
 
-    function! RipgrepFzf(query, fullscreen)
+    function! RipgrepFzf(query, fullscreen, preview)
+      " let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case %s | awk --field-separator=: ''{ x=$1; sub("/.*/", "/.../", x); print (x":"$2":"$3":"$4); }'' || true'
       let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case %s || true'
       let initial_command = printf(command_fmt, shellescape(a:query))
       let reload_command = printf(command_fmt, '{q}')
       let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
-      call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
+      let spec = a:preview ? fzf#vim#with_preview(spec) : spec
+      call fzf#vim#grep(initial_command, 1, spec, a:fullscreen)
     endfunction
 
-    command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
+    command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0, 1)
+    command! -nargs=* -bang RGNoPreview call RipgrepFzf(<q-args>, <bang>0, 0)
     :nnoremap <leader>F     :RG<Enter>
     :nnoremap <C-F>         :RG<Enter>
 
     "search for word in working directory
-    :nnoremap <Leader>sw    :RG  <Enter>
+    :nnoremap <Leader>sw    :Rg  <Enter>
     :vnoremap <Leader>s     y:Rg "<Enter>
 
     :nnoremap <silent> <C-k>         :Buffers<Enter>
