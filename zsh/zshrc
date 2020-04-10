@@ -272,3 +272,6 @@ if command -v fzf > /dev/null; then
   bindkey B insertBranches
 fi
 
+if grep -q Microsoft /proc/version; then
+  echo 'this is windows'
+fi
