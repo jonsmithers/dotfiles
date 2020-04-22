@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <mail@jonsmithers.link>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2020-04-06
+" Last Updated: 2020-04-21
 
 :scriptencoding utf8
 
@@ -625,7 +625,7 @@ call plug#begin('~/.vim/plugged')
       \ ] " 'syntax': 'markdown', 'ext': '.md'}]
 
       " source vimwiki on ALL markdown files (this is default)
-      let g:vimwiki_global_ext = 1
+      let g:vimwiki_global_ext = 0
 
       augroup vimrc_vimwiki
         autocmd!
@@ -678,22 +678,29 @@ call plug#begin('~/.vim/plugged')
     " }}}
 
 
-  if (!has('nvim')) | Plug 'w0rp/ale' | endif
+  Plug 'w0rp/ale'
   " Awesome asynchronous linting of all kinds
   " {{{
-    let g:ale_completion_enabled = 1
     let g:ale_linters = {
       \ 'html': ['eslint'],
-      \ 'javascript': ['eslint'],
+      \ 'javascript': [],
+      \ 'javascriptreact': [],
       \ 'java': [],
-      \ 'typescript': ['eslint']
+      \ 'typescript': [],
+      \ 'typescriptreact': [],
+      \ 'rust': ['rustc', 'cargo']
     \}
     let g:ale_linter_aliases = { 'html': ['html', 'javascript'] }
     let g:ale_echo_msg_format = '%linter%: %s (%code%)'
     let g:ale_fixers = {
           \ 'javascript': ['eslint'],
+          \ 'javascriptreact': ['eslint'],
+          \ 'typescript': ['eslint'],
+          \ 'typescriptreact': ['eslint'],
           \ 'html': ['eslint'],
           \}
+    let g:ale_completion_enabled = 0
+
     :nnoremap <Leader>an :ALENextWrap<Enter>
     :nnoremap <Leader>ah :ALEHover<Enter>
     :nnoremap <Leader>af :ALEFix<Enter>
@@ -746,6 +753,8 @@ call plug#begin('~/.vim/plugged')
   let g:html_indent_style1  = 'inc'
   let g:html_indent_script1 = 'inc'
   Plug 'rust-lang/rust.vim'
+  Plug 'tpope/vim-markdown'
+  let g:markdown_fenced_languages = ['rust', 'typescript', 'typescriptreact', 'javascript', 'bash']
   Plug 'fatih/vim-go'
   " }}}
 
