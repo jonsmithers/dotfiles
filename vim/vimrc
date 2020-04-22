@@ -455,33 +455,40 @@ call plug#begin('~/.vim/plugged')
     let g:javascript_plugin_jsdoc = 1
   " }}}
 
-  Plug 'prabirshrestha/vim-lsp'
-  Plug 'prabirshrestha/async.vim'
-  Plug 'prabirshrestha/asyncomplete.vim'
-  Plug 'prabirshrestha/asyncomplete-lsp.vim'
-  Plug 'mattn/vim-lsp-settings'
+  Plug 'neoclide/coc.nvim', {'branch': 'release'}
   " {{{
-    " :LspInstallServer install lsp server for current filetype
-    " :LspStatus to check lsp server
-    if (has('patch-8.2.205'))
-      let g:lsp_diagnostics_float_cursor = 1
-    else
-      let g:lsp_diagnostics_echo_cursor = 1 " enable echo under cursor when in normal mode
-    endif
-    :nmap <Leader>la <plug>(lsp-code-action)
-    :nmap <Leader>ljd <plug>(lsp-definition)
-    :nmap <Leader>lh <plug>(lsp-hover)
-    :nmap <Leader>lr <plug>(lsp-rename)
-    :nmap ]i <plug>(lsp-next-diagnostic)
-    :nmap [i <plug>(lsp-previous-diagnostic)
-    :nmap ]I <plug>(lsp-next-error)
-    :nmap [I <plug>(lsp-previous-error)
-    " not supported in typescriptrreact
-    " :vmap <Leader>lF <plug>(lsp-document-range-format)
-    " troubleshooting:
-    " let g:lsp_log_verbose = 1
-    " let g:lsp_log_file = expand('~/.vim-lsp.log')
-    " let g:asyncomplete_log_file = expand('~/asyncomplete.log')
+    " Use `[g` and `]g` to navigate diagnostics
+    nmap <silent> [g <Plug>(coc-diagnostic-prev)
+    nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+    nmap <silent> gd <Plug>(coc-definition)
+    nmap <silent> gy <Plug>(coc-type-definition)
+    nmap <silent> gi <Plug>(coc-implementation)
+    nmap <silent> gr <Plug>(coc-references)
+    nmap <leader>la  <Plug>(coc-codeaction)
+    nmap <leader>lqf  <Plug>(coc-fix-current)
+    nmap <leader>lr <Plug>(coc-rename)
+
+    nnoremap <silent> <leader>fs  :<C-u>CocList -I symbols<cr>
+    nnoremap <silent> <leader><f12> :<C-u>CocList outline<cr>
+
+    nnoremap <leader>lh :call <SID>show_documentation()<CR>
+    function! s:show_documentation()
+      if (index(['vim','help'], &filetype) >= 0)
+        execute 'h '.expand('<cword>')
+      else
+        call CocAction('doHover')
+      endif
+    endfunction
+
+    " Introduce function text object
+    " NOTE: Requires 'textDocument.documentSymbol' support from the language server.
+    xmap if <Plug>(coc-funcobj-i)
+    xmap af <Plug>(coc-funcobj-a)
+    omap if <Plug>(coc-funcobj-i)
+    omap af <Plug>(coc-funcobj-a)
+
+    " https://github.com/neoclide/coc.nvim#example-vim-configuration
   " }}}
 
   Plug 'psliwka/vim-smoothie'
