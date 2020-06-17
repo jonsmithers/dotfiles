@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <mail@jonsmithers.link>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2020-04-21
+" Last Updated: 2020-06-13
 
 :scriptencoding utf8
 
@@ -455,41 +455,61 @@ call plug#begin('~/.vim/plugged')
     let g:javascript_plugin_jsdoc = 1
   " }}}
 
-  Plug 'neoclide/coc.nvim', {'branch': 'release'}
-  " {{{
-    " Use `[g` and `]g` to navigate diagnostics
-    nmap <silent> [g <Plug>(coc-diagnostic-prev)
-    nmap <silent> ]g <Plug>(coc-diagnostic-next)
+  if (exists('$VIM_ENABLE_COC'))
+    Plug 'neoclide/coc.nvim', {'branch': 'release'}
+    " {{{
+      nmap [oC :CocEnable<cr>
+      nmap ]oC :CocDisable<cr>
+      " Use `[g` and `]g` to navigate diagnostics
+      nmap <silent> [g <Plug>(coc-diagnostic-prev)
+      nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
-    nmap <silent> gd <Plug>(coc-definition)
-    nmap <silent> gy <Plug>(coc-type-definition)
-    nmap <silent> gi <Plug>(coc-implementation)
-    nmap <silent> gr <Plug>(coc-references)
-    nmap <leader>la  <Plug>(coc-codeaction)
-    nmap <leader>lqf  <Plug>(coc-fix-current)
-    nmap <leader>lr <Plug>(coc-rename)
+      nmap <silent> gd <Plug>(coc-definition)
+      nmap <silent> gy <Plug>(coc-type-definition)
+      nmap <silent> gi <Plug>(coc-implementation)
+      nmap <silent> gr <Plug>(coc-references)
+      nmap <leader>la  <Plug>(coc-codeaction)
+      nmap <leader>lqf  <Plug>(coc-fix-current)
+      nmap <leader>lr <Plug>(coc-rename)
 
-    nnoremap <silent> <leader>fs  :<C-u>CocList -I symbols<cr>
-    nnoremap <silent> <leader><f12> :<C-u>CocList outline<cr>
+      nnoremap <silent> <leader>fs  :<C-u>CocList -I symbols<cr>
+      nnoremap <silent> <leader><f12> :<C-u>CocList outline<cr>
 
-    nnoremap <leader>lh :call <SID>show_documentation()<CR>
-    function! s:show_documentation()
-      if (index(['vim','help'], &filetype) >= 0)
-        execute 'h '.expand('<cword>')
-      else
-        call CocAction('doHover')
-      endif
-    endfunction
+      nnoremap <leader>lh :call <SID>show_documentation()<CR>
+      function! s:show_documentation()
+        if (index(['vim','help'], &filetype) >= 0)
+          execute 'h '.expand('<cword>')
+        else
+          call CocAction('doHover')
+        endif
+      endfunction
 
-    " Introduce function text object
-    " NOTE: Requires 'textDocument.documentSymbol' support from the language server.
-    xmap if <Plug>(coc-funcobj-i)
-    xmap af <Plug>(coc-funcobj-a)
-    omap if <Plug>(coc-funcobj-i)
-    omap af <Plug>(coc-funcobj-a)
+      " Introduce function text object
+      " NOTE: Requires 'textDocument.documentSymbol' support from the language server.
+      xmap if <Plug>(coc-funcobj-i)
+      xmap af <Plug>(coc-funcobj-a)
+      omap if <Plug>(coc-funcobj-i)
+      omap af <Plug>(coc-funcobj-a)
 
-    " https://github.com/neoclide/coc.nvim#example-vim-configuration
-  " }}}
+      fun s:addCocExtensions()
+        call coc#add_extension('coc-css')
+        call coc#add_extension('coc-eslint')
+        call coc#add_extension('coc-html')
+        call coc#add_extension('coc-java')
+        call coc#add_extension('coc-json')
+        call coc#add_extension('coc-spell-checker')
+        call coc#add_extension('coc-tsserver')
+        call coc#add_extension('coc-yank')
+        call coc#add_extension('coc-svg')
+        call coc#add_extension('coc-vimlsp')
+      endfun
+      augroup vimrc_coc
+        au!
+        autocmd VimEnter * call s:addCocExtensions()
+      augroup END
+      " https://github.com/neoclide/coc.nvim#example-vim-configuration
+    " }}}
+  endif
 
   Plug 'psliwka/vim-smoothie'
 
