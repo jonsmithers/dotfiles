@@ -1,13 +1,13 @@
 " Author:       Jon Smithers <mail@jonsmithers.link>
-" Last Updated: 2019-09-22
+" Last Updated: 2020-06-13
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/plugin/shutter.vim
 
 " ABOUT:
 " Shutter.vim auto-closes paired characters like ( [ { " '. It also
 " auto-closes tags like <div> inside appropriate filetypes.
 "
-" Unlike most equivalent plugins or IDE implementations of this, shutter.vim
-" aims to avoid forcing the user to rewire muscle memory.
+" Unlike many similar plugins or IDE implementations of this, shutter.vim aims
+" to avoid forcing the user to rewire muscle memory.
 "
 " Characteristics:
 " - It does not auto-close a pair if you're in a spot where you're less likely
@@ -32,7 +32,7 @@ let s:config.symmetric_spacing = [
         " we exclude [] because it makes it difficult to type the markdown
         " todo item "[ ]"
 let s:config.format_on_newline = [
-      \ { 'patternAtOffset': '><\/[a-zA-Z\-]\+>', 'filetypes': [ 'html', 'xml'], 'regions': { 'javascript': ['litHtmlRegion', 'jsxRegion'] } },
+      \ { 'patternAtOffset': '><\/[a-zA-Z\-]*>', 'filetypes': [ 'html', 'xml'], 'regions': { 'javascript': ['litHtmlRegion', 'jsxRegion'] } },
       \ { 'patternAtOffset': '()' },
       \ { 'patternAtOffset': '[]' },
       \ { 'patternAtOffset': '{}' },
@@ -48,14 +48,15 @@ fun! <SID>MaybeCloseTag()
 
   " syntax/filetype check
   let l:syntax = map(synstack(line('.'), col('.')), "synIDattr(v:val, 'name')")
-  if (index(['javascript', 'typescript', 'javascript.tsx', 'typescript.tsx', 'html', 'xml'], &filetype) == -1)
+  if (index(['javascript', 'typescript', 'javascript.tsx', 'typescript.tsx', 'javascriptreact', 'typescriptreact', 'html', 'xml'], &filetype) == -1)
     return '>'
   endif
-  if (index(['javascript', 'typescript', 'javascript.tsx', 'typescript.tsx'], &filetype) != -1)
+  if (index(['javascript', 'typescript', 'javascript.tsx', 'typescript.tsx', 'javascriptreact', 'typescriptreact'], &filetype) != -1)
     let l:doNothing = 1
-    for l:region in ['jsxRegion', 'tsxRegion', 'litHtmlRegion']
+    for l:region in ['jsxRegion', 'tsxRegion', 'litHtmlRegion', 'typescriptParenExp']
       call s:debug('testing ' . l:region)
       if index(l:syntax, l:region) != -1
+        call s:debug('doing something')
         let l:doNothing = 0
         break
       endif
@@ -66,6 +67,9 @@ fun! <SID>MaybeCloseTag()
   endif
 
   let l:tagname = GetTagName()
+  if (l:tagname ==# 'react-fragment')
+    return '></>' . repeat("\<Left>", 3)
+  endif
   if (l:tagname ==# '')
     return '>'
   endif
@@ -76,8 +80,12 @@ fun! GetTagName()
   let l:line = getline('.')
   let l:line = strpart(l:line, 0, col('.')-1) " remove part after cursor
   let l:line = l:line . '>'
-  let l:matchlist = matchlist(l:line, '<\([a-zA-Z\-]\+\)[^<>]*>$')
+  let l:matchlist = matchlist(l:line, '<\([a-zA-Z\-]\+\)[^<>/]*>$')
   if (len(l:matchlist) ==# 0)
+    call s:debug(l:line)
+    if (match(l:line, '<>$') != -1)
+      return 'react-fragment'
+    endif
     " TODO: search previous lines for tag name using searchpair()
     return ''
   endif
