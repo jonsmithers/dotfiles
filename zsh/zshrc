@@ -75,7 +75,7 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git npm)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -272,6 +272,14 @@ if command -v fzf > /dev/null; then
   bindkey B insertBranches
 fi
 
+[[ -d "$HOME/.nvm" ]] && {
+  export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+}
+
+[[ -d "$HOME/.cargo" ]] && {
+  export PATH=$HOME/.cargo/bin:$PATH
+}
 if grep -q Microsoft /proc/version; then
   echo 'this is windows'
 fi
