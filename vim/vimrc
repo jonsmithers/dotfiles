@@ -1486,14 +1486,6 @@ if !empty(glob('~/.config/smithers/.vimrc'))
     silent !curl -fLo ~/.config/smithers/UltiSnips/javascript.snippets    https://raw.githubusercontent.com/jonsmithers/dotfiles/master/vim/UltiSnips/javascript.snippets --create-dirs
     silent !curl -fLo ~/.config/smithers/UltiSnips/typescript.snippets    https://raw.githubusercontent.com/jonsmithers/dotfiles/master/vim/UltiSnips/typescript.snippets --create-dirs
 
-    " clean up my old way of doing this
-    if (!empty(glob('~/.config/smithers/.vim/autoload/dotfile_extras.vim')))
-      silent !rm ~/.config/smithers/.vim/autoload/dotfile_extras.vim
-    endif
-    if (!empty(glob('~/.config/smithers/.vim/autoload/shutter.vim')))
-      silent !rm ~/.config/smithers/.vim/autoload/shutter.vim
-    endif
-
     redraw!
   endfunction
 endif
@@ -1553,7 +1545,5 @@ endif
     call winrestview(l:save_view)
   endfunction
 " }}}
-
-command! CheckForSmithers exec "silent! !echo This is Smithers\\' vimrc" | q
 
 " vim:foldmethod=marker:

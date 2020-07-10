@@ -3,16 +3,7 @@
 
 Oh no! You found my ~/.config/smithers folder. This is where I non-invasively
 download/update some personal configuration files on a machine that doesn't
-belong to me. It's generally safe to delete this directory. But first check to
-see if you've been relying on my vimrc:
-
-    vim +CheckForSmithers +q
-
-If that prints some text, then you've been using my vim configuration. So,
-"~/.vimrc" is probably a symlink. Before deleting this directory, you might
-want to:
-
-    mv ~/.config/smithers/.vimrc ~/.vimrc
+belong to me. It's generally safe to delete this directory.
 
 === How to download this directory from scratch ================================
 
