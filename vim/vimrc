@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <mail@jonsmithers.link>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2020-06-13
+" Last Updated: 2020-07-09
 
 :scriptencoding utf8
 
@@ -511,6 +511,8 @@ call plug#begin('~/.vim/plugged')
     " }}}
   endif
 
+  Plug 'prettier/vim-prettier'
+
   Plug 'psliwka/vim-smoothie'
 
   Plug 'othree/eregex.vim'
@@ -604,14 +606,13 @@ call plug#begin('~/.vim/plugged')
     "          c-w c-w goes between columns
   " }}}
 
-  Plug 'tpope/vim-rsi'
-  " Add readline keybindings http://readline.kablamo.org/emacs.html
-
-  Plug 'tpope/vim-unimpaired'
-  " Add lots of very useful pair-related keybindings. See :help unimpaired
+  Plug 'tpope/vim-projectionist'
 
   Plug 'tpope/vim-repeat'
   " Improve the versatility of the "." repeat command
+
+  Plug 'tpope/vim-rsi'
+  " Add readline keybindings http://readline.kablamo.org/emacs.html
 
   Plug 'tpope/vim-surround'
   " {{{
@@ -626,6 +627,9 @@ call plug#begin('~/.vim/plugged')
     " INSERT MODE:
     "   <C-g>s<SURROUND>
   " }}}
+
+  Plug 'tpope/vim-unimpaired'
+  " Add lots of very useful pair-related keybindings. See :help unimpaired
 
   if (!empty(glob('~/Dropbox/vimwiki')))
     Plug 'vimwiki/vimwiki'
@@ -791,7 +795,6 @@ call plug#begin('~/.vim/plugged')
   endif
   Plug 'arcticicestudio/nord-vim'
   Plug 'ayu-theme/ayu-vim'
-  Plug 'chriskempson/base16-vim'
   Plug 'cormacrelf/vim-colors-github'
   Plug 'dracula/vim'
   Plug 'junegunn/seoul256.vim'
@@ -919,6 +922,10 @@ call plug#end()
       vnoremap <buffer> <F4> <esc>i<C-w><C-q>
     endif
   endfun
+
+  " toggle auto-format
+  nnoremap [oa :setlocal formatoptions+=a<enter>
+  nnoremap ]oa :setlocal formatoptions-=a<enter>
 
   " window navigation {{{
     " If split in given direction exists - jump, else create new split
@@ -1232,33 +1239,46 @@ let g:html_wrong_comments=1
 
 " Colorscheme things
 " {{{
-  com! Default          set background=dark  | colorscheme default
-  com! DarkAyu          set background=dark  | let ayucolor="dark" | colorscheme ayu
-  com! DarkGruv         set background=dark  | colorscheme gruvbox
-  com! DarkOcean        set background=dark  | colorscheme OceanicNext
-  com! DarkPaper        set background=dark  | colorscheme PaperColor
-  com! DarkOne          set background=dark  | colorscheme one
-  com! DarkSeoul        set background=dark  | colorscheme seoul256
-  com! DarkSacredForest set background=dark  | colorscheme sacredforest
-  com! DarkApprentice   set background=dark  | colorscheme apprentice
-  com! DarkSnow         set background=dark  | colorscheme snow
-  com! DarkNord         set background=dark  | colorscheme nord
-  com! DarkQuantum      set background=dark  | colorscheme quantum
-  com! LightAyu         set background=light | let ayucolor="light" | colorscheme ayu
-  com! LightOne         set background=light | colorscheme one
-  com! LightGruv        set background=light | colorscheme gruvbox
-  com! LightOcean       set background=light | colorscheme OceanicNextLight
-  com! LightPaper       set background=light | colorscheme PaperColor
-  com! LightSeoul       set background=light | colorscheme seoul256
-  com! LightSnow        set background=light | colorscheme snow
-  com! LightGitHub      set background=light | colorscheme github
-  com! LightQuantum     set background=light | colorscheme quantum
-  com! MirageAyu        set background=dark  | let ayucolor="mirage" | colorscheme ayu
+  com! Default          set background=dark  | call Noop()           | colorscheme default          | MatchTerminalBackground
+  com! DarkAyu          set background=dark  | let ayucolor="dark"   | colorscheme ayu              | MatchTerminalBackground
+  com! DarkGruv         set background=dark  | call Noop()           | colorscheme gruvbox          | MatchTerminalBackground
+  com! DarkOcean        set background=dark  | call Noop()           | colorscheme OceanicNext      | MatchTerminalBackground
+  com! DarkPaper        set background=dark  | call Noop()           | colorscheme PaperColor       | MatchTerminalBackground
+  com! DarkOne          set background=dark  | call Noop()           | colorscheme one              | MatchTerminalBackground
+  com! DarkSeoul        set background=dark  | call Noop()           | colorscheme seoul256         | MatchTerminalBackground
+  com! DarkSacredForest set background=dark  | call Noop()           | colorscheme sacredforest     | MatchTerminalBackground
+  com! DarkApprentice   set background=dark  | call Noop()           | colorscheme apprentice       | MatchTerminalBackground
+  com! DarkSnow         set background=dark  | call Noop()           | colorscheme snow             | MatchTerminalBackground
+  com! DarkNord         set background=dark  | call Noop()           | colorscheme nord             | MatchTerminalBackground
+  com! DarkQuantum      set background=dark  | call Noop()           | colorscheme quantum          | MatchTerminalBackground
+  com! LightAyu         set background=light | let ayucolor="light"  | colorscheme ayu              | MatchTerminalBackground
+  com! LightOne         set background=light | call Noop()           | colorscheme one              | MatchTerminalBackground
+  com! LightGruv        set background=light | call Noop()           | colorscheme gruvbox          | MatchTerminalBackground
+  com! LightOcean       set background=light | call Noop()           | colorscheme OceanicNextLight | MatchTerminalBackground
+  com! LightPaper       set background=light | call Noop()           | colorscheme PaperColor       | MatchTerminalBackground
+  com! LightSeoul       set background=light | call Noop()           | colorscheme seoul256         | MatchTerminalBackground
+  com! LightSnow        set background=light | call Noop()           | colorscheme snow             | MatchTerminalBackground
+  com! LightGitHub      set background=light | call Noop()           | colorscheme github           | MatchTerminalBackground
+  com! LightQuantum     set background=light | call Noop()           | colorscheme quantum          | MatchTerminalBackground
+  com! MirageAyu        set background=dark  | let ayucolor="mirage" | colorscheme ayu              | MatchTerminalBackground
+  fun! Noop()
+  endfun
+
+  com! MatchTerminalBackground call s:matchTerminalBackground()
+  fun! s:matchTerminalBackground()
+    let l:background = synIDattr(synIDtrans(hlID("Normal")), "bg#")
+    exec 'silent !echo -e "\e]11;\' . l:background . '\a"'
+    " TODO: for TMUX implementation, refer to https://medium.com/@joao.paulo.silvasouza/change-your-terminals-background-color-dynamically-using-escape-sequences-aba6e5ed2b29
+  endfun
 
   augroup vimrc_colorscheme
     au!
     " work around issue with iTerm rendering undercurl/underline badly
     autocmd ColorScheme * highlight SpellBad cterm=NONE
+
+    " automatically match terminal bg to vim bg
+    " autocmd ColorScheme * call s:matchTerminalBackground()
+
     " expose colorscheme colors to fish shell
     autocmd ColorScheme * call s:matchShellColors()
     fun! s:matchShellColors()
