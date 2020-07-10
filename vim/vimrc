@@ -534,6 +534,8 @@ call plug#begin('~/.vim/plugged')
     :nnoremap <silent> <Leader>tr :NERDTreeRefreshRoot<cr>
   " }}}
 
+  Plug 'reedes/vim-pencil'
+
   Plug 'rbong/vim-flog'
   " GV.vim with more features
   " {{{
