@@ -1,5 +1,5 @@
 " Author:       Jon Smithers <mail@jonsmithers.link>
-" Last Updated: 2020-06-13
+" Last Updated: 2020-07-21
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/plugin/shutter.vim
 
 " ABOUT:
@@ -112,6 +112,7 @@ fun! shutter#enable(shush)
   inoremap <expr> <CR>        MaybeSplitTagOrPair()
   inoremap <expr> "           <SID>StartOrCloseSymmetricPair('"')
   inoremap <expr> '           <SID>StartOrCloseSymmetricPair("'")
+  inoremap <expr> `           <SID>StartOrCloseSymmetricPair("`")
   inoremap        (           <c-r>=StartPair('(', ')')<CR>
   inoremap        )           <c-r>=ClosePair2('(', ')')<CR>
   inoremap        <space>     <c-r>=StretchPair()<CR>
@@ -307,7 +308,7 @@ endfun
 
 fun! <SID>Backspace()
   let l:line = getline('.')
-  for l:pattern in ['^()', '^[]', '^{}', '^""', "^''"]
+  for l:pattern in ['^()', '^[]', '^{}', '^""', "^''", "^``"]
     if (-1 !=# match(l:line, l:pattern, col('.')-2))
       call s:debug('DELETE2')
       return "\<delete>\<backspace>"
