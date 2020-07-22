@@ -139,6 +139,7 @@ fun! s:disable()
   imap <CR> <CR><Plug>DiscretionaryEnd
   iunmap "
   iunmap '
+  iunmap `
   iunmap (
   iunmap )
   iunmap <space>
