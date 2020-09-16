@@ -10,7 +10,6 @@
     "./fish/functions/fish_user_key_bindings.fish": "~/.config/fish/functions/fish_user_key_bindings.fish",
 
     "./git/git-completion.sh":           "~/.git-completion.sh",
-    "./git/git-tracker":                 "~/bin/git-tracker",
     "./git/git-unmergedbranches":        "~/bin/git-unmergedbranches",
     "./git/git-website":                 "~/bin/git-website",
     "./git/gitconfig":                   "~/.gitconfig",
@@ -35,6 +34,7 @@
     "./vim/plugin/vim-plug-ext.vim":     "~/.vim/plugin/vim-plug-ext.vim",
     "./vim/syntax/":                     "~/.vim/syntax",
     "./vim/vimrc":                       "~/.vimrc",
+    "./vim/profile.vim":                 "~/.profile.vim",
     "./vim/vrapperrc":                   "~/.vrapperrc",
     "./zsh/zshrc":                       "~/.zshrc"
   }

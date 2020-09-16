@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <mail@jonsmithers.link>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2020-07-09
+" Last Updated: 2020-09-15
 
 :scriptencoding utf8
 
@@ -808,6 +808,10 @@ call plug#begin('~/.vim/plugged')
   Plug 'rakr/vim-one'
   Plug 'romainl/Apprentice'
   " }}}
+
+  if !empty(glob('~/.profile.vim'))
+    source ~/.profile.vim
+  endif
 
 call plug#end()
 
