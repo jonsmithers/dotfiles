@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <mail@jonsmithers.link>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2020-09-15
+" Last Updated: 2020-09-18
 
 :scriptencoding utf8
 
@@ -497,7 +497,6 @@ call plug#begin('~/.vim/plugged')
         call coc#add_extension('coc-html')
         call coc#add_extension('coc-java')
         call coc#add_extension('coc-json')
-        call coc#add_extension('coc-spell-checker')
         call coc#add_extension('coc-tsserver')
         call coc#add_extension('coc-yank')
         call coc#add_extension('coc-svg')
@@ -709,11 +708,11 @@ call plug#begin('~/.vim/plugged')
   " {{{
     let g:ale_linters = {
       \ 'html': ['eslint'],
-      \ 'javascript': [],
-      \ 'javascriptreact': [],
+      \ 'javascript': ['tsserver', 'eslint'],
+      \ 'javascriptreact': ['tsserver', 'eslint'],
       \ 'java': [],
-      \ 'typescript': [],
-      \ 'typescriptreact': [],
+      \ 'typescript': ['tsserver', 'eslint'],
+      \ 'typescriptreact': ['tsserver', 'eslint'],
       \ 'rust': ['rustc', 'cargo']
     \}
     let g:ale_linter_aliases = { 'html': ['html', 'javascript'] }
@@ -728,7 +727,12 @@ call plug#begin('~/.vim/plugged')
     let g:ale_completion_enabled = 0
 
     :nnoremap <Leader>an :ALENextWrap<Enter>
+    :nnoremap ]g         :ALENextWrap<Enter>
+    :nnoremap [g         :ALEPreviousWrap<Enter>
     :nnoremap <Leader>ah :ALEHover<Enter>
+    :nnoremap <Leader>lh :ALEHover<Enter>
+    :nnoremap <Leader>lr :ALERename<Enter>
+    :nnoremap <Leader>le :ALEFix eslint<Enter>
     :nnoremap <Leader>af :ALEFix<Enter>
   " }}}
 
