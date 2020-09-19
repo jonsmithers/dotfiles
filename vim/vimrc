@@ -846,6 +846,9 @@ call plug#end()
     return ''
   endfun
 
+  " insert ISO date in : menu
+  cnoremap <c-x><c-d> <c-r>=strftime('%Y-%m-%d')<cr>
+
   inoremap jk <Esc>
   inoremap jl <Esc>:
 
