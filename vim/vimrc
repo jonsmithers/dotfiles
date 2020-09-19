@@ -621,6 +621,8 @@ call plug#begin('~/.vim/plugged')
     "   cs<SURROUND><SURROUND> to change surround from/to
     "   ys<TEXT-OBJECT><SURROUND> to surround text object
     "   yS<TEXT-OBJECT><SURROUND> to surround text object on new line
+    "
+    "   cstt<NEW-TAG> to change tag name!
     " VISUAL MODE:
     "   S<SURROUND>
     " INSERT MODE:
