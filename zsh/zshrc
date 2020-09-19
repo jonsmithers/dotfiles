@@ -7,6 +7,10 @@ fi
 if test -d "$HOME/.npm-global"; then
   export PATH=$HOME/.npm-global/bin:$PATH
 fi
+if test -d "$HOME/.local/bin"; then
+  # "pip install --user" installs executables to this location
+  export PATH=$HOME/.local/bin:$PATH
+fi
 
 # Path to your oh-my-zsh installation.
 export ZSH="/home/smithers/.oh-my-zsh"
@@ -75,7 +79,7 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git npm)
+plugins=(git npm yarn dnf gulp)
 
 source $ZSH/oh-my-zsh.sh
 
