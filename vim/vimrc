@@ -1145,6 +1145,18 @@ let g:html_wrong_comments=1
     syntax enable
     set backspace=indent,eol,start
     set history=200		" keep 200 lines of command line history
+    augroup vimStartup
+      au!
+      " When editing a file, always jump to the last known cursor position.
+      " Don't do it when the position is invalid, when inside an event handler
+      " (happens when dropping a file on gvim) and for a commit message (it's
+      " likely a different one than last time).
+      autocmd BufReadPost *
+            \ if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
+            \ |   exe "normal! g`\""
+            \ | endif
+
+    augroup END
   endif
   set mouse=a       "already set in Vim 8 defaults.vim, but Fedora undoes it! (https://lists.fedoraproject.org/archives/list/users@lists.fedoraproject.org/thread/HZJVN3LVFS2YC3H7EZRPJEYEPAGKEVH2/)
   set ttimeoutlen=0 "timeout instantly when pressing esc during visual mode
