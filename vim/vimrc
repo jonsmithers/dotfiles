@@ -941,29 +941,23 @@ call plug#end()
 
   nnoremap <F10> :echo map(synstack(line("."), col(".")), "synIDattr(v:val, 'name')")<cr>
 
-  nnoremap <F6> :let $VIM_DIR=expand('%:p:h')<CR>:call <SID>ToggleTerminal(1)<CR>cd $VIM_DIR<CR>clear<CR>
+  nnoremap <F6> :let $VIM_DIR=expand('%:p:h')<CR>:call <SID>ToggleQuickTerminal(1)<CR>cd $VIM_DIR<CR>clear<CR>
 
-  nnoremap <F4> :call <SID>ToggleTerminal(0)<CR>
-  nnoremap <Leader>gt :call <SID>ToggleTerminal(0)<CR>
+  nnoremap <F4> :call <SID>ToggleQuickTerminal(0)<CR>
+  nnoremap <Leader>gt :call <SID>ToggleQuickTerminal(0)<CR>
 
-  fun! <SID>ToggleTerminal(reset)
+  " let s:OPEN_TERMINAL_WINDOW = 'botright 20 split'
+  let s:OPEN_TERMINAL_WINDOW = '20 split'
+  fun! <SID>ToggleQuickTerminal(reset)
     " https://www.reddit.com/r/neovim/comments/3cu8fl/quick_visor_style_terminal_buffer/
     if (a:reset || !exists('s:termbuf'))
       let s:termbuf = 0
     endif
 
-    " let l:OPEN_TERMINAL_WINDOW = 'botright 20 split'
-    let l:OPEN_TERMINAL_WINDOW = '20 split'
     if (s:termbuf && bufexists(s:termbuf))
-      let l:winnr = bufwinnr(s:termbuf)
-      if (l:winnr == -1)
-        exec l:OPEN_TERMINAL_WINDOW
-        exe 'buffer' . s:termbuf
-      else
-        exe l:winnr . 'wincmd w'
-      endif
+      call <SID>FocusQuickTerminal()
     else
-      exec l:OPEN_TERMINAL_WINDOW
+      exec s:OPEN_TERMINAL_WINDOW
       echom s:termbuf . ' does not exist'
       if has('nvim')
         terminal
@@ -977,6 +971,25 @@ call plug#end()
       nnoremap <buffer> <F4> i<C-w><C-q>
       vnoremap <buffer> <F4> <esc>i<C-w><C-q>
     endif
+  endfun
+
+  fun! <SID>FocusQuickTerminal()
+    let l:winnr = bufwinnr(s:termbuf)
+    if (l:winnr == -1)
+      exec s:OPEN_TERMINAL_WINDOW
+      exe 'buffer' . s:termbuf
+    else
+      exe l:winnr . 'wincmd w'
+    endif
+  endfun
+
+  command! -range RunInTerm call RunInTerm(getline(<line1>))
+  fun! RunInTerm(str)
+    if (!exists('s:termbuf'))
+      call <SID>ToggleQuickTerminal(0)
+    endif
+    call <SID>FocusQuickTerminal()
+    call term_sendkeys(s:termbuf, a:str)
   endfun
 
   " toggle auto-format
