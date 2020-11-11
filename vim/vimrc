@@ -944,6 +944,7 @@ call plug#end()
   nnoremap <F6> :let $VIM_DIR=expand('%:p:h')<CR>:call <SID>ToggleTerminal(1)<CR>cd $VIM_DIR<CR>clear<CR>
 
   nnoremap <F4> :call <SID>ToggleTerminal(0)<CR>
+  nnoremap <Leader>gt :call <SID>ToggleTerminal(0)<CR>
 
   fun! <SID>ToggleTerminal(reset)
     " https://www.reddit.com/r/neovim/comments/3cu8fl/quick_visor_style_terminal_buffer/
