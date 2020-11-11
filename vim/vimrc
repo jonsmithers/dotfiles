@@ -732,7 +732,8 @@ call plug#begin('~/.vim/plugged')
           \ 'typescriptreact': ['eslint'],
           \ 'html': ['eslint'],
           \}
-    let g:ale_completion_enabled = 0
+    let g:ale_completion_enabled = 1
+    let g:ale_completion_autoimport = 1
 
     :nnoremap <Leader>an :ALENextWrap<Enter>
     :nnoremap ]g         :ALENextWrap<Enter>
@@ -742,6 +743,29 @@ call plug#begin('~/.vim/plugged')
     :nnoremap <Leader>lr :ALERename<Enter>
     :nnoremap <Leader>le :ALEFix eslint<Enter>
     :nnoremap <Leader>af :ALEFix<Enter>
+    :nnoremap <Leader>ld :ALEDetail<Enter>
+    :nnoremap <Leader>li :ALEImport<Enter>
+    :nnoremap <Leader>lx :ALEIgnoreEslint<Enter>
+
+    command! ALEIgnoreEslint call AleIgnoreEslint()
+    function! AleIgnoreEslint()
+      " https://stackoverflow.com/questions/54961318/vim-ale-shortcut-to-add-eslint-ignore-hint
+      let l:codes = []
+      if (!exists('b:ale_highlight_items'))
+        echo 'cannot ignore eslint rule without b:ale_highlight_items'
+        return
+      endif
+      for l:item in b:ale_highlight_items
+        if (l:item['lnum']==line('.') && l:item['linter_name']=='eslint')
+          let l:code = l:item['code']
+          call add(l:codes, l:code)
+        endif
+      endfor
+      if len(l:codes)
+        exec 'normal O/* eslint-disable-next-line ' . join(l:codes, ', ') . ' */'
+      endif
+    endfunction
+
   " }}}
 
   " Plug 'wellle/targets.vim'
