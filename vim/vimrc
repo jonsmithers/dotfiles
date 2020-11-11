@@ -570,6 +570,18 @@ call plug#begin('~/.vim/plugged')
     let g:tcomment#replacements_xml = {} " don't substitute weird characters when commenting html lines
   " }}}
 
+  Plug 'tpope/vim-abolish'
+  " crs | coerce word to camelCase
+  " crs | coerce word to mixedCase
+  " crs | coerce word to snake_case
+  " cru | coerce word to SNAKE_UPPERCASE
+  " crk | coerce word to kabob-case
+  " cr. | coerce word to dot.case
+  augroup abolish_vimrc
+    au!
+    autocmd VimEnter * :Abolish anomol{y,ies} anomal{}
+  augroup END
+
   Plug 'tpope/vim-eunuch'
   ":Delete, :Chmod, :SudoWrite, :Rename, :Mkdir
 
