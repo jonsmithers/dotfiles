@@ -1145,7 +1145,7 @@ let g:html_wrong_comments=1
   " local file history {{{
   if (s:os !=# 'Windows')
 
-    set backupdir=~/.config/smithers/vimbackup/,~/.config/vimbackup//,/var/tmp//
+    set backupdir=~/.config/vimbackup//,/var/tmp//
     set backup
     " 'backupskip=/tmp/*' is set by default
 
