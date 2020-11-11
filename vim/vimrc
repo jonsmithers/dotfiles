@@ -1466,6 +1466,19 @@ let g:html_wrong_comments=1
     " :MakeEslint %
     " :MakeEslint src/ test/
     command! -nargs=? MakeEslint call s:MakeEslint(<q-args>)
+    command! MakeTsc call s:MakeTsc()
+  endfun
+  fun! s:MakeTsc()
+    if (executable('yarn') && !empty(glob('yarn.lock')))
+      set makeprg=yarn\ exec\ tsc
+    elseif (executable('npx'))
+      set makeprg=npx\ tsc
+    else
+      echoerr 'Both yarn and npx are missing'
+      return
+    endif
+    make
+    copen
   endfun
   fun! s:MakeEslint(targets)
     let l:targets = expand(a:targets)
