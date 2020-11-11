@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <mail@jonsmithers.link>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2020-09-18
+" Last Updated: 2020-11-11
 
 :scriptencoding utf8
 
@@ -627,6 +627,12 @@ call plug#begin('~/.vim/plugged')
     "   S<SURROUND>
     " INSERT MODE:
     "   <C-g>s<SURROUND>
+    let b:surround_{char2nr('b')} = "**\r**"
+    augroup vimrc_surround
+      autocmd!
+      autocmd FileType markdown let b:surround_{char2nr('b')} = "**\r**"
+      " use 'b' to surround something with double asterisks
+    augroup END
   " }}}
 
   Plug 'tpope/vim-unimpaired'
