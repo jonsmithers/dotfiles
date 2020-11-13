@@ -1176,7 +1176,7 @@ let g:html_wrong_comments=1
 
   set hidden        " leave buffers without saving
 
-  set completeopt=menuone,longest,preview " make completion menu awesome
+  set completeopt=menuone,longest " make completion menu awesome
 
   set directory=/var/tmp//,/tmp//,.
 
