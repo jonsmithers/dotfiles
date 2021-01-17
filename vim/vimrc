@@ -1157,6 +1157,10 @@ let g:html_wrong_comments=1
             \ | endif
 
     augroup END
+    if !exists(":DiffOrig")
+      command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
+            \ | wincmd p | diffthis
+    endif
   endif
   set mouse=a       "already set in Vim 8 defaults.vim, but Fedora undoes it! (https://lists.fedoraproject.org/archives/list/users@lists.fedoraproject.org/thread/HZJVN3LVFS2YC3H7EZRPJEYEPAGKEVH2/)
   set ttimeoutlen=0 "timeout instantly when pressing esc during visual mode
