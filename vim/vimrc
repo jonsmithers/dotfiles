@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <mail@jonsmithers.link>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2020-11-11
+" Last Updated: 2021-03-28
 
 :scriptencoding utf8
 
@@ -546,22 +546,22 @@ call plug#begin('~/.vim/plugged')
     " y<C-G>      - yank commit hash
   " }}}
 
-  if ((has('python') || has('python3')) && !empty(glob($HOME.'/.vim/UltiSnips')))
-    Plug 'SirVer/ultisnips'
-    " Code snippets
-    " {{{
-      let g:UltiSnipsSnippetDirectories = [$HOME.'/.vim/UltiSnips', $HOME.'/.config/smithers/UltiSnips']
-      " ^ workaround bug https://github.com/SirVer/ultisnips/issues/711
-      let g:UltiSnipsExpandTrigger = '<tab>'
-      let g:UltiSnipsJumpForwardTrigger = '<tab>'
-      let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
-
-      augroup ultisnip
-        au!
-        autocmd Filetype typescript :UltiSnipsAddFiletypes javascript
-      augroup END
-    " }}}
-  endif
+  " if ((has('python') || has('python3')) && !empty(glob($HOME.'/.vim/UltiSnips')))
+  "   Plug 'SirVer/ultisnips'
+  "   " Code snippets
+  "   " {{{
+  "     let g:UltiSnipsSnippetDirectories = [$HOME.'/.vim/UltiSnips', $HOME.'/.config/smithers/UltiSnips']
+  "     " ^ workaround bug https://github.com/SirVer/ultisnips/issues/711
+  "     let g:UltiSnipsExpandTrigger = '<tab>'
+  "     let g:UltiSnipsJumpForwardTrigger = '<tab>'
+  "     let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
+  "
+  "     augroup ultisnip
+  "       au!
+  "       autocmd Filetype typescript :UltiSnipsAddFiletypes javascript
+  "     augroup END
+  "   " }}}
+  " endif
 
   Plug 'tomtom/tcomment_vim'
   " Toggle code comments. Mapped to Ctrl-//
@@ -1299,8 +1299,9 @@ let g:html_wrong_comments=1
 
   " diffing
   if has('patch-8.1.0360')
-    set diffopt+=algorithm:patience
-    set diffopt+=indent-heuristic
+    " use silent because apple vim 8.2 weirdly doesn't have this feature added in 8.1
+    silent! set diffopt+=algorithm:patience
+    silent! set diffopt+=indent-heuristic
   endif
 
   :cabbrev h vert h
@@ -1324,28 +1325,28 @@ let g:html_wrong_comments=1
 
 " Colorscheme things
 " {{{
-  com! Default          set background=dark  | call Noop()           | colorscheme default          | MatchTerminalBackground
-  com! DarkAyu          set background=dark  | let ayucolor="dark"   | colorscheme ayu              | MatchTerminalBackground
-  com! DarkGruv         set background=dark  | call Noop()           | colorscheme gruvbox          | MatchTerminalBackground
-  com! DarkOcean        set background=dark  | call Noop()           | colorscheme OceanicNext      | MatchTerminalBackground
-  com! DarkPaper        set background=dark  | call Noop()           | colorscheme PaperColor       | MatchTerminalBackground
-  com! DarkOne          set background=dark  | call Noop()           | colorscheme one              | MatchTerminalBackground
-  com! DarkSeoul        set background=dark  | call Noop()           | colorscheme seoul256         | MatchTerminalBackground
-  com! DarkSacredForest set background=dark  | call Noop()           | colorscheme sacredforest     | MatchTerminalBackground
-  com! DarkApprentice   set background=dark  | call Noop()           | colorscheme apprentice       | MatchTerminalBackground
-  com! DarkSnow         set background=dark  | call Noop()           | colorscheme snow             | MatchTerminalBackground
-  com! DarkNord         set background=dark  | call Noop()           | colorscheme nord             | MatchTerminalBackground
-  com! DarkQuantum      set background=dark  | call Noop()           | colorscheme quantum          | MatchTerminalBackground
-  com! LightAyu         set background=light | let ayucolor="light"  | colorscheme ayu              | MatchTerminalBackground
-  com! LightOne         set background=light | call Noop()           | colorscheme one              | MatchTerminalBackground
-  com! LightGruv        set background=light | call Noop()           | colorscheme gruvbox          | MatchTerminalBackground
-  com! LightOcean       set background=light | call Noop()           | colorscheme OceanicNextLight | MatchTerminalBackground
-  com! LightPaper       set background=light | call Noop()           | colorscheme PaperColor       | MatchTerminalBackground
-  com! LightSeoul       set background=light | call Noop()           | colorscheme seoul256         | MatchTerminalBackground
-  com! LightSnow        set background=light | call Noop()           | colorscheme snow             | MatchTerminalBackground
-  com! LightGitHub      set background=light | call Noop()           | colorscheme github           | MatchTerminalBackground
-  com! LightQuantum     set background=light | call Noop()           | colorscheme quantum          | MatchTerminalBackground
-  com! MirageAyu        set background=dark  | let ayucolor="mirage" | colorscheme ayu              | MatchTerminalBackground
+  com! Default          set background=dark  | call Noop()           | colorscheme default
+  com! DarkAyu          set background=dark  | let ayucolor="dark"   | colorscheme ayu
+  com! DarkGruv         set background=dark  | call Noop()           | colorscheme gruvbox
+  com! DarkOcean        set background=dark  | call Noop()           | colorscheme OceanicNext
+  com! DarkPaper        set background=dark  | call Noop()           | colorscheme PaperColor
+  com! DarkOne          set background=dark  | call Noop()           | colorscheme one
+  com! DarkSeoul        set background=dark  | call Noop()           | colorscheme seoul256
+  com! DarkSacredForest set background=dark  | call Noop()           | colorscheme sacredforest
+  com! DarkApprentice   set background=dark  | call Noop()           | colorscheme apprentice
+  com! DarkSnow         set background=dark  | call Noop()           | colorscheme snow
+  com! DarkNord         set background=dark  | call Noop()           | colorscheme nord
+  com! DarkQuantum      set background=dark  | call Noop()           | colorscheme quantum
+  com! LightAyu         set background=light | let ayucolor="light"  | colorscheme ayu
+  com! LightOne         set background=light | call Noop()           | colorscheme one
+  com! LightGruv        set background=light | call Noop()           | colorscheme gruvbox
+  com! LightOcean       set background=light | call Noop()           | colorscheme OceanicNextLight
+  com! LightPaper       set background=light | call Noop()           | colorscheme PaperColor
+  com! LightSeoul       set background=light | call Noop()           | colorscheme seoul256
+  com! LightSnow        set background=light | call Noop()           | colorscheme snow
+  com! LightGitHub      set background=light | call Noop()           | colorscheme github
+  com! LightQuantum     set background=light | call Noop()           | colorscheme quantum
+  com! MirageAyu        set background=dark  | let ayucolor="mirage" | colorscheme ayu
   fun! Noop()
   endfun
 

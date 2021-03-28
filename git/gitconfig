@@ -1,11 +1,10 @@
 [core]
   excludesfile = /Users/smithers/.gitignore_global
   editor = vim
-  pager = diff-highlight | less -+X -x4 -+F -S
-  #                             ^ makes log and diff clear the screen when done
-  #                                 ^ render tabs with 4-char width
-  #                             http://linuxtips.manki.in/2012/02/making-git-commands-clear-screen-when.html
-  # pager = diff-highlight | nvim -R -c 'call Reader()' -
+  pager = less -+X -x4 -+F -S
+  #            ^ makes log and diff clear the screen when done
+  #                ^ render tabs with 4-char width
+  #            http://linuxtips.manki.in/2012/02/making-git-commands-clear-screen-when.html
 [alias]
   bookmark = !git add --all && git commit -m 'I WAS IN THE MIDDLE OF STUFF'
   ad = add
@@ -22,20 +21,9 @@
   dfsc = diff --staged --check
   incoming = log ..@{u}
   outgoing = log @{u}..
-  tree = log --graph --oneline
-  treename = log --graph --all
   dfw = diff --word-diff=color
-  dfwMin = diff --color-words='\\w+|.'
   lol = log --graph --decorate --oneline
   lola = log --graph --decorate --oneline --all
-
-  # launch the di2e jira ticket for the current branch
-  dj  = ! python -mwebbrowser `git rev-parse --abbrev-ref HEAD | sed -E 's/.*[^0-9]([0-9]+).*/\\1/' | sed -E 's/(.*)/https:\\/\\/jira.di2e.net\\/browse\\/UC-\\1/'`
-  dja = ! python -mwebbrowser `git rev-parse --abbrev-ref HEAD | sed -E 's/.*[^0-9]([0-9]+).*/\\1/' | sed -E 's/(.*)/https:\\/\\/jira.di2e.net\\/browse\\/ESTATFSTAT-\\1/'`
-
-  addnw=!sh -c 'git diff -U0 -w --no-color "$@" | git apply --cached --ignore-whitespace --unidiff-zero -'
-  # https://stackoverflow.com/questions/3515597/add-only-non-whitespace-changes#comment61915463_7149602
-  twoweeks = log --oneline --graph --all --author=\"Smithers\" --since=\"2 weeks ago\"
 [push]
   default = simple # already default since 2.0
 [user]
@@ -54,4 +42,4 @@
 [mergetool]
   keepBackup = false
 [branch]
-	sort = -authordate
+  sort = -authordate
