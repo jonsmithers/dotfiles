@@ -7,7 +7,8 @@ RED='\033[0;31m'
 WHITE='\033[1;37m'
 YELLOW='\033[1;33m'
 function prompt() {
-  read -p "$1 (y/n) " -n 1 -r || exit 1; echo
+  echo -en "$1"
+  read -p " (y/n) " -n 1 -r || exit 1; echo
   if [[ $REPLY =~ ^[Yy]$ ]]
   then return 0 # true
   else return 1 # false

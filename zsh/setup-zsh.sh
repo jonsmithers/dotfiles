@@ -3,30 +3,36 @@ set -e
 cd "$(dirname "$0")"
 source ../_helpers.sh
 
-if [[ -z "$(command -v zsh)" ]] && prompt "Install zsh?"; then
+if [[ $(command -v zsh) ]]; then
+  echo -e " ${GREEN}✓${NORMAL} zsh installed"
+elif prompt " ${RED}✗${NORMAL} missing zsh - install?"; then
   if [[ -n "$(command -v dnf)" ]]; then
     echo_and_run sudo dnf install zsh
   elif [[ -n "$(command -v brew)" ]]; then
     echo_and_run brew install zsh
   else 
-    echo "${RED}Dunno how to install zsh"
+    echo "dunno how to"
     exit 1
   fi
-else
-  echo "Skipping zsh installation"
 fi
 
-if ! test -d "$HOME/.oh-my-zsh" && prompt "Install oh-my-zsh?"; then
-  CHSH=no RUNZSH=no sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" && {
-    echo_and_run mv ~/.zshrc.pre-oh-my-zsh ~/.zshrc
-  }
-else
-  echo "Skipping oh-my-zsh installation"
+if test -d "$HOME/.oh-my-zsh"; then
+  echo -e " ${GREEN}✓${NORMAL} oh-my-zsh installed"
+elif prompt " ${RED}✗${NORMAL} missing oh-my-zsh - install?"; then
+  (
+    export CHSH=no;
+    export RUNZSH=no;
+    echo CHSH=no RUNZSH=no
+    echo_and_run sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+  )
 fi
 
-if ! test -d ~/.config/zsh/zsh-autosuggestions && prompt "Install zsh-autosuggestions?"; then
-  mkdir -p ~/.config/zsh
-  git clone https://github.com/zsh-users/zsh-autosuggestions ~/.config/zsh/zsh-autosuggestions
+
+if test -d ~/.config/zsh/zsh-autosuggestions; then
+  echo -e " ${GREEN}✓${NORMAL} zsh-autosuggestions installed"
+elif prompt " ${RED}✗${NORMAL} missing zsh-autosuggestions - install?"; then
+  echo_and_run mkdir -p ~/.config/zsh
+  echo_and_run git clone https://github.com/zsh-users/zsh-autosuggestions ~/.config/zsh/zsh-autosuggestions
 else
   echo "Skipping zsh-autosuggestions installation"
 fi

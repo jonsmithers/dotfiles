@@ -7,6 +7,82 @@ if prompt "Symlink dotfiles?"; then
     ./dotphile
   fi
 fi
+
+
+if [[ $(command -v rg) ]]; then
+  echo -e " ${GREEN}✓${NORMAL} rg installed"
+elif prompt " ${RED}✗${NORMAL} missing ripgrep - install?"; then
+  if [ "$(uname)" == "Darwin" ]; then
+    echo_and_run brew install ripgrep
+  elif [[ $(command -v dnf) ]]; then
+    echo_and_run sudo dnf install ripgrep
+  elif prompt "Download hardcoded 0.8.1 rg version for debian?"; then
+    curl -LO https://github.com/BurntSushi/ripgrep/releases/download/0.8.1/ripgrep_0.8.1_amd64.deb
+    sudo dpkg -i ripgrep_0.8.1_amd64.deb
+  else
+    echo_and_run python -m webbrowser "https://github.com/BurntSushi/ripgrep#installation"
+    exit 1
+  fi
+fi
+
+if [[ $(command -v fzf) ]]; then
+  echo -e " ${GREEN}✓${NORMAL} fzf installed"
+elif prompt " ${RED}✗${NORMAL} missing fzf - install?"; then
+  [[ -d "$HOME/.fzf" ]] && echo_and_run rm -rf "$HOME/.fzf"
+  echo_and_run git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+  echo_and_run ~/.fzf/install --all
+fi
+
+if [[ $(command -v git-number) ]]; then
+  echo -e " ${GREEN}✓${NORMAL} git-number installed"
+elif prompt " ${RED}✗${NORMAL} missing git-number - install?"; then
+  if [ "$(uname)" == "Darwin" ]; then
+    echo_and_run brew install git-number
+  elif [ "$(uname -s)" == "Linux" ]; then
+    echo_and_run mkdir -p ~/git/git-number
+    echo_and_run git clone https://github.com/holygeek/git-number.git ~/git/git-number
+    (
+    cd ~/git/git-number;
+    echo_and_run sudo make install;
+  )
+else
+  echo "Unable to recognize operating system"
+  exit 1
+  fi
+fi
+
+if [[ $(command -v shellcheck) ]]; then
+  echo -e " ${GREEN}✓${NORMAL} shellcheck installed"
+elif prompt " ${RED}✗${NORMAL} missing shellcheck - install?"; then
+  if [[ $(command -v brew) ]]; then
+    echo_and_run brew install shellcheck
+  elif [[ $(command -v dnf) ]]; then
+    echo_and_run sudo dnf install ShellCheck
+  elif [[ $(command -v apt) ]]; then
+    echo_and_run sudo apt install shellcheck
+  else
+    echo 'Not sure how to install shellcheck :-/'
+    exit 1
+  fi
+fi
+
+if [[ $(command -v autojump) ]]; then
+  echo -e " ${GREEN}✓${NORMAL} autojump installed"
+elif prompt " ${RED}✗${NORMAL} missing autojump - install?"; then
+  if [[ $(command -v brew) ]]; then
+    echo_and_run brew install autojump
+  else
+    echo "I don't know how to"
+    exit 1
+  fi
+  # elif [[ "$(command -v dnf)" ]]; then
+  #   wget https://github.com/gsamokovarov/jump/releases/download/v0.23.0/jump_0.23.0_amd64.rpm
+  #   sudo dpkg -i jump_0.23.0_amd64.rpm
+  # elif command -v apt > /dev/null; then
+  #   wget https://github.com/gsamokovarov/jump/releases/download/v0.23.0/jump_0.23.0_amd64.deb
+  #   sudo dpkg -i jump_0.23.0_amd64.deb
+fi
+
 vim/setup-vim.sh
 git/setup-git.sh
 fish/setup-fish.sh
