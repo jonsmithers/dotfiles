@@ -1,26 +1,12 @@
 {
   "links": {
 
-    "./fish/config.fish":                           "~/.config/fish/config.fish",
-    "./fish/fishfile":                              "~/.config/fish/fishfile",
-    "./fish/functions/bind_bang.fish":              "~/.config/fish/functions/bind_bang.fish",
-    "./fish/functions/bind_dollar.fish":            "~/.config/fish/functions/bind_dollar.fish",
-    "./fish/functions/fish_prompt.fish":            "~/.config/fish/functions/fish_prompt.fish",
-    "./fish/functions/fish_right_prompt.fish":      "~/.config/fish/functions/fish_right_prompt.fish",
-    "./fish/functions/fish_user_key_bindings.fish": "~/.config/fish/functions/fish_user_key_bindings.fish",
-
-    "./git/git-completion.sh":           "~/.git-completion.sh",
-    "./git/git-unmergedbranches":        "~/bin/git-unmergedbranches",
     "./git/git-website":                 "~/bin/git-website",
     "./git/gitconfig":                   "~/.gitconfig",
     "./git/gitignore_global":            "~/.gitignore_global",
     "./kitty/kitty.conf":                "~/.config/kitty/kitty.conf",
-    "./linux/run-or-raise":              "~/bin/run-or-raise",
     "./misc/bash_profile":               "~/.bash_profile",
     "./misc/editorconfig":               "~/.editorconfig",
-    "./misc/phoenix.js":                 "~/.phoenix.js",
-    "./misc/screenrc":                   "~/.screenrc",
-    "./misc/wordsafe.json":              "~/.config/wordsafe/config.json",
     "./tmux/reattach-to-user-namespace": "~/bin/reattach-to-user-namespace",
     "./tmux/tmux.conf":                  "~/.tmux.conf",
     "./vim/UltiSnips":                   "~/.vim/UltiSnips",
@@ -29,13 +15,11 @@
     "./vim/ftplugin":                    "~/.vim/ftplugin",
     "./vim/ideavimrc":                   "~/.ideavimrc",
     "./vim/nvim_init.vim":               "~/.config/nvim/init.vim",
-    "./vim/plugin/misc.vim":             "~/.vim/plugin/misc.vim",
     "./vim/plugin/shutter.vim":          "~/.vim/plugin/shutter.vim",
     "./vim/plugin/vim-plug-ext.vim":     "~/.vim/plugin/vim-plug-ext.vim",
     "./vim/syntax/":                     "~/.vim/syntax",
     "./vim/vimrc":                       "~/.vimrc",
     "./vim/profile.vim":                 "~/.profile.vim",
-    "./vim/vrapperrc":                   "~/.vrapperrc",
     "./zsh/zshrc":                       "~/.zshrc"
   }
 }
