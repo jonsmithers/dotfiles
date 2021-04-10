@@ -92,6 +92,7 @@ function linux_git_number() {
   );
 }
 
+install_cmd zsh
 install_cmd rg --brew="brew install ripgrep" --dnf="sudo dnf install ripgrep"
 install_cmd git-number --linux="linux_git_number"
 install_cmd tmux
@@ -100,9 +101,8 @@ install_cmd alacritty
 install_cmd node
 install_cmd shellcheck --dnf="sudo dnf install ShellCheck"
 install_cmd fish
+install_cmd vint # vimscript linting
 
 vim/setup-vim.sh
-git/setup-git.sh
-fish/setup-fish.sh
 zsh/setup-zsh.sh
 osx/set-defaults.sh

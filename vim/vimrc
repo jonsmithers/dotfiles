@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <mail@jonsmithers.link>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2021-03-28
+" Last Updated: 2021-04-10
 
 :scriptencoding utf8
 
@@ -816,6 +816,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'peitalin/vim-jsx-typescript'
   endif
   Plug 'dag/vim-fish'
+  Plug 'Glench/Vim-Jinja2-Syntax'
   Plug 'luan/vim-concourse'
   Plug 'posva/vim-vue'
   Plug 'tfnico/vim-gradle'

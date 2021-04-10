@@ -85,7 +85,7 @@ ZSH_THEME="robbyrussell"
 plugins=(git npm yarn)
 tryplugins=(npm yarn dnf gulp tmux)
 for p in $tryplugins; do
-  if command -v "$p"; then
+  if command -v "$p" > /dev/null; then
     plugins+=("$p")
   fi
 done
@@ -298,4 +298,9 @@ fi
 }
 if [[ -f /proc/version ]] && grep -q Microsoft /proc/version; then
   echo 'this is windows'
+fi
+
+if command -v rg > /dev/null; then
+  export FZF_DEFAULT_COMMAND="rg --files"
+  export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 fi

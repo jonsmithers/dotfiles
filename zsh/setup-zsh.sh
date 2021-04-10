@@ -3,19 +3,6 @@ set -e
 cd "$(dirname "$0")"
 source ../_helpers.sh
 
-if [[ $(command -v zsh) ]]; then
-  echo -e " ${GREEN}✓${NORMAL} zsh installed"
-elif prompt " ${RED}✗${NORMAL} missing zsh - install?"; then
-  if [[ -n "$(command -v dnf)" ]]; then
-    echo_and_run sudo dnf install zsh
-  elif [[ -n "$(command -v brew)" ]]; then
-    echo_and_run brew install zsh
-  else 
-    echo "dunno how to"
-    exit 1
-  fi
-fi
-
 if test -d "$HOME/.oh-my-zsh"; then
   echo -e " ${GREEN}✓${NORMAL} oh-my-zsh installed"
 elif prompt " ${RED}✗${NORMAL} missing oh-my-zsh - install?"; then
