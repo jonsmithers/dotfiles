@@ -68,7 +68,7 @@ function install_cmd() {
       if [[ -n "$dnf" ]]; then
         eval "echo_and_run $dnf"
       else
-        echo_and_run sudo dnf install "$cmd"
+        echo_and_run sudo dnf install --assumeyes "$cmd"
       fi
     elif [[ $(command -v apt) ]]; then
       if [[ -n "$apt" ]]; then
@@ -93,13 +93,13 @@ function linux_git_number() {
 }
 
 install_cmd zsh
-install_cmd rg --brew="brew install ripgrep" --dnf="sudo dnf install ripgrep"
+install_cmd rg --brew="brew install ripgrep" --dnf="sudo dnf install --assumeyes ripgrep"
 install_cmd git-number --linux="linux_git_number"
 install_cmd tmux
 install_cmd autojump
 install_cmd alacritty
 install_cmd node
-install_cmd shellcheck --dnf="sudo dnf install ShellCheck"
+install_cmd shellcheck --dnf="sudo dnf install --assumeyes ShellCheck"
 install_cmd fish
 install_cmd vint # vimscript linting
 
