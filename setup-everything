@@ -33,17 +33,17 @@ function install_cmd() {
           exit 1
         fi
         ;;
-      --dnf=?*)
-        dnf="${1#*=}"; shift;
+      --linux=?*)
+        linux="${1#*=}"; shift;
         ;;
       --brew=?*)
         brew="${1#*=}"; shift;
         ;;
+      --dnf=?*)
+        dnf="${1#*=}"; shift;
+        ;;
       --apt=?*)
         apt="${1#*=}"; shift;
-        ;;
-      --linux=?*)
-        linux="${1#*=}"; shift;
         ;;
       ?*)
         echo "unknown option \"$1\""
@@ -54,9 +54,9 @@ function install_cmd() {
     esac
   done
   if [[ $(command -v "$cmd") ]]; then
-    echo -e " ${GREEN}✓${NORMAL} "$cmd" installed"
-  elif prompt " ${RED}✗${NORMAL} missing "$cmd" - install?"; then
-    if [[ -n "$linux" &&  "$(uname)" == "Darwin" ]]; then
+    echo -e " ${GREEN}✓${NORMAL} $cmd installed"
+  elif prompt " ${RED}✗${NORMAL} missing $cmd - install?"; then
+    if [[ -n "$linux" && "$(uname -s)" == "Linux" ]]; then
       eval "echo_and_run $linux"
     elif [[ $(command -v brew) ]]; then
       if [[ -n "$brew" ]]; then
@@ -83,18 +83,18 @@ function install_cmd() {
   fi
 }
 
-function linux_git_number() {
+function install_git_number_on_linux() {
   echo_and_run mkdir -p ~/git/git-number
   echo_and_run git clone https://github.com/holygeek/git-number.git ~/git/git-number
   (
-    cd ~/git/git-number;
+    cd ~/git/git-number || exit 1;
     echo_and_run sudo make install;
   );
 }
 
 install_cmd zsh
 install_cmd rg --brew="brew install ripgrep" --dnf="sudo dnf install --assumeyes ripgrep"
-install_cmd git-number --linux="linux_git_number"
+install_cmd git-number --linux="install_git_number_on_linux"
 install_cmd tmux
 install_cmd autojump
 install_cmd alacritty
