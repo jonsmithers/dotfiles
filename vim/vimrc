@@ -1034,9 +1034,6 @@ call plug#end()
   cnoremap <c-p>  <up>
   " Saner CTRL L: https://github.com/mhinz/vim-galore#saner-ctrl-l
   nnoremap <leader>l :nohlsearch<cr>:diffupdate<cr>:syntax sync fromstart<cr><c-l>
-  " Quickly Move Current Line: https://github.com/mhinz/vim-galore#matchit
-  nnoremap [e  :<c-u>execute 'move -1-'. v:count1<cr>
-  nnoremap ]e  :<c-u>execute 'move +'. v:count1<cr>
   " Quickly Add Empty Lines: https://github.com/mhinz/vim-galore#quickly-add-empty-lines
   nnoremap [<space>  :<c-u>put! =repeat(nr2char(10), v:count1)<cr>'[
   nnoremap ]<space>  :<c-u>put =repeat(nr2char(10), v:count1)<cr>
