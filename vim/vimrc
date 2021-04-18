@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <mail@jonsmithers.link>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2021-04-10
+" Last Updated: 2021-04-17
 
 :scriptencoding utf8
 
@@ -943,6 +943,7 @@ call plug#end()
   nnoremap <F10> :echo map(synstack(line("."), col(".")), "synIDattr(v:val, 'name')")<cr>
 
   nnoremap <F6> :let $VIM_DIR=expand('%:p:h')<CR>:call <SID>ToggleQuickTerminal(1)<CR>cd $VIM_DIR<CR>clear<CR>
+  nnoremap <Leader>gT :let $VIM_DIR=expand('%:p:h')<CR>:call <SID>ToggleQuickTerminal(1)<CR>cd $VIM_DIR<CR>clear<CR>
 
   nnoremap <F4> :call <SID>ToggleQuickTerminal(0)<CR>
   nnoremap <Leader>gt :call <SID>ToggleQuickTerminal(0)<CR>
