@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <mail@jonsmithers.link>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2021-04-17
+" Last Updated: 2021-04-24
 
 :scriptencoding utf8
 
@@ -1163,6 +1163,7 @@ let g:html_wrong_comments=1
   endif
   set mouse=a       "already set in Vim 8 defaults.vim, but Fedora undoes it! (https://lists.fedoraproject.org/archives/list/users@lists.fedoraproject.org/thread/HZJVN3LVFS2YC3H7EZRPJEYEPAGKEVH2/)
   set ttimeoutlen=0 "timeout instantly when pressing esc during visual mode
+  set regexpengine=0 " essential for yats typescript speed
   set foldmethod=syntax
   set foldlevelstart=99
   set nowrap
