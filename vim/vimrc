@@ -421,8 +421,10 @@ call plug#begin('~/.vim/plugged')
   Plug 'mg979/vim-visual-multi'
   " Multiple cursors. Seems to be faster than 'terryma/vim-multiple-cursors'.
   " {{{
-    " Ctrl-N on a word to multiply your cursor on subsequent matches for batch
-    " editing. (Ctrl-S) to skip
+    " <C-n> - multiply your cursor on subsequent matches for batch editing. 
+    "       - <C-s> is skip
+    " \\a   - align
+    " \\C   - Case conversion
     "
     " Ctrl-Up/Down to expand multiline cursor.
     "
@@ -600,13 +602,23 @@ call plug#begin('~/.vim/plugged')
     " p        preview commit
     " o        open commit in split
     " O        open commit in tab
-    nnoremap <leader>gs :vert Gstatus<cr>
+    nnoremap <leader>gs :vert Git<cr>
+    " rw  - Rebase reWord
+    " rm  - Rebase Modify
+    " rd  - Rebase Drop
+    " r<Space> - :Git rebase
+    " c?  - help
+    " cF  - Commit Fixup (rebase immediately)
+    " cS  - Commit Squash (rebase immediately)
+    " cc  - Commit Create
+    " cvc - Commit Verbose Create
+    " ca  - Commit Amend
+    " cva - Command Verbose Amend
+    " cw  - Commit reWord
+    " c<Space> - :Git commit
     " http://vimcasts.org/episodes/fugitive-vim-working-with-the-git-index/
     " c-n, c-p jumps to files
-    " p        runs add --patch
-    " cc       runs commit
     " -        stages/unstages
-    " D        diff
     nnoremap <leader>gd :Gvdiff<cr>
     "          (left is index (staged), right is working)
     "          dp      diffput
