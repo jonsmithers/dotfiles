@@ -663,26 +663,17 @@ call plug#begin('~/.vim/plugged')
   " Add lots of very useful pair-related keybindings. See :help unimpaired
 
   if (!empty(glob('~/Dropbox/vimwiki')))
-    Plug 'vimwiki/vimwiki'
-    " Quick access to a personal wiki. In vim.
     " {{{
+      " I don't use the vimwiki plugin because it borks markdown &comments, even
+      " after I set ft=markdown.
+
       " <space>ww to open wiki index
       " <space>wf to fuzzy find wiki filenames (with preview!)
       " <space>wF to fuzzy find wiki line contents (could use improvement)
       " WriteWikiNote to write a new wiki note
-      let g:vimwiki_list = [
-      \   {
-      \     'path': glob('~/Dropbox/vimwiki/md'),
-      \     'syntax': 'markdown',
-      \     'ext': '.md',
-      \   },
-      \   {
-      \     'path': glob('~/Dropbox/vimwiki')
-      \   },
-      \ ] " 'syntax': 'markdown', 'ext': '.md'}]
 
-      " source vimwiki on ALL markdown files (this is default)
-      let g:vimwiki_global_ext = 0
+      nnoremap <leader>wf :FilesWithPreview ~/Dropbox/vimwiki/md<cr>
+      nnoremap <leader>wF :call VimWikiLines()<cr>
 
       augroup vimrc_vimwiki
         autocmd!
@@ -694,10 +685,6 @@ call plug#begin('~/.vim/plugged')
         autocmd Filetype markdown nmap <silent><buffer> <leader>zxcv <Plug>VimwikiRemoveHeaderLevel
 
       augroup end
-
-      nnoremap <leader>wf :FilesWithPreview ~/Dropbox/vimwiki/md<cr>
-      nnoremap <leader>wF :call VimWikiLines()<cr>
-      " nnoremap <leader>wF :call fzf#vim#grep('rg --column --line-number --no-heading --color=always . $HOME/Dropbox/vimwiki/md \| tr -d "\017"', 1, 0)<cr>
 
       command! -bang -nargs=? -complete=dir FilesWithPreview
             \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
@@ -715,7 +702,7 @@ call plug#begin('~/.vim/plugged')
         Lines
       endfunc
     " }}}
-    endif
+  endif
 
   call plug#('Xuyuanp/nerdtree-git-plugin', { 'on': s:nerdtree_triggers })
   " Show git indicators in nerdtree
@@ -1492,14 +1479,16 @@ let g:html_wrong_comments=1
     autocmd FileType text     setlocal spell
     autocmd Filetype markdown setlocal spell
     " correct formatting for checklists
-    autocmd Filetype markdown set comments-=fb:-
-    autocmd Filetype markdown set comments+=fb:-\ [\ ]
-    autocmd Filetype markdown set comments+=fb:-\ [X]
-    autocmd Filetype markdown set comments+=fb:-
+
+    autocmd Filetype markdown setlocal comments-=fb:-
+    autocmd Filetype markdown setlocal comments+=fb:-\ [\ ]
+    autocmd Filetype markdown setlocal comments+=fb:-\ [X]
+    autocmd Filetype markdown setlocal comments+=fb:-
+
     let g:markdown_folding = 1 " enable folding via vim's native markdown plugin
     " let g:vimsyn_folding = 'af' " is too slow
 
-    autocmd Filetype sh set comments+=fb:#
+    autocmd Filetype sh setlocal comments+=fb:#
 
     function! s:StartInsertIfEmpty()
       if (empty(getline(1)))
