@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <mail@jonsmithers.link>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2021-04-24
+" Last Updated: 2021-04-25
 
 :scriptencoding utf8
 
@@ -1148,6 +1148,7 @@ let g:html_wrong_comments=1
   if filereadable($VIMRUNTIME . '/defaults.vim')
     if !exists(':DiffOrig') " avoid unnecessary re-sourcing. For some reason it takes about 600ms
       source $VIMRUNTIME/defaults.vim " new in vim 8
+      set incsearch   "somehow this wasn't getting set by defaults.vim
     endif
     packadd! matchit " bundled default plugin
   else
