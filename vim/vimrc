@@ -421,16 +421,27 @@ call plug#begin('~/.vim/plugged')
   Plug 'mg979/vim-visual-multi'
   " Multiple cursors. Seems to be faster than 'terryma/vim-multiple-cursors'.
   " {{{
-    " <C-n> - multiply your cursor on subsequent matches for batch editing. 
-    "       - <C-s> is skip
-    " \\a   - align
-    " \\C   - Case conversion
-    "
-    " Ctrl-Up/Down to expand multiline cursor.
-    "
-    " \A to select all matches of word
+    " | MODE         | KEY   | DESCRIPTION
+    " | normal       | <C-n> | start selection by word under cursor (or visual selection)
+    " | normal       | \\/   | start selection by regex
+    " | normal       | \\A   | select ALL of word
+    " | normal       | \\gS  | restore VM selection
+    " | VM-selecting | <C-s> | skip
+    " | VM-selecting | n     | find next occurence
+    " | VM-selecting | N     | find prev occurence
+    " | VM-selecting | q     | skip occurence
+    " | VM-selecting | Q     | remove occurence
+    " | VM-selecting | [     | go to prev selected
+    " | VM-selecting | ]     | go to next selected
+    " | VM-selecting | [     | go to prev selected
+    " | VM           | \\a   | align regions
+    " | VM           | \\C   | Case conversion
+    " | VM           | \\@   | Run Macro
     let g:VM_mouse_mappings = 1
     let g:VM_no_meta_mappings = 1
+    let g:VM_maps = {}
+    let g:VM_maps["Add Cursor Up"] = '\k'
+    let g:VM_maps["Add Cursor Down"] = '\j'
   " }}}
 
   Plug 'mhinz/vim-signify'
