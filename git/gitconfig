@@ -24,16 +24,9 @@
   dfw = diff --word-diff=color
   lol = log --graph --decorate --oneline
   lola = log --graph --decorate --oneline --all
-[push]
-  default = simple # already default since 2.0
 [user]
   name = Jon Smithers
   email = mail@jonsmithers.link
-[credential]
-  helper = cache --timeout 28800
-[diff]
-  compactionHeuristic = true # only for git 2.9
-  indentHeuristic = true # only for git 2.11 - 2.14 (it's already default for 2.15+)
 [merge]
   tool = diffconflicts
 [mergetool "diffconflicts"]
@@ -43,3 +36,5 @@
   keepBackup = false
 [branch]
   sort = -authordate
+[rebase]
+  autoStash = true
