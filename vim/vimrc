@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <mail@jonsmithers.link>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2021-04-25
+" Last Updated: 2021-05-08
 
 :scriptencoding utf8
 
@@ -678,13 +678,10 @@ call plug#begin('~/.vim/plugged')
       " I don't use the vimwiki plugin because it borks markdown &comments, even
       " after I set ft=markdown.
 
-      " <space>ww to open wiki index
-      " <space>wf to fuzzy find wiki filenames (with preview!)
-      " <space>wF to fuzzy find wiki line contents (could use improvement)
-      " WriteWikiNote to write a new wiki note
-
+      nnoremap <leader>of :FilesWithPreview ~/Dropbox/obsidian/<cr>
       nnoremap <leader>wf :FilesWithPreview ~/Dropbox/vimwiki/md<cr>
-      nnoremap <leader>wF :call VimWikiLines()<cr>
+      nnoremap <leader>oF :call VimWikiLines('$HOME/Dropbox/obsidian/**/*')<cr>
+      nnoremap <leader>wF :call VimWikiLines('$HOME/Dropbox/vimwiki/md/*')<cr>
 
       augroup vimrc_vimwiki
         autocmd!
@@ -705,9 +702,9 @@ call plug#begin('~/.vim/plugged')
         let l:writePath = '$HOME/Dropbox/vimwiki/md/' . a:filename . '.md'
         exec ':save ' . expand(l:writePath)
       endfunc
-      func! VimWikiLines()
+      func! VimWikiLines(path)
         " load all vimwiki notes
-        for l:filename in split(expand('$HOME/Dropbox/vimwiki/md/*'), '\n')
+        for l:filename in split(expand(a:path), '\n')
           exec 'badd '.l:filename
         endfor
         Lines
