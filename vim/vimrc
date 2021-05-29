@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <mail@jonsmithers.link>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2021-05-08
+" Last Updated: 2021-05-29
 
 :scriptencoding utf8
 
@@ -1424,33 +1424,36 @@ let g:html_wrong_comments=1
 " }}}
 
 " simple session restoration http://vim.wikia.com/wiki/Go_away_and_come_back
-  function! MakeSession()
+  function! SaveSession()
+    if (&ft == 'gitcommit')
+      return
+    endif
     let b:sessiondir = $HOME . '/.vim/sessions' . getcwd()
     if (filewritable(b:sessiondir) != 2)
-      exe 'silent !mkdir -p ' b:sessiondir
+      exe "silent !mkdir -p \'" . b:sessiondir . "'"
       redraw!
     endif
     let b:filename = b:sessiondir . '/session.vim'
     exe 'mksession! ' . b:filename
   endfunction
 
-  function! LoadSession()
+  function! RestoreSession()
     let b:sessiondir = $HOME . '/.vim/sessions' . getcwd()
     let b:sessionfile = b:sessiondir . '/session.vim'
     if (filereadable(b:sessionfile))
-      exe 'source ' b:sessionfile
+      exe "source " . b:sessionfile
     else
       echo 'No session loaded.'
     endif
   endfunction
-  " au VimEnter * nested if argc() == 0 | :call LoadSession() | endif
+  " au VimEnter * nested if argc() == 0 | :call RestoreSession() | endif
   augroup session_saving
     au!
     if (s:os !=# 'Windows')
-      au VimLeave * :call MakeSession()
+      au VimLeave * :call SaveSession()
     endif
   augroup END
-  com! LoadSession call LoadSession()
+  com! RestoreSession call RestoreSession()
 
 " fix neovim's terminal behavior to match vim's {{{
 " https://www.reddit.com/r/neovim/comments/cger8p/how_quickly_close_a_terminal_buffer/eupal7q/
