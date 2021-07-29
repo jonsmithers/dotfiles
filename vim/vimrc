@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <mail@jonsmithers.link>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2021-05-29
+" Last Updated: 2021-07-28
 
 :scriptencoding utf8
 
@@ -613,7 +613,8 @@ call plug#begin('~/.vim/plugged')
     " p        preview commit
     " o        open commit in split
     " O        open commit in tab
-    nnoremap <leader>gs :vert Git<cr>
+    nnoremap <leader>gs :tabnew<cr>:Git<cr><c-w><c-o>
+    " ri  - Rebase Interactive
     " rw  - Rebase reWord
     " rm  - Rebase Modify
     " rd  - Rebase Drop
@@ -824,11 +825,9 @@ call plug#begin('~/.vim/plugged')
   endif
   Plug 'dag/vim-fish'
   Plug 'Glench/Vim-Jinja2-Syntax'
-  Plug 'luan/vim-concourse'
   Plug 'posva/vim-vue'
   Plug 'tfnico/vim-gradle'
   Plug 'vim-scripts/groovyindent-unix'
-  let g:concourse_tags_autosave = 0
   Plug 'MaxMEllon/vim-jsx-pretty'
   let g:vim_jsx_pretty_colorful_config = 1
   PlugDevelop 'jonsmithers/vim-html-template-literals'
@@ -1072,8 +1071,9 @@ let g:html_wrong_comments=1
   command! JV exec "edit ~/.vim/plugged"
   command! OpenInVSCode    exe "silent !code --goto '" . expand("%") . ":" . line(".") . ":" . col(".") . "'"                    | redraw!
   command! OpenCwdInVSCode exe "silent !code '" . getcwd() . "' --goto '" . expand("%") . ":" . line(".") . ":" . col(".") . "'" | redraw!
-  command! OpenInIdea      exe "silent !idea '" . getcwd() . "' '" . expand("%") . ":" . line(".") . "'"                         | redraw!
-  command! Quit2Idea       exe "silent !idea '" . getcwd() . "' '" . expand("%") . ":" . line(".") . "'"                         | redraw! | quit
+  command! OpenInIdea      exe "silent !idea '" . getcwd() . "' --line " . line(".") . " --column " . (col(".")-1) . " '" . expand("%") . "'"                  | redraw!
+  command! Quit2Idea       exe "silent !idea '" . getcwd() . "' --line " . line(".") . " --column " . (col(".")-1) . " '" . expand("%") . "'"                  | redraw! | quit
+  nnoremap <leader>gi :execute "terminal ++close idea '" . getcwd() . "' --line " . line(".") . " --column " . (col(".")-1) . " '" . expand("%") . "'"<cr>
 
   " open url on current line
   func! OpenUrl()
@@ -1541,6 +1541,8 @@ let g:html_wrong_comments=1
     nnoremap <buffer> <Leader>lif yiwoconsole.log('0()');<Esc>
     nnoremap <buffer> <Leader>liF yiwoconsole.log('%c0()', 'font-size:15px');<Esc>^2w
     nnoremap <buffer> <Leader>gif yiwf{oconsole.group('0');<Esc>]}Oconsole.groupEnd();<Esc>^
+    nnoremap <buffer> <Leader>jsxc 0wi{/*<Esc>$a*/}<Esc>
+    nnoremap <buffer> <Leader>jsxC :s@{\/\* \?\\| \?\*/}@@g<Enter>
 
     " Example Usages:
     " :MakeEslint %
@@ -1582,7 +1584,7 @@ let g:html_wrong_comments=1
   fun! s:ftplugin_javascript_open_node_terminal()
     if (has('nvim'))
       " when I actually need this I'll have to read up on termopen()
-      call feedkeys(':write !node')
+      call feedkeys(":write !node\<CR>")
     else
       call term_start('node', { 'in_io': 'buffer', 'in_buf': bufnr('%'), 'vertical': 1, 'term_cols': 80, 'norestore': 1 })
     endif
