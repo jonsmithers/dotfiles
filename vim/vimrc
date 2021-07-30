@@ -953,6 +953,7 @@ call plug#end()
 
   nnoremap <F4> :call <SID>ToggleQuickTerminal(0)<CR>
   nnoremap <Leader>gt :call <SID>ToggleQuickTerminal(0)<CR>
+  nnoremap <c-q> :call <SID>ToggleQuickTerminal(0)<CR>
 
   " let s:OPEN_TERMINAL_WINDOW = 'botright 20 split'
   let s:OPEN_TERMINAL_WINDOW = '20 split'
@@ -975,9 +976,12 @@ call plug#end()
       endif
       let s:termbuf=bufnr('%')
       "tnoremap <buffer> <F4> <C-\><C-n>:close<cr>
-      tmap <buffer> <F4> <C-w><C-q>
+      tnoremap <buffer> <F4> <C-w><C-q>
       nnoremap <buffer> <F4> i<C-w><C-q>
       vnoremap <buffer> <F4> <esc>i<C-w><C-q>
+      tnoremap <buffer> <c-q> <C-w><C-q>
+      nnoremap <buffer> <c-q> i<C-w><C-q>
+      vnoremap <buffer> <c-q> <esc>i<C-w><C-q>
     endif
   endfun
 
