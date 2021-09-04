@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <mail@jonsmithers.link>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2021-07-28
+" Last Updated: 2021-09-04
 
 :scriptencoding utf8
 
@@ -967,7 +967,7 @@ call plug#end()
       call <SID>FocusQuickTerminal()
     else
       exec s:OPEN_TERMINAL_WINDOW
-      echom s:termbuf . ' does not exist'
+      echom 'buffer ' . s:termbuf . ' does not exist'
       if has('nvim')
         terminal
         startinsert
@@ -1100,12 +1100,13 @@ let g:html_wrong_comments=1
 " }}}
 
 " Change Cursor Style Dependent On Mode: https://github.com/mhinz/vim-galore#change-cursor-style-dependent-on-mode {{{
-  if (s:os ==? 'Linux')
-    " https://stackoverflow.com/a/42118416/1480704
+  " https://stackoverflow.com/a/42118416/1480704
+  if empty($ITERM_PROFILE)
+    " seems to work everywhere but iTerm
     let &t_SI = "\e[6 q"
     let &t_EI = "\e[2 q"
     let &t_SR = "\e[3 q"
-  elseif (s:os ==? 'MacOS')
+  else
     if empty($TMUX)
       let &t_SI = "\<Esc>]50;CursorShape=1\x7"
       let &t_EI = "\<Esc>]50;CursorShape=0\x7"
@@ -1114,8 +1115,8 @@ let g:html_wrong_comments=1
       let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
       let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
       let &t_SR = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=2\x7\<Esc>\\"
-    endif
-  endif
+    end
+  end
 " }}}
 
 " Prose
