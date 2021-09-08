@@ -26,7 +26,7 @@
   lola = log --graph --decorate --oneline --all
 [user]
   name = Jon Smithers
-  email = mail@jonsmithers.link
+  email = jon@smithers.dev
 [merge]
   tool = diffconflicts
 [mergetool "diffconflicts"]

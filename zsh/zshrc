@@ -83,7 +83,7 @@ ZSH_THEME="robbyrussell"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git npm yarn)
-tryplugins=(npm yarn dnf gulp tmux)
+tryplugins=(npm yarn dnf gulp tmux aws)
 for p in $tryplugins; do
   if command -v "$p" > /dev/null; then
     plugins+=("$p")
@@ -145,6 +145,8 @@ source $ZSH/oh-my-zsh.sh
   ZSH_THEME_GIT_PROMPT_DIRTY=" %{$fg[yellow]%}✗"
   ZSH_THEME_GIT_PROMPT_CLEAN=""
 }
+
+ZSH_THEME_TERM_TITLE_IDLE='zsh:%1~'
 
 # User configuration
 
