@@ -1,15 +1,6 @@
-[core]
-  excludesfile = /Users/smithers/.gitignore_global
-  editor = vim
-  pager = less -+X -x4 -+F -S
-  #            ^ makes log and diff clear the screen when done
-  #                ^ render tabs with 4-char width
-  #            http://linuxtips.manki.in/2012/02/making-git-commands-clear-screen-when.html
 [alias]
-  bookmark = !git add --all && git commit -m 'I WAS IN THE MIDDLE OF STUFF'
   ad = add
   br = branch
-  fe = fetch
   cm = commit
   co = checkout
   lg = log
@@ -27,13 +18,13 @@
 [user]
   name = Jon Smithers
   email = jon@smithers.dev
-[merge]
-  tool = diffconflicts
+[difftool]
+  prompt = false
+[mergetool]
+  keepBackup = false
 [mergetool "diffconflicts"]
   cmd = vim -c DiffConflicts \"$MERGED\" \"$BASE\" \"$LOCAL\" \"$REMOTE\"
   trustExitCode = true
-[mergetool]
-  keepBackup = false
 [branch]
   sort = -authordate
 [rebase]
