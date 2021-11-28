@@ -71,13 +71,15 @@ fun! s:plugIfNeovim(repo, opts = {}, f = 'none')
     endif
   endif
 endfun
-fun! s:plugIfNotNeovim(repo, opts, f)
+fun! s:plugIfNotNeovim(repo, opts = {}, f = 'none')
   if a:0 != 0
     return s:err('Extraneous arguments')
   endif
   if (!has('nvim'))
     call plug#(a:repo, a:opts)
-    let s:config_queue = add(s:config_queue, a:f)
+    if (a:f != 'none')
+      let s:config_queue = add(s:config_queue, a:f)
+    endif
   endif
 endfun
 fun! s:plugDev(repo, ...)
@@ -690,8 +692,27 @@ EOF
     endfun
     PlugIfNotNeovim 'scrooloose/nerdtree', { 'on': s:nerdtree_triggers }, function('s:ConfigNerdtree')
     fun! s:ConfigChadtree()
+      " -/= | shrink/expand
+      " q   | close
+      " a   | add file
+      " r   | rename
+      " d   | delete
+      " t   | trash
+      " C   | view parent directory
+      " b   | cd vim to folder
+      "
+      " f   | set filter
+      " F   | clear filter
+      " s   | select
+      " S   | clear selection
+      " p/x | copy/move selected files here
       :nnoremap <silent> <Leader>tt :CHADopen<enter>
       :nnoremap <silent> <Leader>tf :exec ':CHADopen ' . expand('%')<enter>
+      let g:chadtree_settings = {
+            \ "view.sort_by": ["is_folder", "file_name", "ext"],
+            \ "theme.icon_glyph_set": "ascii",
+            \ "theme.text_colour_set": "nord",
+            \ }
     endfun
     PlugIfNeovim 'ms-jpq/chadtree', {}, function('s:ConfigChadtree')
   " }}}
@@ -863,7 +884,7 @@ EOF
     " }}}
   endif
 
-  call plug#('Xuyuanp/nerdtree-git-plugin', { 'on': s:nerdtree_triggers })
+  PlugIfNotNeovim 'Xuyuanp/nerdtree-git-plugin', { 'on': s:nerdtree_triggers }
   " Show git indicators in nerdtree
   " {{{
     let g:NERDTreeIndicatorMapCustom = {
