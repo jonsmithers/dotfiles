@@ -56,16 +56,19 @@ autocmd VimEnter *
   \| endif
 
 " {{{ Personal vim-plug utils
+let s:config_queue = []
 com! -nargs=+ PlugIfNeovim call s:plugIfNeovim(<args>)
 com! -nargs=+ PlugIfNotNeovim call s:plugIfNotNeovim(<args>)
 com! -nargs=+ PlugDevelop call s:plugDev(<args>)
-fun! s:plugIfNeovim(repo, ...)
-  if a:0 > 1
-    return s:err('Invalid number of arguments (1..2)')
+fun! s:plugIfNeovim(repo, opts = {}, f = 'none')
+  if a:0 != 0
+    return s:err('Extraneous arguments')
   endif
-  let l:opts = a:0 == 1 ? a:1 : { }
   if (has('nvim'))
-    call plug#(a:repo, l:opts)
+    call plug#(a:repo, a:opts)
+    if (a:f != 'none')
+      let s:config_queue = add(s:config_queue, a:f)
+    endif
   endif
 endfun
 fun! s:plugIfNotNeovim(repo, opts, f)
@@ -74,7 +77,7 @@ fun! s:plugIfNotNeovim(repo, opts, f)
   endif
   if (!has('nvim'))
     call plug#(a:repo, a:opts)
-    call a:f()
+    let s:config_queue = add(s:config_queue, a:f)
   endif
 endfun
 fun! s:plugDev(repo, ...)
@@ -102,6 +105,135 @@ let s:nerdtree_triggers = ['NERDTreeFind', 'NERDTreeClose', 'NERDTreeToggle', 'N
 " │ plugins │
 " └─────────┘
 call plug#begin('~/.vim/plugged')
+
+  " {{{ Plugin 'neovim/nvim-lspconfig'
+    fun! s:ConfigNvimLspConfig()
+      lua <<EOF
+        nvim_lsp = require('lspconfig')
+
+        -- Use an on_attach function to only map the following keys
+        -- after the language server attaches to the current buffer
+        on_attach = function(client, bufnr)
+          local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+          local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+
+          -- Enable completion triggered by <c-x><c-o>
+          buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+          -- Mappings.
+          local opts = { noremap=true, silent=true }
+
+          -- See `:help vim.lsp.*` for documentation on any of the below functions
+          buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+          buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+          buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+          buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+          buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+          buf_set_keymap('n', 'K',         '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+          buf_set_keymap('n', '<space>lh', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+          buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+          buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
+          buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
+          buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+          buf_set_keymap('n', '<space>lr', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+          buf_set_keymap('n', '<space>la', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+          buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+          buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+          buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+          buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+          buf_set_keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+
+        end
+
+        -- Use a loop to conveniently call 'setup' on multiple servers and
+        -- map buffer local keybindings when the language server attaches
+        local servers = { 'pyright', 'rust_analyzer', 'tsserver' }
+        for _, lsp in ipairs(servers) do
+          nvim_lsp[lsp].setup {
+            on_attach = on_attach,
+            flags = {
+              debounce_text_changes = 150,
+            }
+          }
+        end
+EOF
+    endfun
+    PlugIfNeovim 'neovim/nvim-lspconfig', {}, function('s:ConfigNvimLspConfig')
+  " }}}
+
+  " {{{ Plugin 'hrsh7th/nvim-cmp' and dependencies
+  " auto completion for neovim
+    fun! s:ConfigCompletionIfNeovim()
+      lua <<EOF
+        -- Setup nvim-cmp.
+        local cmp = require'cmp'
+
+        cmp.setup({
+          snippet = {
+            -- REQUIRED - you must specify a snippet engine
+            expand = function(args)
+              vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+              -- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+              -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+              -- require'snippy'.expand_snippet(args.body) -- For `snippy` users.
+            end,
+          },
+          mapping = {
+            ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
+            ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
+            ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
+            ['<C-y>'] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
+            ['<C-e>'] = cmp.mapping({
+              i = cmp.mapping.abort(),
+              c = cmp.mapping.close(),
+            }),
+            ['<CR>'] = cmp.mapping.confirm({ select = true }),
+          },
+          sources = cmp.config.sources({
+            { name = 'nvim_lsp' },
+            { name = 'vsnip' }, -- For vsnip users.
+            -- { name = 'luasnip' }, -- For luasnip users.
+            -- { name = 'ultisnips' }, -- For ultisnips users.
+            -- { name = 'snippy' }, -- For snippy users.
+          }, {
+            { name = 'buffer' },
+          })
+        })
+
+        -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
+        -- cmp.setup.cmdline('/', {
+        --   sources = {
+        --     { name = 'buffer' }
+        --   }
+        -- })
+
+        -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+        cmp.setup.cmdline(':', {
+          sources = cmp.config.sources({
+            { name = 'path' }
+          }, {
+            { name = 'cmdline' }
+          })
+        })
+
+        -- Setup lspconfig.
+        local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+        -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
+        require('lspconfig')['tsserver'].setup {
+          capabilities = capabilities,
+          on_attach = on_attach
+        }
+EOF
+    endfun
+    PlugIfNeovim 'hrsh7th/nvim-cmp', {}, function('s:ConfigCompletionIfNeovim')
+    PlugIfNeovim 'hrsh7th/cmp-nvim-lsp'
+    PlugIfNeovim 'hrsh7th/cmp-buffer'
+    PlugIfNeovim 'hrsh7th/cmp-path'
+    PlugIfNeovim 'hrsh7th/cmp-cmdline'
+    PlugIfNeovim 'hrsh7th/vim-vsnip'
+    PlugIfNeovim 'hrsh7th/cmp-vsnip'
+    PlugIfNeovim 'rafamadriz/friendly-snippets'
+  " }}}
 
   Plug 'AndrewRadev/splitjoin.vim'
   " gJ on first line to join object literal into one line
@@ -145,8 +277,6 @@ call plug#begin('~/.vim/plugged')
 
   Plug 'editorconfig/editorconfig-vim'
   " Adhere to .editorconfig files
-
-  Plug 'fladson/vim-kitty'
 
   Plug 'Houl/ExplainPattern-vim'
   " Use :ExplainPattern to explain a vim-flavored regex
@@ -548,16 +678,22 @@ call plug#begin('~/.vim/plugged')
     nnoremap <Leader>m/ :M/
   " }}}
 
-  call plug#('scrooloose/nerdtree', { 'on': s:nerdtree_triggers })
-  " Project tree explorer
-  " {{{
-    let g:NERDTreeHijackNetrw=0 " let dirvish replace netrw
-    let g:NERDTreeMinimalUI=1
+  " {{{ File tree plugin - 'scrooloose/nerdtree' or 'ms-jpq/chadtree'
+    fun! s:ConfigNerdtree()
+      let g:NERDTreeHijackNetrw=0 " let dirvish replace netrw
+      let g:NERDTreeMinimalUI=1
 
-    :nnoremap <silent> <Leader>tt :NERDTreeToggle<enter><c-w>p
-    :nnoremap <silent> <Leader>tf :NERDTreeFind<enter>
-    :nnoremap <silent> <Leader>tF :NERDTreeFind<enter><c-w>p
-    :nnoremap <silent> <Leader>tr :NERDTreeRefreshRoot<cr>
+      :nnoremap <silent> <Leader>tt :NERDTreeToggle<enter><c-w>p
+      :nnoremap <silent> <Leader>tf :NERDTreeFind<enter>
+      :nnoremap <silent> <Leader>tF :NERDTreeFind<enter><c-w>p
+      :nnoremap <silent> <Leader>tr :NERDTreeRefreshRoot<cr>
+    endfun
+    PlugIfNotNeovim 'scrooloose/nerdtree', { 'on': s:nerdtree_triggers }, function('s:ConfigNerdtree')
+    fun! s:ConfigChadtree()
+      :nnoremap <silent> <Leader>tt :CHADopen<enter>
+      :nnoremap <silent> <Leader>tf :exec ':CHADopen ' . expand('%')<enter>
+    endfun
+    PlugIfNeovim 'ms-jpq/chadtree', {}, function('s:ConfigChadtree')
   " }}}
 
   Plug 'reedes/vim-pencil'
@@ -618,7 +754,9 @@ call plug#begin('~/.vim/plugged')
   Plug 'shumphrey/fugitive-gitlab.vim'
   " Various integrated git tools. I use this a lot.
   " {{{
-    nnoremap <Leader>gb :Gblame -w<cr>
+    " Git difftool -y   open quickfix list of changes, open diff of each file as tab
+    " Git mergetool     open quickfix list of merge conflicts
+    nnoremap <Leader>gb :Git blame -w<cr>
     " ~        reblame at hovered commit
     " A        resize to author column
     " D        resize to date column
@@ -643,7 +781,7 @@ call plug#begin('~/.vim/plugged')
     " http://vimcasts.org/episodes/fugitive-vim-working-with-the-git-index/
     " c-n, c-p jumps to files
     " -        stages/unstages
-    nnoremap <leader>gd :Gvdiff<cr>
+    nnoremap <leader>gd :Gvdiffsplit<cr>
     "          (left is index (staged), right is working)
     "          dp      diffput
     "          do      diffget (think "obtain")
@@ -831,28 +969,29 @@ call plug#begin('~/.vim/plugged')
     endfun
   " }}}
 
-  " language plugins {{{
+  " {{{ language syntax plugins
+  Plug 'dag/vim-fish'
+  Plug 'fatih/vim-go'
+  Plug 'fladson/vim-kitty'
+  Plug 'Glench/Vim-Jinja2-Syntax'
+  Plug 'jonsmithers/vim-html-template-literals'
+  Plug 'MaxMEllon/vim-jsx-pretty'
+  Plug 'posva/vim-vue'
+  Plug 'rust-lang/rust.vim'
+  Plug 'tfnico/vim-gradle'
+  Plug 'tpope/vim-markdown'
+  Plug 'vim-scripts/groovyindent-unix'
+  let g:html_indent_script1 = 'inc'
+  let g:html_indent_style1  = 'inc'
+  let g:markdown_fenced_languages = ['rust', 'typescript', 'typescriptreact', 'javascript', 'bash']
+  let g:vim_jsx_pretty_colorful_config = 1
   if !has('patch-8.1.1486')
     Plug 'leafgarland/typescript-vim'
     Plug 'peitalin/vim-jsx-typescript'
   endif
-  Plug 'dag/vim-fish'
-  Plug 'Glench/Vim-Jinja2-Syntax'
-  Plug 'posva/vim-vue'
-  Plug 'tfnico/vim-gradle'
-  Plug 'vim-scripts/groovyindent-unix'
-  Plug 'MaxMEllon/vim-jsx-pretty'
-  let g:vim_jsx_pretty_colorful_config = 1
-  PlugDevelop 'jonsmithers/vim-html-template-literals'
-  let g:html_indent_style1  = 'inc'
-  let g:html_indent_script1 = 'inc'
-  Plug 'rust-lang/rust.vim'
-  Plug 'tpope/vim-markdown'
-  let g:markdown_fenced_languages = ['rust', 'typescript', 'typescriptreact', 'javascript', 'bash']
-  Plug 'fatih/vim-go'
   " }}}
 
-  " colorscheme plugins {{{
+  " {{{ colorscheme/theme plugins
   if &term == 'alacritty'
     let &term='xterm-256color'
   endif
@@ -882,6 +1021,11 @@ call plug#begin('~/.vim/plugged')
   endif
 
 call plug#end()
+
+for F in s:config_queue
+  call F()
+endfor
+let s:config_queue = []
 
 " ┌──────────────┐
 " │ Key Mappings │
@@ -1190,7 +1334,6 @@ let g:html_wrong_comments=1
   set mouse=a       "already set in Vim 8 defaults.vim, but Fedora undoes it! (https://lists.fedoraproject.org/archives/list/users@lists.fedoraproject.org/thread/HZJVN3LVFS2YC3H7EZRPJEYEPAGKEVH2/)
   set ttimeoutlen=0 "timeout instantly when pressing esc during visual mode
   set regexpengine=0 " essential for yats typescript speed
-  set foldmethod=syntax
   set foldlevelstart=99
   set nowrap
   set ignorecase    "search ignores case

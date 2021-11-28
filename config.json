@@ -8,7 +8,6 @@
     "./misc/bash_profile":               "~/.bash_profile",
     "./misc/editorconfig":               "~/.editorconfig",
     "./tmux/tmux.conf":                  "~/.tmux.conf",
-    "./vim/UltiSnips":                   "~/.vim/UltiSnips",
     "./vim/autoload/js_prose.vim":       "~/.vim/autoload/js_prose.vim",
     "./vim/en.utf-8.add":                "~/.vim/spell/en.utf-8.add",
     "./vim/ftplugin":                    "~/.vim/ftplugin",
