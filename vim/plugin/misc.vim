@@ -1,8 +1,8 @@
 " dotfile_extras.vim - Optional/deferred vim configurations 
 " (see :help autoload)
-" Author:       Jon Smithers <mail@jonsmithers.link>
+" Author:       Jon Smithers <jon@smithers.dev>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/dotfile_extras.vim
-" Last Updated: 2019-08-24
+" Last Updated: 2021-11-28
 
 " re-source this script when I change it
 if (!exists('s:misc_script'))
