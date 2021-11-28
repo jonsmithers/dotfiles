@@ -21,6 +21,7 @@ function install_cmd() {
   local brew=''
   local apt=''
   local linux=''
+  local not=''
   local cmd="$1"; shift;
   while :; do
     case $1 in
@@ -32,6 +33,9 @@ function install_cmd() {
           echo "missing dnf value"
           exit 1
         fi
+        ;;
+      --not=?*)
+        not="${1#*=}"; shift;
         ;;
       --linux=?*)
         linux="${1#*=}"; shift;
@@ -53,7 +57,7 @@ function install_cmd() {
         break;
     esac
   done
-  if [[ $(command -v "$cmd") ]]; then
+  if [[ $(command -v "$cmd") && "$(command -v "$cmd")" != "$not" ]]; then
     echo -e " ${GREEN}✓${NORMAL} $cmd installed"
   elif prompt " ${RED}✗${NORMAL} missing $cmd - install?"; then
     if [[ -n "$linux" && "$(uname -s)" == "Linux" ]]; then
@@ -92,7 +96,7 @@ function install_git_number_on_linux() {
   );
 }
 
-install_cmd zsh
+install_cmd zsh --not="/bin/zsh"
 install_cmd rg --brew="brew install ripgrep" --dnf="sudo dnf install --assumeyes ripgrep"
 install_cmd git-number --linux="install_git_number_on_linux"
 install_cmd tmux
