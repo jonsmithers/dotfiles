@@ -151,7 +151,7 @@ call plug#begin('~/.vim/plugged')
 
         -- Use a loop to conveniently call 'setup' on multiple servers and
         -- map buffer local keybindings when the language server attaches
-        local servers = { 'pyright', 'rust_analyzer', 'tsserver', 'eslint' }
+        local servers = { 'tsserver', 'eslint' }
         for _, lsp in ipairs(servers) do
           lspconfig[lsp].setup {
             on_attach = on_attach,
@@ -550,8 +550,10 @@ EOF
   Plug 'junegunn/vim-easy-align'
   " Vertically align code
   " {{{
-    :xmap     ga <Plug>(EasyAlign)
-    :nnoremap ga <Plug>(EasyAlign)
+    " <C-p> | toggle "live" interactive
+    " <C-g> | cycle "ignore groups"
+    :xmap ga <Plug>(EasyAlign)
+    :nmap ga <Plug>(EasyAlign)
   " }}}
 
   Plug 'justinmk/vim-dirvish'
@@ -699,23 +701,36 @@ EOF
     endfun
     PlugIfNotNeovim 'scrooloose/nerdtree', { 'on': s:nerdtree_triggers }, function('s:ConfigNerdtree')
     fun! s:ConfigChadtree()
-      " -/= | shrink/expand
-      " q   | close
-      " a   | add file
-      " r   | rename
-      " d   | delete
-      " t   | trash
-      " C   | view parent directory
-      " b   | cd vim to folder
+
+      " -/=   | shrink/expand
+      " q     | close
+      " C     | view parent directory
+      " b     | cd vim to folder ("Base"?)
+      " w,v   | open in split view
+      " tab   | open without focus
+      " enter | open
+      " J     | jump to current buffer
+      " y     | copy file path
+      " Y     | copy file name
+      " zc    | collapse subdirectories
       "
-      " f   | set filter
-      " F   | clear filter
-      " s   | select
-      " S   | clear selection
-      " p/x | copy/move selected files here
+      " f     | set filter
+      " F     | clear filter
+      "
+      " s     | select
+      " S     | clear selection
+      " p/x   | copy/move selected files here
+      " a     | add file
+      " r     | rename
+      " d     | delete
+      " t     | trash
+
       :nnoremap <silent> <Leader>tt :CHADopen<enter>
       :nnoremap <silent> <Leader>tf :exec ':CHADopen ' . expand('%')<enter>
       let g:chadtree_settings = {
+            \ "keymap.refocus": [],
+            \ "keymap.v_split": ["w","v"],
+            \ "keymap.collapse": ["zc"],
             \ "view.sort_by": ["is_folder", "file_name", "ext"],
             \ "theme.icon_glyph_set": "ascii",
             \ "theme.text_colour_set": "nord",
@@ -1317,6 +1332,15 @@ let g:html_wrong_comments=1
   nnoremap yoP :call js_prose#ToggleProseMode()<cr>
 
 " GUI Settings {{{
+  let g:neovide_cursor_vfx_mode = "railgun"
+  let g:neovide_cursor_vfx_opacity=200.0
+  let g:neovide_cursor_vfx_particle_lifetime=1.2
+  let g:neovide_cursor_vfx_particle_density=7.0
+  let g:neovide_cursor_vfx_particle_speed=10.0
+  let g:neovide_cursor_vfx_particle_phase=1.5
+  let g:neovide_cursor_vfx_particle_curl=1.0
+  let g:neovide_remember_window_size = v:true
+  set guifont=Monaco:h16
   if has('gui_running')
     set background=dark
     set autoread        "auto-load changes from disk
