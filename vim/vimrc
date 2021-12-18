@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <jon@smithers.dev>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2021-11-28
+" Last Updated: 2021-12-18
 
 :scriptencoding utf8
 
@@ -136,7 +136,7 @@ call plug#begin('~/.vim/plugged')
           buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
           buf_set_keymap('n', 'K',         '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
           buf_set_keymap('n', '<space>lh', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-          buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+          -- buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
           buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
           buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
           buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
@@ -151,7 +151,7 @@ call plug#begin('~/.vim/plugged')
 
         -- Use a loop to conveniently call 'setup' on multiple servers and
         -- map buffer local keybindings when the language server attaches
-        local servers = { 'tsserver', 'eslint' }
+        local servers = { 'tsserver', 'eslint', 'rust_analyzer' }
         for _, lsp in ipairs(servers) do
           lspconfig[lsp].setup {
             on_attach = on_attach,
@@ -196,7 +196,7 @@ EOF
               i = cmp.mapping.abort(),
               c = cmp.mapping.close(),
             }),
-            ['<CR>'] = cmp.mapping.confirm({ select = true }),
+            ['<CR>'] = cmp.mapping.confirm({ select = false }),
           },
           sources = cmp.config.sources({
             { name = 'nvim_lsp' }, -- nvim-lspconfig
@@ -446,6 +446,7 @@ EOF
   Plug 'junegunn/fzf.vim'
   " Incredible fuzzy search for all sorts of things.
   " {{{
+    " <C-/> or <C-_> to toggle preview window
     " customize fzf colors to match color scheme
     let g:fzf_colors =
     \ { 'fg':      ['fg', 'Normal'],
@@ -495,9 +496,6 @@ EOF
           \ fzf#wrap({'dir': expand('%:p:h')}))
     inoremap <c-x>F <c-x><c-f>
           " Ctrl-X Shift-F will provide native c-x c-f functionality
-    if (has('patch-8.2.205')) " terminal popups!
-      let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
-    endif
   " }}}
 
   Plug 'junegunn/goyo.vim', { 'on': 'Goyo' }
@@ -738,6 +736,11 @@ EOF
     endfun
     PlugIfNeovim 'ms-jpq/chadtree', {}, function('s:ConfigChadtree')
   " }}}
+
+  fun! s:ConfigNotify()
+    lua vim.notify = require("notify")
+  endfun
+  PlugIfNeovim 'rcarriga/nvim-notify', {}, function('s:ConfigNotify')
 
   Plug 'reedes/vim-pencil'
 
@@ -1046,7 +1049,7 @@ EOF
   Plug 'arcticicestudio/nord-vim'
   Plug 'ayu-theme/ayu-vim'
   Plug 'cormacrelf/vim-colors-github'
-  Plug 'dracula/vim'
+  Plug 'dracula/vim', { 'as': 'dracula' }
   Plug 'junegunn/seoul256.vim'
   Plug 'kjssad/quantum.vim'
   Plug 'KKPMW/sacredforest-vim'
@@ -1552,6 +1555,7 @@ let g:html_wrong_comments=1
 " {{{
   com! Default          set background=dark  | call Noop()           | colorscheme default
   com! DarkAyu          set background=dark  | let ayucolor="dark"   | colorscheme ayu
+  com! DarkDracula      set background=dark  | call Noop()           | colorscheme dracula
   com! DarkGruv         set background=dark  | call Noop()           | colorscheme gruvbox
   com! DarkOcean        set background=dark  | call Noop()           | colorscheme OceanicNext
   com! DarkPaper        set background=dark  | call Noop()           | colorscheme PaperColor
