@@ -1,0 +1,22 @@
+Before:
+  set tabstop=2
+  set shiftwidth=2
+  set expandtab
+
+Given:
+  var x = {<backspace>
+  }
+Do:
+  /backspace\<Enter>da>
+  a\<Backspace>
+Expect:
+  var x =
+
+Given:
+  <insert quote>''
+Do:
+  /insert quote\<Enter>da>
+  i'
+Expect:
+  ''
+

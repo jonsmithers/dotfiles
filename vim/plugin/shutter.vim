@@ -118,8 +118,8 @@ fun! shutter#enable(shush)
   inoremap        <space>     <c-r>=StretchPair()<CR>
   inoremap        {           <c-r>=StartPair('{', '}')<CR>
   inoremap        [           <c-r>=StartPair('[', ']')<CR>
-  inoremap <expr> ]           <SID>ClosePair('[', ']')
-  inoremap <expr> }           <SID>ClosePair('{', '}')
+  inoremap        ]           <c-r>=ClosePair2('[', ']')<CR>
+  inoremap        }           <c-r>=ClosePair2('{', '}')<CR>
   inoremap <expr> <backspace> <SID>Backspace()
   " imap <expr> <Del> <SID>Delete() " doesn't work with c-d?
   if !a:shush
