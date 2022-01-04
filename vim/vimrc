@@ -1305,6 +1305,13 @@ let g:html_wrong_comments=1
 
   set directory=/var/tmp//,/tmp//,.
 
+  if (has('nvim'))
+    let $GIT_EDITOR='nvim'
+    let $EDITOR='nvim'
+    " Avoid launching vim from within neovim, because neovim has a bug where
+    " it sets environment vars that cause vim to print errors on startup.
+  endif
+
   " local file history {{{
   if (s:os !=# 'Windows')
 
@@ -1634,7 +1641,7 @@ let g:html_wrong_comments=1
     " I used to additionally "call lightline#disable() | call lightline#enable()" here
 
     " disable syntax when editing huge files so vim stays snappy
-    autocmd Filetype * if (getfsize(@%) > 500000) | setlocal syntax=OFF | endif
+    autocmd Filetype * if (getfsize(@%) > 500000 && &filetype != "git") | setlocal syntax=OFF | endif
 
     autocmd Filetype javascript                 call s:ftplugin_javascript()
     autocmd Filetype javascript,html,typescript call s:ftplugin_javascripty()
