@@ -251,7 +251,7 @@ fi
 
 if command -v fzf > /dev/null; then
   fzfCommits() {
-    git log --oneline | fzf --height=30 --multi --preview="git show {+1} --color=always" | cut -d' ' -f1 | tr '\n' ' ' | sed 's/[[:space:]]$//'
+    git log --oneline | fzf --height=30 --multi --preview="git show {+1} --color=always" --no-sort --reverse | cut -d' ' -f1 | tr '\n' ' ' | sed 's/[[:space:]]$//'
   }
   fzfTags() {
     git tag | grep -v HEAD | sed "s/.* //" | sed "s#remotes/##" | sort -u | fzf --height=30 --multi --preview="git log --format=medium --graph --max-count 10 {+1}" | tr '\n' ' ' | sed 's/[[:space:]]$//'
