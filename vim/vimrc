@@ -126,7 +126,10 @@ call plug#begin('~/.vim/plugged')
     PlugIfNeovim 'hrsh7th/cmp-vsnip'
     PlugIfNeovim 'rafamadriz/friendly-snippets'
 
-    PlugIfNeovim 'stevearc/aerial.nvim'
+    fun! s:ConfigAerial()
+      nnoremap <leader>st :AerialToggle!<cr>
+    endfun
+    PlugIfNeovim 'stevearc/aerial.nvim', {}, funcref('s:ConfigAerial')
     PlugIfNeovim 'stevearc/dressing.nvim'
     PlugIfNeovim 'rcarriga/nvim-notify'
 

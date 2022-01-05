@@ -106,7 +106,7 @@ require('lspconfig')['tsserver'].setup {
   on_attach = on_attach
 }
 
-vim.g.aerial = {
+require('aerial').setup({
   backends = { "lsp", "markdown" },
   -- Enum: persist, close, auto, global
   --   persist - aerial window will stay open until closed
@@ -168,13 +168,6 @@ vim.g.aerial = {
   -- Can also be specified per-filetype as a map (see below)
   open_automatic = false,
 
-  -- If open_automatic is true, only open aerial if the source buffer is at
-  -- least this long
-  open_automatic_min_lines = 0,
-
-  -- If open_automatic is true, only open aerial if there are at least this many symbols
-  open_automatic_min_symbols = 0,
-
   -- Set to true to only open aerial at the far right/left of the editor
   -- Default behavior opens aerial relative to current window
   placement_editor_edge = false,
@@ -222,7 +215,7 @@ vim.g.aerial = {
     -- How long to wait (in ms) after a buffer change before updating
     update_delay = 300,
   },
-}
+})
 
 require('dressing').setup({
   input = {
