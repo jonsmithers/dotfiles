@@ -1477,6 +1477,7 @@ let g:html_wrong_comments=1
   com! Default          set background=dark  | call Noop()           | colorscheme default
   com! DarkAyu          set background=dark  | let ayucolor="dark"   | colorscheme ayu
   com! DarkDracula      set background=dark  | call Noop()           | colorscheme dracula
+  com! DarkGitHub       set background=dark  | call Noop()           | colorscheme github
   com! DarkGruv         set background=dark  | call Noop()           | colorscheme gruvbox
   com! DarkOcean        set background=dark  | call Noop()           | colorscheme OceanicNext
   com! DarkPaper        set background=dark  | call Noop()           | colorscheme PaperColor
@@ -1552,17 +1553,22 @@ let g:html_wrong_comments=1
     " when not supported https://github.com/vim/vim/issues/3471
   endif
 
-  if (!exists('g:colors_name'))
-    if (has('nvim'))
-      silent! MirageAyu
+  if (!exists('g:colors_name')) " no colorscheme set
+    if exists('$VIM_BACKGROUND')
+      set background=$VIM_BACKGROUND
     else
-      silent! DarkApprentice
+      set background=dark
+    endif
+    if exists('$VIM_COLORSCHEME')
+      execute 'silent! colorscheme ' .. $VIM_COLORSCHEME
+    else
+      if (has('nvim'))
+        silent! MirageAyu
+      else
+        silent! DarkPaper
+      endif
     endif
   endif
-  if has('nvim')
-    " let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-    " ^ I don't know what this does
-  end
 " }}}
 
 " simple session restoration http://vim.wikia.com/wiki/Go_away_and_come_back
