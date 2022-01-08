@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <jon@smithers.dev>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2022-01-07
+" Last Updated: 2022-01-08
 
 :scriptencoding utf8
 
@@ -127,12 +127,32 @@ call plug#begin('~/.vim/plugged')
     PlugIfNeovim 'hrsh7th/cmp-vsnip'
     PlugIfNeovim 'rafamadriz/friendly-snippets'
 
+    " {{{ neovim ui plugins
     fun! s:ConfigAerial()
       nnoremap <leader>st :AerialToggle!<cr>
+    endfun
+    fun! s:ConfigTelescope()
+      com! Planets :lua require('telescope.builtin').planets()<cr>
+      com! Symbols :lua require('telescope.builtin').symbols(require('telescope.themes').get_cursor())<cr>
+      nnoremap <leader>F       :lua require('telescope.builtin').live_grep({prompt_title = 'Query'})<cr>
+      nnoremap <leader>or      :lua require('telescope.builtin').oldfiles()<cr>
+      nnoremap <c-p>           :lua require('telescope.builtin').find_files()<cr>
     endfun
     PlugIfNeovim 'stevearc/aerial.nvim', {}, funcref('s:ConfigAerial')
     PlugIfNeovim 'stevearc/dressing.nvim'
     PlugIfNeovim 'rcarriga/nvim-notify'
+    PlugIfNeovim 'nvim-telescope/telescope.nvim', {}, funcref('s:ConfigTelescope')
+    PlugIfNeovim 'nvim-lua/plenary.nvim'
+    PlugIfNeovim 'nvim-telescope/telescope-symbols.nvim'
+    " Telescope Picker mappings
+    "   ctrl-c   | close
+    "   ctrl-u/d | scroll preview
+    "   ctrl-q   | open ALL in quickfix
+    "   alt-q    | open SELECTED in quickfix
+    "   ctrl-v   | vertical split
+    "   ctrl-t   | open in tab
+    "   ? view   | mappings
+    " }}}
 
     fun! CloseFloatingWindows()
       " https://www.reddit.com/r/neovim/comments/nrz9hp/can_i_close_all_floating_windows_without_closing/
