@@ -82,8 +82,8 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git npm yarn)
-tryplugins=(npm yarn dnf gulp tmux aws)
+plugins=(git npm yarn nvm)
+tryplugins=(npm yarn dnf gulp tmux aws kubectl minikube heroku pip)
 for p in $tryplugins; do
   if command -v "$p" > /dev/null; then
     plugins+=("$p")
@@ -194,13 +194,12 @@ if command -v git-number > /dev/null; then
   if command -v compdef > /dev/null; then
     compdef g=git
   fi
-  giff() {
-    git-number -c vim $1 +Gvdiff
-  }
-  if command -v gvim > /dev/null; then
-    alias gim='git-number -c gvim -v'
+  if command -v nvim > /dev/null; then
+    alias gim='git-number -c nvim'
+    alias giff='git-number -c nvim +Gvdiff'
   else
     alias gim='git-number -c vim'
+    alias giff='git-number -c vim +Gvdiff'
   fi
 fi
 
