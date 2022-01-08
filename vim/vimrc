@@ -722,6 +722,10 @@ call plug#begin('~/.vim/plugged')
     "          [c,]c   jump to prev/next change
     "          c-w c-o nice way to exit
     "          c-w c-w goes between columns
+    augroup vimrc_fugitive
+      au!
+      autocmd FileType fugitive setlocal relativenumber
+    augroup END
   " }}}
 
   Plug 'tpope/vim-projectionist'
