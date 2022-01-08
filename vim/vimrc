@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <jon@smithers.dev>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2022-01-04
+" Last Updated: 2022-01-07
 
 :scriptencoding utf8
 
@@ -166,22 +166,12 @@ call plug#begin('~/.vim/plugged')
     endif
   " }}}
 
-  Plug 'ciaranm/detectindent'
-  " Analyze current buffer and configure tabbing to match.
-  " {{{
-    nnoremap <leader>di :DetectIndent<cr>
-    :let g:detectindent_preferred_indent = 2
-  " }}}
-
   Plug 'chrisbra/Colorizer'
   " Show hex colors by running :ColorHighlight or :ColorToggle
   " {{{
     let g:colorizer_fgcontrast = 0
     let g:colorizer_hex_pattern = ['#\?', '\%(\x\{6}\)', '']
   " }}}
-
-  Plug 'editorconfig/editorconfig-vim'
-  " Adhere to .editorconfig files
 
   Plug 'Houl/ExplainPattern-vim'
   " Use :ExplainPattern to explain a vim-flavored regex
@@ -765,6 +755,9 @@ call plug#begin('~/.vim/plugged')
 
   Plug 'tpope/vim-unimpaired'
   " Add lots of very useful pair-related keybindings. See :help unimpaired
+
+  Plug 'tpope/vim-sleuth'
+  " Support editorconfig and auto indent detection
 
   if (!empty(glob('~/Dropbox/vimwiki')))
     " {{{
