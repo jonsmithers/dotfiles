@@ -113,8 +113,9 @@ call plug#begin('~/.vim/plugged')
       echom "manually installing LSP servers"
       !npm install --global vscode-langservers-extracted
       !npm install --global typescript-language-server
-      !npm install --global vscode-html-language-server
+      !npm install --global vscode-html-languageservice
     endfun
+    com! InstallLsps call s:InstallLsps({})
     PlugIfNeovim 'neovim/nvim-lspconfig', { 'do': function('s:InstallLsps') }
 
     PlugIfNeovim 'hrsh7th/nvim-cmp', {}
