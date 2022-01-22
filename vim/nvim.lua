@@ -2,8 +2,6 @@ local lspconfig = require('lspconfig')
 local aerial = require('aerial')
 local cmp = require'cmp'
 
-local LSP_ENABLED_SERVERS = { 'tsserver', 'eslint', 'rust_analyzer', 'html' }
-
 local ON_LSP_ATTACH = function(client, bufnr)
   aerial.on_attach(client, buffer)
 
@@ -74,8 +72,9 @@ cmp.setup.cmdline(':', {
   })
 })
 
-for _, lsp in ipairs(LSP_ENABLED_SERVERS) do
-  lspconfig[lsp].setup {
+-- create .nvimrc/.exrc files to invoke this function enabling lsp servers for a given project
+ENABLE_LSP_SERVER = function(name)
+  lspconfig[name].setup {
     capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities()),
     on_attach = ON_LSP_ATTACH,
     flags = {
