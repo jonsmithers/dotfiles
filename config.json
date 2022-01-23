@@ -19,6 +19,7 @@
     "./vim/syntax/":                     "~/.vim/syntax",
     "./vim/vimrc":                       "~/.vimrc",
     "./vim/profile.vim":                 "~/.profile.vim",
+    "./hammerspoon":                     "~/.hammerspoon",
     "./zsh/zshrc":                       "~/.zshrc"
   }
 }
