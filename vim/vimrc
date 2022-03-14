@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <jon@smithers.dev>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2022-01-08
+" Last Updated: 2022-03-18
 
 :scriptencoding utf8
 
@@ -464,6 +464,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'justinmk/vim-dirvish'
   " Directory viewer
   " {{{
+    " [range]:Shdo cp {} {}.bak<cr>Z!
     " sort folders at top
     let g:dirvish_mode = ':sort ,^.*[\/],'
     augroup dirvish_stuff
@@ -641,7 +642,7 @@ call plug#begin('~/.vim/plugged')
             \ "theme.text_colour_set": "nord",
             \ }
     endfun
-    PlugIfNeovim 'ms-jpq/chadtree', {}, function('s:ConfigChadtree')
+    PlugIfNeovim 'ms-jpq/chadtree', { 'do': ':CHADdeps' }, function('s:ConfigChadtree')
   " }}}
 
   fun! s:ConfigNotify()
@@ -716,7 +717,7 @@ call plug#begin('~/.vim/plugged')
     " p        preview commit
     " o        open commit in split
     " O        open commit in tab
-    nnoremap <leader>gs :tabnew<cr>:Git<cr><c-w><c-o>
+    nnoremap <leader>gs :0Git<cr>
     " ri  - Rebase Interactive
     " rw  - Rebase reWord
     " rm  - Rebase Modify
@@ -974,6 +975,8 @@ call plug#begin('~/.vim/plugged')
   Plug 'NLKNguyen/papercolor-theme'
   Plug 'rakr/vim-one'
   Plug 'romainl/Apprentice'
+  let g:gruvbox_contrast_dark='hard'
+  let g:gruvbox_contrast_light='hard'
   " }}}
 
   if !empty(glob('~/.profile.vim'))
@@ -1016,6 +1019,7 @@ let s:config_queue = []
 
   " insert ISO date in : menu
   cnoremap <c-x><c-d> <c-r>=strftime('%Y-%m-%d')<cr>
+  inoremap <c-x><c-d> <c-r>=strftime('%Y-%m-%d')<cr>
 
   inoremap jk <Esc>
   inoremap jl <Esc>:
@@ -1555,7 +1559,7 @@ let g:html_wrong_comments=1
 
   if (!exists('g:colors_name')) " no colorscheme set
     if exists('$VIM_BACKGROUND')
-      set background=$VIM_BACKGROUND
+      execute 'set background='..$VIM_BACKGROUND
     else
       set background=dark
     endif
