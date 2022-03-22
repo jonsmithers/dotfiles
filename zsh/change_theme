@@ -1,0 +1,64 @@
+#!/bin/bash
+
+function change_vim_colorscheme() {
+  local theme=$1
+  local line_to_insert="export VIM_COLORSCHEME=$theme"
+  # comment out previous colorscheme
+  if cat ~/.zprofile | grep --quiet '^export VIM_COLORSCHEME'; then
+    sed -I '.sedbackup' 's/^export VIM_COLORSCHEME=.*/'"$line_to_insert"'/' ~/.zprofile
+    rm ~/.zprofile.sedbackup
+  else
+    echo "$line_to_insert" >> ~/.zprofile
+  fi
+}
+function change_vim_background() {
+  local background=$1
+  local line_to_insert="export VIM_BACKGROUND=$background"
+  # comment out previous colorscheme
+  if cat ~/.zprofile | grep --quiet '^export VIM_BACKGROUND'; then
+    sed -I '.sedbackup' 's/^export VIM_BACKGROUND=.*/'"$line_to_insert"'/' ~/.zprofile
+    rm ~/.zprofile.sedbackup
+  else
+    echo "$line_to_insert" >> ~/.zprofile
+  fi
+}
+function change_kitty_theme() {
+  local theme=$1
+  echo "include $theme.conf" >> ~/.config/kitty/kitty.conf
+  [[ ! -f "$HOME/.config/kitty/$theme.conf" ]] && {
+    echo "run \"kitty +kitten themes\" to create the theme file for \"$theme\""
+  }
+}
+
+theme=$1
+
+case $theme in
+  github)
+    change_vim_colorscheme github
+    change_vim_background light
+    change_kitty_theme Github
+    ;;
+  dark_ayu)
+    change_vim_colorscheme ayu
+    change_vim_background dark
+    change_kitty_theme Ayu
+    ;;
+  dark_gruvbox)
+    change_vim_colorscheme gruvbox
+    change_vim_background dark
+    change_kitty_theme 'Gruvbox Dark Hard'
+    ;;
+  dark_apprentice)
+    change_vim_colorscheme apprentice
+    change_vim_background dark
+    change_kitty_theme 'Apprentice'
+    ;;
+  light_gruvbox)
+    change_vim_colorscheme gruvbox
+    change_vim_background light
+    change_kitty_theme 'Gruvbox Light Hard'
+    ;;
+  *)
+    echo \"$theme\" is not a recognized theme
+    ;;
+esac
