@@ -117,8 +117,6 @@ require('dressing').setup({
 
     -- Options for telescope selector
     telescope = {
-      -- can be 'dropdown', 'cursor', or 'ivy'
-      theme = "dropdown",
     },
 
     -- Options for fzf selector
