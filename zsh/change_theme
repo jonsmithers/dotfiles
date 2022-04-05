@@ -38,6 +38,11 @@ case $theme in
     change_vim_background light
     change_kitty_theme Github
     ;;
+  dark_one)
+    change_vim_colorscheme onedark
+    change_vim_background dark
+    change_kitty_theme 'One Dark'
+    ;;
   dark_ayu)
     change_vim_colorscheme ayu
     change_vim_background dark

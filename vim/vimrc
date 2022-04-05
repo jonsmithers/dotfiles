@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <jon@smithers.dev>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2022-03-18
+" Last Updated: 2022-04-04
 
 :scriptencoding utf8
 
@@ -974,7 +974,10 @@ call plug#begin('~/.vim/plugged')
   Plug 'nightsense/snow'
   Plug 'NLKNguyen/papercolor-theme'
   Plug 'rakr/vim-one'
+  Plug 'joshdick/onedark.vim'
   Plug 'romainl/Apprentice'
+  let g:onedark_hide_endofbuffer=1
+  let g:onedark_terminal_italics=1
   let g:gruvbox_contrast_dark='hard'
   let g:gruvbox_contrast_light='hard'
   " }}}
@@ -1485,7 +1488,8 @@ let g:html_wrong_comments=1
   com! DarkGruv         set background=dark  | call Noop()           | colorscheme gruvbox
   com! DarkOcean        set background=dark  | call Noop()           | colorscheme OceanicNext
   com! DarkPaper        set background=dark  | call Noop()           | colorscheme PaperColor
-  com! DarkOne          set background=dark  | call Noop()           | colorscheme one
+  com! DarkOneOld       set background=dark  | call Noop()           | colorscheme one
+  com! DarkOne          set background=dark  | call Noop()           | colorscheme onedark
   com! DarkSeoul        set background=dark  | call Noop()           | colorscheme seoul256
   com! DarkSacredForest set background=dark  | call Noop()           | colorscheme sacredforest
   com! DarkApprentice   set background=dark  | call Noop()           | colorscheme apprentice
