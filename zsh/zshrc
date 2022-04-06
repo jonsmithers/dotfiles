@@ -249,14 +249,19 @@ if command -v tmux > /dev/null; then
 fi
 
 if command -v fzf > /dev/null; then
+  fzfCommit() {
+    local FZF_PROMPT="${FZF_PROMPT:=Commit: }"
+    git log --oneline | fzf --border --prompt="$FZF_PROMPT" --height=10         --preview="git show {+1} --color=always" --no-sort --reverse | cut -d' ' -f1 | tr '\n' ' ' | sed 's/[[:space:]]$//';
+  }
   fzfCommits() {
-    git log --oneline | fzf --height=30 --multi --preview="git show {+1} --color=always" --no-sort --reverse | cut -d' ' -f1 | tr '\n' ' ' | sed 's/[[:space:]]$//'
+    local FZF_PROMPT="${FZF_PROMPT:=Commit: }"
+    git log --oneline | fzf --border --prompt="$FZF_PROMPT" --height=10 --multi --preview="git show {+1} --color=always" --no-sort --reverse | cut -d' ' -f1 | tr '\n' ' ' | sed 's/[[:space:]]$//'
   }
   fzfTags() {
-    git tag | grep -v HEAD | sed "s/.* //" | sed "s#remotes/##" | sort -u | fzf --height=30 --multi --preview="git log --format=medium --graph --max-count 10 {+1}" | tr '\n' ' ' | sed 's/[[:space:]]$//'
+    git tag | grep -v HEAD | sed "s/.* //" | sed "s#remotes/##" | sort -u | fzf --border --prompt='Tag: ' --height=30 --multi --preview="git log --format=medium --graph --max-count 10 {+1}" | tr '\n' ' ' | sed 's/[[:space:]]$//'
   }
   fzfBranches() {
-    git branch --all | grep -v HEAD | sed "s/.* //" | sed "s#remotes/##" | sort -u | fzf --height=60 --multi --preview="git log --graph --max-count=10 {+1}" | tr '\n' ' ' | sed 's/[[:space:]]$//'
+    git branch --all | grep -v HEAD | sed "s/.* //" | sed "s#remotes/##" | sort -u | fzf --border --prompt='Branch: ' --height=60% --multi --preview="git log --graph --max-count=10 {+1}" | tr '\n' ' ' | sed 's/[[:space:]]$//'
   }
   insertCommits() {
     if [[ "$LBUFFER[-1]" != "!" ]]; then
@@ -297,6 +302,16 @@ if command -v fzf > /dev/null; then
   bindkey B insertBranches
 fi
 
+function gfixup {
+  local commit=$(FZF_PROMPT='Fixup Commit: ' fzfCommit)
+  if [[ -z "$commit" ]]; then
+    return 1
+  fi
+  set -x
+  git commit --fixup "$commit" --allow-empty > /dev/null || return 1
+  git rebase --interactive "$commit"~ --autosquash || return 1
+}
+
 [[ -d "$HOME/.nvm" ]] && {
   export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
   [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
@@ -313,6 +328,7 @@ if command -v rg > /dev/null; then
   export FZF_DEFAULT_COMMAND="rg --files"
   export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 fi
+export FZF_DEFAULT_OPTS="--bind ctrl-a:select-all --marker=✓"
 
 if command -v direnv > /dev/null; then
   eval "$(direnv hook zsh)"
