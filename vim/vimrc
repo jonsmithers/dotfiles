@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <jon@smithers.dev>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2022-04-04
+" Last Updated: 2022-04-09
 
 :scriptencoding utf8
 
@@ -595,7 +595,7 @@ call plug#begin('~/.vim/plugged')
     nnoremap <Leader>m/ :M/
   " }}}
 
-  " {{{ File tree plugin - 'scrooloose/nerdtree' or 'ms-jpq/chadtree'
+  " {{{ File tree plugin - 'scrooloose/nerdtree' or 'kyazdani42/nvim-tree.lua'
     fun! s:ConfigNerdtree()
       let g:NERDTreeHijackNetrw=0 " let dirvish replace netrw
       let g:NERDTreeMinimalUI=1
@@ -606,43 +606,37 @@ call plug#begin('~/.vim/plugged')
       :nnoremap <silent> <Leader>tr :NERDTreeRefreshRoot<cr>
     endfun
     PlugIfNotNeovim 'scrooloose/nerdtree', { 'on': s:nerdtree_triggers }, function('s:ConfigNerdtree')
-    fun! s:ConfigChadtree()
+    fun! s:ConfigNvimTree()
+      :nnoremap <silent> <Leader>tt :NvimTreeToggle<CR><c-w>p
+      :nnoremap <silent> <Leader>tf :NvimTreeFindFile<CR>
+      :nnoremap <silent> <Leader>tr :NvimTreeRefresh<CR>
 
-      " -/=   | shrink/expand
-      " q     | close
-      " C     | view parent directory
-      " b     | cd vim to folder ("Base"?)
-      " w,v   | open in split view
-      " tab   | open without focus
-      " enter | open
-      " J     | jump to current buffer
-      " y     | copy file path
-      " Y     | copy file name
-      " zc    | collapse subdirectories
-      "
-      " f     | set filter
-      " F     | clear filter
-      "
-      " s     | select
-      " S     | clear selection
-      " p/x   | copy/move selected files here
-      " a     | add file
-      " r     | rename
-      " d     | delete
-      " t     | trash
-
-      :nnoremap <silent> <Leader>tt :CHADopen<enter>
-      :nnoremap <silent> <Leader>tf :exec ':CHADopen ' . expand('%')<enter>
-      let g:chadtree_settings = {
-            \ "keymap.refocus": [],
-            \ "keymap.v_split": ["w","v"],
-            \ "keymap.collapse": ["zc"],
-            \ "view.sort_by": ["is_folder", "file_name", "ext"],
-            \ "theme.icon_glyph_set": "ascii",
-            \ "theme.text_colour_set": "nord",
-            \ }
+      let g:nvim_tree_indent_markers = 1
+      let g:nvim_tree_icons = {
+        \ 'default': "·",
+        \ 'symlink': "",
+        \ 'git': {
+        \   'unstaged': "✗",
+        \   'staged': "✓",
+        \   'unmerged': "",
+        \   'renamed': "➜",
+        \   'untracked': "★",
+        \   'deleted': "",
+        \   'ignored': "◌"
+        \   },
+        \ 'folder': {
+        \   'arrow_open': "",
+        \   'arrow_closed': "",
+        \   'default': "▶",
+        \   'open': "▼",
+        \   'empty': "▷",
+        \   'empty_open': "▽",
+        \   'symlink': "",
+        \   'symlink_open': "",
+        \   }
+        \ }
     endfun
-    PlugIfNeovim 'ms-jpq/chadtree', { 'do': ':CHADdeps' }, function('s:ConfigChadtree')
+    PlugIfNeovim 'kyazdani42/nvim-tree.lua', {}, function('s:ConfigNvimTree')
   " }}}
 
   fun! s:ConfigNotify()

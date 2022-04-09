@@ -172,3 +172,10 @@ require('notify').setup({
   render='minimal'
 })
 vim.notify = require('notify')
+
+require'nvim-tree'.setup {
+  hijack_netrw = false,
+  update_focused_file = {
+    enabled = true,
+  },
+}
