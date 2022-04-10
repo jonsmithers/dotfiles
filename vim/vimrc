@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <jon@smithers.dev>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2022-04-09
+" Last Updated: 2022-04-10
 
 :scriptencoding utf8
 
@@ -612,31 +612,39 @@ call plug#begin('~/.vim/plugged')
       :nnoremap <silent> <Leader>tr :NvimTreeRefresh<CR>
 
       let g:nvim_tree_indent_markers = 1
-      let g:nvim_tree_icons = {
-        \ 'default': "·",
-        \ 'symlink': "",
-        \ 'git': {
-        \   'unstaged': "✗",
-        \   'staged': "✓",
-        \   'unmerged': "",
-        \   'renamed': "➜",
-        \   'untracked': "★",
-        \   'deleted': "",
-        \   'ignored': "◌"
-        \   },
-        \ 'folder': {
-        \   'arrow_open': "",
-        \   'arrow_closed': "",
-        \   'default': "▶",
-        \   'open': "▼",
-        \   'empty': "▷",
-        \   'empty_open': "▽",
-        \   'symlink': "",
-        \   'symlink_open': "",
-        \   }
-        \ }
+      let g:nvim_tree_group_empty=1
+      let g:nvim_tree_special_files=[]
+      if (!s:dev_icons_enabled)
+        let g:nvim_tree_icons = {
+          \ 'default': "·",
+          \ 'symlink': "",
+          \ 'git': {
+          \   'unstaged': "✗",
+          \   'staged': "✓",
+          \   'unmerged': "",
+          \   'renamed': "➜",
+          \   'untracked': "★",
+          \   'deleted': "",
+          \   'ignored': "◌"
+          \   },
+          \ 'folder': {
+          \   'arrow_open': "",
+          \   'arrow_closed': "",
+          \   'default': "▶",
+          \   'open': "▼",
+          \   'empty': "▷",
+          \   'empty_open': "▽",
+          \   'symlink': "",
+          \   'symlink_open': "",
+          \   }
+          \ }
+      endif
     endfun
     PlugIfNeovim 'kyazdani42/nvim-tree.lua', {}, function('s:ConfigNvimTree')
+    let s:dev_icons_enabled = $VIM_DEVICONS == '1'
+    if (s:dev_icons_enabled)
+      PlugIfNeovim 'kyazdani42/nvim-web-devicons'
+    endif
   " }}}
 
   fun! s:ConfigNotify()
