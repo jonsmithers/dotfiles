@@ -1,34 +1,12 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
-if test -d "$HOME/.local/bin"; then
-  export PATH=$HOME/.local/bin:$PATH
-fi
-if test -d "$HOME/.npm-global"; then
-  export PATH=$HOME/.npm-global/bin:$PATH
-fi
-if test -d "$HOME/.local/bin"; then
-  # "pip install --user" installs executables to this location
-  export PATH=$HOME/.local/bin:$PATH
-fi
-if test -d "$HOME/bin"; then
-  export PATH="$HOME/bin:$PATH"
-fi
+[[ -d "$HOME/.local/bin"  ]] && export PATH=$HOME/.local/bin:$PATH
+[[ -d "$HOME/.npm-global" ]] && export PATH=$HOME/.npm-global/bin:$PATH
+[[ -d "$HOME/.local/bin"  ]] && export PATH=$HOME/.local/bin:$PATH # "pip install --user" installs executables to this location
+[[ -d "$HOME/bin"         ]] && export PATH="$HOME/bin:$PATH"
 
-# Path to your oh-my-zsh installation.
-export ZSH="$HOME/.oh-my-zsh"
-
-# Set name of the theme to load --- if set to "random", it will
-# load a random theme each time oh-my-zsh is loaded, in which case,
-# to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 ZSH_THEME="robbyrussell"
-
-# Set list of themes to pick from when loading at random
-# Setting this variable when ZSH_THEME=random will cause zsh to load
-# a theme from this variable instead of looking in ~/.oh-my-zsh/themes/
-# If set to an empty array, this variable will have no effect.
-# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -90,6 +68,7 @@ for p in $tryplugins; do
   fi
 done
 
+# brew autocomplete
 if type brew &>/dev/null
 then
   FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
@@ -98,8 +77,7 @@ then
   compinit
 fi
 
-source $ZSH/oh-my-zsh.sh
-
+source $HOME/.oh-my-zsh/oh-my-zsh.sh
 
 {
   # override theme
