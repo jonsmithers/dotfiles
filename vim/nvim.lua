@@ -174,8 +174,26 @@ require('notify').setup({
 vim.notify = require('notify')
 
 require'nvim-tree'.setup {
-  hijack_netrw = false,
+  renderer = {
+    indent_markers = {
+      enable = true,
+    },
+  },
+  hijack_cursor = true,
+  -- hijack_directories = {
+  --   enable = true,
+  -- },
+  hijack_netrw = true,
+  disable_netrw = true,
   update_focused_file = {
     enabled = true,
   },
+  view = {
+    relativenumber = true,
+    mappings = {
+      list = {
+        { key = "<CR>", action = "edit_in_place" }
+      }
+    },
+  }
 }

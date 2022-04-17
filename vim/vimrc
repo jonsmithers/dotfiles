@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <jon@smithers.dev>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2022-04-10
+" Last Updated: 2022-04-16
 
 :scriptencoding utf8
 
@@ -461,7 +461,7 @@ call plug#begin('~/.vim/plugged')
     :nmap ga <Plug>(EasyAlign)
   " }}}
 
-  Plug 'justinmk/vim-dirvish'
+  PlugIfNotNeovim 'justinmk/vim-dirvish'
   " Directory viewer
   " {{{
     " [range]:Shdo cp {} {}.bak<cr>Z!
@@ -607,11 +607,34 @@ call plug#begin('~/.vim/plugged')
     endfun
     PlugIfNotNeovim 'scrooloose/nerdtree', { 'on': s:nerdtree_triggers }, function('s:ConfigNerdtree')
     fun! s:ConfigNvimTree()
-      :nnoremap <silent> <Leader>tt :NvimTreeToggle<CR><c-w>p
+      :nnoremap <silent> <Leader>tt :call <SID>OpenNvimTreeWithoutVinegarBehavior()<cr>
       :nnoremap <silent> <Leader>tf :NvimTreeFindFile<CR>
       :nnoremap <silent> <Leader>tr :NvimTreeRefresh<CR>
 
-      let g:nvim_tree_indent_markers = 1
+      :nnoremap <silent> - :call <SID>OpenNvimTreeWithVinegarBehavior()<cr>
+      fun <SID>OpenNvimTreeWithoutVinegarBehavior()
+        NvimTreeToggle
+        if (&filetype == 'NvimTree')
+          nunmap <buffer> <cr>
+          nnoremap <buffer> <cr> :lua require'nvim-tree.actions'.on_keypress('enter')<cr>
+          wincmd p
+        endif
+      endfun
+      fun <SID>OpenNvimTreeWithVinegarBehavior()
+        NvimTreeClose
+        if (expand('%') == '')
+          edit .
+        else
+          lua require"nvim-tree".open_replacing_current_buffer()
+        endif
+        file nvim_vinegar
+        " ^ lets fzf file picker replace this buffer
+        " if (&filetype == 'NvimTree')
+        "   nunmap <buffer> <cr>
+        "   nnoremap <buffer> <cr> :lua require'nvim-tree.actions'.on_keypress('edit_in_place')<cr>
+        " endif
+      endfun
+
       let g:nvim_tree_group_empty=1
       let g:nvim_tree_special_files=[]
       if (!s:dev_icons_enabled)
@@ -1153,7 +1176,11 @@ let s:config_queue = []
         if a:fzf
           Files
         else
-          Dirvish %:p:h
+          if (exists(':NvimTree'))
+            call <SID>OpenNvimTreeWithVinegarBehavior()
+          else
+            Dirvish %:p:h
+          endif
         endif
       else
         if a:fzf
@@ -1227,6 +1254,21 @@ let g:html_wrong_comments=1
     highlight OverLength ctermbg=red ctermfg=white guibg=#592929
     match OverLength /\%81v.\+/
   endfu
+
+  function! g:Redir(cmd)
+    " https://iamsang.com/en/2022/04/13/vimrc/
+    redir => l:message
+    silent execute a:cmd
+    redir END
+    if empty(l:message)
+      echoerr "no output"
+    else
+      tabnew
+      setlocal buftype=nofile bufhidden=wipe noswapfile nobuflisted nomodified
+      silent put=l:message
+    endif
+  endfunction
+  command! -nargs=+ -complete=command Redir call g:Redir(<q-args>)
 " }}}
 
 " Change Cursor Style Dependent On Mode: https://github.com/mhinz/vim-galore#change-cursor-style-dependent-on-mode {{{
