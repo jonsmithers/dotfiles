@@ -26,39 +26,74 @@ function change_kitty_theme() {
   local theme=$1
   echo "include $theme.conf" >> ~/.config/kitty/kitty.conf
   [[ ! -f "$HOME/.config/kitty/$theme.conf" ]] && {
-    echo "run \"kitty +kitten themes\" to create the theme file for \"$theme\""
+    echo obtaining theme from kitten
+    kitty +kitten themes --dump-theme "$theme" > "$HOME/.config/kitty/$theme.conf" || (
+      echo obtaining theme from github/projekt0n/github-nvim-theme;
+      curl https://raw.githubusercontent.com/projekt0n/github-nvim-theme/main/terminal/kitty/"$theme".conf > ~/.config/kitty/"$theme".conf;
+    )
   }
 }
 
 theme=$1
 
 case $theme in
-  github)
-    change_vim_colorscheme github
-    change_vim_background light
-    change_kitty_theme Github
-    ;;
-  dark_one)
+  one_dark)
     change_vim_colorscheme onedark
     change_vim_background dark
     change_kitty_theme 'One Dark'
     ;;
-  dark_ayu)
+  ayu_dark)
     change_vim_colorscheme ayu
     change_vim_background dark
     change_kitty_theme Ayu
     ;;
-  dark_gruvbox)
-    change_vim_colorscheme gruvbox
-    change_vim_background dark
-    change_kitty_theme 'Gruvbox Dark Hard'
-    ;;
-  dark_apprentice)
+  apprentice_dark)
     change_vim_colorscheme apprentice
     change_vim_background dark
     change_kitty_theme 'Apprentice'
     ;;
-  light_gruvbox)
+  github_dark)
+    change_vim_background dark
+    change_vim_colorscheme github_dark
+    change_kitty_theme github_dark
+    # curl https://raw.githubusercontent.com/projekt0n/github-nvim-theme/main/terminal/kitty/github_dark.conf > ~/.config/kitty/github_dark.conf
+    ;;
+  github_dark_default)
+    change_vim_background dark
+    change_vim_colorscheme github_dark_default
+    change_kitty_theme github_dark_default
+    # curl https://raw.githubusercontent.com/projekt0n/github-nvim-theme/main/terminal/kitty/github_dark_default.conf > ~/.config/kitty/github_dark_default.conf
+    ;;
+  github_dark_colorblind)
+    change_vim_background dark
+    change_vim_colorscheme github_dark_colorblind
+    change_kitty_theme github_dark_colorblind
+    # curl https://raw.githubusercontent.com/projekt0n/github-nvim-theme/main/terminal/kitty/github_dark_colorblind.conf > ~/.config/kitty/github_dark_colorblind.conf
+    ;;
+  github_dimmed)
+    change_vim_background dark
+    change_vim_colorscheme github_dimmed
+    change_kitty_theme github_dimmed
+    # curl https://raw.githubusercontent.com/projekt0n/github-nvim-theme/main/terminal/kitty/github_dimmed.conf > ~/.config/kitty/github_dimmed.conf
+    ;;
+  github_light)
+    change_vim_background dark
+    change_vim_colorscheme github_light
+    change_kitty_theme github_light
+    # curl https://raw.githubusercontent.com/projekt0n/github-nvim-theme/main/terminal/kitty/github_light.conf > ~/.config/kitty/github_light.conf
+    ;;
+  github_light_default)
+    change_vim_background dark
+    change_vim_colorscheme github_light_default
+    change_kitty_theme github_light_default
+    # curl https://raw.githubusercontent.com/projekt0n/github-nvim-theme/main/terminal/kitty/github_light_default.conf > ~/.config/kitty/github_light_default.conf
+    ;;
+  gruvbox_dark)
+    change_vim_colorscheme gruvbox
+    change_vim_background dark
+    change_kitty_theme 'Gruvbox Dark Hard'
+    ;;
+  gruvbox_light)
     change_vim_colorscheme gruvbox
     change_vim_background light
     change_kitty_theme 'Gruvbox Light Hard'

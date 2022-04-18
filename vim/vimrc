@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <jon@smithers.dev>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2022-04-16
+" Last Updated: 2022-04-17
 
 :scriptencoding utf8
 
@@ -988,7 +988,8 @@ call plug#begin('~/.vim/plugged')
   endif
   Plug 'arcticicestudio/nord-vim'
   Plug 'ayu-theme/ayu-vim'
-  Plug 'cormacrelf/vim-colors-github'
+  PlugIfNotNeovim 'cormacrelf/vim-colors-github'
+  PlugIfNeovim 'projekt0n/github-nvim-theme'
   Plug 'dracula/vim', { 'as': 'dracula' }
   Plug 'junegunn/seoul256.vim'
   Plug 'kjssad/quantum.vim'
