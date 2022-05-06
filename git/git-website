@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Author:       Jon Smithers <mail@jonsmithers.link>
+# Author:       Jon Smithers <jon@smithers.dev>
 # Last Updated: 2019-09-22
 # URL:          https://github.com/jonsmithers/dotfiles/blob/master/git/git-website
 # Description:  Opens the webpage for the current git repo.

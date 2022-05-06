@@ -1,4 +1,4 @@
-" Author:       Jon Smithers <mail@jonsmithers.link>
+" Author:       Jon Smithers <jon@smithers.dev>
 " Last Updated: 2020-07-21
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/plugin/shutter.vim
 
