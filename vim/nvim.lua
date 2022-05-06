@@ -185,9 +185,6 @@ require'nvim-tree'.setup {
   -- },
   hijack_netrw = true,
   disable_netrw = true,
-  update_focused_file = {
-    enabled = true,
-  },
   view = {
     relativenumber = true,
     mappings = {

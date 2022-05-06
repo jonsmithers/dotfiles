@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <jon@smithers.dev>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2022-04-17
+" Last Updated: 2022-04-19
 
 :scriptencoding utf8
 
@@ -375,7 +375,7 @@ call plug#begin('~/.vim/plugged')
       let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case %s || true'
       let initial_command = printf(command_fmt, shellescape(a:query))
       let reload_command = printf(command_fmt, '{q}')
-      let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
+      let spec = {'options': ['--disabled', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
       let spec = a:preview ? fzf#vim#with_preview(spec) : spec
       call fzf#vim#grep(initial_command, 1, spec, a:fullscreen)
     endfunction
