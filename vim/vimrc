@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <jon@smithers.dev>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2022-04-19
+" Last Updated: 2022-05-07
 
 :scriptencoding utf8
 
@@ -627,7 +627,7 @@ call plug#begin('~/.vim/plugged')
         else
           lua require"nvim-tree".open_replacing_current_buffer()
         endif
-        file nvim_vinegar
+        " file nvim_vinegar
         " ^ lets fzf file picker replace this buffer
         " if (&filetype == 'NvimTree')
         "   nunmap <buffer> <cr>
@@ -1210,8 +1210,8 @@ let s:config_queue = []
 let g:html_wrong_comments=1
 
 " {{{ COMMANDS
-  command! FormatJSON :%!python -m json.tool
-  command! FormatXML :%!python -c "import xml.dom.minidom, sys; print(xml.dom.minidom.parse(sys.stdin).toprettyxml())"
+  command! FormatJSON :%!python3 -m json.tool
+  command! FormatXML :%!python3 -c "import xml.dom.minidom, sys; print(xml.dom.minidom.parse(sys.stdin).toprettyxml())"
 
   if (exists('$VIM_TERMINAL'))
     command Unwrap let g:file = expand('%') | bdelete | exec 'silent !echo -e "\033]51;[\"drop\", \"'.g:file.'\"]\007"' | q
@@ -1239,9 +1239,9 @@ let g:html_wrong_comments=1
 
   " open url on current line
   func! OpenUrl()
-    exec 'silent !python -mwebbrowser '.(shellescape(matchstr (getline('.'), 'https\?://[a-zA-Z0-9\./\-?=\&+@,!:_#%*;:~]\+[^,.) \"]'), '#')).' 2> /dev/null > /dev/null' | redraw!
+    exec 'silent !python3 -mwebbrowser '.(shellescape(matchstr (getline('.'), 'https\?://[a-zA-Z0-9\./\-?=\&+@,!:_#%*;:~]\+[^,.) \"]'), '#')).' 2> /dev/null > /dev/null' | redraw!
   endfu
-  com! TestUrl exec 'echom            '.(shellescape(matchstr (getline('.'), 'https\?://[a-zA-Z0-9\./\-?=\&+@,!:_#%*;:~]\+[^,.) \"]'), '#'))
+  com! TestUrl exec 'echom             '.(shellescape(matchstr (getline('.'), 'https\?://[a-zA-Z0-9\./\-?=\&+@,!:_#%*;:~]\+[^,.) \"]'), '#'))
   nnoremap <Leader>ou :call OpenUrl()<Enter>
 
   func! HighlightTrailingSpace()
@@ -1726,7 +1726,7 @@ let g:html_wrong_comments=1
     autocmd Filetype javascript                 call s:ftplugin_javascript()
     autocmd Filetype javascript,html,typescript call s:ftplugin_javascripty()
     autocmd Filetype typescriptreact            call s:ftplugin_javascripty()
-    autocmd Filetype python                     nnoremap <buffer> <space>py :!python %<cr>
+    autocmd Filetype python                     nnoremap <buffer> <space>py :!python3 %<cr>
     autocmd Filetype python                     set omnifunc=pythoncomplete#Complete
     autocmd Filetype vim                        call s:ftplugin_vim()
 
