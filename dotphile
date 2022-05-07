@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # Author:       Jon Smithers <jon@smithers.dev>
-# URL:          https://github.com/jonsmithers/dotfiles/blob/27f8d8aa36df9eba79ad7d8561e636e15c7603aa/dotphile
+# URL:          https://github.com/jonsmithers/dotfiles/blob/master/dotphile
 # Last Updated: 2022-05-07
 
 # NOTE: broken symlinks are a weird case and aren't reported super clearly.

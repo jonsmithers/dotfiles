@@ -1237,11 +1237,13 @@ let g:html_wrong_comments=1
     nnoremap <leader>gi :execute "terminal ++close idea '" . getcwd() . "' --line " . line(".") . " --column " . (col(".")-1) . " '" . expand("%") . "'"<cr>
   endif
 
+  " :Browse command is potentially used by vim-fugitive for :GBrowse
+  com! -nargs=1 Browse exe 'silent !python3 -mwebbrowser '.shellescape("<args>", '#')
   " open url on current line
   func! OpenUrl()
-    exec 'silent !python3 -mwebbrowser '.(shellescape(matchstr (getline('.'), 'https\?://[a-zA-Z0-9\./\-?=\&+@,!:_#%*;:~]\+[^,.) \"]'), '#')).' 2> /dev/null > /dev/null' | redraw!
+    exec ':Browse ' .         matchstr(getline('.'), 'https\?://[a-zA-Z0-9\./\-?=\&+@,!:_#%*;:~]\+[^,.) \"]') | redraw!
   endfu
-  com! TestUrl exec 'echom             '.(shellescape(matchstr (getline('.'), 'https\?://[a-zA-Z0-9\./\-?=\&+@,!:_#%*;:~]\+[^,.) \"]'), '#'))
+  com! TestUrl exec 'echom  '.matchstr(getline('.'), 'https\?://[a-zA-Z0-9\./\-?=\&+@,!:_#%*;:~]\+[^,.) \"]'
   nnoremap <Leader>ou :call OpenUrl()<Enter>
 
   func! HighlightTrailingSpace()
