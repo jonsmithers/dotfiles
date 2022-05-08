@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Author:       Jon Smithers <jon@smithers.dev>
-# Last Updated: 2019-09-22
+# Last Updated: 2022-05-08
 # URL:          https://github.com/jonsmithers/dotfiles/blob/master/git/git-website
 # Description:  Opens the webpage for the current git repo.
 
@@ -21,4 +21,4 @@ url=$(git remote --verbose \
     | sed -E 's#^(https?:[^:]*):#\1/#'
     )
 # echo "$url"
-python -mwebbrowser -t "$url"
+python3 -mwebbrowser -t "$url"
