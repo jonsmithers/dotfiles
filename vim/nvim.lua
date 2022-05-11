@@ -194,3 +194,37 @@ require'nvim-tree'.setup {
     },
   }
 }
+
+require('rest-nvim').setup({
+  -- Open request results in a horizontal split
+  result_split_horizontal = false,
+  -- Keep the http file buffer above|left when split horizontal|vertical
+  result_split_in_place = false,
+  -- Skip SSL verification, useful for unknown certificates
+  skip_ssl_verification = false,
+  -- Highlight request on run
+  highlight = {
+    enabled = true,
+    timeout = 150,
+  },
+  -- Jump to request line on run
+  jump_to_request = false,
+  env_file = 'http.env',
+  yank_dry_run = true,
+})
+
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = {
+    "json", "http", -- required for rest-nvim
+  },
+}
+
+require('au').group('lua config', {
+    {
+        'FileType',
+        'http',
+        function()
+          vim.api.nvim_buf_set_keymap(0, 'n', '<leader>rr', ':lua require("rest-nvim").run()<cr>', {})
+        end,
+    },
+})

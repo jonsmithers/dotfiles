@@ -14,6 +14,7 @@
     "./vim/ideavimrc":                   "~/.ideavimrc",
     "./vim/nvim_init.vim":               "~/.config/nvim/init.vim",
     "./vim/nvim.lua":                    "~/.config/nvim/nvim.lua",
+    "./vim/lua/":                        "~/.config/nvim/lua",
     "./vim/plugin/shutter.vim":          "~/.vim/plugin/shutter.vim",
     "./vim/plugin/vim-plug-ext.vim":     "~/.vim/plugin/vim-plug-ext.vim",
     "./vim/syntax/":                     "~/.vim/syntax",
