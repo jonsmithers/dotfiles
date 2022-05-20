@@ -9,7 +9,6 @@ local function autocmd(this, event, spec)
         action = this.set(action)
     end
     local e = type(event) == 'table' and table.concat(event, ',') or event
-    print('autocmd ' .. e .. ' ' .. pattern .. ' ' .. action)
     cmd('autocmd ' .. e .. ' ' .. pattern .. ' ' .. action)
 end
 

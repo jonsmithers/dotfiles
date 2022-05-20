@@ -14,7 +14,6 @@ function change_vim_colorscheme() {
 function change_vim_background() {
   local background=$1
   local line_to_insert="export VIM_BACKGROUND=$background"
-  # comment out previous colorscheme
   if cat ~/.zprofile | grep --quiet '^export VIM_BACKGROUND'; then
     sed -I '.sedbackup' 's/^export VIM_BACKGROUND=.*/'"$line_to_insert"'/' ~/.zprofile
     rm ~/.zprofile.sedbackup
