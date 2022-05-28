@@ -213,7 +213,33 @@ require('rest-nvim').setup({
   yank_dry_run = true,
 })
 
+dev_icons_enabled = os.getenv("VIM_DEVICONS") == "1"
 require'nvim-treesitter.configs'.setup {
+  icons=(not dev_icons_enabled and {
+    default="·",
+    symlink="",
+    git={
+      unstaged="✗",
+      staged="✓",
+      unmerged="",
+      renamed="➜",
+      untracked="★",
+      deleted="",
+      ignored="◌"
+    },
+    folder={
+      arrow_open="",
+      arrow_closed="",
+      default="▶",
+      open="▼",
+      empty="▷",
+      empty_open="▽",
+      symlink="",
+      symlink_open="",
+    }
+  } or nil),
+  group_empty=1,
+  special_files={},
   ensure_installed = {
     "json", "http", -- required for rest-nvim
   },

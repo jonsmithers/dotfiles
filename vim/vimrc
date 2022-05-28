@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <jon@smithers.dev>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2022-05-11
+" Last Updated: 2022-05-28
 
 :scriptencoding utf8
 
@@ -581,34 +581,6 @@ call plug#begin('~/.vim/plugged')
         "   nnoremap <buffer> <cr> :lua require'nvim-tree.actions'.on_keypress('edit_in_place')<cr>
         " endif
       endfun
-
-      let g:nvim_tree_group_empty=1
-      let g:nvim_tree_special_files=[]
-      if (!s:dev_icons_enabled)
-        let g:nvim_tree_icons = {
-          \ 'default': "·",
-          \ 'symlink': "",
-          \ 'git': {
-          \   'unstaged': "✗",
-          \   'staged': "✓",
-          \   'unmerged': "",
-          \   'renamed': "➜",
-          \   'untracked': "★",
-          \   'deleted': "",
-          \   'ignored': "◌"
-          \   },
-          \ 'folder': {
-          \   'arrow_open': "",
-          \   'arrow_closed': "",
-          \   'default': "▶",
-          \   'open': "▼",
-          \   'empty': "▷",
-          \   'empty_open': "▽",
-          \   'symlink': "",
-          \   'symlink_open': "",
-          \   }
-          \ }
-      endif
     endfun
     PlugIfNeovim 'kyazdani42/nvim-tree.lua', {}, function('s:ConfigNvimTree')
     let s:dev_icons_enabled = $VIM_DEVICONS == '1'
@@ -946,7 +918,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'nanotech/jellybeans.vim'
   Plug 'nightsense/snow'
   Plug 'NLKNguyen/papercolor-theme'
-  Plug 'rakr/vim-one'
+  Plug 'rakr/vim-one' " old
   Plug 'joshdick/onedark.vim'
   Plug 'romainl/Apprentice'
   let g:onedark_hide_endofbuffer=1
