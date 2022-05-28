@@ -1,11 +1,40 @@
 #!/bin/bash
 
+# This script prompts for choice of theme and then configures vim and kitty to
+# have matching themes.
+#
+# Additional Kitty Setup
+# =======================
+#
+# None. This script will automatically obtain the necessary theme assets.
+#
+#
+# Additional Vim Setup
+# ====================
+#
+# 1. Manually add all the colorscheme plugins. Perhaps in the future this
+#    script should automatically download colorscheme plugins into vim's native
+#    plugin directory:
+#
+#        git clone <theme-repo> ~/.vim/pack/<theme>/start/<theme>
+#
+# 2. Configure vimrc to read environment variables "$VIM_BACKGROUND" and
+#    "$VIM_COLORSCHEME" like so:
+#
+#        if (!exists('g:colors_name')) " no colorscheme set
+#          if exists('$VIM_BACKGROUND')
+#            execute 'set background='..$VIM_BACKGROUND
+#          endif
+#          if exists('$VIM_COLORSCHEME')
+#            execute 'silent! colorscheme '..$VIM_COLORSCHEME
+#          endif
+#        endif
+
 function change_vim_colorscheme() {
   local theme=$1
-  echo setting vim theme to $theme
+  echo setting vim theme to "$theme"
   local line_to_insert="export VIM_COLORSCHEME=$theme"
-  # comment out previous colorscheme
-  if cat ~/.zprofile | grep --quiet '^export VIM_COLORSCHEME'; then
+  if grep --quiet '^export VIM_COLORSCHEME' < ~/.zprofile; then
     sed -I '.sedbackup' 's/^export VIM_COLORSCHEME=.*/'"$line_to_insert"'/' ~/.zprofile
     rm ~/.zprofile.sedbackup
   else
@@ -15,7 +44,7 @@ function change_vim_colorscheme() {
 function change_vim_background() {
   local background=$1
   local line_to_insert="export VIM_BACKGROUND=$background"
-  if cat ~/.zprofile | grep --quiet '^export VIM_BACKGROUND'; then
+  if grep --quiet '^export VIM_BACKGROUND' < ~/.zprofile; then
     sed -I '.sedbackup' 's/^export VIM_BACKGROUND=.*/'"$line_to_insert"'/' ~/.zprofile
     rm ~/.zprofile.sedbackup
   else
@@ -24,14 +53,32 @@ function change_vim_background() {
 }
 function change_kitty_theme() {
   local theme=$1
-  echo setting kitty theme to $theme
-  echo "include $theme.conf" >> ~/.config/kitty/kitty.conf
-  [[ ! -f "$HOME/.config/kitty/$theme.conf" ]] && {
+  echo setting kitty theme to "$theme"
+  sed \
+    -I '.sedbackup' \
+    '/# begin auto-generated kitty theme setting/,/# end auto-generated kitty theme setting/d' \
+    "$(readlink ~/.config/kitty/kitty.conf || echo ~/.config/kitty/kitty.conf)"
+  {
+    echo '# begin auto-generated kitty theme setting'
+    echo "include $theme.conf"
+    echo '# end auto-generated kitty theme setting'
+  } >> ~/.config/kitty/kitty.conf
+  [[ -f "$HOME/.config/kitty/$theme.conf" ]] || {
+    echo This kitty theme does not exist! "$HOME/.config/kitty/$theme.conf"
+  }
+}
+function obtain_kitty_theme_from_kitten() {
+  local theme=$1
+  [[ -f "$HOME/.config/kitty/$theme.conf" ]] || {
     echo obtaining theme from kitten
-    kitty +kitten themes --dump-theme "$theme" > "$HOME/.config/kitty/$theme.conf" || (
-      echo obtaining theme from github/projekt0n/github-nvim-theme;
-      curl https://raw.githubusercontent.com/projekt0n/github-nvim-theme/main/terminal/kitty/"$theme".conf > ~/.config/kitty/"$theme".conf;
-    )
+    kitty +kitten themes --dump-theme "$theme" > "$HOME/.config/kitty/$theme.conf"
+  }
+}
+function obtain_kitty_theme_from_github() {
+  local theme=$1
+  [[ -f "$HOME/.config/kitty/$theme.conf" ]] || {
+    echo obtaining theme from github/projekt0n/github-nvim-theme;
+    curl https://raw.githubusercontent.com/projekt0n/github-nvim-theme/main/terminal/kitty/"$theme".conf > ~/.config/kitty/"$theme".conf;
   }
 }
 
@@ -59,72 +106,78 @@ fi
 
 case $theme in
   "Ayu Dark")
-    change_vim_colorscheme ayu
-    change_vim_background dark
-    change_kitty_theme Ayu
+    change_vim_background          dark
+    change_vim_colorscheme         ayu
+    obtain_kitty_theme_from_kitten Ayu
+    change_kitty_theme             Ayu
     ;;
   "Apprentice Dark")
-    change_vim_colorscheme apprentice
-    change_vim_background dark
-    change_kitty_theme 'Apprentice'
+    change_vim_background          dark
+    change_vim_colorscheme         apprentice
+    obtain_kitty_theme_from_kitten Apprentice
+    change_kitty_theme             Apprentice
     ;;
   "GitHub Dark")
-    change_vim_background dark
-    change_vim_colorscheme github_dark
-    change_kitty_theme github_dark
-    # curl https://raw.githubusercontent.com/projekt0n/github-nvim-theme/main/terminal/kitty/github_dark.conf > ~/.config/kitty/github_dark.conf
+    change_vim_background          dark
+    change_vim_colorscheme         github_dark
+    obtain_kitty_theme_from_github github_dark
+    change_kitty_theme             github_dark
     ;;
   "GitHub Dark Default")
-    change_vim_background dark
-    change_vim_colorscheme github_dark_default
-    change_kitty_theme github_dark_default
-    # curl https://raw.githubusercontent.com/projekt0n/github-nvim-theme/main/terminal/kitty/github_dark_default.conf > ~/.config/kitty/github_dark_default.conf
+    change_vim_background          dark
+    change_vim_colorscheme         github_dark_default
+    obtain_kitty_theme_from_github github_dark_default
+    change_kitty_theme             github_dark_default
     ;;
   "GitHub Dark Colorblind")
-    change_vim_background dark
-    change_vim_colorscheme github_dark_colorblind
-    change_kitty_theme github_dark_colorblind
-    # curl https://raw.githubusercontent.com/projekt0n/github-nvim-theme/main/terminal/kitty/github_dark_colorblind.conf > ~/.config/kitty/github_dark_colorblind.conf
+    change_vim_background          dark
+    change_vim_colorscheme         github_dark_colorblind
+    obtain_kitty_theme_from_github github_dark_colorblind
+    change_kitty_theme             github_dark_colorblind
     ;;
   "GitHub Dimmed")
-    change_vim_background dark
-    change_vim_colorscheme github_dimmed
-    change_kitty_theme github_dimmed
-    # curl https://raw.githubusercontent.com/projekt0n/github-nvim-theme/main/terminal/kitty/github_dimmed.conf > ~/.config/kitty/github_dimmed.conf
+    change_vim_background          dark
+    change_vim_colorscheme         github_dimmed
+    obtain_kitty_theme_from_github github_dimmed
+    change_kitty_theme             github_dimmed
     ;;
   "GitHub Light")
-    change_vim_background dark
-    change_vim_colorscheme github_light
-    change_kitty_theme github_light
-    # curl https://raw.githubusercontent.com/projekt0n/github-nvim-theme/main/terminal/kitty/github_light.conf > ~/.config/kitty/github_light.conf
+    change_vim_background          dark
+    change_vim_colorscheme         github_light
+    obtain_kitty_theme_from_github github_light
+    change_kitty_theme             github_light
     ;;
   "GitHub Light Default")
-    change_vim_background dark
-    change_vim_colorscheme github_light_default
-    change_kitty_theme github_light_default
-    # curl https://raw.githubusercontent.com/projekt0n/github-nvim-theme/main/terminal/kitty/github_light_default.conf > ~/.config/kitty/github_light_default.conf
+    change_vim_background          dark
+    change_vim_colorscheme         github_light_default
+    obtain_kitty_theme_from_github github_light_default
+    change_kitty_theme             github_light_default
     ;;
   "Gruvbox Dark")
-    change_vim_colorscheme gruvbox
-    change_vim_background dark
-    change_kitty_theme 'Gruvbox Dark Hard'
+    change_vim_background          dark
+    change_vim_colorscheme         gruvbox
+    obtain_kitty_theme_from_kitten 'Gruvbox Dark Hard'
+    change_kitty_theme             'Gruvbox Dark Hard'
     ;;
   "Gruvbox Light")
-    change_vim_colorscheme gruvbox
-    change_vim_background light
-    change_kitty_theme 'Gruvbox Light Hard'
+    change_vim_background          light
+    change_vim_colorscheme         gruvbox
+    obtain_kitty_theme_from_kitten 'Gruvbox Light Hard'
+    change_kitty_theme             'Gruvbox Light Hard'
     ;;
   "One Dark")
-    change_vim_colorscheme onedark
-    change_vim_background dark
-    change_kitty_theme 'One Dark'
+    change_vim_background          dark
+    change_vim_colorscheme         onedark
+    obtain_kitty_theme_from_kitten 'One Dark'
+    change_kitty_theme             'One Dark'
     ;;
   "One Light")
-    change_vim_colorscheme one
-    change_vim_background light
-    change_kitty_theme 'One Half Light'
+    change_vim_background          light
+    change_vim_colorscheme         one
+    obtain_kitty_theme_from_kitten 'One Half Light'
+    change_kitty_theme             'One Half Light'
     ;;
   *)
-    echo \"$theme\" is not a recognized theme
+    echo "\"$theme\" is not a recognized theme"
     ;;
 esac
