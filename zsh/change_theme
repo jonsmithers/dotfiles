@@ -12,14 +12,14 @@
 # Additional Vim Setup
 # ====================
 #
-# 1. Manually add all the colorscheme plugins. Perhaps in the future this
-#    script should automatically download colorscheme plugins into vim's native
-#    plugin directory:
+# 1. If the script doesn't see the theme plugins in your vimrc, it will
+#    automatically download colorscheme plugins into vim's native plugin
+#    directory:
 #
 #        git clone <theme-repo> ~/.vim/pack/<theme>/start/<theme>
 #
 # 2. Configure vimrc to read environment variables "$VIM_BACKGROUND" and
-#    "$VIM_COLORSCHEME" like so:
+#    "$VIM_COLORSCHEME" and "$VIM_THEME_GLOBALS" like so:
 #
 #        if (!exists('g:colors_name')) " no colorscheme set
 #          if exists('$VIM_BACKGROUND')
@@ -28,14 +28,30 @@
 #          if exists('$VIM_COLORSCHEME')
 #            execute 'silent! colorscheme '..$VIM_COLORSCHEME
 #          endif
+#          if exists('$VIM_THEME_GLOBALS')
+#            for assignment in split($VIM_THEME_GLOBALS, ',')
+#              sandbox execute 'let g:'..split(assignment, '=')[0]..'="'..split(assignment, '=')[1]..'"'
+#            endfor
+#            execute 'silent! colorscheme ' .. $VIM_COLORSCHEME
+#          endif
 #        endif
 
+set -e
+
 function change_vim_colorscheme() {
-  local theme=$1
+  local theme="$1"
+  local globals="$2"
   echo setting vim theme to "$theme"
   local line_to_insert="export VIM_COLORSCHEME=$theme"
   if grep --quiet '^export VIM_COLORSCHEME' < ~/.zprofile; then
     sed -I '.sedbackup' 's/^export VIM_COLORSCHEME=.*/'"$line_to_insert"'/' ~/.zprofile
+    rm ~/.zprofile.sedbackup
+  else
+    echo "$line_to_insert" >> ~/.zprofile
+  fi
+  line_to_insert="export VIM_THEME_GLOBALS='$globals'"
+  if grep --quiet '^export VIM_THEME_GLOBALS' < ~/.zprofile; then
+    sed -I '.sedbackup' 's/^export VIM_THEME_GLOBALS=.*/'"$line_to_insert"'/' ~/.zprofile
     rm ~/.zprofile.sedbackup
   else
     echo "$line_to_insert" >> ~/.zprofile
@@ -54,30 +70,60 @@ function change_vim_background() {
 function change_kitty_theme() {
   local theme=$1
   echo setting kitty theme to "$theme"
+  local sed_target="$(readlink ~/.config/kitty/kitty.conf || echo ~/.config/kitty/kitty.conf)"
   sed \
     -I '.sedbackup' \
-    '/# begin auto-generated kitty theme setting/,/# end auto-generated kitty theme setting/d' \
-    "$(readlink ~/.config/kitty/kitty.conf || echo ~/.config/kitty/kitty.conf)"
-  {
-    echo '# begin auto-generated kitty theme setting'
-    echo "include $theme.conf"
-    echo '# end auto-generated kitty theme setting'
-  } >> ~/.config/kitty/kitty.conf
+    '/# begin auto-generated kitty theme setting/,/# end auto-generated kitty theme setting/s/^[^#].*$/include '"$theme"'.conf/' \
+    "$sed_target"
+  rm "${sed_target}.sedbackup"
+  if ! grep --quiet "^include $theme.conf$" < "$sed_target"; then
+    echo "adding auto-generated section to $sed_target"
+    {
+      echo '# begin auto-generated kitty theme setting'
+      echo "include $theme.conf"
+      echo '# end auto-generated kitty theme setting'
+    } >> "$sed_target"
+  fi
   [[ -f "$HOME/.config/kitty/$theme.conf" ]] || {
     echo This kitty theme does not exist! "$HOME/.config/kitty/$theme.conf"
+  }
+}
+function obtain_vim_theme_from_git() {
+  local theme_plugin=$1
+  local git_remote=$2
+  if [[ -d "$HOME/.vim/pack/$theme_plugin/start/$theme_plugin" ]]; then
+    echo found $theme_plugin in ~/.vim/pack/
+    return
+  elif grep --quiet "$theme_plugin" < ~/.vimrc; then
+    echo found $theme_plugin in your vimrc
+    return
+  elif grep --quiet "$theme_plugin" < ~/.config/nvim/init.vim; then
+    echo found $theme_plugin in your init.vim
+    return
+  else
+    echo obtaining vim theme from git repo;
+    git clone "$git_remote" "$HOME/.vim/pack/$theme_plugin/start/$theme_plugin"
+  fi
+}
+function obtain_kitty_theme_from_curl() {
+  local theme=$1
+  local curl_url=$2
+  [[ -f "$HOME/.config/kitty/$theme.conf" ]] || {
+    echo obtaining kitty theme from url
+    curl "$curl_url" > "$HOME/.config/kitty/$theme.conf"
   }
 }
 function obtain_kitty_theme_from_kitten() {
   local theme=$1
   [[ -f "$HOME/.config/kitty/$theme.conf" ]] || {
-    echo obtaining theme from kitten
+    echo obtaining kitty theme from kitten
     kitty +kitten themes --dump-theme "$theme" > "$HOME/.config/kitty/$theme.conf"
   }
 }
 function obtain_kitty_theme_from_github() {
   local theme=$1
   [[ -f "$HOME/.config/kitty/$theme.conf" ]] || {
-    echo obtaining theme from github/projekt0n/github-nvim-theme;
+    echo obtaining kitty theme from github/projekt0n/github-nvim-theme;
     curl https://raw.githubusercontent.com/projekt0n/github-nvim-theme/main/terminal/kitty/"$theme".conf > ~/.config/kitty/"$theme".conf;
   }
 }
@@ -87,6 +133,12 @@ if [[ -z "$theme" ]]; then
   themes=(
     "Apprentice Dark"
     "Ayu Dark"
+    "Ayu Light"
+    "Ayu Mirage"
+    "Catppuccin Frappe"
+    "Catppuccin Latte"
+    "Catppuccin Macchiato"
+    "Catppuccin Mocha"
     "GitHub Dark"
     "GitHub Dark Colorblind"
     "GitHub Dark Default"
@@ -97,85 +149,163 @@ if [[ -z "$theme" ]]; then
     "Gruvbox Light"
     "One Dark"
     "One Light"
+    "TokyoNight Dark"
+    "TokyoNight Day"
+    "TokyoNight Storm"
   );
-  PS3="select theme> "
+  PS3=$'\n'"select theme> "
   select theme in "${themes[@]}"; do
     break
   done
 fi
 
 case $theme in
-  "Ayu Dark")
-    change_vim_background          dark
-    change_vim_colorscheme         ayu
-    obtain_kitty_theme_from_kitten Ayu
-    change_kitty_theme             Ayu
-    ;;
   "Apprentice Dark")
+    obtain_vim_theme_from_git      Apprentice git@github.com:romainl/Apprentice.git
     change_vim_background          dark
     change_vim_colorscheme         apprentice
     obtain_kitty_theme_from_kitten Apprentice
     change_kitty_theme             Apprentice
     ;;
+  "Ayu Dark")
+    obtain_vim_theme_from_git      ayu-vim git@github.com:ayu-theme/ayu-vim.git
+    change_vim_background          dark
+    change_vim_colorscheme         ayu
+    obtain_kitty_theme_from_kitten Ayu
+    change_kitty_theme             Ayu
+    ;;
+  "Ayu Light")
+    obtain_vim_theme_from_git      ayu-vim git@github.com:ayu-theme/ayu-vim.git
+    change_vim_background          light
+    change_vim_colorscheme         ayu 'ayucolor=light'
+    obtain_kitty_theme_from_kitten 'Ayu Light'
+    change_kitty_theme             'Ayu Light'
+    ;;
+  "Ayu Mirage")
+    obtain_vim_theme_from_git      ayu-vim git@github.com:ayu-theme/ayu-vim.git
+    change_vim_background          dark
+    change_vim_colorscheme         ayu 'ayucolor=mirage'
+    obtain_kitty_theme_from_kitten 'Ayu Mirage'
+    change_kitty_theme             'Ayu Mirage'
+    ;;
+  "Catppuccin Frappe")
+    obtain_vim_theme_from_git    catppuccin https://github.com/catppuccin/nvim.git
+    change_vim_background        dark
+    change_vim_colorscheme       catppuccin 'catppuccin_flavour=frappe'
+    obtain_kitty_theme_from_curl catppuccin_frappe https://raw.githubusercontent.com/catppuccin/kitty/main/frappe.conf
+    change_kitty_theme           catppuccin_frappe
+    ;;
+  "Catppuccin Latte")
+    obtain_vim_theme_from_git    catppuccin https://github.com/catppuccin/nvim.git
+    change_vim_background        light
+    change_vim_colorscheme       catppuccin 'catppuccin_flavour=latte'
+    obtain_kitty_theme_from_curl catppuccin_latte https://raw.githubusercontent.com/catppuccin/kitty/main/latte.conf
+    change_kitty_theme           catppuccin_latte
+    ;;
+  "Catppuccin Macchiato")
+    obtain_vim_theme_from_git    catppuccin https://github.com/catppuccin/nvim.git
+    change_vim_background        dark
+    change_vim_colorscheme       catppuccin 'catppuccin_flavour=macchiato'
+    obtain_kitty_theme_from_curl catppuccin_macchiato https://raw.githubusercontent.com/catppuccin/kitty/main/macchiato.conf
+    change_kitty_theme           catppuccin_macchiato
+    ;;
+  "Catppuccin Mocha")
+    obtain_vim_theme_from_git    catppuccin https://github.com/catppuccin/nvim.git
+    change_vim_background        dark
+    change_vim_colorscheme       catppuccin 'catppuccin_flavour=mocha'
+    obtain_kitty_theme_from_curl catppuccin_mocha https://raw.githubusercontent.com/catppuccin/kitty/main/mocha.conf
+    change_kitty_theme           catppuccin_mocha
+    ;;
   "GitHub Dark")
+    obtain_vim_theme_from_git      github-nvim-theme git@github.com:projekt0n/github-nvim-theme.git
     change_vim_background          dark
     change_vim_colorscheme         github_dark
     obtain_kitty_theme_from_github github_dark
     change_kitty_theme             github_dark
     ;;
   "GitHub Dark Default")
+    obtain_vim_theme_from_git      github-nvim-theme git@github.com:projekt0n/github-nvim-theme.git
     change_vim_background          dark
     change_vim_colorscheme         github_dark_default
     obtain_kitty_theme_from_github github_dark_default
     change_kitty_theme             github_dark_default
     ;;
   "GitHub Dark Colorblind")
+    obtain_vim_theme_from_git      github-nvim-theme git@github.com:projekt0n/github-nvim-theme.git
     change_vim_background          dark
     change_vim_colorscheme         github_dark_colorblind
     obtain_kitty_theme_from_github github_dark_colorblind
     change_kitty_theme             github_dark_colorblind
     ;;
   "GitHub Dimmed")
+    obtain_vim_theme_from_git      github-nvim-theme git@github.com:projekt0n/github-nvim-theme.git
     change_vim_background          dark
     change_vim_colorscheme         github_dimmed
     obtain_kitty_theme_from_github github_dimmed
     change_kitty_theme             github_dimmed
     ;;
   "GitHub Light")
+    obtain_vim_theme_from_git      github-nvim-theme git@github.com:projekt0n/github-nvim-theme.git
     change_vim_background          dark
     change_vim_colorscheme         github_light
     obtain_kitty_theme_from_github github_light
     change_kitty_theme             github_light
     ;;
   "GitHub Light Default")
+    obtain_vim_theme_from_git      github-nvim-theme git@github.com:projekt0n/github-nvim-theme.git
     change_vim_background          dark
     change_vim_colorscheme         github_light_default
     obtain_kitty_theme_from_github github_light_default
     change_kitty_theme             github_light_default
     ;;
   "Gruvbox Dark")
+    obtain_vim_theme_from_git      gruvbox git@github.com:morhetz/gruvbox.git
     change_vim_background          dark
     change_vim_colorscheme         gruvbox
     obtain_kitty_theme_from_kitten 'Gruvbox Dark Hard'
     change_kitty_theme             'Gruvbox Dark Hard'
     ;;
   "Gruvbox Light")
+    obtain_vim_theme_from_git      gruvbox git@github.com:morhetz/gruvbox.git
     change_vim_background          light
     change_vim_colorscheme         gruvbox
     obtain_kitty_theme_from_kitten 'Gruvbox Light Hard'
     change_kitty_theme             'Gruvbox Light Hard'
     ;;
   "One Dark")
+    obtain_vim_theme_from_git      onedark.vim git@github.com:joshdick/onedark.vim.git
     change_vim_background          dark
     change_vim_colorscheme         onedark
     obtain_kitty_theme_from_kitten 'One Dark'
     change_kitty_theme             'One Dark'
     ;;
   "One Light")
+    obtain_vim_theme_from_git      vim-one git@github.com:rakr/vim-one.git
     change_vim_background          light
     change_vim_colorscheme         one
     obtain_kitty_theme_from_kitten 'One Half Light'
     change_kitty_theme             'One Half Light'
+    ;;
+  "TokyoNight Dark")
+    obtain_vim_theme_from_git      tokyonight.nvim git@github.com:folke/tokyonight.nvim.git
+    change_vim_background          dark
+    change_vim_colorscheme         tokyonight 'tokyonight_style=night'
+    obtain_kitty_theme_from_kitten "Tokyo Night"
+    change_kitty_theme             "Tokyo Night"
+    ;;
+  "TokyoNight Day")
+    obtain_vim_theme_from_git      tokyonight.nvim git@github.com:folke/tokyonight.nvim.git
+    change_vim_background          light
+    change_vim_colorscheme         tokyonight 'tokyonight_style=day'
+    obtain_kitty_theme_from_kitten "Tokyo Night Day"
+    change_kitty_theme             "Tokyo Night Day"
+    ;;
+  "TokyoNight Storm")
+    obtain_vim_theme_from_git      tokyonight.nvim git@github.com:folke/tokyonight.nvim.git
+    change_vim_background          dark
+    change_vim_colorscheme         tokyonight 'tokyonight_style=storm'
+    obtain_kitty_theme_from_kitten "Tokyo Night Storm"
+    change_kitty_theme             "Tokyo Night Storm"
     ;;
   *)
     echo "\"$theme\" is not a recognized theme"

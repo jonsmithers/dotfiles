@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <jon@smithers.dev>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2022-05-28
+" Last Updated: 2022-06-13
 
 :scriptencoding utf8
 
@@ -134,9 +134,9 @@ call plug#begin('~/.vim/plugged')
     fun! s:ConfigTelescope()
       com! Planets :lua require('telescope.builtin').planets()<cr>
       com! Symbols :lua require('telescope.builtin').symbols(require('telescope.themes').get_cursor())<cr>
-      nnoremap <leader>F       :lua require('telescope.builtin').live_grep({prompt_title = 'Query'})<cr>
-      nnoremap <leader>or      :lua require('telescope.builtin').oldfiles()<cr>
-      nnoremap <c-p>           :lua require('telescope.builtin').find_files()<cr>
+      nnoremap <silent> <leader>F       :lua require('telescope.builtin').live_grep({prompt_title = 'Query'})<cr>
+      nnoremap <silent> <leader>or      :lua require('telescope.builtin').oldfiles()<cr>
+      nnoremap <silent> <c-p>           :lua require('telescope.builtin').find_files()<cr>
     endfun
     PlugIfNeovim 'stevearc/aerial.nvim', {}, funcref('s:ConfigAerial')
     PlugIfNeovim 'stevearc/dressing.nvim'
@@ -403,6 +403,12 @@ call plug#begin('~/.vim/plugged')
           \ fzf#wrap({'dir': expand('%:p:h')}))
     inoremap <c-x>F <c-x><c-f>
           " Ctrl-X Shift-F will provide native c-x c-f functionality
+
+    if (!executable('fzf') && !empty(glob("~/.fzf/bin")))
+      " Save fzf from downloading a redundant binary (it's common for GUI vims
+      " to not see fzf in the PATH)
+      let $PATH=$PATH..":"..expand("~/.fzf/bin")
+    endif
   " }}}
 
   Plug 'junegunn/goyo.vim', { 'on': 'Goyo' }
@@ -641,6 +647,8 @@ call plug#begin('~/.vim/plugged')
     autocmd VimEnter * :Abolish anomol{y,ies} anomal{}
   augroup END
 
+  Plug 'tpope/vim-dispatch'
+
   Plug 'tpope/vim-eunuch'
   ":Delete, :Chmod, :SudoWrite, :Rename, :Mkdir
 
@@ -729,14 +737,18 @@ call plug#begin('~/.vim/plugged')
   Plug 'tpope/vim-sleuth'
   " Support editorconfig and auto indent detection
 
+  command! -bang -nargs=? -complete=dir FilesWithPreview
+        \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
+  if (!empty(glob('~/Dropbox/obsidian')))
+    nnoremap <silent> <leader>of :FilesWithPreview ~/Dropbox/obsidian/<cr>
+    nnoremap <silent> <leader>oF :call VimWikiLines('$HOME/Dropbox/obsidian/**/*')<cr>
+  endif
   if (!empty(glob('~/Dropbox/vimwiki')))
     " {{{
       " I don't use the vimwiki plugin because it borks markdown &comments, even
       " after I set ft=markdown.
 
-      nnoremap <leader>of :FilesWithPreview ~/Dropbox/obsidian/<cr>
       nnoremap <leader>wf :FilesWithPreview ~/Dropbox/vimwiki/md<cr>
-      nnoremap <leader>oF :call VimWikiLines('$HOME/Dropbox/obsidian/**/*')<cr>
       nnoremap <leader>wF :call VimWikiLines('$HOME/Dropbox/vimwiki/md/*')<cr>
 
       augroup vimrc_vimwiki
@@ -749,9 +761,6 @@ call plug#begin('~/.vim/plugged')
         autocmd Filetype markdown nmap <silent><buffer> <leader>zxcv <Plug>VimwikiRemoveHeaderLevel
 
       augroup end
-
-      command! -bang -nargs=? -complete=dir FilesWithPreview
-            \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
 
       command! -nargs=+ WriteWikiNote call s:writeWikiNote(<q-args>)
       func! s:writeWikiNote(filename)
@@ -1222,6 +1231,16 @@ let g:html_wrong_comments=1
   nnoremap yoP :call js_prose#ToggleProseMode()<cr>
 
 " GUI Settings {{{
+  let s:is_neovide = has('nvim') && exists('g:neovide')
+  if (s:is_neovide)
+
+    " Allow copy paste in neovide (https://github.com/neovide/neovide/issues/1263)
+    let g:neovide_input_use_logo = 1
+    map <D-v> "+p<CR>
+    map! <D-v> <C-R>+
+    tmap <D-v> <C-R>+
+    vmap <D-c> "+y<CR>
+  endif
   let g:neovide_cursor_vfx_mode = "railgun"
   let g:neovide_cursor_vfx_opacity=200.0
   let g:neovide_cursor_vfx_particle_lifetime=1.2
@@ -1277,6 +1296,7 @@ let g:html_wrong_comments=1
             \ | wincmd p | diffthis
     endif
   endif
+  set shortmess+=I  "disable intro :intro
   set mouse=a       "already set in Vim 8 defaults.vim, but Fedora undoes it! (https://lists.fedoraproject.org/archives/list/users@lists.fedoraproject.org/thread/HZJVN3LVFS2YC3H7EZRPJEYEPAGKEVH2/)
   set ttimeoutlen=0 "timeout instantly when pressing esc during visual mode
   set regexpengine=0 " essential for yats typescript speed
@@ -1482,45 +1502,6 @@ let g:html_wrong_comments=1
     " TODO: for TMUX implementation, refer to https://medium.com/@joao.paulo.silvasouza/change-your-terminals-background-color-dynamically-using-escape-sequences-aba6e5ed2b29
   endfun
 
-  augroup vimrc_colorscheme
-    au!
-    " work around issue with iTerm rendering undercurl/underline badly
-    autocmd ColorScheme * highlight SpellBad cterm=NONE
-
-    " automatically match terminal bg to vim bg
-    " autocmd ColorScheme * call s:matchTerminalBackground()
-
-    " expose colorscheme colors to fish shell
-    autocmd ColorScheme * call s:matchShellColors()
-    fun! s:matchShellColors()
-      if (&shell =~# 'fish')
-        let l:fishColorMap = {
-              \ 'fish_color_command': 'Normal',
-              \ 'fish_color_error': 'ErrorMsg',
-              \ 'fish_color_operator': 'PreProc',
-              \ 'fish_color_selection': 'CursorLine' ,
-              \ }
-        for [l:fishVar, l:source] in items(l:fishColorMap)
-          let l:normalBg = synIDattr(synIDtrans(hlID('Normal')), "bg#")
-          let l:thisBg = synIDattr(synIDtrans(hlID(l:source)), "bg#")
-          let l:color = ''
-          if (empty(l:thisBg) || l:thisBg == l:normalBg)
-            let l:color = synIDattr(synIDtrans(hlID(l:source)), 'fg#')
-          else
-            let l:color = l:thisBg
-          endif
-          let l:color = l:color[1:]
-          " echom l:fishVar . ' --> ' . l:color . ' (' . l:source . ')'
-          exec 'let $' . l:fishVar . '="' . l:color . '"'
-        endfor
-        " autocmd ColorScheme * let $fish_color_command='black'
-      else
-        let $vim_background=&background
-        let $vim_colorscheme=g:colors_name
-      endif
-    endfun
-  augroup end
-
   if (!has('gui_running'))
     set t_Cs=
     " vim has a bug that prevents undercurl from falling back to underline
@@ -1532,6 +1513,12 @@ let g:html_wrong_comments=1
       execute 'set background='..$VIM_BACKGROUND
     else
       set background=dark
+    endif
+    if exists('$VIM_THEME_GLOBALS')
+      for assignment in split($VIM_THEME_GLOBALS, ',')
+        sandbox execute 'let g:'..split(assignment, '=')[0]..'="'..split(assignment, '=')[1]..'"'
+      endfor
+      execute 'silent! colorscheme ' .. $VIM_COLORSCHEME
     endif
     if exists('$VIM_COLORSCHEME')
       execute 'silent! colorscheme ' .. $VIM_COLORSCHEME
