@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <jon@smithers.dev>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2022-06-13
+" Last Updated: 2022-06-19
 
 :scriptencoding utf8
 
@@ -560,13 +560,20 @@ call plug#begin('~/.vim/plugged')
     endfun
     PlugIfNotNeovim 'scrooloose/nerdtree', { 'on': s:nerdtree_triggers }, function('s:ConfigNerdtree')
     fun! s:ConfigNvimTree()
-      :nnoremap <silent> <Leader>tt :call <SID>OpenNvimTreeWithoutVinegarBehavior()<cr>
-      :nnoremap <silent> <Leader>tf :NvimTreeFindFile<CR>
+      :nnoremap <silent> <Leader>tt :call <SID>NvimTreeToggleAndRemoveVinegar()<cr>
+      :nnoremap <silent> <Leader>tf :call <SID>NvimTreeFindFileAndRemoveVinegar()<CR>
       :nnoremap <silent> <Leader>tr :NvimTreeRefresh<CR>
 
       :nnoremap <silent> - :call <SID>OpenNvimTreeWithVinegarBehavior()<cr>
-      fun <SID>OpenNvimTreeWithoutVinegarBehavior()
-        NvimTreeToggle
+      fun! <SID>NvimTreeToggleAndRemoveVinegar()
+        :NvimTreeToggle
+        call <SID>NvimTreeRemoveVinegarBehavior()
+      endfun
+      fun! <SID>NvimTreeFindFileAndRemoveVinegar()
+        :NvimTreeFindFile
+        call <SID>NvimTreeRemoveVinegarBehavior()
+      endfun
+      fun! <SID>NvimTreeRemoveVinegarBehavior()
         if (&filetype == 'NvimTree')
           nunmap <buffer> <cr>
           nnoremap <buffer> <cr> :lua require'nvim-tree.actions'.on_keypress('enter')<cr>
@@ -576,7 +583,13 @@ call plug#begin('~/.vim/plugged')
       fun <SID>OpenNvimTreeWithVinegarBehavior()
         NvimTreeClose
         if (expand('%') == '')
-          edit .
+          let l:window_count = winnr('$')
+          if (l:window_count == 1)
+            edit .
+          else
+            " TODO this clobbers existing splits for some reason
+            echom 'would clobber layout'
+          endif
         else
           lua require"nvim-tree".open_replacing_current_buffer()
         endif
