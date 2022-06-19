@@ -194,6 +194,14 @@ call plug#begin('~/.vim/plugged')
     let g:colorizer_hex_pattern = ['#\?', '\%(\x\{6}\)', '']
   " }}}
 
+  PlugIfNeovim 'folke/trouble.nvim'
+  " Open LSP issues and Telescope results in a fany pane
+  " {{{
+  "   TroubleToggle quickfix
+  "   TroubleToggle workspace_diagnostic
+  " }}}
+  "
+
   Plug 'Houl/ExplainPattern-vim'
   " Use :ExplainPattern to explain a vim-flavored regex
 
@@ -721,6 +729,8 @@ call plug#begin('~/.vim/plugged')
 
   Plug 'tpope/vim-rsi'
   " Add readline keybindings http://readline.kablamo.org/emacs.html
+
+  Plug 'tpope/vim-speeddating'
 
   Plug 'tpope/vim-surround'
   " {{{
