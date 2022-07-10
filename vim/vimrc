@@ -694,7 +694,7 @@ call plug#begin('~/.vim/plugged')
     " p        preview commit
     " o        open commit in split
     " O        open commit in tab
-    nnoremap <leader>gs :0Git<cr>
+    nnoremap <leader>gs :0Git<cr>:normal gU<cr>
     " ri  - Rebase Interactive
     " rw  - Rebase reWord
     " rm  - Rebase Modify

@@ -180,6 +180,9 @@ if command -v git-number > /dev/null; then
     alias giff='git-number -c vim +Gvdiff'
   fi
 fi
+if command -v nvim > /dev/null; then
+  alias gs='nvim +0Git "+normal gU"'
+fi
 
 if [[ "$(uname)" == "Linux" ]]; then
   alias open="xdg-open"
