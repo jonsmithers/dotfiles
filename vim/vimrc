@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <jon@smithers.dev>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2022-06-19
+" Last Updated: 2022-07-10
 
 :scriptencoding utf8
 
@@ -115,8 +115,12 @@ call plug#begin('~/.vim/plugged')
       !npm install --global typescript-language-server
       !npm install --global vscode-html-languageservice
     endfun
-    com! InstallLsps call s:InstallLsps({})
-    PlugIfNeovim 'neovim/nvim-lspconfig', { 'do': function('s:InstallLsps') }
+    fun! s:ConfigLsp()
+      com! LspDisableCompletion lua require('cmp').setup.buffer { enabled = false }
+      com! LspEnableCompletion lua require('cmp').setup.buffer { enabled = true }
+      com! LspInstallServers call s:InstallLsps({})
+    endfun
+    PlugIfNeovim 'neovim/nvim-lspconfig', { 'do': function('s:InstallLsps') }, funcref('s:ConfigLsp')
 
     PlugIfNeovim 'hrsh7th/nvim-cmp', {}
     PlugIfNeovim 'hrsh7th/cmp-nvim-lsp'
@@ -301,7 +305,7 @@ call plug#begin('~/.vim/plugged')
       let l:all_non_errors = l:counts.total - l:all_errors
       return l:counts.total == 0 ? '✓' : ''
     endfun
-    augroup LightlineColorscheme
+    augroup vimrc_LightlineColorscheme
       autocmd!
       autocmd ColorScheme * call s:matchLightlineColorscheme()
       autocmd User ALELint call s:maybeUpdateLightline()
@@ -475,7 +479,7 @@ call plug#begin('~/.vim/plugged')
     :nmap ga <Plug>(EasyAlign)
   " }}}
 
-  PlugIfNotNeovim 'justinmk/vim-dirvish'
+  Plug 'justinmk/vim-dirvish'
   " Directory viewer
   " {{{
     " [range]:Shdo cp {} {}.bak<cr>Z!
@@ -568,11 +572,11 @@ call plug#begin('~/.vim/plugged')
     endfun
     PlugIfNotNeovim 'scrooloose/nerdtree', { 'on': s:nerdtree_triggers }, function('s:ConfigNerdtree')
     fun! s:ConfigNvimTree()
-      :nnoremap <silent> <Leader>tt :call <SID>NvimTreeToggleAndRemoveVinegar()<cr>
-      :nnoremap <silent> <Leader>tf :call <SID>NvimTreeFindFileAndRemoveVinegar()<CR>
+      :nnoremap <silent> <Leader>tt :NvimTreeToggle<cr>
+      :nnoremap <silent> <Leader>tf :NvimTreeFindFile<CR>
       :nnoremap <silent> <Leader>tr :NvimTreeRefresh<CR>
 
-      :nnoremap <silent> - :call <SID>OpenNvimTreeWithVinegarBehavior()<cr>
+      " :nnoremap <silent> - :call <SID>OpenNvimTreeWithVinegarBehavior()<cr>
       fun! <SID>NvimTreeToggleAndRemoveVinegar()
         :NvimTreeToggle
         call <SID>NvimTreeRemoveVinegarBehavior()

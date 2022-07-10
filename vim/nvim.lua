@@ -183,13 +183,13 @@ require'nvim-tree'.setup {
   -- hijack_directories = {
   --   enable = true,
   -- },
-  hijack_netrw = true,
-  disable_netrw = true,
+  hijack_netrw = false,
+  disable_netrw = false,
   view = {
     relativenumber = true,
     mappings = {
       list = {
-        { key = "<CR>", action = "edit_in_place" }
+        -- { key = "<CR>", action = "edit_in_place" }
       }
     },
   }
