@@ -70,7 +70,12 @@ function change_vim_background() {
 function change_kitty_theme() {
   local theme=$1
   echo setting kitty theme to "$theme"
-  local sed_target="$(readlink ~/.config/kitty/kitty.conf || echo ~/.config/kitty/kitty.conf)"
+  [[ -f "$HOME/.config/kitty/profile.conf" ]] || touch ~/.config/kitty/profile.conf
+  if ! grep --quiet "include profile.conf" < ~/.config/kitty/kitty.conf; then
+    echo "include profile.conf" >> ~/.config/kitty/kitty.conf
+  fi
+  local sed_target
+  sed_target="$(readlink ~/.config/kitty/profile.conf || echo ~/.config/kitty/profile.conf)"
   sed \
     -I '.sedbackup' \
     '/# begin auto-generated kitty theme setting/,/# end auto-generated kitty theme setting/s/^[^#].*$/include '"$theme"'.conf/' \
