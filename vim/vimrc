@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <jon@smithers.dev>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2022-07-10
+" Last Updated: 2022-07-25
 
 :scriptencoding utf8
 
@@ -123,6 +123,7 @@ call plug#begin('~/.vim/plugged')
     PlugIfNeovim 'neovim/nvim-lspconfig', { 'do': function('s:InstallLsps') }, funcref('s:ConfigLsp')
 
     PlugIfNeovim 'hrsh7th/nvim-cmp', {}
+    PlugIfNeovim 'onsails/lspkind.nvim'
     PlugIfNeovim 'hrsh7th/cmp-nvim-lsp'
     PlugIfNeovim 'hrsh7th/cmp-buffer'
     PlugIfNeovim 'hrsh7th/cmp-path'
@@ -130,6 +131,11 @@ call plug#begin('~/.vim/plugged')
     PlugIfNeovim 'hrsh7th/vim-vsnip'
     PlugIfNeovim 'hrsh7th/cmp-vsnip'
     PlugIfNeovim 'rafamadriz/friendly-snippets'
+    PlugIfNeovim 'hrsh7th/cmp-emoji'
+    imap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
+    smap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
+    imap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
+    smap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
 
     " {{{ neovim ui plugins
     fun! s:ConfigAerial()
