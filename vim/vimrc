@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <jon@smithers.dev>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2022-07-25
+" Last Updated: 2022-08-03
 
 :scriptencoding utf8
 
@@ -109,60 +109,12 @@ let s:nerdtree_triggers = ['NERDTreeFind', 'NERDTreeClose', 'NERDTreeToggle', 'N
 call plug#begin('~/.vim/plugged')
 
   " {{{ Plugin 'neovim/nvim-lspconfig'
-    fun! s:InstallLsps(stuff)
+    fun! g:InstallLsps(stuff)
       echom "manually installing LSP servers"
       !npm install --global vscode-langservers-extracted
       !npm install --global typescript-language-server
       !npm install --global vscode-html-languageservice
     endfun
-    fun! s:ConfigLsp()
-      com! LspDisableCompletion lua require('cmp').setup.buffer { enabled = false }
-      com! LspEnableCompletion lua require('cmp').setup.buffer { enabled = true }
-      com! LspInstallServers call s:InstallLsps({})
-    endfun
-    PlugIfNeovim 'neovim/nvim-lspconfig', { 'do': function('s:InstallLsps') }, funcref('s:ConfigLsp')
-
-    PlugIfNeovim 'hrsh7th/nvim-cmp', {}
-    PlugIfNeovim 'onsails/lspkind.nvim'
-    PlugIfNeovim 'hrsh7th/cmp-nvim-lsp'
-    PlugIfNeovim 'hrsh7th/cmp-buffer'
-    PlugIfNeovim 'hrsh7th/cmp-path'
-    PlugIfNeovim 'hrsh7th/cmp-cmdline'
-    PlugIfNeovim 'hrsh7th/vim-vsnip'
-    PlugIfNeovim 'hrsh7th/cmp-vsnip'
-    PlugIfNeovim 'rafamadriz/friendly-snippets'
-    PlugIfNeovim 'hrsh7th/cmp-emoji'
-    imap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
-    smap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
-    imap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
-    smap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
-
-    " {{{ neovim ui plugins
-    fun! s:ConfigAerial()
-      nnoremap <leader>st :AerialToggle!<cr>
-    endfun
-    fun! s:ConfigTelescope()
-      com! Planets :lua require('telescope.builtin').planets()<cr>
-      com! Symbols :lua require('telescope.builtin').symbols(require('telescope.themes').get_cursor())<cr>
-      nnoremap <silent> <leader>F       :lua require('telescope.builtin').live_grep({prompt_title = 'Query'})<cr>
-      nnoremap <silent> <leader>or      :lua require('telescope.builtin').oldfiles()<cr>
-      nnoremap <silent> <c-p>           :lua require('telescope.builtin').find_files()<cr>
-    endfun
-    PlugIfNeovim 'stevearc/aerial.nvim', {}, funcref('s:ConfigAerial')
-    PlugIfNeovim 'stevearc/dressing.nvim'
-    PlugIfNeovim 'rcarriga/nvim-notify'
-    PlugIfNeovim 'nvim-telescope/telescope.nvim', {}, funcref('s:ConfigTelescope')
-    PlugIfNeovim 'nvim-lua/plenary.nvim'
-    PlugIfNeovim 'nvim-telescope/telescope-symbols.nvim'
-    " Telescope Picker mappings
-    "   ctrl-c   | close
-    "   ctrl-u/d | scroll preview
-    "   ctrl-q   | open ALL in quickfix
-    "   alt-q    | open SELECTED in quickfix
-    "   ctrl-v   | vertical split
-    "   ctrl-t   | open in tab
-    "   ? view   | mappings
-    " }}}
 
     fun! CloseFloatingWindows()
       " https://www.reddit.com/r/neovim/comments/nrz9hp/can_i_close_all_floating_windows_without_closing/
@@ -545,14 +497,6 @@ call plug#begin('~/.vim/plugged')
   Plug 'nelstrom/vim-visual-star-search'
   " Bring "*" key behavior into visual mode. Extremely useful. (see ":help *").
 
-  PlugIfNeovim 'NTBBloodbath/rest.nvim'
-  " Perform REST requests in http files
-
-  PlugIfNeovim 'nvim-lua/plenary.nvim'
-  " dependency of rest.nvim
-
-  PlugIfNeovim 'nvim-treesitter/nvim-treesitter'
-
   Plug 'prettier/vim-prettier'
 
   Plug 'psliwka/vim-smoothie'
@@ -577,59 +521,7 @@ call plug#begin('~/.vim/plugged')
       :nnoremap <silent> <Leader>tr :NERDTreeRefreshRoot<cr>
     endfun
     PlugIfNotNeovim 'scrooloose/nerdtree', { 'on': s:nerdtree_triggers }, function('s:ConfigNerdtree')
-    fun! s:ConfigNvimTree()
-      :nnoremap <silent> <Leader>tt :NvimTreeToggle<cr>
-      :nnoremap <silent> <Leader>tf :NvimTreeFindFile<CR>
-      :nnoremap <silent> <Leader>tr :NvimTreeRefresh<CR>
-
-      " :nnoremap <silent> - :call <SID>OpenNvimTreeWithVinegarBehavior()<cr>
-      fun! <SID>NvimTreeToggleAndRemoveVinegar()
-        :NvimTreeToggle
-        call <SID>NvimTreeRemoveVinegarBehavior()
-      endfun
-      fun! <SID>NvimTreeFindFileAndRemoveVinegar()
-        :NvimTreeFindFile
-        call <SID>NvimTreeRemoveVinegarBehavior()
-      endfun
-      fun! <SID>NvimTreeRemoveVinegarBehavior()
-        if (&filetype == 'NvimTree')
-          nunmap <buffer> <cr>
-          nnoremap <buffer> <cr> :lua require'nvim-tree.actions'.on_keypress('enter')<cr>
-          wincmd p
-        endif
-      endfun
-      fun <SID>OpenNvimTreeWithVinegarBehavior()
-        NvimTreeClose
-        if (expand('%') == '')
-          let l:window_count = winnr('$')
-          if (l:window_count == 1)
-            edit .
-          else
-            " TODO this clobbers existing splits for some reason
-            echom 'would clobber layout'
-          endif
-        else
-          lua require"nvim-tree".open_replacing_current_buffer()
-        endif
-        " file nvim_vinegar
-        " ^ lets fzf file picker replace this buffer
-        " if (&filetype == 'NvimTree')
-        "   nunmap <buffer> <cr>
-        "   nnoremap <buffer> <cr> :lua require'nvim-tree.actions'.on_keypress('edit_in_place')<cr>
-        " endif
-      endfun
-    endfun
-    PlugIfNeovim 'kyazdani42/nvim-tree.lua', {}, function('s:ConfigNvimTree')
-    let s:dev_icons_enabled = $VIM_DEVICONS == '1'
-    if (s:dev_icons_enabled)
-      PlugIfNeovim 'kyazdani42/nvim-web-devicons'
-    endif
   " }}}
-
-  fun! s:ConfigNotify()
-    lua vim.notify = require("notify")
-  endfun
-  PlugIfNeovim 'rcarriga/nvim-notify', {}, function('s:ConfigNotify')
 
   Plug 'reedes/vim-pencil'
 
