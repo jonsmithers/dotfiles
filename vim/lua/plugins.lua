@@ -317,6 +317,17 @@ packer.startup(function(use)
         augroup end
       ]])
     end,
+    run = function()
+      vim.cmd([[
+        echom "manually installing LSP servers"
+        !npm install --global typescript-language-server
+        " tsserver
+        !npm install --global vim-language-server
+        " vimls
+        !npm install --global vscode-langservers-extracted
+        " html, eslint, jsonls, cssls
+      ]])
+    end,
   }
 
   use { -- NTBBloodbath/rest.nvim

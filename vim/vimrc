@@ -108,20 +108,6 @@ let s:nerdtree_triggers = ['NERDTreeFind', 'NERDTreeClose', 'NERDTreeToggle', 'N
 " └─────────┘
 call plug#begin('~/.vim/plugged')
 
-  " {{{ Plugin 'neovim/nvim-lspconfig'
-    fun! g:InstallLsps(stuff)
-      echom "manually installing LSP servers"
-      !npm install --global vscode-langservers-extracted
-      !npm install --global typescript-language-server
-      !npm install --global vscode-html-languageservice
-    endfun
-
-    fun! CloseFloatingWindows()
-      " https://www.reddit.com/r/neovim/comments/nrz9hp/can_i_close_all_floating_windows_without_closing/
-      :lua for _, win in ipairs(vim.api.nvim_list_wins()) do local config = vim.api.nvim_win_get_config(win); if config.relative ~= "" then vim.api.nvim_win_close(win, false); print('Closing window', win) end end
-    endfun
-    com! CloseFloatingWindows call CloseFloatingWindows()
-  " }}}
 
   Plug 'AndrewRadev/splitjoin.vim'
   " gJ on first line to join object literal into one line
