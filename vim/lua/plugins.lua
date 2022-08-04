@@ -547,6 +547,7 @@ packer.startup(function(use)
     end,
   }
 
+  use 'wbthomason/packer.nvim'
   if packer_bootstrap then
     packer.sync()
   end
