@@ -199,7 +199,7 @@ packer.startup(function(use)
               { key = "]g",                             action = "next_diag_item" },
             }
           },
-        }
+        },
       }
       vim.cmd([[
         :nnoremap <silent> <Leader>tt :NvimTreeToggle<cr>
@@ -402,33 +402,11 @@ packer.startup(function(use)
     'nvim-treesitter/nvim-treesitter',
     requires = {
       'nvim-treesitter/nvim-treesitter-context',
+      'nvim-treesitter/nvim-treesitter-textobjects',
       -- TSContextEnable, TSContextDisable, TSContextToggle
     },
     config = function()
       require'nvim-treesitter.configs'.setup {
-        icons=(not dev_icons_enabled and {
-          default="·",
-          symlink="",
-          git={
-            unstaged="✗",
-            staged="✓",
-            unmerged="",
-            renamed="➜",
-            untracked="★",
-            deleted="",
-            ignored="◌"
-          },
-          folder={
-            arrow_open="",
-            arrow_closed="",
-            default="▶",
-            open="▼",
-            empty="▷",
-            empty_open="▽",
-            symlink="",
-            symlink_open="",
-          }
-        } or nil),
         group_empty=1,
         special_files={},
         ensure_installed = {
@@ -437,6 +415,30 @@ packer.startup(function(use)
           "lua",
           "vim",
           "yaml",
+        },
+        textobjects = {
+          select = {
+            enable = true,
+
+            -- Automatically jump forward to textobj, similar to targets.vim
+            lookahead = true,
+
+            keymaps = {
+              -- You can use the capture groups defined in textobjects.scm
+              ["af"] = "@function.outer",
+              ["if"] = "@function.inner",
+              ["ac"] = "@class.outer",
+              ["ic"] = "@class.inner",
+              ["ia"] = "@parameter.inner",
+              ["aa"] = "@parameter.outer",
+            },
+            -- You can choose the select mode (default is charwise 'v')
+            selection_modes = {
+              ['@parameter.outer'] = 'v', -- charwise
+              ['@function.outer'] = 'V', -- linewise
+              ['@class.outer'] = '<c-v>', -- blockwise
+            },
+          },
         },
       }
       require'treesitter-context'.setup {
