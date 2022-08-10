@@ -102,6 +102,9 @@ function obtain_vim_theme_from_git() {
   elif grep --quiet "$theme_plugin" < ~/.vimrc; then
     echo found $theme_plugin in your vimrc
     return
+  elif grep --quiet "$theme_plugin" < ~/.config/nvim/lua/plugins.lua; then
+    echo found $theme_plugin in your plugins.lua
+    return
   elif grep --quiet "$theme_plugin" < ~/.config/nvim/init.vim; then
     echo found $theme_plugin in your init.vim
     return
@@ -115,7 +118,7 @@ function obtain_kitty_theme_from_curl() {
   local curl_url=$2
   [[ -f "$HOME/.config/kitty/$theme.conf" ]] || {
     echo obtaining kitty theme from url
-    curl "$curl_url" > "$HOME/.config/kitty/$theme.conf"
+    curl --fail "$curl_url" > "$HOME/.config/kitty/$theme.conf"
   }
 }
 function obtain_kitty_theme_from_kitten() {
@@ -129,7 +132,7 @@ function obtain_kitty_theme_from_github() {
   local theme=$1
   [[ -f "$HOME/.config/kitty/$theme.conf" ]] || {
     echo obtaining kitty theme from github/projekt0n/github-nvim-theme;
-    curl https://raw.githubusercontent.com/projekt0n/github-nvim-theme/main/terminal/kitty/"$theme".conf > ~/.config/kitty/"$theme".conf;
+    curl --fail https://raw.githubusercontent.com/projekt0n/github-nvim-theme/main/terminal/kitty/"$theme".conf > ~/.config/kitty/"$theme".conf;
   }
 }
 
@@ -152,6 +155,12 @@ if [[ -z "$theme" ]]; then
     "GitHub Light Default"
     "Gruvbox Dark"
     "Gruvbox Light"
+    "Nightfox Nightfox"
+    "Nightfox Dayfox"
+    "Nightfox Dawnfox"
+    "Nightfox Duskfox"
+    "Nightfox Nordfox"
+    "Nightfox Terafox"
     "One Dark"
     "One Light"
     "TokyoNight Dark"
@@ -159,9 +168,13 @@ if [[ -z "$theme" ]]; then
     "TokyoNight Storm"
   );
   PS3=$'\n'"select theme> "
-  select theme in "${themes[@]}"; do
-    break
-  done
+  if command -v fzf &> /dev/null; then
+    theme=$(( IFS=$'\n'; echo "${themes[*]}" ) | fzf --border=rounded --prompt='Choose a Theme: ')
+  else
+    select theme in "${themes[@]}"; do
+      break
+    done
+  fi
 fi
 
 case $theme in
@@ -276,6 +289,48 @@ case $theme in
     change_vim_colorscheme         gruvbox
     obtain_kitty_theme_from_kitten 'Gruvbox Light Hard'
     change_kitty_theme             'Gruvbox Light Hard'
+    ;;
+  "Nightfox Nightfox")
+    obtain_vim_theme_from_git    nightfox.nvim git@github.com:EdenEast/nightfox.nvim.git
+    change_vim_background        dark
+    change_vim_colorscheme       nightfox
+    obtain_kitty_theme_from_curl 'nightfox-nightfox' https://raw.githubusercontent.com/EdenEast/nightfox.nvim/main/extra/nightfox/nightfox_kitty.conf
+    change_kitty_theme           'nightfox-nightfox'
+    ;;
+  "Nightfox Dayfox")
+    obtain_vim_theme_from_git    nightfox.nvim git@github.com:EdenEast/nightfox.nvim.git
+    change_vim_background        dark
+    change_vim_colorscheme       dayfox
+    obtain_kitty_theme_from_curl 'nightfox-dayfox' https://raw.githubusercontent.com/EdenEast/nightfox.nvim/main/extra/dayfox/nightfox_kitty.conf
+    change_kitty_theme           'nightfox-dayfox'
+    ;;
+  "Nightfox Dawnfox")
+    obtain_vim_theme_from_git    nightfox.nvim git@github.com:EdenEast/nightfox.nvim.git
+    change_vim_background        dark
+    change_vim_colorscheme       dawnfox
+    obtain_kitty_theme_from_curl 'nightfox-dawnfox' https://raw.githubusercontent.com/EdenEast/nightfox.nvim/main/extra/dawnfox/nightfox_kitty.conf
+    change_kitty_theme           'nightfox-dawnfox'
+    ;;
+  "Nightfox Duskfox")
+    obtain_vim_theme_from_git    nightfox.nvim git@github.com:EdenEast/nightfox.nvim.git
+    change_vim_background        dark
+    change_vim_colorscheme       duskfox
+    obtain_kitty_theme_from_curl 'nightfox-duskfox' https://raw.githubusercontent.com/EdenEast/nightfox.nvim/main/extra/duskfox/nightfox_kitty.conf
+    change_kitty_theme           'nightfox-duskfox'
+    ;;
+  "Nightfox Nordfox")
+    obtain_vim_theme_from_git    nightfox.nvim git@github.com:EdenEast/nightfox.nvim.git
+    change_vim_background        dark
+    change_vim_colorscheme       nordfox
+    obtain_kitty_theme_from_curl 'nightfox-nordfox' https://raw.githubusercontent.com/EdenEast/nightfox.nvim/main/extra/nordfox/nightfox_kitty.conf
+    change_kitty_theme           'nightfox-nordfox'
+    ;;
+  "Nightfox Terafox")
+    obtain_vim_theme_from_git    nightfox.nvim git@github.com:EdenEast/nightfox.nvim.git
+    change_vim_background        dark
+    change_vim_colorscheme       terafox
+    obtain_kitty_theme_from_curl 'nightfox-terafox' https://raw.githubusercontent.com/EdenEast/nightfox.nvim/main/extra/terafox/nightfox_kitty.conf
+    change_kitty_theme           'nightfox-terafox'
     ;;
   "One Dark")
     obtain_vim_theme_from_git      onedark.vim git@github.com:joshdick/onedark.vim.git
