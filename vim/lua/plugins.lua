@@ -299,7 +299,7 @@ packer.startup(function(use)
         buf_set_keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
       end
 
-      ENABLE_LSP_SERVER = function(name)
+      enable_lsp_server = function(name)
         lspconfig[name].setup {
           capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities()),
           on_attach = ON_LSP_ATTACH,
@@ -308,13 +308,22 @@ packer.startup(function(use)
           }
         }
       end
+      enable_frontend_lsps = function()
+        if (vim.fn.empty(vim.fn.glob('node_modules/.bin/tsserver'))) then
+          enable_lsp_server('tsserver')
+        end
+        if (vim.fn.empty(vim.fn.glob('node_modules/.bin/eslint'))) then
+          enable_lsp_server('eslint')
+        end
+        enable_lsp_server('html')
+        enable_lsp_server('cssls')
+        enable_lsp_server('jsonls')
+      end
 
-      -- vim.fn.empty(vim.fn.glob(.neovim-lsps)) > 0
+      enable_lsp_server('vimls')
+
       vim.cmd([[
-        augroup nvim_lsp_file
-          autocmd!
-          autocmd DirChanged * echom 'dir changed! (plugins.lua)'
-        augroup end
+        call SetupDirectorySpecificConfiguration()
       ]])
     end,
     run = function()
@@ -412,6 +421,7 @@ packer.startup(function(use)
         ensure_installed = {
           "json", "http", -- required for rest-nvim
           "javascript", "tsx", "typescript", -- not sure if these overlap/conflict
+          "bash",
           "lua",
           "vim",
           "yaml",
