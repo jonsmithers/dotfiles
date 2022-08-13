@@ -23,3 +23,12 @@ elif prompt " ${RED}✗${NORMAL} missing zsh-autosuggestions - install?"; then
 else
   echo "Skipping zsh-autosuggestions installation"
 fi
+
+if test -d ~/.config/zsh/zsh-syntax-highlighting; then
+  echo -e " ${GREEN}✓${NORMAL} zsh-syntax-highlighting installed"
+elif prompt " ${RED}✗${NORMAL} missing zsh-syntax-highlighting - install?"; then
+  echo_and_run mkdir -p ~/.config/zsh
+  echo_and_run git clone https://github.com/zsh-users/zsh-syntax-highlighting ~/.config/zsh/zsh-syntax-highlighting
+else
+  echo "Skipping zsh-syntax-highlighting installation"
+fi

@@ -163,6 +163,7 @@ ZSH_THEME_TERM_TITLE_IDLE='zsh:%1~'
 setopt complete_aliases
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -d ~/.config/zsh/zsh-autosuggestions ] && source ~/.config/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+[ -d ~/.config/zsh/zsh-syntax-highlighting ] && source ~/.config/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 [ -f /opt/homebrew/etc/profile.d/autojump.sh ] && . /opt/homebrew/etc/profile.d/autojump.sh
 if command -v jump > /dev/null; then
   eval "$(jump shell zsh)"
