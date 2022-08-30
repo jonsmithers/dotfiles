@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <jon@smithers.dev>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2022-08-03
+" Last Updated: 2022-08-24
 
 :scriptencoding utf8
 
@@ -1079,6 +1079,7 @@ let g:html_wrong_comments=1
   endfunction
 
   command! JV exec "edit ~/.vim/plugged"
+  command! JP exec "edit ~/.local/share/nvim/site/pack/packer/start/"
   command! OpenInVSCode    exe "silent !code --goto '" . expand("%") . ":" . line(".") . ":" . col(".") . "'"                    | redraw!
   command! OpenCwdInVSCode exe "silent !code '" . getcwd() . "' --goto '" . expand("%") . ":" . line(".") . ":" . col(".") . "'" | redraw!
   command! OpenInIdea      exe "silent !idea '" . getcwd() . "' --line " . line(".") . " --column " . (col(".")-1) . " '" . expand("%") . "'"                  | redraw!

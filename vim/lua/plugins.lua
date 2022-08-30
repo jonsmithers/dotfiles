@@ -258,6 +258,9 @@ packer.startup(function(use)
         nnoremap [o<c-space> :LspEnableCompletion<cr>
         nnoremap ]o<c-space> :LspDisableCompletion<cr>
         nnoremap <leader>st :AerialToggle!<cr>
+        nnoremap <leader>sT :AerialToggle float<cr>
+        nnoremap [<leader>a :AerialPrev<cr>
+        nnoremap ]<leader>a :AerialNext<cr>
       ]])
 
       local lspconfig = require('lspconfig')
@@ -309,10 +312,10 @@ packer.startup(function(use)
         }
       end
       enable_frontend_lsps = function()
-        if (vim.fn.empty(vim.fn.glob('node_modules/.bin/tsserver'))) then
+        if (vim.fn.filereadable('node_modules/.bin/tsserver') == 1) then
           enable_lsp_server('tsserver')
         end
-        if (vim.fn.empty(vim.fn.glob('node_modules/.bin/eslint'))) then
+        if (vim.fn.filereadable('node_modules/.bin/eslint') == 1) then
           enable_lsp_server('eslint')
         end
         enable_lsp_server('html')
@@ -321,6 +324,7 @@ packer.startup(function(use)
       end
 
       enable_lsp_server('vimls')
+      enable_lsp_server('bashls')
 
       vim.cmd([[
         call SetupDirectorySpecificConfiguration()
@@ -335,6 +339,8 @@ packer.startup(function(use)
         " vimls
         !npm install --global vscode-langservers-extracted
         " html, eslint, jsonls, cssls
+        !npm install --global bash-language-server
+        " bashls
       ]])
     end,
   }
@@ -397,6 +403,7 @@ packer.startup(function(use)
           }
         }
       })
+      require('telescope').load_extension('aerial')
       vim.cmd([[
         com! Planets :lua require('telescope.builtin').planets()<cr>
         com! Symbols :lua require('telescope.builtin').symbols(require('telescope.themes').get_cursor())<cr>
@@ -499,7 +506,7 @@ packer.startup(function(use)
       ]])
       vim.api.nvim_create_autocmd('FileType', {
         group = vim.api.nvim_create_augroup("nvim_init_treesitter", {}),
-        pattern = "lua",
+        pattern = "lua,typescriptreact",
         callback = function()
           vim.wo.foldmethod='expr'
           vim.wo.foldexpr='nvim_treesitter#foldexpr()'
@@ -516,7 +523,7 @@ packer.startup(function(use)
     'rcarriga/nvim-notify',
     config = function()
       require('notify').setup({
-        render='minimal'
+        -- render='minimal'
       })
       vim.notify = require('notify')
     end
