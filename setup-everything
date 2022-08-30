@@ -102,7 +102,7 @@ install_cmd node
 install_cmd shellcheck --dnf="sudo dnf install --assumeyes ShellCheck"
 install_cmd fish
 install_cmd vint # vimscript linting
-
+install_cmd kitty --brew="curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin" --dnf="curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin" --apt="curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin"
 vim/setup-vim.sh
 zsh/setup-zsh.sh
 osx/set-defaults.sh
