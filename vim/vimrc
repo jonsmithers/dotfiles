@@ -981,7 +981,7 @@ let s:config_queue = []
       tnoremap <buffer> <F4> <C-w><C-q>
       nnoremap <buffer> <F4> i<C-w><C-q>
       vnoremap <buffer> <F4> <esc>i<C-w><C-q>
-      tnoremap <buffer> <c-q> <C-w><C-q>
+      tnoremap <buffer> <c-q> <C-\><C-n><C-w><C-q>
       nnoremap <buffer> <c-q> i<C-w><C-q>
       vnoremap <buffer> <c-q> <esc>i<C-w><C-q>
     endif
