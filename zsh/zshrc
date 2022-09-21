@@ -316,3 +316,12 @@ export FZF_DEFAULT_OPTS="--bind ctrl-a:select-all --marker=✓"
 if command -v direnv > /dev/null; then
   eval "$(direnv hook zsh)"
 fi
+
+if [[ "$TERM" = "xterm-kitty" ]]; then
+  rk_mark() {
+    kitty @ --password 'wow such secure' create-marker --match all text 3 "$1"
+  }
+  rk_unmark() {
+    kitty @ --password 'wow such secure' remove-marker --match all
+  }
+fi
