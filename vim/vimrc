@@ -496,6 +496,11 @@ call plug#begin('~/.vim/plugged')
   Plug 'nelstrom/vim-visual-star-search'
   " Bring "*" key behavior into visual mode. Extremely useful. (see ":help *").
 
+  PlugIfNeovim 'nvim-treesitter/nvim-treesitter-textobjects'
+  PlugIfNeovim 'nvim-treesitter/nvim-treesitter'
+  PlugIfNeovim 'nvim-treesitter/playground'
+  PlugIfNeovim 'nvim-treesitter/nvim-treesitter-context'
+
   Plug 'prettier/vim-prettier'
 
   Plug 'psliwka/vim-smoothie'
