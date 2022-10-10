@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <jon@smithers.dev>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2022-08-24
+" Last Updated: 2022-10-10
 
 :scriptencoding utf8
 
@@ -1180,6 +1180,7 @@ let g:html_wrong_comments=1
   let g:neovide_cursor_vfx_particle_curl=1.0
   let g:neovide_remember_window_size = v:true
   set guifont=Monaco:h16
+  set guifont=JetBrainsMono\ Nerd\ Font:h14
   if has('gui_running')
     set background=dark
     set autoread        "auto-load changes from disk
@@ -1239,6 +1240,7 @@ let g:html_wrong_comments=1
   set smartindent
   set hlsearch      " default in NeoVim
   set wildignore=**/node_modules/**
+  set noswapfile
 
   set splitbelow    " more natural split behavior
   set splitright    " more natural split behavior
@@ -1250,6 +1252,7 @@ let g:html_wrong_comments=1
   set directory=/var/tmp//,/tmp//,.
 
   if (has('nvim'))
+    set cmdheight=0
     let $GIT_EDITOR='nvim'
     let $EDITOR='nvim'
     " Avoid launching vim from within neovim, because neovim has a bug where
@@ -1448,9 +1451,12 @@ let g:html_wrong_comments=1
       for assignment in split($VIM_THEME_GLOBALS, ',')
         sandbox execute 'let g:'..split(assignment, '=')[0]..'="'..split(assignment, '=')[1]..'"'
       endfor
-      execute 'silent! colorscheme ' .. $VIM_COLORSCHEME
     endif
     if exists('$VIM_COLORSCHEME')
+      exec 'silent! LightlineColorscheme '..$VIM_COLORSCHEME
+      " ^^^ manually setting lightline scheme is normally covered by
+      " matchLightlineColorscheme, but native vim packs for some reason don't
+      " expose their lightline themes at this point in the script
       execute 'silent! colorscheme ' .. $VIM_COLORSCHEME
     else
       if (has('nvim'))
