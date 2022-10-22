@@ -24,6 +24,18 @@ local dev_icons_enabled = os.getenv("VIM_DEVICONS") == "1"
 -- │ plugins │
 -- └─────────┘
 packer.startup(function(use)
+
+  use { -- gorbit99/codewindow.nvim
+    'gorbit99/codewindow.nvim',
+    config = function()
+      local codewindow = require('codewindow')
+      codewindow.setup({
+        exclude_filetypes={'NvimTree','fugitive'}
+      })
+      codewindow.apply_default_keybinds()
+    end,
+  }
+
   use { -- hrsh7th/nvim-cmp
     'hrsh7th/nvim-cmp',
     requires = {
