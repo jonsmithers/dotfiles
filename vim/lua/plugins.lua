@@ -316,7 +316,7 @@ packer.startup(function(use)
 
       enable_lsp_server = function(name)
         lspconfig[name].setup {
-          capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities()),
+          capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities()),
           on_attach = ON_LSP_ATTACH,
           flags = {
             debounce_text_changes = 150,
