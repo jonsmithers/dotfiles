@@ -132,7 +132,10 @@ source $HOME/.oh-my-zsh/oh-my-zsh.sh
   ZSH_THEME_GIT_PROMPT_CLEAN=""
 }
 
-ZSH_THEME_TERM_TITLE_IDLE='zsh:%1~'
+ZSH_THEME_TERM_TITLE_IDLE='%1d'
+# export ZSH_THEME_TERM_TAB_TITLE_IDLE='%1d'
+# https://github.com/ohmyzsh/ohmyzsh/wiki/Settings#zsh_theme_term_title_idle
+# https://zsh.sourceforge.io/Doc/Release/Prompt-Expansion.html
 
 # User configuration
 
@@ -318,6 +321,7 @@ if command -v direnv > /dev/null; then
 fi
 
 if [[ "$TERM" = "xterm-kitty" ]]; then
+  alias icat="kitty +kitten icat"
   rk_mark() {
     kitty @ --password 'wow such secure' create-marker --match all text 3 "$1"
   }
