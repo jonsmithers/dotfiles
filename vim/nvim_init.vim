@@ -56,3 +56,4 @@ EOF
   end
 EOF
 com! CloseFloatingWindows lua CloseFloatingWindows()
+nnoremap <silent> <leader>c :silent CloseFloatingWindows<cr>
