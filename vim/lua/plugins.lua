@@ -286,8 +286,6 @@ packer.startup(function(use)
       local aerial = require('aerial')
       aerial.setup({})
       local ON_LSP_ATTACH = function(client, bufnr)
-        aerial.on_attach(client, buffer)
-
         local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
         local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
@@ -428,9 +426,9 @@ packer.startup(function(use)
       vim.cmd([[
         com! Planets :lua require('telescope.builtin').planets()<cr>
         com! Symbols :lua require('telescope.builtin').symbols(require('telescope.themes').get_cursor())<cr>
-        nnoremap <silent> <leader>F       :lua require('telescope.builtin').live_grep({prompt_title = 'FINDY FINDY'})<cr>
-        nnoremap <silent> <leader>or      :lua require('telescope.builtin').oldfiles()<cr>
-        nnoremap <silent> <c-p>           :lua require('telescope.builtin').find_files()<cr>
+        " nnoremap <silent> <leader>F       :lua require('telescope.builtin').live_grep({prompt_title = 'FINDY FINDY'})<cr>
+        " nnoremap <silent> <leader>or      :lua require('telescope.builtin').oldfiles()<cr>
+        " nnoremap <silent> <c-p>           :lua require('telescope.builtin').find_files()<cr>
       ]])
     end
   }

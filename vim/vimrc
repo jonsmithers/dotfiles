@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <jon@smithers.dev>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2022-10-10
+" Last Updated: 2022-11-25
 
 :scriptencoding utf8
 
@@ -501,18 +501,14 @@ call plug#begin('~/.vim/plugged')
   PlugIfNeovim 'nvim-treesitter/playground'
   PlugIfNeovim 'nvim-treesitter/nvim-treesitter-context'
 
-  Plug 'prettier/vim-prettier'
+  Plug 'prettier/vim-prettier', {
+        \ 'do': 'yarn install',
+        \ 'for': ['javascript', 'typescript', 'css',
+        \         'less', 'scss', 'json', 'graphql',
+        \         'markdown', 'vue', 'svelte', 'yaml',
+        \         'html'] }
 
   Plug 'psliwka/vim-smoothie'
-
-  Plug 'othree/eregex.vim'
-  " Lets you use more standard regex within vim
-  " {{{
-    " Search with :M/[regex]
-    " Substitute with <range> :S/regex/string/
-    let g:eregex_default_enable = 0
-    nnoremap <Leader>m/ :M/
-  " }}}
 
   " {{{ File tree plugin - 'scrooloose/nerdtree' or 'kyazdani42/nvim-tree.lua'
     fun! s:ConfigNerdtree()
@@ -828,10 +824,6 @@ call plug#begin('~/.vim/plugged')
   let g:html_indent_style1  = 'inc'
   let g:markdown_fenced_languages = ['rust', 'typescript', 'typescriptreact', 'javascript', 'bash']
   let g:vim_jsx_pretty_colorful_config = 1
-  if !has('patch-8.1.1486')
-    Plug 'leafgarland/typescript-vim'
-    Plug 'peitalin/vim-jsx-typescript'
-  endif
   " }}}
 
   " {{{ colorscheme/theme plugins
@@ -958,12 +950,12 @@ let s:config_queue = []
   nnoremap <F6> :let $VIM_DIR=expand('%:p:h')<CR>:call <SID>ToggleQuickTerminal(1)<CR>cd $VIM_DIR<CR>clear<CR>
   nnoremap <Leader>gT :let $VIM_DIR=expand('%:p:h')<CR>:call <SID>ToggleQuickTerminal(1)<CR>cd $VIM_DIR<CR>clear<CR>
 
-  nnoremap <F4> :call <SID>ToggleQuickTerminal(0)<CR>
-  nnoremap <Leader>gt :call <SID>ToggleQuickTerminal(0)<CR>
-  nnoremap <c-q> :call <SID>ToggleQuickTerminal(0)<CR>
+  nnoremap <F4> :silent call <SID>ToggleQuickTerminal(0)<CR>
+  nnoremap <Leader>gt :silent call <SID>ToggleQuickTerminal(0)<CR>
+  nnoremap <c-q> :silent call <SID>ToggleQuickTerminal(0)<CR>
 
   " let s:OPEN_TERMINAL_WINDOW = 'botright 20 split'
-  let s:OPEN_TERMINAL_WINDOW = '20 split'
+  let s:OPEN_TERMINAL_WINDOW = '15 split'
   fun! <SID>ToggleQuickTerminal(reset)
     " https://www.reddit.com/r/neovim/comments/3cu8fl/quick_visor_style_terminal_buffer/
     if (a:reset || !exists('s:termbuf'))
