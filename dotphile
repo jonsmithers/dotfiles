@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # Author:       Jon Smithers <jon@smithers.dev>
 # URL:          https://github.com/jonsmithers/dotfiles/blob/master/dotphile
-# Last Updated: 2022-05-07
+# Last Updated: 2022-12-03
 
 # NOTE: broken symlinks are a weird case and aren't reported super clearly.
 
@@ -74,7 +74,7 @@ print(bcolors.FAIL, end=' ')
 
 for (localPath, operativePath) in pairsToLink:
   os.system("mkdir -p " + os.path.dirname(operativePath))
-  bashCommand = "ln -s %(localPath)s %(operativePath)s" % locals()
+  bashCommand = "ln -s '%(localPath)s' '%(operativePath)s'" % locals()
   if os.system(bashCommand):
     failCount+=1
   else:

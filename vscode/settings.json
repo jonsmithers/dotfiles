@@ -1,0 +1,36 @@
+{
+    "editor.smoothScrolling": true,
+    "open-in-vim.openMethod": "integrated-terminal",
+    "open-in-vim.useNeovim": true,
+    "vim.leader": " ",
+    "vim.surround": true,
+    "vim.hlsearch": true,
+    "vim.normalModeKeyBindings": [
+        {
+            "before": ["[", "g"],
+            "commands": ["editor.action.marker.prev"]
+        },
+        {
+            "before": ["]", "g"],
+            "commands": ["editor.action.marker.next"]
+        },
+        {
+            "before": ["<leader>", "s", "d", "f"],
+            "commands": [":nohl"]
+        },
+        {
+            "before": ["<space>", "<space>"],
+            "commands": [":w"]
+        },
+        {
+            "before": ["<space>", "r", "r"],
+            "commands": ["testing.reRunLastRun"]
+        }
+    ],
+    "vim.insertModeKeyBindings": [
+        {
+            "before": ["j", "k"],
+            "after": ["<Esc>"]
+        }
+    ],
+}
