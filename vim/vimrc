@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <jon@smithers.dev>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2022-11-25
+" Last Updated: 2022-12-15
 
 :scriptencoding utf8
 
@@ -954,8 +954,10 @@ let s:config_queue = []
   nnoremap <Leader>gt :silent call <SID>ToggleQuickTerminal(0)<CR>
   nnoremap <c-q> :silent call <SID>ToggleQuickTerminal(0)<CR>
 
-  " let s:OPEN_TERMINAL_WINDOW = 'botright 20 split'
-  let s:OPEN_TERMINAL_WINDOW = '15 split'
+  fun! <SID>percent_of_height(percent)
+    return float2nr(ceil(str2float(&lines) * a:percent))
+  endfun
+
   fun! <SID>ToggleQuickTerminal(reset)
     " https://www.reddit.com/r/neovim/comments/3cu8fl/quick_visor_style_terminal_buffer/
     if (a:reset || !exists('s:termbuf'))
@@ -965,7 +967,7 @@ let s:config_queue = []
     if (s:termbuf && bufexists(s:termbuf))
       call <SID>FocusQuickTerminal()
     else
-      exec s:OPEN_TERMINAL_WINDOW
+      exec <SID>percent_of_height(0.33) .. ' split'
       echom 'buffer ' . s:termbuf . ' does not exist'
       if has('nvim')
         terminal
@@ -987,7 +989,7 @@ let s:config_queue = []
   fun! <SID>FocusQuickTerminal()
     let l:winnr = bufwinnr(s:termbuf)
     if (l:winnr == -1)
-      exec s:OPEN_TERMINAL_WINDOW
+      exec <SID>percent_of_height(0.33) .. ' split'
       exe 'buffer' . s:termbuf
     else
       exe l:winnr . 'wincmd w'
