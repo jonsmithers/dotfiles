@@ -500,6 +500,7 @@ call plug#begin('~/.vim/plugged')
   PlugIfNeovim 'nvim-treesitter/nvim-treesitter'
   PlugIfNeovim 'nvim-treesitter/playground'
   PlugIfNeovim 'nvim-treesitter/nvim-treesitter-context'
+  PlugIfNeovim 'nvim-treesitter/nvim-treesitter-refactor'
 
   Plug 'prettier/vim-prettier', {
         \ 'do': 'yarn install',

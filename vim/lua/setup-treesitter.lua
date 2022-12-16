@@ -19,6 +19,14 @@ require'nvim-treesitter.configs'.setup {
   playground = {
     enable = true,
   },
+  refactor = {
+    highlight_definitions = {
+      enable = true,
+    },
+    smart_rename = {
+      enable = true,
+    },
+  },
   textobjects = {
     select = {
       enable = true,
