@@ -2,6 +2,7 @@
 -- │ install packer │
 -- └────────────────┘
 local packer_install_path = vim.fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+local packer_bootstrap = false
 if vim.fn.empty(vim.fn.glob(packer_install_path)) > 0 then
   packer_bootstrap = vim.fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', packer_install_path})
   vim.cmd [[packadd packer.nvim]]
@@ -46,7 +47,7 @@ packer.startup(function(use)
       'hrsh7th/cmp-cmdline',
       'hrsh7th/vim-vsnip',
       'hrsh7th/cmp-vsnip',
-      'rafamadriz/friendly-snippets',
+      -- 'rafamadriz/friendly-snippets',
       'hrsh7th/cmp-emoji',
     },
     config = function()
@@ -224,43 +225,6 @@ packer.startup(function(use)
         :nnoremap <silent> <Leader>tt :NvimTreeToggle<cr>
         :nnoremap <silent> <Leader>tf :NvimTreeFindFile<CR>
         :nnoremap <silent> <Leader>tr :NvimTreeRefresh<CR>
-
-        " :nnoremap <silent> - :call OpenNvimTreeWithVinegarBehavior()<cr>
-        fun! NvimTreeToggleAndRemoveVinegar()
-          :NvimTreeToggle
-          call NvimTreeRemoveVinegarBehavior()
-        endfun
-        fun! NvimTreeFindFileAndRemoveVinegar()
-          :NvimTreeFindFile
-          call NvimTreeRemoveVinegarBehavior()
-        endfun
-        fun! NvimTreeRemoveVinegarBehavior()
-          if (&filetype == 'NvimTree')
-            nunmap <buffer> <cr>
-            nnoremap <buffer> <cr> :lua require'nvim-tree.actions'.on_keypress('enter')<cr>
-            wincmd p
-          endif
-        endfun
-        fun! OpenNvimTreeWithVinegarBehavior()
-          NvimTreeClose
-          if (expand('%') == '')
-            let l:window_count = winnr('$')
-            if (l:window_count == 1)
-              edit .
-            else
-              " TODO this clobbers existing splits for some reason
-              echom 'would clobber layout'
-            endif
-          else
-            lua require"nvim-tree".open_replacing_current_buffer()
-          endif
-          " file nvim_vinegar
-          " ^ lets fzf file picker replace this buffer
-          " if (&filetype == 'NvimTree')
-          "   nunmap <buffer> <cr>
-          "   nnoremap <buffer> <cr> :lua require'nvim-tree.actions'.on_keypress('edit_in_place')<cr>
-          " endif
-        endfun
       ]])
     end
   }
@@ -286,7 +250,8 @@ packer.startup(function(use)
       local aerial = require('aerial')
       aerial.setup({})
       local ON_LSP_ATTACH = function(client, bufnr)
-        local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+        local function nnoremap_buffer(...) vim.api.nvim_buf_set_keymap(bufnr, 'n', ...) end
+        local function command_buffer(...) vim.api.nvim_buf_create_user_command(bufnr, ...) end
         local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
         -- Enable completion triggered by <c-x><c-o>
@@ -296,52 +261,62 @@ packer.startup(function(use)
         local opts = { noremap=true, silent=true }
 
         -- See `:help vim.lsp.*` for documentation on any of the below functions
-        buf_set_keymap('n', '<space>le', '<cmd>EslintFixAll<CR>', opts)
-        buf_set_keymap('n', ']g', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
-        buf_set_keymap('n', '[g', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
-        buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-        buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-        buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-        buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-        buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-        buf_set_keymap('n', 'K',         '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-        buf_set_keymap('n', '<space>lh', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-        -- buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-        buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
-        buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
-        buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-        buf_set_keymap('n', '<space>lr', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-        buf_set_keymap('n', '<space>la', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-        buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-        buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-        buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-        -- buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
-        buf_set_keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+        nnoremap_buffer('<space>le', '<cmd>EslintFixAll<CR>', opts)
+        nnoremap_buffer(']g',        '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
+        nnoremap_buffer('[g',        '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
+        nnoremap_buffer('gi',        '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+        nnoremap_buffer('gu',        '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+        nnoremap_buffer('gD',        '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+        nnoremap_buffer('gd',        '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+        nnoremap_buffer('<space>D',  '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+        nnoremap_buffer('K',         '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+        nnoremap_buffer('<space>lh', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+        nnoremap_buffer('<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
+        nnoremap_buffer('<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
+        nnoremap_buffer('<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+        nnoremap_buffer('<space>lr', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+        nnoremap_buffer('<space>la', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+        nnoremap_buffer('<space>e',  '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+        nnoremap_buffer('[d',        '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+        nnoremap_buffer(']d',        '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+        command_buffer('LspFormat', 'lua vim.lsp.buf.format()', {})
       end
 
-      enable_lsp_server = function(name)
-        lspconfig[name].setup {
+      ENABLE_LSP_SERVER = function(name)
+        lspconfig[name].setup({
           capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities()),
           on_attach = ON_LSP_ATTACH,
           flags = {
             debounce_text_changes = 150,
-          }
-        }
+          },
+          settings = name == 'sumneko_lua' and {
+            Lua = {
+              diagnostics = {
+                runtime = {version='LuaJIT'},
+                globals = {'vim'},
+                workspace = {
+                  library = vim.api.nvim_get_runtime_file('', true),
+                },
+              },
+            },
+          } or {},
+        })
       end
-      enable_frontend_lsps = function()
+      ENABLE_FRONTEND_LSPS = function()
         if (vim.fn.filereadable('node_modules/.bin/tsserver') == 1) then
-          enable_lsp_server('tsserver')
+          ENABLE_LSP_SERVER('tsserver')
         end
         if (vim.fn.filereadable('node_modules/.bin/eslint') == 1) then
-          enable_lsp_server('eslint')
+          ENABLE_LSP_SERVER('eslint')
         end
-        enable_lsp_server('html')
-        enable_lsp_server('cssls')
-        enable_lsp_server('jsonls')
+        ENABLE_LSP_SERVER('html')
+        ENABLE_LSP_SERVER('cssls')
+        ENABLE_LSP_SERVER('jsonls')
       end
 
-      enable_lsp_server('vimls')
-      enable_lsp_server('bashls')
+      ENABLE_LSP_SERVER('vimls')
+      ENABLE_LSP_SERVER('bashls')
+      ENABLE_LSP_SERVER('sumneko_lua')
 
       vim.cmd([[
         call SetupDirectorySpecificConfiguration()
@@ -358,8 +333,10 @@ packer.startup(function(use)
         " html, eslint, jsonls, cssls
         !npm install --global bash-language-server
         " bashls
-        !npm install -g @astrojs/language-server
+        !npm install --global @astrojs/language-server
         " astro
+        !brew install lua-language-server
+        " sumnekko_lua
       ]])
     end,
   }
@@ -465,11 +442,6 @@ packer.startup(function(use)
           max_width = nil,
           min_width = 20,
 
-          -- Window transparency (0-100)
-          winblend = 10,
-          -- Change default highlight groups (see :help winhl)
-          winhighlight = "",
-
           -- see :help dressing_get_config
           get_config = nil,
         },
@@ -507,11 +479,6 @@ packer.startup(function(use)
             anchor = "NW",
             relative = "cursor",
             border = "rounded",
-
-            -- Window transparency (0-100)
-            winblend = 10,
-            -- Change default highlight groups (see :help winhl)
-            winhighlight = "",
 
             -- These can be integers or a float between 0 and 1 (e.g. 0.4 for 40%)
             width = nil,

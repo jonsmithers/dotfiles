@@ -41,7 +41,6 @@ endfun
 
 lua << EOF
   require('plugins')
-  require('setup-treesitter')
 EOF
 
 " https://www.reddit.com/r/neovim/comments/nrz9hp/can_i_close_all_floating_windows_without_closing/
