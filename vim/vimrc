@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <jon@smithers.dev>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2022-12-15
+" Last Updated: 2022-12-17
 
 :scriptencoding utf8
 
@@ -448,6 +448,8 @@ call plug#begin('~/.vim/plugged')
       autocmd FileType dirvish silent! unmap <buffer> <C-p>
     augroup END
   " }}}
+
+  Plug 'mbbill/undotree'
 
   Plug 'markonm/traces.vim'
   " Show a live preview of :substitute
