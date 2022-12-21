@@ -317,6 +317,7 @@ packer.startup(function(use)
       ENABLE_LSP_SERVER('vimls')
       ENABLE_LSP_SERVER('bashls')
       ENABLE_LSP_SERVER('sumneko_lua')
+      ENABLE_LSP_SERVER('yamlls')
 
       vim.cmd([[
         call SetupDirectorySpecificConfiguration()
@@ -337,6 +338,8 @@ packer.startup(function(use)
         " astro
         !brew install lua-language-server
         " sumnekko_lua
+        !npm install --global yaml-language-server
+        " yamlls
       ]])
     end,
   }
