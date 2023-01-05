@@ -314,7 +314,14 @@ if command -v rg > /dev/null; then
   export FZF_DEFAULT_COMMAND="rg --files"
   export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 fi
-export FZF_DEFAULT_OPTS="--bind ctrl-a:select-all --marker=✓"
+export FZF_DEFAULT_OPTS="--bind ctrl-q:toggle-all --bind ctrl-j:preview-down --bind ctrl-k:preview-up --bind ctrl-d:preview-page-down --bind ctrl-u:preview-page-up --marker=✓ --bind ctrl-\\\\:toggle-preview"
+# ctrl-q | toggle all items
+# ctrl-/ | toggle preview???
+# ctrl-\ | toggle preview
+# ctrl-u | preview page up 
+# ctrl-d | preview page down
+# ctrl-k | preview up 
+# ctrl-j | preview down
 
 if command -v direnv > /dev/null; then
   eval "$(direnv hook zsh)"
