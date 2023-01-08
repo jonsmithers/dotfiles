@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <jon@smithers.dev>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2022-12-17
+" Last Updated: 2023-01-07
 
 :scriptencoding utf8
 
@@ -309,6 +309,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'junegunn/fzf.vim'
   " Incredible fuzzy search for all sorts of things.
   " {{{
+    let g:fzf_command_prefix = 'Fzf'
     " <C-/> or <C-_> to toggle preview window
     " customize fzf colors to match color scheme
     let g:fzf_colors =
@@ -342,15 +343,15 @@ call plug#begin('~/.vim/plugged')
     :nnoremap <C-F>         :RG<Enter>
 
     "search for word in working directory
-    :nnoremap <Leader>sw    :Rg  <Enter>
-    :vnoremap <Leader>s     y:Rg "<Enter>
+    :nnoremap <Leader>sw    :FzfRg  <Enter>
+    :vnoremap <Leader>s     y:FzfRg "<Enter>
 
-    :nnoremap <silent> <C-k>         :Buffers<Enter>
-    :nnoremap <silent> <C-p>         :Files<Enter>
-    :nnoremap <silent> <Leader>or    :History<Enter>
-    :nnoremap <silent> <Leader>ft    :Filetypes<enter>
-    :nnoremap <silent> <Leader>f/    :History/<Enter>
-    :nnoremap <silent> <Leader>f:    :History:<Enter>
+    :nnoremap <silent> <C-k>         :FzfBuffers<Enter>
+    :nnoremap <silent> <C-p>         :FzfFiles<Enter>
+    :nnoremap <silent> <Leader>or    :FzfHistory<Enter>
+    :nnoremap <silent> <Leader>ft    :FzfFiletypes<enter>
+    :nnoremap <silent> <Leader>f/    :FzfHistory/<Enter>
+    :nnoremap <silent> <Leader>f:    :FzfHistory:<Enter>
     " (note - you can call histdel("cmd", "regexp") to delete mistaken history items)
 
     " fuzzy relative filepath completion!
@@ -825,7 +826,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'vim-scripts/groovyindent-unix'
   let g:html_indent_script1 = 'inc'
   let g:html_indent_style1  = 'inc'
-  let g:markdown_fenced_languages = ['rust', 'typescript', 'typescriptreact', 'javascript', 'bash']
+  let g:markdown_fenced_languages = ['rust', 'typescript', 'typescriptreact', 'javascript', 'bash', 'json']
   let g:vim_jsx_pretty_colorful_config = 1
   " }}}
 
@@ -1259,7 +1260,7 @@ let g:html_wrong_comments=1
   " local file history {{{
   if (s:os !=# 'Windows')
 
-    set backupdir=~/.config/vimbackup//,/var/tmp//
+    set backupdir=/var/tmp//
     set backup
     " 'backupskip=/tmp/*' is set by default
 
