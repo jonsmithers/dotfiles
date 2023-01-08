@@ -261,10 +261,12 @@ call plug#begin('~/.vim/plugged')
       end
     endfun
     fun! s:matchLightlineColorscheme() abort
+      let s:vim_colorscheme = g:colors_name
+      let s:vim_colorscheme = substitute(s:vim_colorscheme, '-', '', '') " For example, rose-pine > rosepine
       func! s:MatchesColorscheme(idx, val) abort
         let l:lightlineScheme = a:val
         let l:lightlineScheme = substitute(l:lightlineScheme, '_.*', '', '')
-        let l:result = (-1 != match(g:colors_name, l:lightlineScheme))
+        let l:result = (-1 != match(s:vim_colorscheme, l:lightlineScheme))
         return l:result
       endfunc
       let l:colorschemes = s:getLightlineColorschemes()
@@ -508,6 +510,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'prettier/vim-prettier', {
         \ 'do': 'yarn install',
         \ 'for': ['javascript', 'typescript', 'css',
+        \         'javascriptreact', 'typescriptreact',
         \         'less', 'scss', 'json', 'graphql',
         \         'markdown', 'vue', 'svelte', 'yaml',
         \         'html'] }
@@ -850,7 +853,6 @@ call plug#begin('~/.vim/plugged')
   Plug 'mhartington/oceanic-next'
   Plug 'morhetz/gruvbox'
   Plug 'nanotech/jellybeans.vim'
-  Plug 'nightsense/snow'
   Plug 'NLKNguyen/papercolor-theme'
   Plug 'rakr/vim-one' " old
   Plug 'joshdick/onedark.vim'
@@ -1410,7 +1412,6 @@ let g:html_wrong_comments=1
   com! DarkSeoul        set background=dark  | call Noop()           | colorscheme seoul256
   com! DarkSacredForest set background=dark  | call Noop()           | colorscheme sacredforest
   com! DarkApprentice   set background=dark  | call Noop()           | colorscheme apprentice
-  com! DarkSnow         set background=dark  | call Noop()           | colorscheme snow
   com! DarkNord         set background=dark  | call Noop()           | colorscheme nord
   com! DarkQuantum      set background=dark  | call Noop()           | colorscheme quantum
   com! LightAyu         set background=light | let ayucolor="light"  | colorscheme ayu
@@ -1419,7 +1420,6 @@ let g:html_wrong_comments=1
   com! LightOcean       set background=light | call Noop()           | colorscheme OceanicNextLight
   com! LightPaper       set background=light | call Noop()           | colorscheme PaperColor
   com! LightSeoul       set background=light | call Noop()           | colorscheme seoul256
-  com! LightSnow        set background=light | call Noop()           | colorscheme snow
   com! LightGitHub      set background=light | call Noop()           | colorscheme github
   com! LightQuantum     set background=light | call Noop()           | colorscheme quantum
   com! MirageAyu        set background=dark  | let ayucolor="mirage" | colorscheme ayu
