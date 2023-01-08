@@ -311,11 +311,12 @@ if [[ -f /proc/version ]] && grep -q Microsoft /proc/version; then
 fi
 
 if command -v rg > /dev/null; then
-  export FZF_DEFAULT_COMMAND="rg --files"
+  export FZF_DEFAULT_COMMAND="rg --hidden --files --glob !.git"
   export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 fi
-export FZF_DEFAULT_OPTS="--bind ctrl-q:toggle-all --bind ctrl-j:preview-down --bind ctrl-k:preview-up --bind ctrl-d:preview-page-down --bind ctrl-u:preview-page-up --marker=✓ --bind ctrl-\\\\:toggle-preview"
+export FZF_DEFAULT_OPTS='--bind ctrl-q:toggle-all --bind ctrl-j:preview-down --bind ctrl-k:preview-up --bind ctrl-d:preview-page-down --bind ctrl-u:preview-page-up --marker=✓ --bind ctrl-'"\\\\"':toggle-preview --bind '"'"'alt-Q:change-preview-window(right,70%|down,40%,border-horizontal|hidden|right)'"'"
 # ctrl-q | toggle all items
+# alt-Q  | rotate preview layout
 # ctrl-/ | toggle preview???
 # ctrl-\ | toggle preview
 # ctrl-u | preview page up 
