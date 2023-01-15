@@ -151,18 +151,6 @@ ZSH_THEME_TERM_TITLE_IDLE='%1d'
 #   export EDITOR='mvim'
 # fi
 
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-
 setopt complete_aliases
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -d ~/.config/zsh/zsh-autosuggestions ] && source ~/.config/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
@@ -187,6 +175,7 @@ if command -v git-number > /dev/null; then
 fi
 if command -v nvim > /dev/null; then
   alias gs='nvim +0Git "+normal gU"'
+  alias nvimdiff='nvim -d'
 fi
 
 if [[ "$(uname)" == "Linux" ]]; then
@@ -198,40 +187,6 @@ if [[ "$(uname)" == "Linux" ]]; then
     alias pbcopy='clip.exe'
     alias pbpaste='powershell.exe -command "Get-Clipboard"'
   fi
-fi
-
-if command -v tmux > /dev/null; then
-  tsh() {
-    if test 'new' = "$argv[1]"; then
-      if tmux ls; then
-        tmux attach \; new-window \; send-keys "cd "$(pwd) \; send-keys Enter
-      else
-        tmux new-session          \; send-keys "cd "$(pwd) \; send-keys Enter
-      fi
-    elif [[ "$argv[1]" =~ '^-?-?help$' ]]; then
-      cat <<-EOF
-				ABOUT
-
-				    tsh is a thin wrapper util for tmux.
-
-				USAGE
-
-				  - tsh
-
-				        Attaches to existing session or create a new one if none exists
-
-				  - tsh new
-
-				        Creates new tmux window using current working directory"
-
-			EOF
-    elif [[ -n "$argv[1]" ]]; then
-      echo Not sure what to do about argument \"$argv[1]\"
-    else
-      # attach to existing session or create one
-      tmux a || tmux
-    fi
-  }
 fi
 
 if command -v fzf > /dev/null; then
@@ -314,15 +269,18 @@ if command -v rg > /dev/null; then
   export FZF_DEFAULT_COMMAND="rg --hidden --files --glob !.git"
   export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 fi
-export FZF_DEFAULT_OPTS='--bind ctrl-q:toggle-all --bind ctrl-j:preview-down --bind ctrl-k:preview-up --bind ctrl-d:preview-page-down --bind ctrl-u:preview-page-up --marker=✓ --bind ctrl-'"\\\\"':toggle-preview --bind '"'"'alt-Q:change-preview-window(right,70%|down,40%,border-horizontal|hidden|right)'"'"
-# ctrl-q | toggle all items
-# alt-Q  | rotate preview layout
-# ctrl-/ | toggle preview???
-# ctrl-\ | toggle preview
-# ctrl-u | preview page up 
-# ctrl-d | preview page down
-# ctrl-k | preview up 
-# ctrl-j | preview down
+export FZF_DEFAULT_OPTS='--info=inline --bind ctrl-q:toggle-all --bind ctrl-j:preview-down --bind ctrl-k:preview-up --bind ctrl-d:preview-page-down --bind ctrl-u:preview-page-up --pointer=➜ --ellipsis=… --marker=✓ --bind ctrl-'"\\\\"':toggle-preview --bind '"'"'alt-q:change-preview-window(right,70%|down,40%,border-horizontal|hidden|right)'"'"' --bind '"'"'alt-Q:change-preview-window(right|hidden|down,40%,border-horizontal|right,70%)'"'"
+# carot to end          | ctrl-e |
+# carot to start        | ctrl-a |
+# preview down          | ctrl-j |
+# preview page down     | ctrl-d |
+# preview page up       | ctrl-u |
+# preview up            | ctrl-k |
+# rotate preview layout | alt-Q  |
+# rotate preview layout | alt-q  |
+# toggle all items      | ctrl-q |
+# toggle preview        | ctrl-/ | ??? doesn't work in kitty
+# toggle preview        | ctrl-\ |
 
 if command -v direnv > /dev/null; then
   eval "$(direnv hook zsh)"
