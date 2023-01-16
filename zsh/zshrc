@@ -1,3 +1,10 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -6,6 +13,7 @@
 [[ -d "$HOME/.local/bin"  ]] && export PATH=$HOME/.local/bin:$PATH # "pip install --user" installs executables to this location
 [[ -d "$HOME/bin"         ]] && export PATH="$HOME/bin:$PATH"
 
+ZSH_THEME="powerlevel10k/powerlevel10k"
 # ZSH_THEME="robbyrussell"
 
 # Uncomment the following line to use case-sensitive completion.

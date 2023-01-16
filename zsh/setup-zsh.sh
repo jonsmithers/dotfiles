@@ -41,3 +41,13 @@ elif prompt " ${RED}✗${NORMAL} missing fzf-git - install?"; then
 else
   echo "Skipping fzf-git installation"
 fi
+
+power_dir="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"
+if [[ -d "$power_dir" ]]; then
+  echo -e " ${GREEN}✓${NORMAL} powerlevel10k installed"
+elif prompt " ${RED}✗${NORMAL} missing powerlevel10k - install?"; then
+  echo_and_run git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$power_dir"
+else
+  echo "Skipping powerlevel10k installation"
+fi
+unset power_dir
