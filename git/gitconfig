@@ -33,3 +33,5 @@
   autoStash = true
 [commit]
   verbose = true
+[core]
+  editor = nvim

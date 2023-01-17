@@ -265,7 +265,7 @@ packer.startup(function(use)
         nnoremap_buffer(']g',        '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
         nnoremap_buffer('[g',        '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
         nnoremap_buffer('gi',        '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-        nnoremap_buffer('gu',        '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+        nnoremap_buffer('gu',        '<cmd>TroubleToggle lsp_references<CR>', opts)
         nnoremap_buffer('gD',        '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
         nnoremap_buffer('gd',        '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
         nnoremap_buffer('<space>D',  '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
@@ -501,6 +501,11 @@ packer.startup(function(use)
       })
 
     end,
+  }
+
+  use {
+    'windwp/nvim-autopairs',
+    config = function() require("nvim-autopairs").setup {} end
   }
 
   use 'wbthomason/packer.nvim'

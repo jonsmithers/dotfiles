@@ -143,6 +143,10 @@ call plug#begin('~/.vim/plugged')
   " }}}
 
   PlugIfNeovim 'folke/trouble.nvim'
+  nnoremap <leader>xx <cmd>TroubleToggle<cr>
+  nnoremap <leader>xw <cmd>TroubleToggle workspace_diagnostics<cr>
+  nnoremap <leader>xd <cmd>TroubleToggle document_diagnostics<cr>
+  nnoremap <leader>xq <cmd>TroubleToggle quickfix<cr>
   " Open LSP issues and Telescope results in a fany pane
   " {{{
   "   TroubleToggle quickfix
@@ -579,6 +583,13 @@ call plug#begin('~/.vim/plugged')
   augroup abolish_vimrc
     au!
     autocmd VimEnter * :Abolish anomol{y,ies} anomal{}
+  augroup END
+
+  Plug 'tpope/vim-dadbod'
+  Plug 'kristijanhusak/vim-dadbod-ui'
+  augroup vimrc_dbui
+    au!
+    autocmd FileType dbui set cmdheight=1
   augroup END
 
   Plug 'tpope/vim-dispatch'
@@ -1426,6 +1437,8 @@ let g:html_wrong_comments=1
   com! LightSeoul       set background=light | call Noop()           | colorscheme seoul256
   com! LightGitHub      set background=light | call Noop()           | colorscheme github
   com! LightQuantum     set background=light | call Noop()           | colorscheme quantum
+  com! DarkTokyo        set background=dark  | call Noop()           | colorscheme tokyonight
+  com! LightTokyo       set background=light | call Noop()           | colorscheme tokyonight
   com! MirageAyu        set background=dark  | let ayucolor="mirage" | colorscheme ayu
   fun! Noop()
   endfun

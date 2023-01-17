@@ -36,7 +36,7 @@
 #          endif
 #        endif
 
-set -e
+set -e -o pipefail
 
 function change_vim_colorscheme() {
   local theme="$1"
@@ -143,7 +143,7 @@ function obtain_kitty_theme_from_github() {
   local theme=$1
   [[ -f "$HOME/.config/kitty/$theme.conf" ]] || {
     echo obtaining kitty theme from github/projekt0n/github-nvim-theme;
-    curl --fail https://raw.githubusercontent.com/projekt0n/github-nvim-theme/main/terminal/kitty/"$theme".conf > ~/.config/kitty/"$theme".conf;
+    curl --fail https://raw.githubusercontent.com/projekt0n/github-theme-contrib/main/kitty/"$theme".conf > ~/.config/kitty/"$theme".conf;
   }
 }
 

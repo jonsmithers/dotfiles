@@ -15,7 +15,8 @@ function myLaunchOrFocus(appName)
 end
 
 hs.hotkey.bind({"alt"}, "B", function()
-  hs.application.launchOrFocus("Google Chrome")
+  -- hs.application.launchOrFocus("Google Chrome")
+  hs.application.launchOrFocus("Firefox")
 end)
 hs.hotkey.bind({"alt"}, "S", function()
   hs.application.launchOrFocus("Safari")
@@ -33,7 +34,8 @@ hs.hotkey.bind({"alt"}, "C", function()
   hs.application.launchOrFocus("Google Calendar")
 end)
 hs.hotkey.bind({"alt"}, "N", function()
-  myLaunchOrFocus("neovide")
+  -- myLaunchOrFocus("neovide")
+  hs.application.launchOrFocus("Alacritty")
 end)
 hs.hotkey.bind({"alt"}, "V", function()
   hs.application.launchOrFocus("MacVim")
@@ -134,20 +136,3 @@ local key_tap = hs.eventtap.new(
   {hs.eventtap.event.types.keyDown},
   showKeyPress
 )
-
--- Enable/Disable Keypress Show Mode with "C-⌘-⇧-p"
-k = hs.hotkey.modal.new({"shift", "ctrl"}, 'Z')
-function k:entered()
-  style = {}
-  style['atScreenEdge'] = 2
-  hs.alert.show("Enabling Keypress Show Mode", style, 1.5)
-  key_tap:start()
-end
-function k:exited()
-  hs.alert.show("Disabling Keypress Show Mode", 1.5)
-end
-k:bind({"shift", "ctrl"}, 'Z', function()
-    key_tap:stop()
-    k:exit()
-end)
--- hs.hotkey.bind({"cmd", "shift", "ctrl"}, 'Q', function() k:enter() end)
