@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <jon@smithers.dev>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2023-01-07
+" Last Updated: 2023-01-16
 
 :scriptencoding utf8
 
@@ -348,7 +348,11 @@ call plug#begin('~/.vim/plugged')
     :nnoremap <Leader>sw    :FzfRg  <Enter>
     :vnoremap <Leader>s     y:FzfRg "<Enter>
 
-    :nnoremap <silent> <C-k>         :FzfBuffers<Enter>
+    com! -bang FzfBuffersCustom call fzf#vim#buffers
+    " command! -bar -bang -nargs=? -complete=buffer FzfBuffers       call fzf#vim#buffers(<q-args>, fzf#vim#with_preview({ "placeholder": "{1}" }), <bang>0)
+      command! -bar -bang -nargs=? -complete=buffer FzfBuffersCustom call fzf#vim#buffers(<q-args>, fzf#vim#with_preview({ "placeholder": "{1}", "options": ['--bind', 'ctrl-k:up', '--bind', 'ctrl-y:preview-up'] }), <bang>0)
+
+    :nnoremap <silent> <C-k>         :FzfBuffersCustom<Enter>
     :nnoremap <silent> <C-p>         :FzfFiles<Enter>
     :nnoremap <silent> <Leader>or    :FzfHistory<Enter>
     :nnoremap <silent> <Leader>ft    :FzfFiletypes<enter>
