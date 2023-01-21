@@ -42,6 +42,15 @@ else
   echo "Skipping fzf-git installation"
 fi
 
+fzfdocker_dir="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fzf-docker"
+if [[ -d "$fzfdocker_dir" ]]; then
+  echo -e " ${GREEN}✓${NORMAL} fzf-docker installed"
+elif prompt " ${RED}✗${NORMAL} missing fzf-docker - install?"; then
+  echo_and_run git clone https://github.com/pierpo/fzf-docker "$fzfdocker_dir"
+else
+  echo "Skipping fzf-docker installation"
+fi
+
 power_dir="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"
 if [[ -d "$power_dir" ]]; then
   echo -e " ${GREEN}✓${NORMAL} powerlevel10k installed"

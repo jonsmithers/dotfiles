@@ -75,6 +75,9 @@ for p in $tryplugins; do
     plugins+=("$p")
   fi
 done
+if command -v docker > /dev/null; then
+  plugins+=('fzf-docker')
+fi
 
 # brew autocomplete
 if type brew &>/dev/null
