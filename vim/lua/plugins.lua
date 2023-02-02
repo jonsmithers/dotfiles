@@ -424,6 +424,10 @@ packer.startup(function(use)
     end
   }
 
+  use { -- rktjmp/lush.nvim
+    'rktjmp/lush.nvim'
+  }
+
   use { -- stevearc/dressing.nvim
     'stevearc/dressing.nvim',
     config = function()

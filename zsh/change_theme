@@ -180,6 +180,14 @@ if [[ -z "$theme" ]]; then
     "TokyoNight Dark"
     "TokyoNight Day"
     "TokyoNight Storm"
+    "Zenbones Dark"
+    "Zenbones Light"
+    "Zenbones Neobones Dark"
+    "Zenbones Neobones Light"
+    "Zenbones Seoulbones Dark"
+    "Zenbones Seoulbones Light"
+    "Zenbones Zenwritten Dark"
+    "Zenbones Zenwritten Light"
   );
   PS3=$'\n'"select theme> "
   if command -v fzf &> /dev/null; then
@@ -401,6 +409,68 @@ case $theme in
     change_vim_colorscheme         tokyonight 'tokyonight_style=storm'
     obtain_kitty_theme_from_kitten "Tokyo Night Storm"
     change_kitty_theme             "Tokyo Night Storm"
+    ;;
+  "Zenbones Dark")
+    obtain_neovim_theme_from_git zenbones.nvim git@github.com:mcchrish/zenbones.nvim.git
+    change_vim_background        dark
+    change_vim_colorscheme       zenbones zenbones_compat=1
+    obtain_kitty_theme_from_curl zenbones-dark https://raw.githubusercontent.com/mcchrish/zenbones.nvim/main/extras/kitty/zenbones_dark.conf
+    change_kitty_theme           zenbones-dark
+    ;;
+  "Zenbones Light")
+    obtain_neovim_theme_from_git zenbones.nvim git@github.com:mcchrish/zenbones.nvim.git
+    change_vim_background        light
+    change_vim_colorscheme       zenbones zenbones_compat=1
+    obtain_kitty_theme_from_curl zenbones-light https://raw.githubusercontent.com/mcchrish/zenbones.nvim/main/extras/kitty/zenbones_light.conf
+    change_kitty_theme           zenbones-light
+    ;;
+  "Zenbones Zenwritten Dark")
+    obtain_neovim_theme_from_git zenbones.nvim git@github.com:mcchrish/zenbones.nvim.git
+    change_vim_background        dark
+    change_vim_colorscheme       zenwritten zenbones_compat=1
+    obtain_kitty_theme_from_curl zenbones-zenwritten-dark https://raw.githubusercontent.com/mcchrish/zenbones.nvim/main/extras/kitty/zenwritten_dark.conf
+    change_kitty_theme           zenbones-zenwritten-dark
+    echo TODO: zenbones requires the \'lush\' lua rock \(can be installed manually\)
+    ;;
+  "Zenbones Zenwritten Light")
+    obtain_neovim_theme_from_git zenbones.nvim git@github.com:mcchrish/zenbones.nvim.git
+    change_vim_background        light
+    change_vim_colorscheme       zenwritten zenbones_compat=1
+    obtain_kitty_theme_from_curl zenbones-zenwritten-light https://raw.githubusercontent.com/mcchrish/zenbones.nvim/main/extras/kitty/zenwritten_light.conf
+    change_kitty_theme           zenbones-zenwritten-light
+    echo TODO: zenbones requires the \'lush\' lua rock \(can be installed manually\)
+    ;;
+  "Zenbones Neobones Light")
+    obtain_neovim_theme_from_git zenbones.nvim git@github.com:mcchrish/zenbones.nvim.git
+    change_vim_background        light
+    change_vim_colorscheme       neobones zenbones_compat=1
+    obtain_kitty_theme_from_curl zenbones-neobones-light https://raw.githubusercontent.com/mcchrish/zenbones.nvim/main/extras/kitty/neobones_light.conf
+    change_kitty_theme           zenbones-neobones-light
+    echo TODO: zenbones requires the \'lush\' lua rock \(can be installed manually\)
+    ;;
+  "Zenbones Neobones Dark")
+    obtain_neovim_theme_from_git zenbones.nvim git@github.com:mcchrish/zenbones.nvim.git
+    change_vim_background        dark
+    change_vim_colorscheme       neobones zenbones_compat=1
+    obtain_kitty_theme_from_curl zenbones-neobones-dark https://raw.githubusercontent.com/mcchrish/zenbones.nvim/main/extras/kitty/neobones_dark.conf
+    change_kitty_theme           zenbones-neobones-dark
+    echo TODO: zenbones requires the \'lush\' lua rock \(can be installed manually\)
+    ;;
+  "Zenbones Seoulbones Light")
+    obtain_neovim_theme_from_git zenbones.nvim git@github.com:mcchrish/zenbones.nvim.git
+    change_vim_background        light
+    change_vim_colorscheme       seoulbones zenbones_compat=1
+    obtain_kitty_theme_from_curl zenbones-seoulbones-light https://raw.githubusercontent.com/mcchrish/zenbones.nvim/main/extras/kitty/seoulbones_light.conf
+    change_kitty_theme           zenbones-seoulbones-light
+    echo TODO: zenbones requires the \'lush\' lua rock \(can be installed manually\)
+    ;;
+  "Zenbones Seoulbones Dark")
+    obtain_neovim_theme_from_git zenbones.nvim git@github.com:mcchrish/zenbones.nvim.git
+    change_vim_background        dark
+    change_vim_colorscheme       seoulbones zenbones_compat=1
+    obtain_kitty_theme_from_curl zenbones-seoulbones-dark https://raw.githubusercontent.com/mcchrish/zenbones.nvim/main/extras/kitty/seoulbones_dark.conf
+    change_kitty_theme           zenbones-seoulbones-dark
+    echo TODO: zenbones requires the \'lush\' lua rock \(can be installed manually\)
     ;;
   *)
     echo "\"$theme\" is not a recognized theme"
