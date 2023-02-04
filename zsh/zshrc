@@ -278,13 +278,17 @@ if command -v rg > /dev/null; then
   export FZF_DEFAULT_COMMAND="rg --hidden --files --glob !.git"
   export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 fi
-export FZF_DEFAULT_OPTS='--info=inline --bind ctrl-q:toggle-all --bind alt-a:toggle-all --bind ctrl-j:preview-down --bind ctrl-k:preview-up --bind ctrl-d:preview-page-down --bind ctrl-u:preview-page-up --pointer=➜ --ellipsis=… --marker=✓ --bind ctrl-'"\\\\"':toggle-preview --bind '"'"'alt-q:change-preview-window(right,70%|down,40%,border-horizontal|hidden|right)'"'"' --bind '"'"'alt-Q:change-preview-window(right|hidden|down,40%,border-horizontal|right,70%)'"'"
+export FZF_DEFAULT_OPTS='--info=inline --bind ctrl-r:prev-history --bind ctrl-q:toggle-all --bind alt-a:toggle-all --bind ctrl-j:preview-down --bind ctrl-k:preview-up --bind ctrl-d:preview-page-down --bind ctrl-u:preview-page-up --pointer=➜ --ellipsis=… --marker=✓ --bind ctrl-'"\\\\"':toggle-preview --bind '"'"'alt-q:change-preview-window(right,70%|down,40%,border-horizontal|hidden|right)'"'"' --bind '"'"'alt-Q:change-preview-window(right|hidden|down,40%,border-horizontal|right,70%)'"'"
+FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --bind ctrl-y:preview-up"
+FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --bind ctrl-r:prev-history"
+FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --bind ctrl-p:up" # never prev-history
+# select previous       | ctrl-p | :-( not show previous history search
 # carot to end          | ctrl-e | :-( not scroll down
 # carot to start        | ctrl-a |
-# preview down          | ctrl-j |
+# preview down          | ctrl-j | :-( not select next
 # preview page down     | ctrl-d | :-( not delete char
 # preview page up       | ctrl-u |
-# preview up            | ctrl-k | :-( not kill line
+# preview up            | ctrl-k | :-( not kill line :-( not select previous
 # rotate preview layout | alt-Q  |
 # rotate preview layout | alt-q  |
 # toggle all items      | alt-a  |
