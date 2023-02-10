@@ -14,7 +14,7 @@ end
 vim.cmd([[
   augroup reload_lua_plugins
     autocmd!
-    autocmd BufWritePost plugins.lua source <afile> | PackerCompile
+    autocmd BufWritePost plugins.lua if (match(expand('%'), '^fugitive:/') == -1) | source <afile> | PackerCompile | endif
   augroup end
 ]])
 
@@ -282,8 +282,8 @@ packer.startup(function(use)
         command_buffer('LspFormat', 'lua vim.lsp.buf.format()', {})
       end
 
-      ENABLE_LSP_SERVER = function(name)
-        lspconfig[name].setup({
+      ENABLE_LSP_SERVER = function(name, options)
+        lspconfig[name].setup(vim.tbl_deep_extend("force", {
           capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities()),
           on_attach = ON_LSP_ATTACH,
           flags = {
@@ -300,7 +300,7 @@ packer.startup(function(use)
               },
             },
           } or {},
-        })
+        }, options or {}))
       end
       ENABLE_FRONTEND_LSPS = function()
         if (vim.fn.filereadable('node_modules/.bin/tsserver') == 1) then
@@ -392,20 +392,32 @@ packer.startup(function(use)
     requires = {
       'nvim-lua/plenary.nvim',
       'nvim-telescope/telescope-symbols.nvim',
+      {'nvim-telescope/telescope-fzf-native.nvim', run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }
     },
     config = function()
       require('telescope').setup({
         defaults = {
           mappings = {
-            -- i = { ["<c-t>"] = require("trouble.providers.telescope").open_with_trouble },
-            -- n = { ["<c-t>"] = require("trouble.providers.telescope").open_with_trouble },
+            i = {
+              ["<c-\\>"] = require('telescope.actions.layout').toggle_preview,
+              ["<c-j>"] = require('telescope.actions').preview_scrolling_down,
+              ["<c-k>"] = require('telescope.actions').preview_scrolling_up,
+              ["<esc>"] = require('telescope.actions').close,
+            },
+            n = {
+              ["<c-\\>"] = require('telescope.actions.layout').toggle_preview,
+              ["<c-j>"] = require('telescope.actions').preview_scrolling_down,
+              ["<c-k>"] = require('telescope.actions').preview_scrolling_up,
+            },
           }
         }
       })
       require('telescope').load_extension('aerial')
+      require('telescope').load_extension('fzf')
       vim.cmd([[
         com! Planets :lua require('telescope.builtin').planets()<cr>
         com! Symbols :lua require('telescope.builtin').symbols(require('telescope.themes').get_cursor())<cr>
+        nnoremap <silent> \tt       :lua require('telescope.builtin').treesitter()<cr>
         " nnoremap <silent> <leader>F       :lua require('telescope.builtin').live_grep({prompt_title = 'FINDY FINDY'})<cr>
         " nnoremap <silent> <leader>or      :lua require('telescope.builtin').oldfiles()<cr>
         " nnoremap <silent> <c-p>           :lua require('telescope.builtin').find_files()<cr>
@@ -426,85 +438,6 @@ packer.startup(function(use)
 
   use { -- rktjmp/lush.nvim
     'rktjmp/lush.nvim'
-  }
-
-  use { -- stevearc/dressing.nvim
-    'stevearc/dressing.nvim',
-    config = function()
-      require('dressing').setup({
-        input = {
-          -- Default prompt string
-          default_prompt = "➤ ",
-
-          -- When true, <Esc> will close the modal
-          insert_only = true,
-
-          -- These are passed to nvim_open_win
-          anchor = "SW",
-          relative = "cursor",
-          border = "rounded",
-
-          -- These can be integers or a float between 0 and 1 (e.g. 0.4 for 40%)
-          prefer_width = 40,
-          max_width = nil,
-          min_width = 20,
-
-          -- see :help dressing_get_config
-          get_config = nil,
-        },
-        select = {
-          -- Priority list of preferred vim.select implementations
-          backend = { "builtin" },
-
-          -- Options for telescope selector
-          telescope = {
-          },
-
-          -- Options for fzf selector
-          fzf = {
-            window = {
-              width = 0.5,
-              height = 0.4,
-            },
-          },
-
-          -- Options for nui Menu
-          nui = {
-            position = "50%",
-            size = nil,
-            relative = "editor",
-            border = {
-              style = "rounded",
-            },
-            max_width = 80,
-            max_height = 40,
-          },
-
-          -- Options for built-in selector
-          builtin = {
-            -- These are passed to nvim_open_win
-            anchor = "NW",
-            relative = "cursor",
-            border = "rounded",
-
-            -- These can be integers or a float between 0 and 1 (e.g. 0.4 for 40%)
-            width = nil,
-            max_width = 0.8,
-            min_width = 40,
-            height = nil,
-            max_height = 0.9,
-            min_height = 10,
-          },
-
-          -- Used to override format_item. See :help dressing-format
-          format_item_override = {},
-
-          -- see :help dressing_get_config
-          get_config = nil,
-        },
-      })
-
-    end,
   }
 
   use {
