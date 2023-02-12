@@ -264,11 +264,10 @@ packer.startup(function(use)
         nnoremap_buffer('<space>le', '<cmd>EslintFixAll<CR>', opts)
         nnoremap_buffer(']g',        '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
         nnoremap_buffer('[g',        '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
-        nnoremap_buffer('gi',        '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+        nnoremap_buffer('gi',        '<cmd>TroubleToggle lsp_implementations<CR>', opts)
         nnoremap_buffer('gu',        '<cmd>TroubleToggle lsp_references<CR>', opts)
-        nnoremap_buffer('gD',        '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-        nnoremap_buffer('gd',        '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-        nnoremap_buffer('<space>D',  '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+        nnoremap_buffer('gd',        '<cmd>TroubleToggle lsp_definitions<CR>', opts)
+        nnoremap_buffer('gtd',       '<cmd>TroubleToggle lsp_type_definitions<CR>', opts)
         nnoremap_buffer('K',         '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
         nnoremap_buffer('<space>lh', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
         nnoremap_buffer('<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
@@ -277,9 +276,7 @@ packer.startup(function(use)
         nnoremap_buffer('<space>lr', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
         nnoremap_buffer('<space>la', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
         nnoremap_buffer('<space>e',  '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-        nnoremap_buffer('[d',        '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-        nnoremap_buffer(']d',        '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-        command_buffer('LspFormat', 'lua vim.lsp.buf.format()', {})
+        command_buffer('LspFormat',  'lua vim.lsp.buf.format()', {})
       end
 
       ENABLE_LSP_SERVER = function(name, options)
@@ -289,17 +286,6 @@ packer.startup(function(use)
           flags = {
             debounce_text_changes = 150,
           },
-          settings = name == 'sumneko_lua' and {
-            Lua = {
-              diagnostics = {
-                runtime = {version='LuaJIT'},
-                globals = {'vim'},
-                workspace = {
-                  library = vim.api.nvim_get_runtime_file('', true),
-                },
-              },
-            },
-          } or {},
         }, options or {}))
       end
       ENABLE_FRONTEND_LSPS = function()
@@ -316,7 +302,19 @@ packer.startup(function(use)
 
       ENABLE_LSP_SERVER('vimls')
       ENABLE_LSP_SERVER('bashls')
-      ENABLE_LSP_SERVER('sumneko_lua')
+      ENABLE_LSP_SERVER('lua_ls', {
+        settings = {
+          Lua = {
+            diagnostics = {
+              runtime = {version='LuaJIT'},
+              globals = {'vim'},
+              workspace = {
+                library = vim.api.nvim_get_runtime_file('', true),
+              },
+            },
+          },
+        }
+      })
       ENABLE_LSP_SERVER('yamlls')
 
       vim.cmd([[
