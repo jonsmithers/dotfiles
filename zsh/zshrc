@@ -302,6 +302,8 @@ fi
 
 if [[ "$TERM" = "xterm-kitty" ]]; then
   alias icat="kitty +kitten icat"
+  alias hg="kitty +kitten hyperlinked_grep "
+  compdef hg=rg
   # https://www.baeldung.com/linux/background-process-get-exit-code
   notify() {
     local errcode="$?"
