@@ -325,6 +325,11 @@ packer.startup(function(use)
         -- },
         hijack_netrw = false,
         disable_netrw = false,
+        update_focused_file = {
+          enable = true,
+          update_root = true,
+        },
+        sync_root_with_cwd = true,
         view = {
           adaptive_size = true,
           relativenumber = true,
