@@ -1,6 +1,9 @@
 hs.loadSpoon("ShiftIt")
 spoon.ShiftIt:bindHotkeys({})
 
+local browser = "Firefox"
+-- local browser = "Google Chrome"
+
 -- https://github.com/philc/hammerspoon-config/blob/d2c1046273da4c0140d0b33dd55ee8e637db5e6d/init.lua#L109-L119
 function myLaunchOrFocus(appName)
   local app = hs.appfinder.appFromName(appName)
@@ -15,12 +18,11 @@ function myLaunchOrFocus(appName)
 end
 
 hs.hotkey.bind({"alt"}, "B", function()
-  -- hs.application.launchOrFocus("Google Chrome")
-  hs.application.launchOrFocus("Firefox")
+  hs.application.launchOrFocus(browser)
 end)
-hs.hotkey.bind({"alt"}, "S", function()
-  hs.application.launchOrFocus("Safari")
-end)
+-- hs.hotkey.bind({"alt"}, "S", function()
+--   hs.application.launchOrFocus("Safari")
+-- end)
 hs.hotkey.bind({"alt"}, "Z", function()
   hs.application.launchOrFocus("zoom.us")
 end)
