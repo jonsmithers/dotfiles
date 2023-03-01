@@ -428,7 +428,7 @@ packer.startup(function(use)
     -- :Notifications to view notifications
     config = function()
       require('notify').setup({
-        -- render='minimal'
+        render='compact'
       })
       vim.notify = require('notify')
     end
@@ -438,7 +438,20 @@ packer.startup(function(use)
     'rktjmp/lush.nvim'
   }
 
-  use {
+  use { -- ThePrimeagen/refactoring.nvim
+    'ThePrimeagen/refactoring.nvim',
+    config = function()
+      vim.api.nvim_set_keymap(
+        "v",
+        "<leader>rr",
+        "<Esc><cmd>lua require('telescope').extensions.refactoring.refactors()<CR>",
+        { noremap = true }
+      )
+      require("telescope").load_extension("refactoring")
+    end
+  }
+
+  use { -- windwp/nvim-autopairs
     'windwp/nvim-autopairs',
     config = function() require("nvim-autopairs").setup {} end
   }
