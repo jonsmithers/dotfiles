@@ -37,7 +37,8 @@ if [[ -f "$HOME/.config/zsh/fzf-git.sh" ]]; then
   echo -e " ${GREEN}✓${NORMAL} fzf-git installed"
 elif prompt " ${RED}✗${NORMAL} missing fzf-git - install?"; then
   echo_and_run mkdir -p ~/.config/zsh
-  echo_and_run curl https://raw.githubusercontent.com/junegunn/fzf-git.sh/main/fzf-git.sh > ~/.config/zsh/fzf-git.sh
+  echo curl https://raw.githubusercontent.com/junegunn/fzf-git.sh/main/fzf-git.sh > ~/.config/zsh/fzf-git.sh
+  curl https://raw.githubusercontent.com/junegunn/fzf-git.sh/main/fzf-git.sh > ~/.config/zsh/fzf-git.sh
 else
   echo "Skipping fzf-git installation"
 fi
