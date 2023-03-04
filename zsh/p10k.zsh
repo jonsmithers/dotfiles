@@ -1,4 +1,7 @@
 function prompt_gitmob() {
+    if ! command -v git-mob &> /dev/null; then
+      return
+    fi
     local initials="$(git mob-print --initials)"
     if [[ -z "$initials" ]]; then
       return
