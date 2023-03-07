@@ -129,7 +129,10 @@ function obtain_kitty_theme_from_curl() {
   local curl_url=$2
   [[ -f "$HOME/.config/kitty/$theme.conf" ]] || {
     echo obtaining kitty theme from url
-    curl --fail "$curl_url" > "$HOME/.config/kitty/$theme.conf"
+    (
+      set -x;
+      curl --fail "$curl_url" > "$HOME/.config/kitty/$theme.conf";
+    )
   }
 }
 function obtain_kitty_theme_from_kitten() {
@@ -232,28 +235,28 @@ case $theme in
     obtain_vim_theme_from_git    catppuccin https://github.com/catppuccin/nvim.git
     change_vim_background        dark
     change_vim_colorscheme       catppuccin 'catppuccin_flavour=frappe'
-    obtain_kitty_theme_from_curl catppuccin_frappe https://raw.githubusercontent.com/catppuccin/kitty/main/frappe.conf
+    obtain_kitty_theme_from_curl catppuccin_frappe https://raw.githubusercontent.com/catppuccin/kitty/main/themes/frappe.conf
     change_kitty_theme           catppuccin_frappe
     ;;
   "Catppuccin Latte")
     obtain_vim_theme_from_git    catppuccin https://github.com/catppuccin/nvim.git
     change_vim_background        light
     change_vim_colorscheme       catppuccin 'catppuccin_flavour=latte'
-    obtain_kitty_theme_from_curl catppuccin_latte https://raw.githubusercontent.com/catppuccin/kitty/main/latte.conf
+    obtain_kitty_theme_from_curl catppuccin_latte https://raw.githubusercontent.com/catppuccin/kitty/main/themes/latte.conf
     change_kitty_theme           catppuccin_latte
     ;;
   "Catppuccin Macchiato")
     obtain_vim_theme_from_git    catppuccin https://github.com/catppuccin/nvim.git
     change_vim_background        dark
     change_vim_colorscheme       catppuccin 'catppuccin_flavour=macchiato'
-    obtain_kitty_theme_from_curl catppuccin_macchiato https://raw.githubusercontent.com/catppuccin/kitty/main/macchiato.conf
+    obtain_kitty_theme_from_curl catppuccin_macchiato https://raw.githubusercontent.com/catppuccin/kitty/main/themes/macchiato.conf
     change_kitty_theme           catppuccin_macchiato
     ;;
   "Catppuccin Mocha")
     obtain_vim_theme_from_git    catppuccin https://github.com/catppuccin/nvim.git
     change_vim_background        dark
     change_vim_colorscheme       catppuccin 'catppuccin_flavour=mocha'
-    obtain_kitty_theme_from_curl catppuccin_mocha https://raw.githubusercontent.com/catppuccin/kitty/main/mocha.conf
+    obtain_kitty_theme_from_curl catppuccin_mocha https://raw.githubusercontent.com/catppuccin/kitty/main/themes/mocha.conf
     change_kitty_theme           catppuccin_mocha
     ;;
   "GitHub Dark")
