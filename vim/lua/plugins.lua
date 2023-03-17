@@ -258,7 +258,6 @@ packer.startup(function(use)
           { name = 'path' }
         }, {
           { name = 'buffer' },
-          { name = 'cmdline' }
         }),
         window = {
           completion = {
@@ -284,6 +283,25 @@ packer.startup(function(use)
             return kind
           end,
         },
+      })
+      cmp.setup.cmdline('/', {
+        mapping = cmp.mapping.preset.cmdline(),
+        sources = {
+          { name = 'buffer' }
+        }
+      })
+      cmp.setup.cmdline(':', {
+        mapping = cmp.mapping.preset.cmdline(),
+        sources = cmp.config.sources({
+          { name = 'path' }
+        }, {
+          {
+            name = 'cmdline',
+            option = {
+              ignore_cmds = { 'Man', '!' }
+            }
+          }
+        })
       })
 
       vim.cmd([[
@@ -502,8 +520,6 @@ packer.startup(function(use)
         " html, eslint, jsonls, cssls
         !npm install --global bash-language-server
         " bashls
-        !npm install --global @astrojs/language-server
-        " astro
         !brew install lua-language-server
         " sumnekko_lua
         !npm install --global yaml-language-server
