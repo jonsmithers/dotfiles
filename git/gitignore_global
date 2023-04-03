@@ -1,5 +1,2 @@
 .DS_Store
-*~
-*.swp
-junit*.properties
-.recommenders
+.projections.json

@@ -35,3 +35,4 @@
   verbose = true
 [core]
   editor = nvim
+  excludesfile = ~/.gitignore_global

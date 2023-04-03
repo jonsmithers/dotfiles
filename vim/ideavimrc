@@ -6,9 +6,9 @@
 :nnoremap <Leader>lif yiwoconsole.log('0()');<Esc>
 :nnoremap <Leader>liF yiwoconsole.log('%c0()', 'font-size:15px');<Esc>^2w
 :nnoremap <Leader>gif yiwf{oconsole.group('0');<Esc>]}Oconsole.groupEnd();<Esc>^
-:nnoremap <Leader>le :action Javascript.Linters.EsLint.Fix<cr>:echo 'Eslint Fix'<cr>
-:nnoremap <Leader>rr :action Rerun<cr>:echo 'Rerun'<cr>
-:nnoremap <Leader>db :action Debug<cr>:echo 'Debug'<cr>
+:nnoremap <Leader>le :action Javascript.Linters.EsLint.Fix<cr>
+:nnoremap <Leader>rr :action Rerun<cr>
+:nnoremap <Leader>db :action Debug<cr>
 :nnoremap <Leader>lr :action RenameElement<cr>
 :nnoremap <Leader>gv :action Tool_External Tools_Send to Gvim<cr>
 :nnoremap <Leader>gV :action Tool_External Tools_Open in Vim<cr>

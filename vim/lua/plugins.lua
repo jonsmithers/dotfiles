@@ -284,12 +284,12 @@ packer.startup(function(use)
           end,
         },
       })
-      cmp.setup.cmdline('/', {
-        mapping = cmp.mapping.preset.cmdline(),
-        sources = {
-          { name = 'buffer' }
-        }
-      })
+      -- cmp.setup.cmdline('/', {
+      --   mapping = cmp.mapping.preset.cmdline(),
+      --   sources = {
+      --     { name = 'buffer' }
+      --   }
+      -- })
       cmp.setup.cmdline(':', {
         mapping = cmp.mapping.preset.cmdline(),
         sources = cmp.config.sources({
@@ -449,6 +449,7 @@ packer.startup(function(use)
 
         -- See `:help vim.lsp.*` for documentation on any of the below functions
         nnoremap_buffer('<space>le', '<cmd>EslintFixAll<CR>', opts)
+        nnoremap_buffer('<space>lp', '<cmd>Prettier<CR>', opts)
         nnoremap_buffer('<space>oi', '<cmd>lua vim.lsp.buf.execute_command({command = "_typescript.organizeImports", arguments = {vim.fn.expand("%:p")}})<CR>', opts)
         nnoremap_buffer(']g',        '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
         nnoremap_buffer('[g',        '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
@@ -576,7 +577,7 @@ packer.startup(function(use)
     requires = {
       'nvim-lua/plenary.nvim',
       'nvim-telescope/telescope-symbols.nvim',
-      {'nvim-telescope/telescope-fzf-native.nvim', run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }
+      {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
     },
     config = function()
       require('telescope').setup({

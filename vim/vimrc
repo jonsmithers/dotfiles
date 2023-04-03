@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <jon@smithers.dev>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2023-03-01
+" Last Updated: 2023-03-15
 
 :scriptencoding utf8
 
@@ -138,6 +138,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'airblade/vim-rooter'
   " {{{
     let g:rooter_silent_chdir = 1
+    let g:rooter_patterns = ['.git', '_darcs', '.hg', '.bzr', '.svn', 'Makefile']
   " }}}
 
   Plug 'chrisbra/Colorizer'
@@ -1075,8 +1076,8 @@ let s:config_queue = []
   " https://github.com/mhinz/vim-galore#saner-command-line-history
   cnoremap <c-n>  <down>
   cnoremap <c-p>  <up>
-  " Saner CTRL L: https://github.com/mhinz/vim-galore#saner-ctrl-l
-  nnoremap <leader>l :nohlsearch<cr>:diffupdate<cr>:syntax sync fromstart<cr><c-l>
+  " " Saner CTRL L: https://github.com/mhinz/vim-galore#saner-ctrl-l
+  " nnoremap <leader>l :nohlsearch<cr>:diffupdate<cr>:syntax sync fromstart<cr><c-l>
   " Quickly Add Empty Lines: https://github.com/mhinz/vim-galore#quickly-add-empty-lines
   nnoremap [<space>  :<c-u>put! =repeat(nr2char(10), v:count1)<cr>'[
   nnoremap ]<space>  :<c-u>put =repeat(nr2char(10), v:count1)<cr>

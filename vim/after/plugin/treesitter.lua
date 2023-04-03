@@ -6,6 +6,7 @@ require'nvim-treesitter.configs'.setup {
     "json", "http", -- required for rest-nvim
     "javascript", "tsx", "typescript", -- not sure if these overlap/conflict
     "java",
+    "graphql",
     "bash",
     "markdown",
     "markdown_inline",
