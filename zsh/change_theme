@@ -170,6 +170,7 @@ if [[ -z "$theme" ]]; then
     "Gruvbox Dark"
     "Gruvbox Light"
     "Nightfox Nightfox"
+    "Nightfox Carbonfox"
     "Nightfox Dayfox"
     "Nightfox Dawnfox"
     "Nightfox Duskfox"
@@ -321,6 +322,13 @@ case $theme in
     change_vim_colorscheme       nightfox
     obtain_kitty_theme_from_curl 'nightfox-nightfox' https://raw.githubusercontent.com/EdenEast/nightfox.nvim/main/extra/nightfox/nightfox_kitty.conf
     change_kitty_theme           'nightfox-nightfox'
+    ;;
+  "Nightfox Carbonfox")
+    obtain_vim_theme_from_git    nightfox.nvim git@github.com:EdenEast/nightfox.nvim.git
+    change_vim_background        dark
+    change_vim_colorscheme       carbonfox
+    obtain_kitty_theme_from_curl 'nightfox-carbonfox' https://raw.githubusercontent.com/EdenEast/nightfox.nvim/main/extra/carbonfox/nightfox_kitty.conf
+    change_kitty_theme           'nightfox-carbonfox'
     ;;
   "Nightfox Dayfox")
     obtain_vim_theme_from_git    nightfox.nvim git@github.com:EdenEast/nightfox.nvim.git

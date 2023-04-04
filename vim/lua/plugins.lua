@@ -449,7 +449,6 @@ packer.startup(function(use)
 
         -- See `:help vim.lsp.*` for documentation on any of the below functions
         nnoremap_buffer('<space>le', '<cmd>EslintFixAll<CR>', opts)
-        nnoremap_buffer('<space>lp', '<cmd>Prettier<CR>', opts)
         nnoremap_buffer('<space>oi', '<cmd>lua vim.lsp.buf.execute_command({command = "_typescript.organizeImports", arguments = {vim.fn.expand("%:p")}})<CR>', opts)
         nnoremap_buffer(']g',        '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
         nnoremap_buffer('[g',        '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)

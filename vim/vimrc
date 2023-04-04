@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <jon@smithers.dev>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2023-03-15
+" Last Updated: 2023-04-04
 
 :scriptencoding utf8
 
@@ -270,9 +270,12 @@ call plug#begin('~/.vim/plugged')
         call lightline#update()
       end
     endfun
+    fun! s:removeDashes(s)
+      return substitute(a:s, '-', '', '')
+    endfunc
     fun! s:matchLightlineColorscheme() abort
       let s:vim_colorscheme = g:colors_name
-      let s:vim_colorscheme = substitute(s:vim_colorscheme, '-', '', '') " For example, rose-pine > rosepine
+      let s:vim_colorscheme = s:removeDashes(s:vim_colorscheme) " For example, rose-pine > rosepine
       func! s:MatchesColorscheme(idx, val) abort
         let l:lightlineScheme = a:val
         let l:lightlineScheme = substitute(l:lightlineScheme, '_.*', '', '')
@@ -528,7 +531,8 @@ call plug#begin('~/.vim/plugged')
         \         'javascriptreact', 'typescriptreact',
         \         'less', 'scss', 'json', 'graphql',
         \         'markdown', 'vue', 'svelte', 'yaml',
-        \         'html'] }
+        \         'html', 'prisma'] }
+  nnoremap <space>lp <cmd>Prettier<CR>
 
   Plug 'psliwka/vim-smoothie'
 
@@ -1475,7 +1479,7 @@ let g:html_wrong_comments=1
       endfor
     endif
     if exists('$VIM_COLORSCHEME')
-      exec 'silent! LightlineColorscheme '..$VIM_COLORSCHEME
+      exec 'silent! LightlineColorscheme '..s:removeDashes($VIM_COLORSCHEME)
       " ^^^ manually setting lightline scheme is normally covered by
       " matchLightlineColorscheme, but native vim packs for some reason don't
       " expose their lightline themes at this point in the script
