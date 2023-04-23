@@ -379,10 +379,13 @@ packer.startup(function(use)
     },
     config = function()
       vim.cmd([[
-        com! LspDisableCompletion lua require('cmp').setup.buffer { enabled = false }
-        com! LspEnableCompletion lua require('cmp').setup.buffer { enabled = true }
-        nnoremap [o<c-space> :LspEnableCompletion<cr>
-        nnoremap ]o<c-space> :LspDisableCompletion<cr>
+        com! LspDisableCompletion lua require('cmp').setup.buffer { enabled = false }; vim.notify('completion disabled')
+        com! LspEnableCompletion lua require('cmp').setup.buffer { enabled = true }; vim.notify('completion enabled')
+        nnoremap <Plug>(unimpaired-enable)L :LspEnableCompletion<cr>
+        nnoremap <Plug>(unimpaired-disable)L :LspDisableCompletion<cr>
+        nnoremap <Plug>(unimpaired-enable)<c-space> :LspEnableCompletion<cr>
+        nnoremap <Plug>(unimpaired-enable)<c-space> :LspDisableCompletion<cr>
+        " 👆 <c-space> no longer works for some reason
         nnoremap <leader>st :AerialToggle!<cr>
         nnoremap <leader>sT :AerialToggle float<cr>
         nnoremap [<leader>a :AerialPrev<cr>
