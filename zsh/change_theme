@@ -184,6 +184,8 @@ if [[ -z "$theme" ]]; then
     "Rose Pine"
     "Rose Pine Dawn"
     # "Rose Pine Moon"
+    "Seoul256 Dark"
+    "Seoul256 Light"
     "TokyoNight Dark"
     "TokyoNight Day"
     "TokyoNight Storm"
@@ -424,6 +426,20 @@ case $theme in
   #   obtain_kitty_theme_from_curl   'Rose Pine Moon' https://raw.githubusercontent.com/rose-pine/kitty/main/dist/rose-pine-moon.conf
   #   change_kitty_theme             'Rose Pine Moon'
   #   ;;
+  "Seoul256 Dark")
+    obtain_vim_theme_from_git    seoul256.vim git@github.com:junegunn/seoul256.vim.git
+    change_vim_background        dark
+    change_vim_colorscheme       seoul256
+    obtain_kitty_theme_from_curl seoul256 https://raw.githubusercontent.com/malikbenkirane/kitty-colors/master/seoul256.kitty-conf
+    change_kitty_theme           seoul256
+    ;;
+  "Seoul256 Light")
+    obtain_vim_theme_from_git    seoul256.vim git@github.com:junegunn/seoul256.vim.git
+    change_vim_background        light
+    change_vim_colorscheme       seoul256-light
+    obtain_kitty_theme_from_curl seoul256-light https://raw.githubusercontent.com/malikbenkirane/kitty-colors/master/seoul256-light.kitty-conf
+    change_kitty_theme           seoul256-light
+    ;;
   "TokyoNight Dark")
     obtain_vim_theme_from_git      tokyonight.nvim git@github.com:folke/tokyonight.nvim.git
     change_vim_background          dark
