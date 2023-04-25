@@ -169,6 +169,9 @@ if [[ -z "$theme" ]]; then
     "GitHub Light Default"
     "Gruvbox Dark"
     "Gruvbox Light"
+    "Kanagawa Dragon (dark)"
+    "Kanagawa Lotus (light)"
+    "Kanagawa Wave (dark)"
     "Nightfox Nightfox"
     "Nightfox Carbonfox"
     "Nightfox Dayfox"
@@ -315,6 +318,27 @@ case $theme in
     change_vim_colorscheme         gruvbox
     obtain_kitty_theme_from_kitten 'Gruvbox Light Hard'
     change_kitty_theme             'Gruvbox Light Hard'
+    ;;
+  "Kanagawa Dragon (dark)")
+    obtain_neovim_theme_from_git kanagawa.nvim git@github.com:rebelot/kanagawa.nvim.git
+    change_vim_background        dark
+    change_vim_colorscheme       kanagawa-dragon
+    obtain_kitty_theme_from_curl 'Kanagawa Dragon' https://raw.githubusercontent.com/rebelot/kanagawa.nvim/master/extras/kanagawa_dragon.conf
+    change_kitty_theme           'Kanagawa Dragon'
+    ;;
+  "Kanagawa Lotus (light)")
+    obtain_neovim_theme_from_git kanagawa.nvim git@github.com:rebelot/kanagawa.nvim.git
+    change_vim_background        light
+    change_vim_colorscheme       kanagawa-lotus
+    obtain_kitty_theme_from_curl 'Kanagawa Lotus' https://raw.githubusercontent.com/rebelot/kanagawa.nvim/master/extras/kanagawa_light.conf
+    change_kitty_theme           'Kanagawa Lotus'
+    ;;
+  "Kanagawa Wave (dark)")
+    obtain_neovim_theme_from_git kanagawa.nvim git@github.com:rebelot/kanagawa.nvim.git
+    change_vim_background        dark
+    change_vim_colorscheme       kanagawa-wave
+    obtain_kitty_theme_from_curl 'Kanagawa Wave' https://raw.githubusercontent.com/rebelot/kanagawa.nvim/master/extras/kanagawa.conf
+    change_kitty_theme           'Kanagawa Wave'
     ;;
   "Nightfox Nightfox")
     obtain_vim_theme_from_git    nightfox.nvim git@github.com:EdenEast/nightfox.nvim.git
