@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <jon@smithers.dev>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2023-04-04
+" Last Updated: 2023-04-28
 
 :scriptencoding utf8
 
@@ -524,6 +524,7 @@ call plug#begin('~/.vim/plugged')
   PlugIfNeovim 'nvim-treesitter/playground'
   PlugIfNeovim 'nvim-treesitter/nvim-treesitter-context'
   PlugIfNeovim 'nvim-treesitter/nvim-treesitter-refactor'
+  PlugIfNeovim 'windwp/nvim-ts-autotag'
 
   Plug 'prettier/vim-prettier', {
         \ 'do': 'yarn install',

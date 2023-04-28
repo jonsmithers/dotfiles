@@ -1,4 +1,7 @@
 require'nvim-treesitter.configs'.setup {
+  autotag = {
+    enable = true,
+  },
   group_empty=1,
   special_files={},
   ensure_installed = {
@@ -7,6 +10,7 @@ require'nvim-treesitter.configs'.setup {
     "javascript", "tsx", "typescript", -- not sure if these overlap/conflict
     "java",
     "graphql",
+    "html",
     "bash",
     "markdown",
     "markdown_inline",
