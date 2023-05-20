@@ -185,6 +185,7 @@ if command -v git-number > /dev/null; then
   alias giff="git-number -c $vim_cmd +Gvdiff"
 fi
 alias gs="$vim_cmd"' +0Git "+normal gU"'
+alias v="$vim_cmd"
 unset vim_cmd
 
 if [[ "$(uname)" == "Linux" ]]; then

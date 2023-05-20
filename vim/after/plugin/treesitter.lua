@@ -99,9 +99,9 @@ require'treesitter-context'.setup {
   mode = 'topline',
 }
 vim.cmd([[
-  nnoremap [oC :TSContextEnable<cr>
-  nnoremap ]oC :TSContextDisable<cr>
-  nnoremap yoC :TSContextToggle<cr>
+  nnoremap <Plug>(unimpaired-enable)C :TSContextEnable<cr>
+  nnoremap <Plug>(unimpaired-disable)C :TSContextDisable<cr>
+  nnoremap <Plug>(unimpaired-toggle)C :TSContextToggle<cr>
 ]])
 vim.cmd([[
   autocmd BufRead,BufEnter *.astro set filetype=astro
