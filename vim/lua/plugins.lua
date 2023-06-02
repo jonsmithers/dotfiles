@@ -526,7 +526,28 @@ packer.startup(function(use)
     'nvim-lualine/lualine.nvim',
     requires = { 'nvim-tree/nvim-web-devicons', opt = true },
     config = function()
-      require('lualine').setup()
+      require('lualine').setup({
+        extensions = {
+          'fugitive',
+          'fzf',
+          'nvim-tree',
+          'quickfix',
+          'trouble',
+        },
+        options = {
+          -- component_separators = { left = '', right = '' },
+          component_separators = { left = '', right = '' },
+          section_separators = { left = '', right = '' },
+        },
+        sections = {
+          lualine_a = {'mode'},
+          lualine_b = {'branch', 'diff', 'diagnostics'},
+          lualine_c = {'filename'},
+          lualine_x = {{ 'searchcount', maxcount=999, timeout=500 }, 'encoding', 'fileformat', 'filetype', },
+          lualine_y = {'progress'},
+          lualine_z = {'location'}
+        },
+      })
     end
   }
 

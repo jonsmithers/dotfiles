@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <jon@smithers.dev>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2023-05-30
+" Last Updated: 2023-06-02
 
 :scriptencoding utf8
 
@@ -399,12 +399,14 @@ call plug#begin('~/.vim/plugged')
     " make vim close the First time you do :quit
     " https://github.com/junegunn/goyo.vim/wiki/Customization
     function! s:goyo_enter()
+      lua require('lualine').hide()
       let b:quitting = 0
       let b:quitting_bang = 0
       Limelight
       SoftPencil
       if (exists(':LspDisableCompletion'))
         LspDisableCompletion
+        silent! CloseFloatingWindows
       endif
       augroup goyo_buffer
         au!
@@ -417,6 +419,7 @@ call plug#begin('~/.vim/plugged')
       NoPencil
       if (exists(':LspEnableCompletion'))
         LspEnableCompletion
+        silent! CloseFloatingWindows
       endif
       " Quit Vim if this is the only remaining buffer
       if b:quitting && len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1
@@ -426,6 +429,7 @@ call plug#begin('~/.vim/plugged')
           qa
         endif
       endif
+      lua require('lualine').hide({unhide = true})
     endfunction
     augroup goyo_stuff
       au!
