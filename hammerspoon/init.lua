@@ -1,8 +1,8 @@
+-- local default_browser = "Firefox"
+local default_browser = "Google Chrome"
+
 hs.loadSpoon("ShiftIt")
 spoon.ShiftIt:bindHotkeys({})
-
-local browser = "Firefox"
--- local browser = "Google Chrome"
 
 -- https://github.com/philc/hammerspoon-config/blob/d2c1046273da4c0140d0b33dd55ee8e637db5e6d/init.lua#L109-L119
 function myLaunchOrFocus(appName)
@@ -18,26 +18,31 @@ function myLaunchOrFocus(appName)
 end
 
 hs.hotkey.bind({"alt"}, "B", function()
-  hs.application.launchOrFocus(browser)
+  hs.application.launchOrFocus(default_browser)
 end)
--- hs.hotkey.bind({"alt"}, "S", function()
---   hs.application.launchOrFocus("Safari")
--- end)
 hs.hotkey.bind({"alt"}, "Z", function()
   hs.application.launchOrFocus("zoom.us")
 end)
 hs.hotkey.bind({"alt"}, "M", function()
-  hs.application.launchOrFocus("Mattermost2")
+  hs.application.launchOrFocus(default_browser)
+  hs.eventtap.keyStroke({"cmd"}, "1")
 end)
 hs.hotkey.bind({"alt"}, "T", function()
   hs.application.launchOrFocus("kitty")
 end)
-hs.hotkey.bind({"alt"}, "C", function()
-  hs.application.launchOrFocus("Google Calendar")
-end)
 hs.hotkey.bind({"alt"}, "N", function()
   -- myLaunchOrFocus("neovide")
   hs.application.launchOrFocus("Alacritty")
+  -- hs.application.launchOrFocus("neovide")
+end)
+hs.hotkey.bind({"alt"}, "C", function()
+  hs.application.launchOrFocus("Google Calendar")
+  -- hs.application.launchOrFocus("Firefox")
+  -- hs.eventtap.keyStroke({"cmd"}, "2")
+end)
+hs.hotkey.bind({"alt"}, "I", function()
+  -- hs.application.launchOrFocus("Visual Studio Code")
+  hs.application.launchOrFocus("IntelliJ IDEA")
 end)
 hs.hotkey.bind({"alt"}, "V", function()
   hs.application.launchOrFocus("MacVim")

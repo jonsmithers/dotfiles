@@ -69,7 +69,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git npm yarn nvm)
-tryplugins=(npm yarn dnf gulp tmux aws kubectl minikube heroku pip docker)
+tryplugins=(npm yarn dnf gulp tmux aws kubectl minikube heroku pip docker postgres)
 for p in $tryplugins; do
   if command -v "$p" > /dev/null; then
     plugins+=("$p")
