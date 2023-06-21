@@ -12,6 +12,7 @@ require'nvim-treesitter.configs'.setup {
     "graphql",
     "html",
     "bash",
+    "kotlin",
     "markdown",
     "markdown_inline",
     "lua",
