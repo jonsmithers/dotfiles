@@ -1,16 +1,16 @@
--- local default_browser = "Firefox"
-local default_browser = "Google Chrome"
+local default_browser = "Firefox"
+-- local default_browser = "Google Chrome"
 
 hs.loadSpoon("ShiftIt")
 spoon.ShiftIt:bindHotkeys({})
 
 -- https://github.com/philc/hammerspoon-config/blob/d2c1046273da4c0140d0b33dd55ee8e637db5e6d/init.lua#L109-L119
-function myLaunchOrFocus(appName)
+local function myLaunchOrFocus(appName)
   local app = hs.appfinder.appFromName(appName)
   if not app then
     hs.application.launchOrFocus(appName)
   else
-    windows = app:allWindows()
+    local windows = app:allWindows()
     if windows[1] then
       windows[1]:focus()
     end
@@ -19,6 +19,9 @@ end
 
 hs.hotkey.bind({"alt"}, "B", function()
   hs.application.launchOrFocus(default_browser)
+end)
+hs.hotkey.bind({"alt"}, "C", function()
+  hs.application.launchOrFocus("Visual Studio Code")
 end)
 hs.hotkey.bind({"alt"}, "Z", function()
   hs.application.launchOrFocus("zoom.us")
@@ -35,11 +38,11 @@ hs.hotkey.bind({"alt"}, "N", function()
   hs.application.launchOrFocus("Alacritty")
   -- hs.application.launchOrFocus("neovide")
 end)
-hs.hotkey.bind({"alt"}, "C", function()
-  hs.application.launchOrFocus("Google Calendar")
-  -- hs.application.launchOrFocus("Firefox")
-  -- hs.eventtap.keyStroke({"cmd"}, "2")
-end)
+-- hs.hotkey.bind({"alt"}, "C", function()
+--   hs.application.launchOrFocus("Google Calendar")
+--   -- hs.application.launchOrFocus("Firefox")
+--   -- hs.eventtap.keyStroke({"cmd"}, "2")
+-- end)
 hs.hotkey.bind({"alt"}, "I", function()
   -- hs.application.launchOrFocus("Visual Studio Code")
   hs.application.launchOrFocus("IntelliJ IDEA")
@@ -57,7 +60,7 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "R", function()
 end)
 hs.alert.show("hammerspoon loaded")
 
-function showKeyPress(tap_event)
+local function showKeyPress(tap_event)
   local duration = 1.5  -- popup duration
   local modifiers = ""  -- key modifiers string representation
   local flags = tap_event:getFlags()
@@ -132,7 +135,7 @@ function showKeyPress(tap_event)
   end
 
   -- actually show the popup
-  style = {}
+  local style = {}
   style['atScreenEdge'] = 2
   hs.alert.show(modifiers .. character, style, duration)
 

@@ -454,7 +454,11 @@ packer.startup(function(use)
           Lua = {
             diagnostics = {
               runtime = {version='LuaJIT'},
-              globals = {'vim'},
+              globals = {
+                'vim',
+                'hs', -- hammerspoon
+                'spoon', -- hammerspoon
+              },
               workspace = {
                 library = vim.api.nvim_get_runtime_file('', true),
               },
