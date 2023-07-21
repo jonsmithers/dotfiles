@@ -1,4 +1,14 @@
 require'nvim-treesitter.configs'.setup {
+  -- grr   | smart rename
+  -- {A }A | swap with prev/next argument
+  -- [a ]a | move to prev/next argument
+  -- [m ]m | move to prev/next method
+  -- [M ]M | move to prev/next end of method
+  -- [c ]c | move to prev/next class
+  ---- text objects ----
+  -- a | argument
+  -- m | method
+  -- c | class
   autotag = {
     enable = true,
   },
@@ -35,6 +45,34 @@ require'nvim-treesitter.configs'.setup {
     },
   },
   textobjects = {
+    move = {
+      enable = true,
+      goto_next_start = {
+        ["]m"] = "@function.outer",
+        ["]c"] = { query = "@class.outer", desc = "Next class start" },
+        ["]a"] = "@parameter.inner",
+      },
+      goto_next_end = {
+        ["]M"] = "@function.outer",
+      },
+      goto_previous_start = {
+        ["[m"] = "@function.outer",
+        ["[c"] = "@class.outer",
+        ["[a"] = "@parameter.inner",
+      },
+      goto_previous_end = {
+        ["[M"] = "@function.outer",
+      },
+    },
+    swap = {
+      enable = true,
+      swap_next = {
+        ["}A"] = "@parameter.inner",
+      },
+      swap_previous = {
+        ["{A"] = "@parameter.inner"
+      }
+    },
     select = {
       enable = true,
 
@@ -43,8 +81,8 @@ require'nvim-treesitter.configs'.setup {
 
       keymaps = {
         -- You can use the capture groups defined in textobjects.scm
-        ["af"] = "@function.outer",
-        ["if"] = "@function.inner",
+        ["am"] = "@function.outer",
+        ["im"] = "@function.inner",
         ["ac"] = "@class.outer",
         ["ic"] = "@class.inner",
         ["ia"] = "@parameter.inner",
