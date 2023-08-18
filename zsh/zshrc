@@ -5,6 +5,22 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+# Usage: has <command>
+#
+# Returns 0 if the <command> is available. Returns 1 otherwise. It can be a
+# binary in the PATH or a shell function.
+#
+# Example:
+#
+#    if has curl; then
+#      echo "Yes we do"
+#    fi
+#
+# Taken from https://github.com/direnv/direnv/blob/master/stdlib.sh
+has() {
+  type "$1" &>/dev/null
+}
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -68,14 +84,14 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git npm yarn nvm)
-tryplugins=(npm yarn dnf gulp tmux aws kubectl minikube heroku pip docker postgres)
+plugins=(git npm yarn)
+tryplugins=(npm yarn dnf gulp tmux aws kubectl minikube heroku pip docker postgres nvm)
 for p in $tryplugins; do
-  if command -v "$p" > /dev/null; then
+  if has "$p"; then
     plugins+=("$p")
   fi
 done
-if command -v docker > /dev/null; then
+if has docker; then
   plugins+=('fzf-docker')
 fi
 
@@ -168,17 +184,17 @@ setopt complete_aliases
 [ -d ~/.config/zsh/zsh-syntax-highlighting ] && source ~/.config/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 [ -f ~/.config/zsh/fzf-git.sh ] && source ~/.config/zsh/fzf-git.sh
 [ -f /opt/homebrew/etc/profile.d/autojump.sh ] && . /opt/homebrew/etc/profile.d/autojump.sh
-if command -v jump > /dev/null; then
+if has jump; then
   eval "$(jump shell zsh)"
 fi
 local vim_cmd=vim
-if command -v nvim > /dev/null; then
+if has nvim; then
   vim_cmd=nvim
   alias nvimdiff='nvim -d'
 fi
-if command -v git-number > /dev/null; then
+if has git-number; then
   alias g='git number'
-  if command -v compdef > /dev/null; then
+  if has compdef; then
     compdef g=git
   fi
   alias gim="git-number -c $vim_cmd"
@@ -199,7 +215,7 @@ if [[ "$(uname)" == "Linux" ]]; then
   fi
 fi
 
-if command -v fzf > /dev/null; then
+if has fzf; then
   fzfCommit() {
     local FZF_PROMPT="${FZF_PROMPT:=Commit: }"
     git log --oneline | fzf --border --prompt="$FZF_PROMPT" --height=10         --preview="git show {+1} --color=always" --no-sort --reverse | cut -d' ' -f1 | tr '\n' ' ' | sed 's/[[:space:]]$//';
@@ -275,7 +291,7 @@ if [[ -f /proc/version ]] && grep -q Microsoft /proc/version; then
   echo 'this is windows'
 fi
 
-if command -v rg > /dev/null; then
+if has rg; then
   export FZF_DEFAULT_COMMAND="rg --hidden --files --glob !.git"
   export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 fi
@@ -297,7 +313,7 @@ FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --bind ctrl-p:up" # never prev-history
 # toggle preview        | ctrl-/ | ??? doesn't work in kitty/nvim
 # toggle preview        | ctrl-\ |
 
-if command -v direnv > /dev/null; then
+if has direnv; then
   eval "$(direnv hook zsh)"
 fi
 
