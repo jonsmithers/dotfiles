@@ -279,6 +279,29 @@ function gfixup {
   git rebase --interactive "$commit"~ --autosquash || return 1
 }
 
+if has git-mob && has fzf; then
+  function gmob() {
+    local selected=$(git mob -l \
+      | fzf --multi \
+        --layout=reverse \
+        --height=11 \
+        --border=rounded \
+        --prompt='🦜 Pair with ' \
+      | awk '{print $1;}' \
+      | tr '\n' ' ' \
+      | sed 's/,//g' )
+    [[ -n "$selected" ]] && git mob $(echo $selected)
+  }
+fi
+
+if has _fzf_git_each_ref; then
+  unalias gco
+  function gco() {
+    local selected=$(_fzf_git_each_ref --no-multi)
+    [[ -n "$selected" ]] && echo git checkout "$selected"
+  }
+fi
+
 [[ -d "$HOME/.nvm" ]] && {
   export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
   [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
