@@ -1,7 +1,7 @@
 " personal vimrc
 " Author:       Jon Smithers <jon@smithers.dev>
 " URL:          https://github.com/jonsmithers/dotfiles/blob/master/vim/vimrc
-" Last Updated: 2023-06-02
+" Last Updated: 2023-08-18
 
 :scriptencoding utf8
 
@@ -660,7 +660,11 @@ call plug#begin('~/.vim/plugged')
     augroup vimrc_fugitive
       au!
       autocmd FileType fugitive setlocal relativenumber
+      " stash staged files
+      autocmd FileType fugitive nmap <buffer> cZ cz<space>push --staged --message ""<left>
+      autocmd FileType fugitive nmap <buffer> cz cz<space>push --staged --message ""<left>
     augroup END
+    com! Gstashes :Gclog -g stash
   " }}}
 
   Plug 'tpope/vim-projectionist'
