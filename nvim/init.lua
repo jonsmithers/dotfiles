@@ -309,46 +309,51 @@ require('lazy').setup({
     dependencies = dev_icons_enabled and {
       'nvim-tree/nvim-web-devicons'
     } or {},
-    config = function()
-      require'nvim-tree'.setup {
-        renderer = {
-          indent_markers = {
-            enable = true,
-          },
-        },
-        hijack_cursor = true,
-        -- hijack_directories = {
-        --   enable = true,
-        -- },
-        hijack_netrw = false,
-        disable_netrw = false,
-        update_focused_file = {
-          enable = true,
-          update_root = true,
-        },
-        sync_root_with_cwd = true,
-        view = {
-          adaptive_size = true,
-          relativenumber = false,
-        },
-        on_attach = function (bufnr)
-          local api = require('nvim-tree.api')
-
-          local function opts(desc)
-            return { desc = 'nvim-tree: ' .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
-          end
-
-          api.config.mappings.default_on_attach(bufnr)
-          vim.keymap.set('n', '[g', api.node.navigate.diagnostics.prev, opts('Prev Diagnostic'))
-          vim.keymap.set('n', ']g', api.node.navigate.diagnostics.next, opts('Next Diagnostic'))
-        end
-      }
+    cmd = {
+      'NvimTreeFindFile',
+      'NvimTreeRefresh',
+      'NvimTreeToggle',
+    },
+    init = function()
       vim.cmd([[
         :nnoremap <silent> <Leader>tt :NvimTreeToggle<cr>
         :nnoremap <silent> <Leader>tf :NvimTreeFindFile<CR>
         :nnoremap <silent> <Leader>tr :NvimTreeRefresh<CR>
       ]])
-    end
+    end,
+    opts = {
+      renderer = {
+        indent_markers = {
+          enable = true,
+        },
+      },
+      hijack_cursor = true,
+      -- hijack_directories = {
+      --   enable = true,
+      -- },
+      hijack_netrw = false,
+      disable_netrw = false,
+      update_focused_file = {
+        enable = true,
+        update_root = true,
+      },
+      sync_root_with_cwd = true,
+      view = {
+        adaptive_size = true,
+        relativenumber = false,
+      },
+      on_attach = function (bufnr)
+        local api = require('nvim-tree.api')
+
+        local function opts(desc)
+          return { desc = 'nvim-tree: ' .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
+        end
+
+        api.config.mappings.default_on_attach(bufnr)
+        vim.keymap.set('n', '[g', api.node.navigate.diagnostics.prev, opts('Prev Diagnostic'))
+        vim.keymap.set('n', ']g', api.node.navigate.diagnostics.next, opts('Next Diagnostic'))
+      end
+    },
   },
 
   'nelstrom/vim-visual-star-search',
