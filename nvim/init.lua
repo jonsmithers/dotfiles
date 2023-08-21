@@ -25,14 +25,16 @@ require('lazy').setup({
     -- disable every aspect of gitgutter, and temporarily enable it just when I
     -- want to use this feature.
     cmd = 'GitGutterEnable',
+    init = function()
+      vim.cmd[[
+        :nmap <silent> <Leader>ga :GitGutterEnable<cr>:GitGutterStageHunk<cr>:GitGutterDisable<cr>:SignifyRefresh<cr>:echo 'staged hunk'<cr>
+      ]]
+    end,
     config = function()
       vim.g.gitgutter_enabled = 0
       vim.g.gitgutter_signs = 0
       vim.g.gitgutter_async = 0
       vim.g.gitgutter_map_keys = 0
-      vim.cmd[[
-        :nmap <silent> <Leader>ga :GitGutterEnable<cr>:GitGutterStageHunk<cr>:GitGutterDisable<cr>:SignifyRefresh<cr>:echo 'staged hunk'<cr>
-      ]]
     end
   },
 
@@ -510,7 +512,7 @@ require('lazy').setup({
         -- [a ]a | move to prev/next argument
         -- [m ]m | move to prev/next method
         -- [M ]M | move to prev/next end of method
-        -- [c ]c | move to prev/next class
+        -- -- [c ]c | move to prev/next class
         ---- text objects ----
         -- a | argument
         -- m | method
@@ -556,7 +558,7 @@ require('lazy').setup({
             enable = true,
             goto_next_start = {
               [']m'] = '@function.outer',
-              [']c'] = { query = '@class.outer', desc = 'Next class start' },
+              -- [']c'] = { query = '@class.outer', desc = 'Next class start' },
               [']a'] = '@parameter.inner',
             },
             goto_next_end = {
@@ -564,7 +566,7 @@ require('lazy').setup({
             },
             goto_previous_start = {
               ['[m'] = '@function.outer',
-              ['[c'] = '@class.outer',
+              -- ['[c'] = '@class.outer',
               ['[a'] = '@parameter.inner',
             },
             goto_previous_end = {
@@ -670,7 +672,9 @@ require('lazy').setup({
 
   'mg979/vim-visual-multi',
 
-  'mhinz/vim-signify',
+  { 'mhinz/vim-signify'
+    -- ]c,[c | next git item
+  },
 
   { 'prettier/vim-prettier',
     build = {
