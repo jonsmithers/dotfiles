@@ -36,7 +36,7 @@ fun! s:ReplaceInsert()
   return ''
 endfun
 " insert ISO date in : menu
-cnoremap <c-x><c-d> <c-r>=strft 'tpope/vim-surround'ime('%Y-%m-%d')<cr>
+cnoremap <c-x><c-d> <c-r>=strftime('%Y-%m-%d')<cr>
 inoremap <c-x><c-d> <c-r>=strftime('%Y-%m-%d')<cr>
 inoremap jk <Esc>
 " https://castel.dev/post/lecture-notes-1/
