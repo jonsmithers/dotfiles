@@ -676,6 +676,19 @@ require('lazy').setup({
     -- ]c,[c | next git item
   },
 
+  { 'numToStr/Comment.nvim',
+    -- __NORMAL_______________________
+    -- gcc | toggle comment
+    -- gbc | toggle block comment
+    -- gcA | add comment end of line
+    -- gco | add comment next line
+    -- gcO | add comment previous line
+    -- __VISAUL_______________________
+    -- gc  | toggle comment
+    -- gb  | toggle block comment
+    config = true,
+  },
+
   { 'prettier/vim-prettier',
     build = {
       'yarn install',
