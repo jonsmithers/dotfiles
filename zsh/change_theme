@@ -120,7 +120,7 @@ function obtain_neovim_theme_from_git() {
   local theme_plugin=$1
   local git_remote=$2
   if [[ -d "$HOME/.config/nvim/pack/$theme_plugin/start/$theme_plugin" ]]; then
-    echo found "$theme_plugin" in ~/.nvim/pack/*/start
+    echo found "$theme_plugin" in ~/.config/nvim/pack/*/start
     return
   else
     echo obtaining neovim theme from git repo;
