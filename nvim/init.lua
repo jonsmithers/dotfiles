@@ -330,12 +330,15 @@ require('lazy').setup({
     dependencies = dev_icons_enabled and {
       'nvim-tree/nvim-web-devicons'
     } or {},
-    cmd = {
-      'NvimTreeFindFile',
-      'NvimTreeRefresh',
-      'NvimTreeToggle',
-    },
+    -- cmd = {
+    --   'NvimTreeFindFile',
+    --   'NvimTreeRefresh',
+    --   'NvimTreeToggle',
+    -- },
     init = function()
+      -- "It is strongly advised to eagerly disable netrw, due to race conditions at vim startup."
+      vim.g.loaded_netrw = 1
+      vim.g.loaded_netrwPlugin = 1
       vim.cmd([[
         :nnoremap <silent> <Leader>tt :NvimTreeToggle<cr>
         :nnoremap <silent> <Leader>tf :NvimTreeFindFile<CR>
@@ -352,8 +355,8 @@ require('lazy').setup({
       -- hijack_directories = {
       --   enable = true,
       -- },
-      hijack_netrw = false,
-      disable_netrw = false,
+      hijack_netrw = true,
+      disable_netrw = true,
       update_focused_file = {
         enable = true,
         update_root = true,
