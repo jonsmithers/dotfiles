@@ -48,6 +48,12 @@ require('lazy').setup({
     }
   },
 
+  { 'ahmedkhalf/project.nvim',
+    config = function()
+      require('project_nvim').setup()
+    end
+  },
+
   { 'folke/trouble.nvim',
     config = function()
       vim.cmd[[
@@ -343,6 +349,7 @@ require('lazy').setup({
         :nnoremap <silent> <Leader>tt :NvimTreeToggle<cr>
         :nnoremap <silent> <Leader>tf :NvimTreeFindFile<CR>
         :nnoremap <silent> <Leader>tr :NvimTreeRefresh<CR>
+        :nnoremap <silent> - :NvimTreeFindFile<CR><c-w><c-o>
       ]])
     end,
     opts = {
@@ -362,6 +369,7 @@ require('lazy').setup({
         update_root = true,
       },
       sync_root_with_cwd = true,
+      respect_buf_cwd = true,
       view = {
         adaptive_size = true,
         relativenumber = false,
@@ -451,6 +459,7 @@ require('lazy').setup({
         ENABLE_LSP_SERVER('jsonls')
       end
 
+      ENABLE_FRONTEND_LSPS()
       ENABLE_LSP_SERVER('vimls')
       ENABLE_LSP_SERVER('bashls')
       ENABLE_LSP_SERVER('lua_ls', {
@@ -526,6 +535,7 @@ require('lazy').setup({
       'nvim-treesitter/nvim-treesitter-context',
       'nvim-treesitter/nvim-treesitter-refactor',
       'windwp/nvim-ts-autotag',
+      'towolf/vim-helm',
     },
     config = function()
       require'nvim-treesitter.configs'.setup {
@@ -953,7 +963,10 @@ require('lazy').setup({
         augroup vimrc_fugitive
           au!
           autocmd FileType fugitive setlocal relativenumber
+          " stash staged files
+          autocmd FileType fugitive nmap <buffer> cZ cz<space>push --staged --message ""<left>
         augroup END
+        com! Gstashes :Gclog -g stash
       ]]
     end
   },
@@ -961,6 +974,8 @@ require('lazy').setup({
   'tpope/vim-projectionist',
 
   'tpope/vim-repeat',
+
+  'tpope/vim-rsi',
 
   'tpope/vim-speeddating',
 
@@ -990,7 +1005,24 @@ require('lazy').setup({
 
   'tpope/vim-unimpaired',
 
+  'tpope/vim-sleuth',
+
   { 'windwp/nvim-autopairs',
   config = true
   },
 })
+
+
+-- https://www.reddit.com/r/neovim/comments/nrz9hp/can_i_close_all_floating_windows_without_closing/
+function CloseFloatingWindows()
+  for _, win in ipairs(vim.api.nvim_list_wins()) do
+    local config = vim.api.nvim_win_get_config(win);
+    if config.relative ~= "" then vim.api.nvim_win_close(win, false);
+      print('Closing window', win)
+    end
+  end
+end
+vim.cmd[[
+  com! CloseFloatingWindows lua CloseFloatingWindows()
+  nnoremap <silent> <leader>dc :silent CloseFloatingWindows<cr>
+]]
