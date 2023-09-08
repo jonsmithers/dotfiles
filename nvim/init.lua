@@ -38,7 +38,15 @@ require('lazy').setup({
     end
   },
 
-  { 'folke/which-key.nvim' },
+  { 'folke/which-key.nvim',
+    event = "VeryLazy",
+    init = function()
+      vim.o.timeout = true
+      vim.o.timeoutlen = 300
+    end,
+    opts = {
+    }
+  },
 
   { 'folke/trouble.nvim',
     config = function()
@@ -158,6 +166,17 @@ require('lazy').setup({
         imap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
         smap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
       ]])
+    end,
+  },
+
+  { 'junegunn/vim-easy-align',
+    -- <C-p> | toggle "live" interactive
+    -- <C-g> | cycle "ignore groups"
+    init = function()
+      vim.cmd[[
+        :xmap ga <Plug>(EasyAlign)
+        :nmap ga <Plug>(EasyAlign)
+      ]]
     end,
   },
 
