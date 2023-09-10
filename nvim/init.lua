@@ -19,25 +19,6 @@ local dev_icons_enabled = os.getenv('VIM_DEVICONS') == '1'
 
 require('lazy').setup({
 
-  { 'airblade/vim-gitgutter',
-    -- I use vim-signify in lieu of gitgutter because it's faster. However,
-    -- gitgutter has a killer feature to stage the hunk under cursor. So I
-    -- disable every aspect of gitgutter, and temporarily enable it just when I
-    -- want to use this feature.
-    cmd = 'GitGutterEnable',
-    init = function()
-      vim.cmd[[
-        :nmap <silent> <Leader>ga :GitGutterEnable<cr>:GitGutterStageHunk<cr>:GitGutterDisable<cr>:SignifyRefresh<cr>:echo 'staged hunk'<cr>
-      ]]
-    end,
-    config = function()
-      vim.g.gitgutter_enabled = 0
-      vim.g.gitgutter_signs = 0
-      vim.g.gitgutter_async = 0
-      vim.g.gitgutter_map_keys = 0
-    end
-  },
-
   { 'folke/which-key.nvim',
     event = "VeryLazy",
     init = function()
@@ -388,6 +369,41 @@ require('lazy').setup({
     },
   },
 
+  { 'lewis6991/gitsigns.nvim',
+    -- Gitsigns toggle_word_diff
+    -- Gitsigns toggle_current_line_blame
+    opts = {
+      on_attach = function(bufnr)
+        local gs = package.loaded.gitsigns
+        local function map(mode, l, r, opts)
+          opts = opts or {}
+          opts.buffer = bufnr
+          vim.keymap.set(mode, l, r, opts)
+        end
+        map('n', '<leader>ga', gs.stage_hunk)
+        map('v', '<leader>ga', function() gs.stage_hunk {vim.fn.line('.'), vim.fn.line('v')} end)
+        map('n', '<leader>gr', gs.reset_hunk)
+        map('v', '<leader>gr', function() gs.reset_hunk {vim.fn.line('.'), vim.fn.line('v')} end)
+        -- TODO alternative to fugutive diff???
+        -- map('n', '<leader>GD', function() gs.diffthis('~') end)
+        -- map('n', '<leader>GD', gs.diffthis)
+        -- map('n', '<leader>GB', function() gs.blame_line{full=true} end)
+        -- map('n', '<leader>GTB', gs.toggle_current_line_blame)
+        map('n', ']c', function()
+          if vim.wo.diff then return ']c' end
+          vim.schedule(function() gs.next_hunk() end)
+          return '<Ignore>'
+        end, {expr=true})
+        map('n', '[c', function()
+          if vim.wo.diff then return '[c' end
+          vim.schedule(function() gs.prev_hunk() end)
+          return '<Ignore>'
+        end, {expr=true})
+        map({'o', 'x'}, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
+      end
+    },
+  },
+
   'nelstrom/vim-visual-star-search',
 
   { 'neovim/nvim-lspconfig',
@@ -703,10 +719,6 @@ require('lazy').setup({
   },
 
   'mg979/vim-visual-multi',
-
-  { 'mhinz/vim-signify'
-    -- ]c,[c | next git item
-  },
 
   { 'numToStr/Comment.nvim',
     -- __NORMAL_______________________
