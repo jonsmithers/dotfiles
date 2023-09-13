@@ -324,7 +324,7 @@ require('lazy').setup({
     -- },
     init = function()
       -- "It is strongly advised to eagerly disable netrw, due to race conditions at vim startup."
-      vim.g.loaded_netrw = 1
+      -- vim.g.loaded_netrw = 0
       vim.g.loaded_netrwPlugin = 1
       vim.cmd([[
         :nnoremap <silent> <Leader>tt :NvimTreeToggle<cr>
@@ -344,7 +344,7 @@ require('lazy').setup({
       --   enable = true,
       -- },
       hijack_netrw = true,
-      disable_netrw = true,
+      disable_netrw = false,
       update_focused_file = {
         enable = true,
         update_root = true,
