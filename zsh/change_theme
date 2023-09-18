@@ -93,34 +93,11 @@ function change_kitty_theme() {
     echo This kitty theme does not exist! "$HOME/.config/kitty/$theme.conf"
   }
 }
-function obtain_vim_theme_from_git() {
-  local theme_plugin=$1
-  local git_remote=$2
-  if [[ -d "$HOME/.vim/pack/$theme_plugin/opt/$theme_plugin" ]]; then
-    echo found "$theme_plugin" in ~/.vim/pack/
-    return
-  elif grep --quiet "$theme_plugin" < ~/.vimrc; then
-    echo found "$theme_plugin" in your vimrc
-    return
-  elif grep --quiet "$theme_plugin" < ~/.config/nvim/lua/plugins.lua; then
-    echo found "$theme_plugin" in your plugins.lua
-    return
-  elif grep --quiet "$theme_plugin" < ~/.config/nvim/init.vim; then
-    echo found "$theme_plugin" in your init.vim
-    return
-  elif grep --quiet "$theme_plugin" < ~/.config/nvim/init.lua; then
-    echo found "$theme_plugin" in your init.lua
-    return
-  else
-    echo obtaining vim theme from git repo;
-    git clone "$git_remote" "$HOME/.vim/pack/$theme_plugin/opt/$theme_plugin"
-  fi
-}
 function obtain_neovim_theme_from_git() {
   local theme_plugin=$1
   local git_remote=$2
   if [[ -d "$HOME/.config/nvim/pack/$theme_plugin/start/$theme_plugin" ]]; then
-    echo found "$theme_plugin" in ~/.config/nvim/pack/*/start
+    echo found "$theme_plugin" in ~/.config/nvim/pack/"$theme_plugin"/start
     return
   else
     echo obtaining neovim theme from git repo;

@@ -105,6 +105,5 @@ install_cmd direnv
 # install_cmd shellcheck --dnf="sudo dnf install --assumeyes ShellCheck"
 # install_cmd tmux
 # install_cmd vint # vimscript linting
-vim/setup-vim.sh
 zsh/setup-zsh.sh
 osx/set-defaults.sh
