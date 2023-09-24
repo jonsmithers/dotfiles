@@ -1019,8 +1019,24 @@ require('lazy').setup({
 
   'tpope/vim-sleuth',
 
+  { 'Wansmer/treesj',
+    lazy = true,
+    cmd = { 'TSJSplit', 'TSJJoin' },
+    dependencies = 'nvim-treesitter/nvim-treesitter',
+    opts = {
+      use_default_keymaps = false,
+      max_join_length = 9000,
+    },
+    init = function()
+      vim.cmd[[
+        nmap gS :TSJSplit<cr>
+        nmap gJ :TSJJoin<cr>
+      ]]
+    end
+  },
+
   { 'windwp/nvim-autopairs',
-  config = true
+    config = true
   },
 })
 
