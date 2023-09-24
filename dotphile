@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-# Author:       Jon Smithers <jon@smithers.dev>
-# URL:          https://github.com/jonsmithers/dotfiles/blob/master/dotphile
-# Last Updated: 2022-12-03
+# Author: Jon Smithers <jon@smithers.dev>
+# URL: https://github.com/jonsmithers/dotfiles/blob/master/dotphile
+# Last Updated: 2023-09-23
 
 # NOTE: broken symlinks are a weird case and aren't reported super clearly.
 
@@ -10,85 +10,95 @@ import os
 import filecmp
 import sys
 
-class bcolors:
-  HEADER = '\033[95m'
-  OKBLUE = '\033[94m'
-  OKGREEN = '\033[92m'
-  WARNING = '\033[93m'
-  FAIL = '\033[91m'
-  NORMAL = '\033[0m'
-  BOLD = '\033[1m'
-  UNDERLINE = '\033[4m'
+
+class BColors:
+    HEADER = '\033[95m'
+    OK_BLUE = '\033[94m'
+    OK_GREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    NORMAL = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
 
 config = {}
-for localPath, operativePath in list(json.load(open("config.json"))["links"].items()):
-  localPath = os.path.realpath(localPath)
-  operativePath = os.path.expanduser(operativePath)
-  config[localPath] = operativePath
+for local_path, operative_path in list(json.load(open("config.json"))["links"].items()):
+    local_path = os.path.realpath(local_path)
+    operative_path = os.path.expanduser(operative_path)
+    config[local_path] = operative_path
 
-missingFiles = [f for f in list(config.keys()) if not os.path.exists(f)]
-if (len(missingFiles)):
-  exit("Some files are missing\n  " + "\n  ".join(missingFiles))
+missing_files = [f for f in list(config.keys()) if not os.path.exists(f)]
+if len(missing_files):
+    exit("Some files are missing\n    " + "\n    ".join(missing_files))
 
-def pairIsInSync(xxx_todo_changeme):
-  (localPath, operativePath) = xxx_todo_changeme
-  if os.path.isfile(localPath):
-    if (not os.path.exists(operativePath)):
-        return False # broken symlink becase os.path.lexists(operativePath) is True
-    return filecmp.cmp(localPath, operativePath)
-  else:
-    return filecmp.cmpfiles(localPath, operativePath, os.listdir(localPath))
 
-pairsThatExist = [localPath_operativePath3 for localPath_operativePath3 in list(config.items()) if os.path.lexists(localPath_operativePath3[1])]
-pairsInSync    = list(filter(pairIsInSync,                      pairsThatExist))
-pairsOutOfSync = [arg for arg in pairsThatExist if not pairIsInSync(arg)]
-if (len(pairsInSync)):
-  print()
-  print(str(len(pairsInSync)) + " links already in sync")
-  print(bcolors.OKBLUE + "  " + "\n  ".join([localPath_operativePath[1] for localPath_operativePath in pairsInSync]) + bcolors.NORMAL)
+def pair_is_in_sync(map_entry):
+    (_local_path, _operative_path) = map_entry
+    if os.path.isfile(_local_path):
+        if not os.path.exists(_operative_path):
+            return False  # broken symlink because os.path.lexists(operative_path) is True
+        return filecmp.cmp(_local_path, _operative_path)
+    else:
+        return filecmp.cmpfiles(_local_path, _operative_path, os.listdir(_local_path))
 
-if (len(pairsOutOfSync)):
-  print()
-  print(bcolors.BOLD + bcolors.FAIL + str(len(pairsOutOfSync)) + " links can't be created because the operative path already exists" + bcolors.NORMAL)
-  print(bcolors.FAIL + "  " + "\n  ".join([localPath_operativePath1[1] for localPath_operativePath1 in pairsOutOfSync]) + bcolors.NORMAL)
 
-pairsToLink = [localPath_operativePath4 for localPath_operativePath4 in list(config.items()) if not os.path.exists(localPath_operativePath4[1])]
-# print "Creating " + str(len(pairsToLink)) + " symlinks"
+pairs_that_exist = [localPath_operativePath3 for localPath_operativePath3 in list(config.items()) if
+                    os.path.lexists(localPath_operativePath3[1])]
+pairs_in_sync = list(filter(pair_is_in_sync, pairs_that_exist))
+pairs_out_of_sync = [arg for arg in pairs_that_exist if not pair_is_in_sync(arg)]
+if len(pairs_in_sync):
+    print()
+    print(str(len(pairs_in_sync)) + " links already in sync")
+    print(BColors.OK_BLUE + "    " + "\n    ".join(
+        [localPath_operativePath[1] for localPath_operativePath in pairs_in_sync]) + BColors.NORMAL)
 
-print("\n" + bcolors.BOLD + str(len(pairsToLink)) + " paths will be linked" + bcolors.NORMAL)
-print(bcolors.OKGREEN + "  " + "\n  ".join([localPath_operativePath2[1] for localPath_operativePath2 in pairsToLink]) + bcolors.NORMAL)
-sys.stdout.write("\nOk to create " + str(len(pairsToLink)) + " symlinks? (y/n) " )
+if len(pairs_out_of_sync):
+    print()
+    print(BColors.BOLD + BColors.FAIL + str(
+        len(pairs_out_of_sync)) + " links can't be created because the operative path already exists" + BColors.NORMAL)
+    print(BColors.FAIL + "    " + "\n    ".join(
+        [localPath_operativePath1[1] for localPath_operativePath1 in pairs_out_of_sync]) + BColors.NORMAL)
+
+pairs_to_link = [localPath_operativePath4 for localPath_operativePath4 in list(config.items()) if
+                 not os.path.exists(localPath_operativePath4[1])]
+# print "Creating " + str(len(pairs_to_link)) + " symlinks"
+
+print("\n" + BColors.BOLD + str(len(pairs_to_link)) + " paths will be linked" + BColors.NORMAL)
+print(BColors.OK_GREEN + "    " + "\n    ".join(
+    [localPath_operativePath2[1] for localPath_operativePath2 in pairs_to_link]) + BColors.NORMAL)
+sys.stdout.write("\nOk to create " + str(len(pairs_to_link)) + " symlinks? (y/n) ")
 result = input()
-if (result == 'filter'):
+if result == 'filter':
     print('hm')
     exit()
-elif (result != 'y'):
+elif result != 'y':
     print("\nI was really hoping you'd say \"y\".")
     exit()
 
-successCount = 0
-failCount = 0
-successfulLinks = list()
+success_count = 0
+fail_count = 0
+successful_links = list()
 
-print(bcolors.FAIL, end=' ')
+print(BColors.FAIL, end=' ')
 
-for (localPath, operativePath) in pairsToLink:
-  os.system("mkdir -p " + os.path.dirname(operativePath))
-  bashCommand = "ln -s '%(localPath)s' '%(operativePath)s'" % locals()
-  if os.system(bashCommand):
-    failCount+=1
-  else:
-    successCount+=1
-    successfulLinks.append(bashCommand)
+for (local_path, operative_path) in pairs_to_link:
+    os.system("mkdir -p " + os.path.dirname(operative_path))
+    bash_command = "ln -s '%(local_path)s' '%(operative_path)s'" % locals()
+    if os.system(bash_command):
+        fail_count += 1
+    else:
+        success_count += 1
+        successful_links.append(bash_command)
 
-print(bcolors.NORMAL, end=' ')
+print(BColors.NORMAL, end=' ')
 
-if (len(successfulLinks)):
-  successfulLinks.sort()
-  print()
-  print(str(len(successfulLinks)) + " links succeeded")
-  print(bcolors.OKGREEN + "  " + "\n  ".join(successfulLinks) + bcolors.NORMAL)
+if len(successful_links):
+    successful_links.sort()
+    print()
+    print(str(len(successful_links)) + " links succeeded")
+    print(BColors.OK_GREEN + "    " + "\n    ".join(successful_links) + BColors.NORMAL)
 
-if (failCount):
-  print()
-  print(bcolors.FAIL + str(failCount) + " LINKS FAILED!" + bcolors.NORMAL)
+if fail_count:
+    print()
+    print(BColors.FAIL + str(fail_count) + " LINKS FAILED!" + BColors.NORMAL)
