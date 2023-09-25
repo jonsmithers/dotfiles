@@ -25,7 +25,27 @@ require('lazy').setup({
       vim.o.timeout = true
       vim.o.timeoutlen = 300
     end,
+    enabled = false,
     opts = {
+    }
+  },
+
+  { 'folke/zen-mode.nvim',
+    dependencies = {
+      'folke/twilight.nvim',
+      'reedes/vim-pencil'
+    },
+    init = function()
+      vim.cmd[[
+       nnoremap [og :ZenMode<cr>
+       nnoremap ]og :ZenMode<cr>
+       nnoremap yog :ZenMode<cr>
+      ]]
+    end,
+    opts = {
+      twilight = {
+        enable = false,
+      },
     }
   },
 
@@ -237,61 +257,6 @@ require('lazy').setup({
           " to not see fzf in the PATH)
           let $PATH=$PATH..":"..expand("~/.fzf/bin")
         endif
-      ]]
-    end
-  },
-
-  { 'junegunn/goyo.vim',
-    dependencies = {
-      'junegunn/limelight.vim',
-      'reedes/vim-pencil'
-    },
-    config = function()
-      vim.cmd[[
-       nnoremap [og :Goyo<cr>
-       nnoremap ]og :Goyo!<cr>
-       nnoremap yog :Goyo<cr>
-       let g:goyo_width = 81
-       " make vim close the First time you do :quit
-       " https://github.com/junegunn/goyo.vim/wiki/Customization
-       function! s:goyo_enter()
-         lua require('lualine').hide()
-         let b:quitting = 0
-         let b:quitting_bang = 0
-         Limelight
-         SoftPencil
-         if (exists(':LspDisableCompletion'))
-           LspDisableCompletion
-           silent! CloseFloatingWindows
-         endif
-         augroup goyo_buffer
-           au!
-           autocmd QuitPre <buffer> let b:quitting = 1
-         augroup END
-         cabbrev <buffer> q! let b:quitting_bang = 1 <bar> q!
-       endfunction
-       function! s:goyo_leave()
-         Limelight!
-         NoPencil
-         if (exists(':LspEnableCompletion'))
-           LspEnableCompletion
-           silent! CloseFloatingWindows
-         endif
-         " Quit Vim if this is the only remaining buffer
-         if b:quitting && len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1
-           if b:quitting_bang
-             qa!
-           else
-             qa
-           endif
-         endif
-         lua require('lualine').hide({unhide = true})
-       endfunction
-       augroup goyo_stuff
-         au!
-         autocmd User GoyoEnter call <SID>goyo_enter()
-         autocmd User GoyoLeave call <SID>goyo_leave()
-       augroup END
       ]]
     end
   },
@@ -747,6 +712,15 @@ require('lazy').setup({
     config = function()
       vim.cmd[[
         nnoremap <space>lp <cmd>Prettier<CR>
+      ]]
+    end
+  },
+
+  { 'rbong/vim-flog',
+    cmd = { 'Flog' },
+    init = function()
+      vim.cmd[[
+        command! GV :Flog -path=%<cr>
       ]]
     end
   },
