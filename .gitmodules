@@ -1,0 +1,3 @@
+[submodule "hammerspoon/Spoons/hs_select_window.spoon"]
+	path = hammerspoon/Spoons/hs_select_window.spoon
+	url = git@github.com:dmgerman/hs_select_window.spoon.git
