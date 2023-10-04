@@ -4,6 +4,12 @@ local default_browser = "Firefox"
 hs.loadSpoon("ShiftIt")
 spoon.ShiftIt:bindHotkeys({})
 
+hs.loadSpoon("hs_select_window")
+local SWbindings = {
+   all_windows =  { {"alt"}, "w"},
+}
+spoon.hs_select_window:bindHotkeys(SWbindings)
+
 -- https://github.com/philc/hammerspoon-config/blob/d2c1046273da4c0140d0b33dd55ee8e637db5e6d/init.lua#L109-L119
 local function myLaunchOrFocus(appName)
   local app = hs.appfinder.appFromName(appName)
