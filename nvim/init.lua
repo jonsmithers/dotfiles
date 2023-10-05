@@ -953,6 +953,8 @@ require('lazy').setup({
           autocmd FileType fugitive nmap <buffer> cZ cz<space>push --staged --message ""<left>
         augroup END
         com! Gstashes :Gclog -g stash
+        vnoremap <leader>gl :GBrowse!<cr><cr>:lua vim.notify("<c-r>+")<cr>
+        nnoremap <leader>gl :GBrowse!<cr><cr>:lua vim.notify("<c-r>+")<cr>
       ]]
     end
   },
