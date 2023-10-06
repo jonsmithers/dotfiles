@@ -167,11 +167,30 @@ require('lazy').setup({
         })
       })
 
+      function EnableCompletion()
+        require('cmp').setup.buffer { enabled = true };
+        vim.notify('completion enabled');
+        vim.b.completion_enabled = true;
+      end
+      function DisableCompletion()
+        require('cmp').setup.buffer { enabled = false };
+        vim.notify('completion disabled');
+        vim.b.completion_enabled = false;
+      end
+      function ToggleCompletion()
+        if vim.b.completion_enabled
+          then DisableCompletion()
+          else EnableCompletion()
+          end
+      end
       vim.cmd([[
         imap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
         smap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
         imap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
         smap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
+        nnoremap <Plug>(unimpaired-disable)<Tab> :lua DisableCompletion()<cr>
+        nnoremap <Plug>(unimpaired-enable)<Tab> :lua EnableCompletion()<cr>
+        nnoremap <Plug>(unimpaired-toggle)<Tab> :lua ToggleCompletion()<cr>
       ]])
     end,
   },
