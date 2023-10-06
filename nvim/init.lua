@@ -46,6 +46,10 @@ require('lazy').setup({
       twilight = {
         enable = false,
       },
+      on_open = function()
+        vim.o.number = false
+        vim.o.relativenumber = false
+      end
     }
   },
 
