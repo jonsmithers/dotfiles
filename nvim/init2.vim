@@ -1,4 +1,7 @@
 " vim: ts=2 sw=2
+" Last Updated: 2023-09-29
+
+
 if !exists('s:os')
   if has('win64') || has('win32') || has('win16')
     let s:os = 'Windows'
@@ -316,3 +319,38 @@ augroup vimrc_autocomamnds
     nnoremap <buffer> <Leader>jsxC :s@{\/\* \?\\| \?\*/}@@g<Enter>
   endfun
 augroup END
+
+augroup vimrc_updatetimestamp
+  au!
+  autocmd BufWritePre dotphile,en.utf-8.add,git-website,init2.vim,init.lua call s:updateTimeStamp()
+augroup END
+function! s:updateTimeStamp()
+  " ignore for fugitive files
+  if (match(expand('%'), '^fugitive') == 0)
+    return
+  endif
+  let l:save_view = winsaveview()
+  let l:now = strftime('%Y-%m-%d')
+
+  call cursor(1, 1)
+  let l:matchlist = matchlist(getline(search('Last Updated', 'W', 10)), 'Last Updated: \(.*\)')
+  if (!len(l:matchlist))
+    call winrestview(l:save_view)
+    return
+  endif
+  let l:lastUpdated = l:matchlist[1]
+  if (l:lastUpdated ==# l:now)
+    call winrestview(l:save_view)
+    return
+  end
+
+  " normal <c-o>
+  if (line('$') <= 10)
+    silent! keeppatterns    :%s/\(^\("\|#\) Last Updated:\)\zs.*/\=' ' . l:now
+  else
+    silent! keeppatterns :1,10s/\(^\("\|#\) Last Updated:\)\zs.*/\=' ' . l:now
+  endif
+  call winrestview(l:save_view)
+endfunction
+
+let g:fugitive_gitlab_domains = ['https://git.aoc-pathfinder.cloud/']
