@@ -19,6 +19,23 @@ local dev_icons_enabled = os.getenv('VIM_DEVICONS') == '1'
 
 require('lazy').setup({
 
+  { 'ahmedkhalf/project.nvim',
+    config = function()
+      require('project_nvim').setup()
+    end
+  },
+
+  { 'folke/trouble.nvim',
+    config = function()
+      vim.cmd[[
+        nnoremap <leader>xx <cmd>TroubleToggle<cr>
+        nnoremap <leader>xw <cmd>TroubleToggle workspace_diagnostics<cr>
+        nnoremap <leader>xd <cmd>TroubleToggle document_diagnostics<cr>
+        nnoremap <leader>xq <cmd>TroubleToggle quickfix<cr>
+      ]]
+    end
+  },
+
   { 'folke/which-key.nvim',
     event = "VeryLazy",
     init = function()
@@ -51,23 +68,6 @@ require('lazy').setup({
         vim.o.relativenumber = false
       end
     }
-  },
-
-  { 'ahmedkhalf/project.nvim',
-    config = function()
-      require('project_nvim').setup()
-    end
-  },
-
-  { 'folke/trouble.nvim',
-    config = function()
-      vim.cmd[[
-        nnoremap <leader>xx <cmd>TroubleToggle<cr>
-        nnoremap <leader>xw <cmd>TroubleToggle workspace_diagnostics<cr>
-        nnoremap <leader>xd <cmd>TroubleToggle document_diagnostics<cr>
-        nnoremap <leader>xq <cmd>TroubleToggle quickfix<cr>
-      ]]
-    end
   },
 
   { 'hrsh7th/nvim-cmp',
@@ -1053,3 +1053,6 @@ vim.cmd[[
   com! CloseFloatingWindows lua CloseFloatingWindows()
   nnoremap <silent> <leader>dc :silent CloseFloatingWindows<cr>
 ]]
+
+vim.opt.foldlevelstart = tonumber(vim.env['NVIM_OPT_FOLDLEVELSTART']) or 99
+vim.opt.relativenumber = 'true' == vim.env['NVIM_OPT_RELATIVENUMBER']
