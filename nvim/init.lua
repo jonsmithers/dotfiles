@@ -57,11 +57,15 @@ require('lazy').setup({
        nnoremap [og :ZenMode<cr>
        nnoremap ]og :ZenMode<cr>
        nnoremap yog :ZenMode<cr>
+       com! -nargs=1 Goyo :lua require('zen-mode').close(); require('zen-mode').open({ window = { width = tonumber(<q-args>) }})
       ]]
     end,
     opts = {
       twilight = {
         enable = false,
+      },
+      options = {
+        number = false,
       },
       on_open = function()
         vim.o.number = false
