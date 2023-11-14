@@ -12,6 +12,7 @@ BKB
 Ben Lomond
 Carsen
 Cedarville
+DTOs
 Danica
 Denton
 EditorConfig
@@ -23,6 +24,7 @@ Giesler
 GitLab
 GitLab's
 GoPro
+GraphQL
 Graz
 Gret
 Gret Glyer
@@ -31,7 +33,9 @@ Hafelekar
 Hafelekarspitze
 Havasu Falls
 Hirsh
+IntelliJ
 Ipsan
+JPA
 JUnit
 Jebber
 Jillette
@@ -42,6 +46,7 @@ Kessel Run
 Keybase
 Keybase's
 Killen Falls
+Kotlin
 Krados
 Kristal
 Leidos
@@ -86,6 +91,7 @@ async
 autoload
 avoidant
 avoidantly
+base64
 baselayer
 bivvy
 carabiner
@@ -101,11 +107,16 @@ deserialized
 distrustingly
 dotfile
 dotfiles
+e2e
+enum
 eslint
 frontend
 fzf
 github
 gitlab
+gradle
+graphql
+hashcode
 improv
 incentivizes
 incongruent
@@ -119,19 +130,24 @@ keychain
 limerence
 limerent
 linux
+localhost
+lombok
 macvim
 maitai
 metacognition
 microservice
 microservices
+monorepo
 neovim
 npm
 nvim
 ok
 overexpansion
 param
+performantly
 pho
 phosphenes
+prisma
 quickdraw
 quickdraws
 rebase
