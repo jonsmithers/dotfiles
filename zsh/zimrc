@@ -1,0 +1,17 @@
+# vim: ft=zsh
+
+# to clean completions:
+#   zimfw clean-dumpfile
+
+# zmodule asciiship
+zmodule zsh-users/zsh-completions --fpath src
+zmodule completion
+zmodule zsh-users/zsh-syntax-highlighting
+zmodule zsh-users/zsh-autosuggestions
+zmodule romkatv/powerlevel10k
+zmodule ohmyzsh/ohmyzsh --root plugins/docker -f './completions'
+zmodule ohmyzsh/ohmyzsh --root plugins/npm -f '.'
+zmodule ohmyzsh/ohmyzsh --root plugins/yarn -f '.'
+# zmodule ohmyzsh/ohmyzsh --source plugins/yarn/yarn.plugin.zsh
+zmodule $HOME/.oh-my-zsh/custom/plugins/fzf-docker
+zmodule junegunn/fzf-git.sh --source fzf-git.sh

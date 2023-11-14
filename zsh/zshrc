@@ -1,10 +1,30 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
+printf ➡️
+ZIM_HOME="$HOME/.zim"
+setopt auto_cd
 
+# https://github.com/ohmyzsh/ohmyzsh/blob/b6bb133f230847ed0b3f9f4e25f2ceb874ca6c91/lib/history.zsh#L35C1-L40C59
+setopt extended_history       # record timestamp of command in HISTFILE
+setopt hist_expire_dups_first # delete duplicates first when HISTFILE size exceeds HISTSIZE
+setopt hist_ignore_dups       # ignore duplicated commands history list
+setopt hist_ignore_space      # ignore commands that start with space
+setopt hist_verify            # show command with history expansion to user before running it
+setopt share_history          # share command history data
+export LESS='-R'
+
+# Download zimfw plugin manager if missing.
+if [[ ! -e "${ZIM_HOME}/zimfw.zsh" ]]; then
+  echo downloading
+  curl -fsSL --create-dirs -o "${ZIM_HOME}/zimfw.zsh" \
+      https://github.com/zimfw/zimfw/releases/latest/download/zimfw.zsh
+fi
+# Install missing modules, and update ${ZIM_HOME}/init.zsh if missing or outdated.
+if [[ ! "${ZIM_HOME}/init.zsh" -nt "${ZDOTDIR:-${HOME}}/.zimrc" ]]; then
+  echo initting
+  source "${ZIM_HOME}/zimfw.zsh" init -q
+fi
+# Initialize modules.
+source "${ZIM_HOME}/init.zsh"
+echo -n 🦄
 # Usage: has <command>
 #
 # Returns 0 if the <command> is available. Returns 1 otherwise. It can be a
@@ -21,79 +41,18 @@ has() {
   type "$1" &>/dev/null
 }
 
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+function silent_background() {
+  # https://superuser.com/questions/1228411/silent-background-jobs-in-zsh/1285272#1285272
+  setopt local_options no_notify no_monitor
+  "$@" &
+  disown &>/dev/null
+}
 
+[[ -d "/opt/homebrew/bin" ]] && export PATH=/opt/homebrew/bin/:$PATH
 [[ -d "$HOME/.local/bin"  ]] && export PATH=$HOME/.local/bin:$PATH
 [[ -d "$HOME/.npm-global" ]] && export PATH=$HOME/.npm-global/bin:$PATH
 [[ -d "$HOME/.local/bin"  ]] && export PATH=$HOME/.local/bin:$PATH # "pip install --user" installs executables to this location
 [[ -d "$HOME/bin"         ]] && export PATH="$HOME/bin:$PATH"
-
-ZSH_THEME="powerlevel10k/powerlevel10k"
-# ZSH_THEME="robbyrussell"
-
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
-
-# Uncomment the following line to use hyphen-insensitive completion.
-# Case-sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
-
-# Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
-
-# Uncomment the following line to automatically update without prompting.
-# DISABLE_UPDATE_PROMPT="true"
-
-# Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=13
-
-# Uncomment the following line if pasting URLs and other text is messed up.
-# DISABLE_MAGIC_FUNCTIONS=true
-
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
-
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
-
-# Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
-
-# Uncomment the following line to display red dots whilst waiting for completion.
-# COMPLETION_WAITING_DOTS="true"
-
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# You can set one of the optional three formats:
-# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# or set a custom format using the strftime function format specifications,
-# see 'man strftime' for details.
-# HIST_STAMPS="mm/dd/yyyy"
-
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
-
-# Which plugins would you like to load?
-# Standard plugins can be found in ~/.oh-my-zsh/plugins/*
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
-tryplugins=(npm yarn dnf gulp tmux aws kubectl minikube pip docker postgres nvm)
-for p in $tryplugins; do
-  if has "$p"; then
-    plugins+=("$p")
-  fi
-done
-if has docker; then
-  plugins+=('fzf-docker')
-fi
 
 # brew autocomplete
 if type brew &>/dev/null
@@ -104,95 +63,20 @@ then
   compinit
 fi
 
-source $HOME/.oh-my-zsh/oh-my-zsh.sh
-
-{
-  # override theme
-  git_upstream_difference() {
-    local is_git_repository=$(git rev-parse --is-inside-work-tree &>/dev/null)
-    local git_upstream_difference=""
-    if test -n is_git_repository; then
-      git rev-parse --abbrev-ref '@{upstream}' &> /dev/null && local has_upstream=1
-      if [[ -n "$has_upstream" ]]; then
-        local commit_counts=$(git rev-list --left-right --count 'HEAD...@{upstream}' 2> /dev/null)
-        local commits_to_push=$(echo $commit_counts | cut -f 1 2> /dev/null)
-        local commits_to_pull=$(echo $commit_counts | cut -f 2 2> /dev/null)
-      fi
-      if [[ "$commits_to_push" -ne "0" ]]; then
-        if [[ "$commits_to_pull" != 0 ]]; then
-          local git_outgoing_color=$fg[red]
-        elif [[ "$commits_to_push" > 3 ]]; then
-          local git_outgoing_color=$fg[yellow]
-        else
-          local git_outgoing_color=$fg[green]
-        fi
-        local git_upstream_difference="${git_upstream_difference}⇡"
-      fi
-      if [[ "$commits_to_pull" -ne 0 ]]; then
-        if [[ "$commits_to_push" != 0 ]]; then
-          local git_incoming_color=$fg[red]
-        elif [[ "$commits_to_pull" > 3 ]]; then
-          local git_incoming_color=$fg[yellow]
-        else
-          local git_incoming_color=$fg[green]
-        fi
-        local git_upstream_difference="${git_upstream_difference}⇣"
-      fi
-    fi
-    echo $git_upstream_difference
-  }
-  git_prompt_info() {
-    local ref
-    if [[ "$(command git config --get oh-my-zsh.hide-status 2>/dev/null)" != "1" ]]; then
-      ref=$(command git symbolic-ref HEAD 2> /dev/null) || \
-      ref=$(command git rev-parse --short HEAD 2> /dev/null) || return 0
-      echo "$ZSH_THEME_GIT_PROMPT_PREFIX${ref#refs/heads/}$ZSH_THEME_GIT_PROMPT_SUFFIX"
-    fi
-  }
-
-  PROMPT="%(?:%{$fg_bold[green]%}➜:%{$fg_bold[red]%}➜)"
-  PROMPT+=' %{$fg[cyan]%}%c%{$reset_color%} $(git_prompt_info)$(git_upstream_difference)$(parse_git_dirty) %{$reset_color%}'
-
-  ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg_bold[blue]%}(%{$fg[red]%}"
-  ZSH_THEME_GIT_PROMPT_SUFFIX="%{$fg[blue]%})%{$reset_color%}"
-  ZSH_THEME_GIT_PROMPT_DIRTY=" %{$fg[yellow]%}✗"
-  ZSH_THEME_GIT_PROMPT_CLEAN=""
-}
-
-ZSH_THEME_TERM_TITLE_IDLE='%1d'
-# export ZSH_THEME_TERM_TAB_TITLE_IDLE='%1d'
-# https://github.com/ohmyzsh/ohmyzsh/wiki/Settings#zsh_theme_term_title_idle
-# https://zsh.sourceforge.io/Doc/Release/Prompt-Expansion.html
-
-# User configuration
-
-# export MANPATH="/usr/local/man:$MANPATH"
-
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
-
 setopt complete_aliases
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-[ -d ~/.config/zsh/zsh-autosuggestions ] && source ~/.config/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-[ -d ~/.config/zsh/zsh-syntax-highlighting ] && source ~/.config/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-[ -f ~/.config/zsh/fzf-git.sh ] && source ~/.config/zsh/fzf-git.sh
 [ -f /opt/homebrew/etc/profile.d/autojump.sh ] && . /opt/homebrew/etc/profile.d/autojump.sh
-if has jump; then
+if command -v jump > /dev/null; then
   eval "$(jump shell zsh)"
 fi
+# clock cow
+echo -n 🐂
 local vim_cmd=vim
 if has nvim; then
   vim_cmd=nvim
   alias nvimdiff='nvim -d'
 fi
-if has git-number; then
+if command -v git-number > /dev/null; then
   alias g='git number'
   if has compdef; then
     compdef g=git
@@ -295,7 +179,6 @@ if has git-mob && has fzf; then
 fi
 
 if has _fzf_git_each_ref; then
-  unalias gco
   function gco() {
     local selected=$(_fzf_git_each_ref --no-multi)
     [[ -n "$selected" ]] && echo git checkout "$selected"
@@ -351,9 +234,13 @@ export FZF_DEFAULT_OPTS='
 # toggle preview        | ctrl-/ | ??? doesn't work in kitty/nvim
 # toggle preview        | ctrl-\ |
 
+echo -ne 🐶
 if has direnv; then
   eval "$(direnv hook zsh)"
 fi
+
+# clock 2
+echo -ne '🕑'
 
 if [[ "$TERM" = "xterm-kitty" ]]; then
   alias icat="kitty +kitten icat"
@@ -380,6 +267,21 @@ if [[ "$TERM" = "xterm-kitty" ]]; then
   rk_unmark() {
     kitty @ --password 'wow such secure' remove-marker --match all
   }
+  echo -n 🐈
 fi
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+zstyle ':completion:*:*:make:*' tag-order 'targets'
+
+# clock 4
+# echo -ne '\b\b'
+echo -ne 🕓
+
+autoload -z edit-command-line
+zle -N edit-command-line
+bindkey "^X^E" edit-command-line
+# https://unix.stackexchange.com/a/34251
+
+# clear line
+# echo -e "\033[1K"
+clear
