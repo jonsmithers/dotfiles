@@ -26,8 +26,16 @@ require('lazy').setup({
   },
 
   { 'folke/trouble.nvim',
+    dependencies = {
+      'tpope/vim-unimpaired',
+    },
     config = function()
       vim.cmd[[
+        nnoremap ]t :lua require("trouble").next({skip_groups = true, jump = true})<cr>
+        nnoremap [t :lua require("trouble").previous({skip_groups = true, jump = true})<cr>
+        nnoremap <Plug>(unimpaired-disable)t :TroubleClose<cr>
+        nnoremap <Plug>(unimpaired-enable)t :Trouble<cr>
+        nnoremap <Plug>(unimpaired-toggle)t :TroubleToggle<cr>
         nnoremap <leader>xx <cmd>TroubleToggle<cr>
         nnoremap <leader>xw <cmd>TroubleToggle workspace_diagnostics<cr>
         nnoremap <leader>xd <cmd>TroubleToggle document_diagnostics<cr>
@@ -266,7 +274,8 @@ require('lazy').setup({
 
         :nnoremap <silent> <C-k>         :FzfBuffersCustom<Enter>
         :nnoremap <silent> <C-p>         :FzfFiles<Enter>
-        :nnoremap <silent> <Leader>or    :FzfHistory!<Enter>
+        :nnoremap <silent> <Leader>or    :FzfHistory<Enter>
+        :nnoremap <silent> <Leader>oR    :FzfHistory!<Enter>
         :nnoremap <silent> <Leader>ft    :FzfFiletypes<enter>
         :nnoremap <silent> <Leader>f/    :FzfHistory/<Enter>
         :nnoremap <silent> <Leader>f:    :FzfHistory:<Enter>
