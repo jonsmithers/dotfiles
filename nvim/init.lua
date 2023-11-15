@@ -1069,3 +1069,19 @@ vim.cmd[[
 
 vim.opt.foldlevelstart = tonumber(vim.env['NVIM_OPT_FOLDLEVELSTART']) or 99
 vim.opt.relativenumber = 'true' == vim.env['NVIM_OPT_RELATIVENUMBER']
+
+-- draw a box around text
+--
+-- ┌───────────┐
+-- │ like this │
+-- └───────────┘
+--
+-- memonic: "you surround til $ with _"
+vim.keymap.set('n', 'ys$_', function()
+  local x = vim.fn.col('.')
+  vim.cmd.normal('i│ ')
+  vim.cmd.normal('A │')
+  vim.cmd.normal('yyP'..x..'|r┌lv$hhr─$r┐j')
+  vim.cmd.normal('p'..x..'|r└lv$hhr─$r┘k')
+  vim.cmd.normal('|'..x..'ll')
+end)
