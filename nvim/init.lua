@@ -424,6 +424,7 @@ require('lazy').setup({
       ]])
 
       local lspconfig = require('lspconfig')
+      ---@diagnostic disable-next-line: unused-local
       local ON_LSP_ATTACH = function(client, bufnr)
         local function nnoremap_buffer(...) vim.api.nvim_buf_set_keymap(bufnr, 'n', ...) end
         local function command_buffer(...) vim.api.nvim_buf_create_user_command(bufnr, ...) end

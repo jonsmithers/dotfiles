@@ -71,6 +71,11 @@ if command -v jump > /dev/null; then
 fi
 # clock cow
 echo -n 🐂
+if has exa; then
+  alias ll='exa --long --icons'
+else
+  alias ll='ls -alF'
+fi
 local vim_cmd=vim
 if has nvim; then
   vim_cmd=nvim
