@@ -518,6 +518,10 @@ require('lazy').setup({
     end,
   },
 
+  { 'norcalli/nvim-colorizer.lua',
+    opts = {},
+  },
+
   { 'nvim-lualine/lualine.nvim',
     dependencies = dev_icons_enabled and {
       'nvim-tree/nvim-web-devicons'
