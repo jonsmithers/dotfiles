@@ -412,7 +412,15 @@ require('lazy').setup({
       'folke/neodev.nvim'
     },
     config = function()
-      require("neodev").setup({})
+      require("neodev").setup({
+        -- TODO fix this to properly detect my dotfiles directory
+        override = function(root_dir, library)
+          -- if root_dir:find("/etc/nixos", 1, true) == 1 then
+            library.enabled = true
+            library.plugins = true
+          -- end
+        end,
+      })
       vim.cmd([[
         com! LspDisableCompletion lua require('cmp').setup.buffer { enabled = false }; vim.notify('completion disabled')
         com! LspEnableCompletion lua require('cmp').setup.buffer { enabled = true }; vim.notify('completion enabled')
@@ -1090,3 +1098,53 @@ vim.keymap.set('n', 'ys$_', function()
   vim.cmd.normal('p'..x..'|r└lv$hhr─$r┘k')
   vim.cmd.normal('|'..x..'ll')
 end)
+
+
+-- ┌────────────────────────────┐
+-- │ Kitty Terminal Integration │
+-- └────────────────────────────┘
+local function run_command_in_kitty_window(str)
+  if (0 ~= os.execute("kitty @ ls | jq '.[].tabs.[].windows.[].title' | grep --quiet sidecar")) then
+    vim.fn.system({'kitty', '@', 'launch', '--cwd', vim.fn.getcwd(), '--location', 'hsplit', '--title', 'sidecar'})
+  else
+    vim.fn.system({'kitty', '@', 'focus-window', '--match', 'title:sidecar'})
+  end
+
+  vim.fn.system({'kitty', '@', 'send-text', '--match', 'title:sidecar', str..'\n'})
+  vim.fn.system({'kitty', '@', 'focus-window', '--match', 'recent:1'})
+end
+vim.api.nvim_create_user_command('K', function(opts)
+  local str = table.concat(opts.fargs, ' ')
+  if (opts.bang) then
+    str = str .. '; exit'
+  end
+  run_command_in_kitty_window(str)
+end, { nargs = '*', bang = true})
+
+
+-- ┌──────────────┐
+-- │ Test runners │
+-- └──────────────┘
+vim.api.nvim_create_augroup('init.lua', {})
+vim.api.nvim_create_autocmd('BufEnter', {
+  pattern = {'*.java'},
+  group = 'init.lua',
+  callback = function()
+    vim.api.nvim_buf_create_user_command(0, 'TestFile', function()
+      vim.cmd.write()
+      run_command_in_kitty_window('gw test --tests ' .. vim.fn.expand('%:t:r') .. '; n')
+    end, { nargs = 0})
+    vim.api.nvim_buf_create_user_command(0, 'TestOne', function()
+      vim.cmd.write()
+      local cursor_pos = vim.api.nvim_win_get_cursor(0);
+      vim.fn.search('@\\(Parameterized\\)\\?Test', 'b')
+      vim.fn.search('void ')
+      vim.cmd.normal('W')
+      local test_name=vim.fn.expand('<cword>')
+      run_command_in_kitty_window('gw test --tests ' .. vim.fn.expand('%:t:r') .. '.' .. test_name .. '; n')
+      vim.api.nvim_win_set_cursor(0, cursor_pos);
+    end, { nargs = 0})
+    vim.keymap.set('n', '<leader>rt', ':TestOne<cr>', { buffer = 0 })
+    vim.keymap.set('n', '<leader>rf', ':TestFile<cr>', { buffer = 0 })
+  end
+})
