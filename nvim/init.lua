@@ -405,7 +405,7 @@ require('lazy').setup({
     },
   },
 
-  'nelstrom/vim-visual-star-search',
+  'bronson/vim-visual-star-search',
 
   { 'neovim/nvim-lspconfig',
     dependencies = {
@@ -1103,22 +1103,74 @@ end)
 -- ┌────────────────────────────┐
 -- │ Kitty Terminal Integration │
 -- └────────────────────────────┘
-local function run_command_in_kitty_window(str)
-  if (0 ~= os.execute("kitty @ ls | jq '.[].tabs.[].windows.[].title' | grep --quiet sidecar")) then
-    vim.fn.system({'kitty', '@', 'launch', '--cwd', vim.fn.getcwd(), '--location', 'hsplit', '--title', 'sidecar'})
-  else
-    vim.fn.system({'kitty', '@', 'focus-window', '--match', 'title:sidecar'})
+-- requires:
+-- - kitty config:
+-- - - remote_control_password "<password>"
+-- - - listen_on unix:/tmp/<something>
+-- - environment
+-- - - export KITTY_RC_PASSWORD='<password>'
+local window_id_of_persistent_shell = nil
+local function run_command_in_kitty_window(str, opts)
+  opts = vim.tbl_extend('force', {
+    return_focus = true,
+    transient_shell = false,
+  }, opts or {})
+
+  local function create_or_focus_window()
+    if (opts.transient_shell) then
+      vim.fn.system({'kitty', '@', 'launch', '--cwd', vim.fn.getcwd(), '--location', 'hsplit', '--title', 'sidecar'})
+      return tonumber(io.popen("kitty @ ls --match recent:0 | jq '.[].tabs.[].windows.[].id'"):read('*a'))
+    else
+      if (window_id_of_persistent_shell == nil or 0 ~= os.execute("kitty @ ls --match id:"..window_id_of_persistent_shell.." &> /dev/null")) then
+        -- if (last_terminal == nil or 0 ~= os.execute("kitty @ ls | jq '.[].tabs.[].windows.[].title' | grep --quiet sidecar")) then
+        vim.fn.system({'kitty', '@', 'launch', '--cwd', vim.fn.getcwd(), '--location', 'hsplit', '--title', 'sidecar'})
+        window_id_of_persistent_shell = tonumber(io.popen("kitty @ ls --match recent:0 | jq '.[].tabs.[].windows.[].id'"):read('*a'))
+      else
+        vim.fn.system({'kitty', '@', 'focus-window', '--match', 'id:'..window_id_of_persistent_shell})
+      end
+      return window_id_of_persistent_shell
+    end
   end
 
-  vim.fn.system({'kitty', '@', 'send-text', '--match', 'title:sidecar', str..'\n'})
-  vim.fn.system({'kitty', '@', 'focus-window', '--match', 'recent:1'})
+  local window_id = create_or_focus_window()
+
+  if (str ~= nil) then
+    if (opts.transient_shell) then
+      str = str .. '; post_hook exit_on_success'
+    end
+    vim.fn.system({'kitty', '@', 'send-text', '--match', 'id:'..window_id, str..'\n'})
+  end
+  if (opts.return_focus) then
+    vim.fn.system({'kitty', '@', 'focus-window', '--match', 'recent:1'})
+  end
 end
+vim.keymap.set('n', '<leader>.t', ':TransientShell ')
+vim.keymap.set('n', '<leader>.T', ':TransientShell! ')
+vim.keymap.set('n', '<leader>.>', function() run_command_in_kitty_window(nil, { return_focus = false}) end)
+vim.keymap.set('n', '<leader>.<leader>', ':PersistentShell ')
+vim.api.nvim_create_user_command('TransientShell', function(opts)
+  local str = table.concat(opts.fargs, ' ')
+  str = str .. ' && exit'
+  run_command_in_kitty_window(str, {
+    return_focus = not opts.bang,
+    transient_shell = true,
+  })
+end, { nargs = '*', bang = true})
+vim.api.nvim_create_user_command('PersistentShell', function(opts)
+  local str = table.concat(opts.fargs, ' ')
+  run_command_in_kitty_window(str, {
+    return_focus = true
+  })
+end, { nargs = '*' })
 vim.api.nvim_create_user_command('K', function(opts)
   local str = table.concat(opts.fargs, ' ')
-  if (opts.bang) then
+  local return_focus = not opts.bang
+  if (not return_focus) then
     str = str .. '; exit'
   end
-  run_command_in_kitty_window(str)
+  run_command_in_kitty_window(str, {
+    return_focus = return_focus
+  })
 end, { nargs = '*', bang = true})
 
 
@@ -1131,17 +1183,17 @@ vim.api.nvim_create_autocmd('BufEnter', {
   group = 'init.lua',
   callback = function()
     vim.api.nvim_buf_create_user_command(0, 'TestFile', function()
-      vim.cmd.write()
-      run_command_in_kitty_window('gw test --tests ' .. vim.fn.expand('%:t:r') .. '; n')
+      vim.cmd.update()
+      run_command_in_kitty_window(string.format('gw test --tests %s', vim.fn.expand('%:t:r')), { transient_shell = true })
     end, { nargs = 0})
     vim.api.nvim_buf_create_user_command(0, 'TestOne', function()
-      vim.cmd.write()
+      vim.cmd.update()
       local cursor_pos = vim.api.nvim_win_get_cursor(0);
       vim.fn.search('@\\(Parameterized\\)\\?Test', 'b')
       vim.fn.search('void ')
       vim.cmd.normal('W')
       local test_name=vim.fn.expand('<cword>')
-      run_command_in_kitty_window('gw test --tests ' .. vim.fn.expand('%:t:r') .. '.' .. test_name .. '; n')
+      run_command_in_kitty_window(string.format('gw test --tests %s.%s', vim.fn.expand('%:t:r'), test_name), { transient_shell = true })
       vim.api.nvim_win_set_cursor(0, cursor_pos);
     end, { nargs = 0})
     vim.keymap.set('n', '<leader>rt', ':TestOne<cr>', { buffer = 0 })
