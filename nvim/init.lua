@@ -1147,6 +1147,7 @@ end
 vim.keymap.set('n', '<leader>.t', ':TransientShell ')
 vim.keymap.set('n', '<leader>.T', ':TransientShell! ')
 vim.keymap.set('n', '<leader>.>', function() run_command_in_kitty_window(nil, { return_focus = false}) end)
+vim.keymap.set('n', '<leader>gt', function() run_command_in_kitty_window(nil, { return_focus = false}) end)
 vim.keymap.set('n', '<leader>.<leader>', ':PersistentShell ')
 vim.api.nvim_create_user_command('TransientShell', function(opts)
   local str = table.concat(opts.fargs, ' ')
