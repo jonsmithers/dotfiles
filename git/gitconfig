@@ -1,6 +1,7 @@
 [alias]
   f = fetch
   w = website
+  i = issue
   ad = add
   br = branch
   cm = commit

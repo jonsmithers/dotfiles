@@ -1,6 +1,7 @@
 {
   "links": {
 
+    "./git/git-issue":                   "~/bin/git-issue",
     "./git/git-website":                 "~/bin/git-website",
     "./git/gitconfig":                   "~/.gitconfig",
     "./git/gitignore_global":            "~/.gitignore_global",

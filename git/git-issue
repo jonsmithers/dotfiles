@@ -1,0 +1,63 @@
+#! /usr/bin/env bash
+
+YELLOW='\033[1;33m'
+NORMAL='\033[0m'
+
+arg="$1"
+
+get_repo_url() {
+  # source: https://github.com/jonsmithers/dotfiles/blob/master/git/git-website
+  git remote --verbose \
+    | grep '^origin' \
+    | grep fetch \
+    | sed -E 's/origin.([^[:space:]]+)\.git.*/\1/' \
+    | sed -E 's/git@/https:\/\//' \
+    | sed -E 's/https:\/\/[a-zA-Z.]+@/https:\/\//' \
+    | sed -E 's#^(https?:[^:]*):#\1/#'
+}
+
+if [[ "$arg" = "--help" ]] || [[ "$arg" = "help" ]]; then
+  cat <<- END
+NAME
+        gissue - Open issue id mentioned in commit message
+
+SYNOPSIS
+        gissue [<refspec>]
+
+DESCRIPTION
+        Opens to the issue id mentioned in commit message denoted by
+        <refspec> (defaults to HEAD).
+END
+  exit 0
+fi
+
+if [[ -z "$1" ]]; then
+  arg=HEAD
+fi
+
+commits_ago=0
+while [[ -z $issue_id ]] && [[ $commits_ago -lt 10 ]]; do
+  commit_name=$arg~$commits_ago
+  if ! commit_sha=$(git rev-parse "$commit_name" 2> /dev/null); then
+    echo "error getting commit sha for \"$arg\""
+    exit 1
+  fi
+  issue_id=$(git show "$commit_sha" --quiet --pretty=format:%s%n%b | grep -e '#[[:digit:]]\{1,9\}' --only-matching)
+  if [[ -z "$issue_id" ]]; then
+    echo -e "$YELLOW""Issue id not found in commit $commit_name""$NORMAL"
+  else
+    echo -e "Issue id found in commit $commit_name"
+  fi
+  commits_ago=$((commits_ago+1))
+done
+if [[ -z "$issue_id" ]]; then
+  exit 1
+fi
+
+if [[ $(command -v open) ]]; then
+  open_cmd=open
+else
+  open_cmd=xdg-open
+fi
+
+$open_cmd "$(get_repo_url)/-/issues/${issue_id//\#/}"
