@@ -15,6 +15,7 @@ vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = ' '
 vim.cmd('source ' .. vim.env.HOME .. '/.config/nvim/init2.vim')
 
+vim.api.nvim_create_augroup('init.lua', {})
 local dev_icons_enabled = os.getenv('VIM_DEVICONS') == '1'
 
 require('lazy').setup({
@@ -36,6 +37,8 @@ require('lazy').setup({
         nnoremap <Plug>(unimpaired-disable)t :TroubleClose<cr>
         nnoremap <Plug>(unimpaired-enable)t :Trouble<cr>
         nnoremap <Plug>(unimpaired-toggle)t :TroubleToggle<cr>
+        nnoremap <Plug>(unimpaired-disable)a :lua vim.notify('auto-format off', nil, { timeout=100 })<cr>:set fo-=a<cr>
+        nnoremap <Plug>(unimpaired-enable)a :lua vim.notify('auto-format on', nil, { timeout=100 })<cr>:set fo+=a<cr>
         nnoremap <leader>xx <cmd>TroubleToggle<cr>
         nnoremap <leader>xw <cmd>TroubleToggle workspace_diagnostics<cr>
         nnoremap <leader>xd <cmd>TroubleToggle document_diagnostics<cr>
@@ -96,6 +99,7 @@ require('lazy').setup({
     config = function()
       local cmp = require('cmp')
       cmp.setup({
+        enable = (vim.env.NVIM_DISABLE_AUTOCOMPLETION == nil) and true or false,
         snippet = {
           expand = function(args)
             vim.fn['vsnip#anonymous'](args.body) -- For `vsnip` users.
@@ -584,6 +588,10 @@ require('lazy').setup({
         },
         group_empty=1,
         special_files={},
+        sync_install = true,
+        auto_install = true,
+        modules = {},
+        ignore_install = {},
         ensure_installed = {
           'astro',
           'bash',
@@ -599,6 +607,7 @@ require('lazy').setup({
           'markdown_inline',
           'prisma',
           'vim',
+          'vimdoc',
           'yaml',
         },
         highlight = {
@@ -952,6 +961,13 @@ require('lazy').setup({
   { 'stevearc/oil.nvim',
     opts = {},
     init = function()
+      vim.api.nvim_create_autocmd('FileType', {
+        pattern = 'oil',
+        group = 'init.lua',
+        callback = function()
+          vim.wo.relativenumber = true
+        end
+      })
       vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
     end
   },
@@ -1153,6 +1169,7 @@ local function run_command_in_kitty_window(str, opts)
 end
 vim.keymap.set('n', '<leader>.t', ':TransientShell ')
 vim.keymap.set('n', '<leader>.T', ':TransientShell! ')
+vim.keymap.set('n', '<leader>.q', function() run_command_in_kitty_window('exit') end)
 vim.keymap.set('n', '<leader>.>', function() run_command_in_kitty_window(nil, { return_focus = false}) end)
 vim.keymap.set('n', '<leader>gt', function() run_command_in_kitty_window(nil, { return_focus = false}) end)
 vim.keymap.set('n', '<leader>.<leader>', ':PersistentShell ')
@@ -1185,7 +1202,6 @@ end, { nargs = '*', bang = true})
 -- ┌──────────────┐
 -- │ Test runners │
 -- └──────────────┘
-vim.api.nvim_create_augroup('init.lua', {})
 vim.api.nvim_create_autocmd('BufEnter', {
   pattern = {'*.java'},
   group = 'init.lua',
