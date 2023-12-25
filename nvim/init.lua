@@ -331,7 +331,7 @@ require('lazy').setup({
         :nnoremap <silent> <Leader>tt :NvimTreeToggle<cr>
         :nnoremap <silent> <Leader>tf :NvimTreeFindFile<CR>
         :nnoremap <silent> <Leader>tr :NvimTreeRefresh<CR>
-        :nnoremap <silent> - :NvimTreeFindFile<CR><c-w><c-o>
+        " :nnoremap <silent> - :NvimTreeFindFile<CR><c-w><c-o>
       ]])
     end,
     opts = {
@@ -947,6 +947,13 @@ require('lazy').setup({
         get_config = nil,
       },
     },
+  },
+
+  { 'stevearc/oil.nvim',
+    opts = {},
+    init = function()
+      vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
+    end
   },
 
   'tpope/vim-abolish',
