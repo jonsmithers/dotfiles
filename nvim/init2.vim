@@ -1,5 +1,5 @@
 " vim: ts=2 sw=2
-" Last Updated: 2023-09-29
+" Last Updated: 2023-12-27
 
 
 if !exists('s:os')
@@ -301,6 +301,7 @@ augroup vimrc_autocomamnds
 
   autocmd Filetype javascript,html,typescript call s:ftpluginJavascripty()
   autocmd Filetype typescriptreact            call s:ftpluginJavascripty()
+  autocmd Filetype lua                        call s:ftpluginLua()
   autocmd Filetype python                     nnoremap <buffer> <space>py :!python3 %<cr>
   autocmd Filetype python                     set omnifunc=pythoncomplete#Complete
   autocmd Filetype vim                        call s:ftpluginVim()
@@ -317,6 +318,12 @@ augroup vimrc_autocomamnds
     nnoremap <buffer> <Leader>gif yiwf{oconsole.group('0');<Esc>]}Oconsole.groupEnd();<Esc>^
     nnoremap <buffer> <Leader>jsxc 0wi{/*<Esc>$a*/}<Esc>
     nnoremap <buffer> <Leader>jsxC :s@{\/\* \?\\| \?\*/}@@g<Enter>
+  endfun
+  fun! s:ftpluginLua()
+    nnoremap <buffer> <Leader>il ovim.print()i
+    nnoremap <buffer> <Leader>liw yiwovim.print('0', 0)<Esc>
+    nnoremap <buffer> <Leader>lif yiwovim.print('0()')<Esc>
+    nnoremap <buffer> <Leader>liF yiwovim.print('%c0()', 'font-size:15px')<Esc>^2w
   endfun
 augroup END
 
