@@ -417,12 +417,14 @@ require('lazy').setup({
     },
     config = function()
       require("neodev").setup({
-        -- TODO fix this to properly detect my dotfiles directory
         override = function(root_dir, library)
-          -- if root_dir:find("/etc/nixos", 1, true) == 1 then
+          local tail_dir = string.match(root_dir, '[^/]+/?$')
+          if (string.find(root_dir, '%.config/nvim') or tail_dir == 'dotfiles') then
             library.enabled = true
             library.plugins = true
-          -- end
+          else
+            vim.notify('vim lua development (neodev) is not enabled')
+          end
         end,
       })
       vim.cmd([[
