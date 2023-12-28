@@ -95,12 +95,13 @@ function install_git_number_on_linux() {
 install_cmd zsh --not="/bin/zsh"
 install_cmd rg --brew="brew install ripgrep" --dnf="sudo dnf install --assumeyes ripgrep"
 install_cmd git-number --linux="install_git_number_on_linux"
-install_cmd autojump
 install_cmd alacritty
 install_cmd bat
+install_cmd exa
 install_cmd node
 install_cmd kitty --brew="curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin" --dnf="curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin" --apt="curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin"
 install_cmd direnv
+install_cmd zoxide
 # install_cmd fish
 # install_cmd shellcheck --dnf="sudo dnf install --assumeyes ShellCheck"
 # install_cmd tmux

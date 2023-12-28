@@ -71,9 +71,8 @@ fi
 
 setopt complete_aliases
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-[ -f /opt/homebrew/etc/profile.d/autojump.sh ] && . /opt/homebrew/etc/profile.d/autojump.sh
-if command -v jump > /dev/null; then
-  eval "$(jump shell zsh)"
+if command -v zoxide > /dev/null; then
+  eval "$(zoxide init zsh)"
 fi
 # clock cow
 echo -n 🐂
