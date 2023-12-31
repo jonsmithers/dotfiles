@@ -73,6 +73,13 @@ setopt complete_aliases
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 if command -v zoxide > /dev/null; then
   eval "$(zoxide init zsh)"
+  function c() {
+    if [[ -z "$@" ]]; then
+      __zoxide_zi
+    else
+      __zoxide_z "$@"
+    fi
+  }
 fi
 # clock cow
 echo -n 🐂
@@ -96,6 +103,7 @@ if command -v git-number > /dev/null; then
 fi
 alias gs="$vim_cmd"' +0Git "+normal gU"'
 alias v="$vim_cmd"
+alias V="$vim_cmd ."
 unset vim_cmd
 
 if [[ "$(uname)" == "Linux" ]]; then
