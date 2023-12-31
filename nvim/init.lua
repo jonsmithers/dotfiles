@@ -427,15 +427,6 @@ require('lazy').setup({
           end
         end,
       })
-      vim.cmd([[
-        com! LspDisableCompletion lua require('cmp').setup.buffer { enabled = false }; vim.notify('completion disabled')
-        com! LspEnableCompletion lua require('cmp').setup.buffer { enabled = true }; vim.notify('completion enabled')
-        nnoremap <Plug>(unimpaired-enable)L :LspEnableCompletion<cr>
-        nnoremap <Plug>(unimpaired-disable)L :LspDisableCompletion<cr>
-        nnoremap <Plug>(unimpaired-enable)<c-space> :LspEnableCompletion<cr>
-        nnoremap <Plug>(unimpaired-enable)<c-space> :LspDisableCompletion<cr>
-        " 👆 <c-space> no longer works for some reason
-      ]])
 
       local lspconfig = require('lspconfig')
       ---@diagnostic disable-next-line: unused-local
@@ -790,8 +781,14 @@ require('lazy').setup({
       require('notify').setup({
         render='minimal'
       })
+    end,
+    init = function()
       vim.notify = require('notify')
     end
+  },
+
+  { 'rest-nvim/rest.nvim',
+    dependencies = "nvim-lua/plenary.nvim"
   },
 
   'rktjmp/lush.nvim',
