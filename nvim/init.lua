@@ -26,6 +26,8 @@ require('lazy').setup({
     end
   },
 
+  'bronson/vim-visual-star-search',
+
   { 'folke/trouble.nvim',
     dependencies = {
       'tpope/vim-unimpaired',
@@ -409,7 +411,7 @@ require('lazy').setup({
     },
   },
 
-  'bronson/vim-visual-star-search',
+  'nanotee/zoxide.vim',
 
   { 'neovim/nvim-lspconfig',
     dependencies = {
@@ -792,6 +794,12 @@ require('lazy').setup({
   },
 
   'rktjmp/lush.nvim',
+
+  { 'sindrets/diffview.nvim',
+    init = function()
+      vim.opt.fillchars:append { diff = "╱" }
+    end,
+  },
 
   { 'stevearc/dressing.nvim',
     dependencies = {
