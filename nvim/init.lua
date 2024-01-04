@@ -1,4 +1,9 @@
 -- vim: ts=2 sw=2
+-- ┌─────────────────────────────────────────────────────────────────────────┐
+-- │ Author: Jon Smithers <jon@smithers.dev>                                 │
+-- │ URL:    https://github.com/jonsmithers/dotfiles/blob/main/nvim/init.lua │
+-- └─────────────────────────────────────────────────────────────────────────┘
+
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
@@ -18,6 +23,9 @@ vim.cmd('source ' .. vim.env.HOME .. '/.config/nvim/init2.vim')
 vim.api.nvim_create_augroup('init.lua', {})
 local dev_icons_enabled = os.getenv('VIM_DEVICONS') == '1'
 
+-- ┌─────────┐
+-- │ PLUGINS │
+-- └─────────┘
 require('lazy').setup({
 
   { 'ahmedkhalf/project.nvim',
@@ -1134,7 +1142,6 @@ require('lazy').setup({
   },
 })
 
-
 -- https://www.reddit.com/r/neovim/comments/nrz9hp/can_i_close_all_floating_windows_without_closing/
 function CloseFloatingWindows()
   for _, win in ipairs(vim.api.nvim_list_wins()) do
@@ -1153,11 +1160,6 @@ vim.opt.foldlevelstart = tonumber(vim.env['NVIM_OPT_FOLDLEVELSTART']) or 99
 vim.opt.relativenumber = 'true' == vim.env['NVIM_OPT_RELATIVENUMBER']
 
 -- draw a box around text
---
--- ┌───────────┐
--- │ like this │
--- └───────────┘
---
 -- memonic: "you surround til $ with _"
 vim.keymap.set('n', 'ys$_', function()
   local x = vim.fn.col('.')
