@@ -80,6 +80,7 @@ if command -v zoxide > /dev/null; then
       __zoxide_z "$@"
     fi
   }
+  alias j=c
 fi
 # clock cow
 echo -n 🐂
@@ -92,6 +93,8 @@ local vim_cmd=vim
 if has nvim; then
   vim_cmd=nvim
   alias nvimdiff='nvim -d'
+  alias viff='v +DiffviewOpen'
+  alias gd='v +DiffviewOpen'
 fi
 if command -v git-number > /dev/null; then
   alias g='git number'
@@ -275,8 +278,10 @@ if [[ "$TERM" = "xterm-kitty" ]]; then
       title="${1:-❌ $prev_cmd}"
     fi
     local body="$2"
-    printf '\x1b]99;i=1:d=0;'"$title"'\x1b\\'
+    printf '\x1b]99;i=1:d=0:o=invisible;'"$title"'\x1b\\'
+    # printf '\x1b]99;i=1:d=0;'"$title"'\x1b\\'
     printf '\x1b]99;i=1:d=1:p=body;'"$body"'\x1b\\'
+    printf '\e[?5h'; sleep 0.1 ; printf '\e[?5l'
   }
   alias n=notify
   rk_mark() {
