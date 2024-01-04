@@ -347,7 +347,6 @@ require('lazy').setup({
       vim.o.foldlevelstart = 99
       vim.o.foldenable = true
 
-      -- Using ufo provider need remap `zR` and `zM`. If Neovim is 0.6.1, remap yourself
       vim.keymap.set('n', 'zR', require('ufo').openAllFolds)
       vim.keymap.set('n', 'zM', require('ufo').closeAllFolds)
       vim.keymap.set('n', 'zr', require('ufo').openFoldsExceptKinds)
@@ -1180,6 +1179,34 @@ end)
 -- - - listen_on unix:/tmp/<something>
 -- - environment
 -- - - export KITTY_RC_PASSWORD='<password>'
+local kitty = {
+  ---@return number?
+  get_current_window_id = function()
+    -- return tonumber(io.popen("kitty @ ls --match recent:0 | jq '.[].tabs.[].windows.[].id'"):read('*a'))
+    return vim.json.decode(io.popen("kitty @ ls --match recent:0"):read('*a'))[1].tabs[1].windows[1].id
+  end,
+  ---@param id number
+  ---@return boolean
+  window_exists = function(id)
+    return 0 == os.execute("kitty @ ls --match id:"..id.." &> /dev/null")
+  end,
+  focus_window_recent = function()
+    vim.fn.system({'kitty', '@', 'focus-window', '--match', 'recent:1'})
+  end,
+  ---@param id number
+  ---@param text string
+  send_text = function(id, text)
+    vim.fn.system({'kitty', '@', 'send-text', '--match', 'id:'..id, text})
+  end,
+  ---@deprecated
+  ---@comment THIS DOES NOT WORK
+  ---@comment tall:bias=90;full_size=1;mirrored=false
+  ---@param layout string
+  goto_layout = function(layout)
+    vim.fn.sytem({'kitty', '@', 'set-enabled-layouts', layout})
+    vim.fn.system({'kitty', '@', 'goto-layout', layout})
+  end
+}
 local window_id_of_persistent_shell = nil
 local function run_command_in_kitty_window(str, opts)
   opts = vim.tbl_extend('force', {
@@ -1190,12 +1217,12 @@ local function run_command_in_kitty_window(str, opts)
   local function create_or_focus_window()
     if (opts.transient_shell) then
       vim.fn.system({'kitty', '@', 'launch', '--cwd', vim.fn.getcwd(), '--location', 'hsplit', '--title', 'sidecar'})
-      return tonumber(io.popen("kitty @ ls --match recent:0 | jq '.[].tabs.[].windows.[].id'"):read('*a'))
+      return kitty.get_current_window_id()
     else
-      if (window_id_of_persistent_shell == nil or 0 ~= os.execute("kitty @ ls --match id:"..window_id_of_persistent_shell.." &> /dev/null")) then
+      if (window_id_of_persistent_shell == nil or not kitty.window_exists(window_id_of_persistent_shell)) then
         -- if (last_terminal == nil or 0 ~= os.execute("kitty @ ls | jq '.[].tabs.[].windows.[].title' | grep --quiet sidecar")) then
         vim.fn.system({'kitty', '@', 'launch', '--cwd', vim.fn.getcwd(), '--location', 'hsplit', '--title', 'sidecar'})
-        window_id_of_persistent_shell = tonumber(io.popen("kitty @ ls --match recent:0 | jq '.[].tabs.[].windows.[].id'"):read('*a'))
+        window_id_of_persistent_shell = kitty.get_current_window_id()
       else
         vim.fn.system({'kitty', '@', 'focus-window', '--match', 'id:'..window_id_of_persistent_shell})
       end
@@ -1209,10 +1236,10 @@ local function run_command_in_kitty_window(str, opts)
     if (opts.transient_shell) then
       str = str .. '; post_hook exit_on_success'
     end
-    vim.fn.system({'kitty', '@', 'send-text', '--match', 'id:'..window_id, str..'\n'})
+    kitty.send_text(window_id, str..'\n')
   end
   if (opts.return_focus) then
-    vim.fn.system({'kitty', '@', 'focus-window', '--match', 'recent:1'})
+    kitty.focus_window_recent()
   end
 end
 vim.keymap.set('n', '<leader>.t', ':TransientShell ')
