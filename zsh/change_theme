@@ -43,28 +43,28 @@ function change_vim_colorscheme() {
   local globals="$2"
   echo setting vim theme to "$theme"
   local line_to_insert="export VIM_COLORSCHEME=$theme"
-  if grep --quiet '^export VIM_COLORSCHEME' < ~/.zprofile; then
-    sed -I '.sedbackup' 's/^export VIM_COLORSCHEME=.*/'"$line_to_insert"'/' ~/.zprofile
-    rm ~/.zprofile.sedbackup
+  if grep --quiet '^export VIM_COLORSCHEME' < ~/.zshenv; then
+    sed -I '.sedbackup' 's/^export VIM_COLORSCHEME=.*/'"$line_to_insert"'/' ~/.zshenv
+    rm ~/.zshenv.sedbackup
   else
-    echo "$line_to_insert" >> ~/.zprofile
+    echo "$line_to_insert" >> ~/.zshenv
   fi
   line_to_insert="export VIM_THEME_GLOBALS='$globals'"
-  if grep --quiet '^export VIM_THEME_GLOBALS' < ~/.zprofile; then
-    sed -I '.sedbackup' 's/^export VIM_THEME_GLOBALS=.*/'"$line_to_insert"'/' ~/.zprofile
-    rm ~/.zprofile.sedbackup
+  if grep --quiet '^export VIM_THEME_GLOBALS' < ~/.zshenv; then
+    sed -I '.sedbackup' 's/^export VIM_THEME_GLOBALS=.*/'"$line_to_insert"'/' ~/.zshenv
+    rm ~/.zshenv.sedbackup
   else
-    echo "$line_to_insert" >> ~/.zprofile
+    echo "$line_to_insert" >> ~/.zshenv
   fi
 }
 function change_vim_background() {
   local background=$1
   local line_to_insert="export VIM_BACKGROUND=$background"
-  if grep --quiet '^export VIM_BACKGROUND' < ~/.zprofile; then
-    sed -I '.sedbackup' 's/^export VIM_BACKGROUND=.*/'"$line_to_insert"'/' ~/.zprofile
-    rm ~/.zprofile.sedbackup
+  if grep --quiet '^export VIM_BACKGROUND' < ~/.zshenv; then
+    sed -I '.sedbackup' 's/^export VIM_BACKGROUND=.*/'"$line_to_insert"'/' ~/.zshenv
+    rm ~/.zshenv.sedbackup
   else
-    echo "$line_to_insert" >> ~/.zprofile
+    echo "$line_to_insert" >> ~/.zshenv
   fi
 }
 function change_kitty_theme() {
@@ -149,6 +149,7 @@ if [[ -z "$theme" ]]; then
     "GitHub Light High Contrast"
     "Gruvbox Dark"
     "Gruvbox Light"
+    "JetBrains Darcula (dark)"
     "Kanagawa Dragon (dark)"
     "Kanagawa Lotus (light)"
     "Kanagawa Wave (dark)"
@@ -301,6 +302,13 @@ case $theme in
     change_vim_colorscheme         gruvbox
     obtain_kitty_theme_from_kitten 'Gruvbox Light Hard'
     change_kitty_theme             'Gruvbox Light Hard'
+    ;;
+  "JetBrains Darcula (dark)")
+    obtain_neovim_theme_from_git   darcula-solid git@github.com:santos-gabriel-dario/darcula-solid.nvim.git
+    change_vim_background          dark
+    change_vim_colorscheme         darcula-solid
+    obtain_kitty_theme_from_kitten 'Jet Brains Darcula'
+    change_kitty_theme             'Jet Brains Darcula'
     ;;
   "Kanagawa Dragon (dark)")
     obtain_neovim_theme_from_git kanagawa.nvim git@github.com:rebelot/kanagawa.nvim.git
