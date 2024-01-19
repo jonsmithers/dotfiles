@@ -836,14 +836,50 @@ require('lazy').setup({
   },
 
   { 'rest-nvim/rest.nvim',
-    dependencies = "nvim-lua/plenary.nvim"
+    dependencies = "nvim-lua/plenary.nvim",
+    opts = {
+    },
+    init = function()
+      vim.api.nvim_create_autocmd('FileType', {
+        group = 'init.lua',
+        pattern = 'http',
+        callback = function()
+          vim.keymap.set('n', '<leader>rr', function()
+            require('rest-nvim').run()
+          end, { buffer = 0 })
+        end,
+      })
+    end
   },
 
   'rktjmp/lush.nvim',
 
   { 'sindrets/diffview.nvim',
+    opts = {
+      keymaps = {
+        file_panel = {
+          {
+            "n", "cc",
+            "<Cmd>Git commit <bar> wincmd J<CR>",
+            { desc = "Commit staged changes" },
+          },
+          {
+            "n", "ca",
+            "<Cmd>Git commit --amend <bar> wincmd J<CR>",
+            { desc = "Amend the last commit" },
+          },
+          {
+            "n", "c<space>",
+            ":Git commit ",
+            { desc = "Populate command line with \":Git commit \"" },
+          },
+        },
+      }
+    },
     init = function()
       vim.opt.fillchars:append { diff = "╱" }
+      vim.keymap.set('n', '<leader>dv', ':DiffviewFileHistory %<cr>')
+      vim.keymap.set('v', '<leader>dv', ':DiffviewFileHistory<cr>')
     end,
   },
 
