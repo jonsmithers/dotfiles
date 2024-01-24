@@ -18,7 +18,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 vim.g.mapleader = ' '
-vim.cmd('source ' .. vim.env.HOME .. '/.config/nvim/init2.vim')
+vim.cmd.source(vim.env.HOME .. '/.config/nvim/init2.vim')
 
 vim.api.nvim_create_augroup('init.lua', {})
 local dev_icons_enabled = os.getenv('VIM_DEVICONS') == '1'

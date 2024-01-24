@@ -1,5 +1,5 @@
 " vim: ts=2 sw=2
-" Last Updated: 2023-12-27
+" Last Updated: 2024-01-24
 
 
 if !exists('s:os')
@@ -20,20 +20,20 @@ nnoremap <leader>; :
 vnoremap <leader>; :
 
 " search and replace (works well with Traces.vim)
-vnoremap <c-r>A y:call s:ReplaceAppend()<cr>
-vnoremap <c-r>c y:call s:ReplaceChange()<cr>
-vnoremap <c-r>I y:call s:ReplaceInsert()<cr>
-fun! s:ReplaceAppend()
+vnoremap <c-r>A y:call g:ReplaceAppend()<cr>
+vnoremap <c-r>c y:call g:ReplaceChange()<cr>
+vnoremap <c-r>I y:call g:ReplaceInsert()<cr>
+fun! g:ReplaceAppend()
   let l:selection = escape(@0, '/\')
   call feedkeys(":%substitute/\\V\\C" . l:selection . '/' . l:selection . "/gc\<left>\<left>\<left>")
   return ''
 endfun
-fun! s:ReplaceChange()
+fun! g:ReplaceChange()
   let l:selection = escape(@0, '/\')
   call feedkeys(":%substitute/\\V\\C" . l:selection . '/' . "/gc\<left>\<left>\<left>")
   return ''
 endfun
-fun! s:ReplaceInsert()
+fun! g:ReplaceInsert()
   let l:selection = escape(@0, '/\')
   call feedkeys(":%substitute/\\V\\C" . l:selection . '/' . l:selection . "/gc\<left>\<left>\<left>" . repeat("\<left>", len(l:selection)))
   return ''
