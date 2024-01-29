@@ -1048,7 +1048,10 @@ require('lazy').setup({
   },
 
   { 'stevearc/oil.nvim',
-    opts = {},
+    opts = {
+      constrain_cursor = "name",
+      skip_confirm_for_simple_edits = true,
+    },
     init = function()
       vim.api.nvim_create_autocmd('FileType', {
         pattern = 'oil',
