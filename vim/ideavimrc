@@ -7,8 +7,8 @@
 :nnoremap <Leader>liF yiwoconsole.log('%c0()', 'font-size:15px');<Esc>^2w
 :nnoremap <Leader>gif yiwf{oconsole.group('0');<Esc>]}Oconsole.groupEnd();<Esc>^
 :nnoremap <Leader>le :action Javascript.Linters.EsLint.Fix<cr>:echo 'Eslint Fix'<cr>
-:nnoremap <Leader>rr :action Rerun<cr>:echo 'Rerun'<cr>
-:nnoremap <Leader>db :action Debug<cr>:echo 'Debug'<cr>
+:nnoremap <Leader>rr :action Rerun<cr>
+:nnoremap <Leader>db :action Debug<cr>
 :nnoremap <Leader>lr :action RenameElement<cr>
 :nnoremap gr :action FindUsages<cr>
 :nnoremap gu :action FindUsages<cr>
@@ -22,6 +22,9 @@
 :nnoremap <c-w><c-q> :q<cr>
 :nnoremap ]g :action GotoNextError<cr>
 :nnoremap [g :action GotoPreviousError<cr>
+:nnoremap [or :set relativenumber<cr>
+:nnoremap ]or :set norelativenumber<cr>
+
 Plug 'tpope/vim-surround'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'tpope/vim-commentary'
@@ -34,3 +37,4 @@ set smartcase
 set incsearch
 set hlsearch
 set highlightedyank
+set relativenumber
