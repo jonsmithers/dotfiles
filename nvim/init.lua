@@ -36,6 +36,38 @@ require('lazy').setup({
 
   'bronson/vim-visual-star-search',
 
+  { 'folke/flash.nvim',
+    event = "VeryLazy",
+    enabled = true,
+    ---@type Flash.Config
+    opts = {
+      modes = {
+        char = {
+          enabled = false,
+          highlight = { backdrop = true },
+        }
+      },
+    },
+    -- stylua: ignore
+    keys = {
+      { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
+      { "S", mode = { "n", "x", "o" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
+      { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
+      { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
+      { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
+    },
+  },
+
+  { "folke/persistence.nvim",
+    event = "BufReadPre", -- this will only start session saving when an actual file was opened
+    opts = {
+      -- add any custom options here
+    },
+    init = function()
+      vim.api.nvim_set_keymap("n", "<leader>ql", [[<cmd>lua require("persistence").load({ last = true })<cr>]], {})
+    end
+  },
+
   { 'folke/trouble.nvim',
     dependencies = {
       'tpope/vim-unimpaired',
@@ -1051,6 +1083,11 @@ require('lazy').setup({
     opts = {
       constrain_cursor = "name",
       skip_confirm_for_simple_edits = true,
+      keymaps = {
+        ["<C-v>"] = "actions.select_vsplit",
+        ["<C-x>"] = "actions.select_split",
+      },
+      use_default_keymaps = true,
     },
     init = function()
       vim.api.nvim_create_autocmd('FileType', {
