@@ -290,10 +290,10 @@ if [[ "$TERM" = "xterm-kitty" ]]; then
   }
   alias n=notify
   rk_mark() {
-    kitty @ --password 'wow such secure' create-marker --match all text 3 "$1"
+    kitty @ --password "$KITTY_RC_PASSWORD" create-marker --match all text 3 "$1"
   }
   rk_unmark() {
-    kitty @ --password 'wow such secure' remove-marker --match all
+    kitty @ --password "$KITTY_RC_PASSWORD" remove-marker --match all
   }
   [[ $print_emojis ]] && echo -n 🐈
 fi

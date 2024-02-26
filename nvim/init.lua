@@ -1258,7 +1258,7 @@ end)
 -- ┌────────────────────────────┐
 -- │ Kitty Terminal Integration │
 -- └────────────────────────────┘
--- requires:
+-- other setup:
 -- - kitty config:
 -- - - remote_control_password "<password>"
 -- - - listen_on unix:/tmp/<something>

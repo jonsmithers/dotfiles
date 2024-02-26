@@ -3,47 +3,18 @@ set -e
 cd "$(dirname "$0")"
 source ../_helpers.sh
 
-if test -d "$HOME/.oh-my-zsh"; then
-  echo -e " ${GREEN}✓${NORMAL} oh-my-zsh installed"
-elif prompt " ${RED}✗${NORMAL} missing oh-my-zsh - install?"; then
-  (
-    export CHSH=no;
-    export RUNZSH=no;
-    echo CHSH=no RUNZSH=no
-    echo_and_run sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-  )
+if grep --quiet '^export KITTY_RC_PASSWORD=' < ~/.zshenv; then
+  echo -e " ${GREEN}✓${NORMAL} KITTY_RC_PASSWORD is set"
+elif prompt " ${RED}✗${NORMAL} set KITTY_RC_PASSWORD?"; then
+  echo -n 'password› '
+  read -s -r password
+  echo "export KITTY_RC_PASSWORD='$password'" >> ~/.zshenv
+  echo "remote_control_password '$password'" >> ~/.config/kitty/profile.conf
+  echo "allow_remote_control password" >> ~/.config/kitty/profile.conf
+  unset password
 fi
 
-
-if test -d ~/.config/zsh/zsh-autosuggestions; then
-  echo -e " ${GREEN}✓${NORMAL} zsh-autosuggestions installed"
-elif prompt " ${RED}✗${NORMAL} missing zsh-autosuggestions - install?"; then
-  echo_and_run mkdir -p ~/.config/zsh
-  echo_and_run git clone https://github.com/zsh-users/zsh-autosuggestions ~/.config/zsh/zsh-autosuggestions
-else
-  echo "Skipping zsh-autosuggestions installation"
-fi
-
-if test -d ~/.config/zsh/zsh-syntax-highlighting; then
-  echo -e " ${GREEN}✓${NORMAL} zsh-syntax-highlighting installed"
-elif prompt " ${RED}✗${NORMAL} missing zsh-syntax-highlighting - install?"; then
-  echo_and_run mkdir -p ~/.config/zsh
-  echo_and_run git clone https://github.com/zsh-users/zsh-syntax-highlighting ~/.config/zsh/zsh-syntax-highlighting
-else
-  echo "Skipping zsh-syntax-highlighting installation"
-fi
-
-if [[ -f "$HOME/.config/zsh/fzf-git.sh" ]]; then
-  echo -e " ${GREEN}✓${NORMAL} fzf-git installed"
-elif prompt " ${RED}✗${NORMAL} missing fzf-git - install?"; then
-  echo_and_run mkdir -p ~/.config/zsh
-  echo curl https://raw.githubusercontent.com/junegunn/fzf-git.sh/main/fzf-git.sh > ~/.config/zsh/fzf-git.sh
-  curl https://raw.githubusercontent.com/junegunn/fzf-git.sh/main/fzf-git.sh > ~/.config/zsh/fzf-git.sh
-else
-  echo "Skipping fzf-git installation"
-fi
-
-fzfdocker_dir="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fzf-docker"
+fzfdocker_dir="$HOME/.config/zsh/fzf-docker"
 if [[ -d "$fzfdocker_dir" ]]; then
   echo -e " ${GREEN}✓${NORMAL} fzf-docker installed"
 elif prompt " ${RED}✗${NORMAL} missing fzf-docker - install?"; then
@@ -51,13 +22,3 @@ elif prompt " ${RED}✗${NORMAL} missing fzf-docker - install?"; then
 else
   echo "Skipping fzf-docker installation"
 fi
-
-power_dir="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"
-if [[ -d "$power_dir" ]]; then
-  echo -e " ${GREEN}✓${NORMAL} powerlevel10k installed"
-elif prompt " ${RED}✗${NORMAL} missing powerlevel10k - install?"; then
-  echo_and_run git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$power_dir"
-else
-  echo "Skipping powerlevel10k installation"
-fi
-unset power_dir
