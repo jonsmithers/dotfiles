@@ -1,5 +1,5 @@
 " vim: ts=2 sw=2
-" Last Updated: 2024-01-24
+" Last Updated: 2024-02-16
 
 
 if !exists('s:os')
@@ -52,7 +52,7 @@ nnoremap <C-h> 5zh
 nnoremap <C-l> 5zl
 
 " quick save
-nnoremap <silent> <Leader><Leader> :w<Enter>
+nnoremap <silent> <Leader><Leader> :update<Enter>
 
 " switch with most recent buffer
 nnoremap <Leader><Tab> :b#<enter>
