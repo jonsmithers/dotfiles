@@ -1,4 +1,5 @@
-printf ➡️
+print_emojis=1
+
 ZIM_HOME="$HOME/.zim"
 setopt auto_cd
 
@@ -30,7 +31,8 @@ stty -ixon # needed for fzf-git.sh plugin
 
 # Initialize modules.
 source "${ZIM_HOME}/init.zsh"
-echo -n 🦄
+[[ $print_emojis ]] && echo -n 🦄
+
 # Usage: has <command>
 #
 # Returns 0 if the <command> is available. Returns 1 otherwise. It can be a
@@ -83,7 +85,7 @@ if command -v zoxide > /dev/null; then
   alias j=c
 fi
 # clock cow
-echo -n 🐂
+[[ $print_emojis ]] && echo -n 🐂
 if has exa; then
   alias ll='exa --long --icons'
 else
@@ -119,6 +121,8 @@ if [[ "$(uname)" == "Linux" ]]; then
     alias pbpaste='powershell.exe -command "Get-Clipboard"'
   fi
 fi
+
+[[ $print_emojis ]] && echo -ne 🐭
 
 if has fzf; then
   fzfCommit() {
@@ -206,6 +210,8 @@ if has _fzf_git_each_ref; then
   }
 fi
 
+[[ $print_emojis ]] && echo -n 🦩
+
 [[ -d "$HOME/.nvm" ]] && {
   export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
   [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
@@ -255,15 +261,13 @@ export FZF_DEFAULT_OPTS='
 # toggle preview        | ctrl-/ | ??? doesn't work in kitty/nvim
 # toggle preview        | ctrl-\ |
 
-echo -ne 🐶
+[[ $print_emojis ]] && echo -ne 🐶
 if has direnv; then
   eval "$(direnv hook zsh)"
 fi
 
-# clock 2
-echo -ne '🕑'
-
 if [[ "$TERM" = "xterm-kitty" ]]; then
+  [[ $print_emojis ]] && echo -n 🐱
   alias icat="kitty +kitten icat"
   alias hg="kitty +kitten hyperlinked_grep "
   compdef hg=rg
@@ -282,6 +286,7 @@ if [[ "$TERM" = "xterm-kitty" ]]; then
     # printf '\x1b]99;i=1:d=0;'"$title"'\x1b\\'
     printf '\x1b]99;i=1:d=1:p=body;'"$body"'\x1b\\'
     printf '\e[?5h'; sleep 0.1 ; printf '\e[?5l'
+    return $errcode
   }
   alias n=notify
   rk_mark() {
@@ -290,7 +295,7 @@ if [[ "$TERM" = "xterm-kitty" ]]; then
   rk_unmark() {
     kitty @ --password 'wow such secure' remove-marker --match all
   }
-  echo -n 🐈
+  [[ $print_emojis ]] && echo -n 🐈
 fi
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
@@ -307,4 +312,4 @@ bindkey "^X^E" edit-command-line
 
 # clear line
 # echo -e "\033[1K"
-clear
+[[ $print_emojis ]] && echo -ne 🍑
