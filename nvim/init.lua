@@ -834,6 +834,12 @@ require('lazy').setup({
 
   { 'nvim-pack/nvim-spectre',
     dependencies = 'nvim-lua/plenary.nvim',
+    cmd = 'Spectre',
+    build = function()
+      vim.cmd[[
+        !brew install gnu-sed
+      ]]
+    end
   },
 
   { 'prettier/vim-prettier',
@@ -1301,12 +1307,12 @@ local function run_command_in_kitty_window(str, opts)
 
   local function create_or_focus_window()
     if (opts.transient_shell) then
-      vim.fn.system({'kitty', '@', 'launch', '--cwd', vim.fn.getcwd(), '--location', 'hsplit', '--title', 'sidecar'})
+      vim.fn.system({'kitty', '@', 'launch', '--cwd', vim.fn.getcwd(), '--location', 'hsplit', '--title', '🏃'})
       return kitty.get_current_window_id()
     else
       if (window_id_of_persistent_shell == nil or not kitty.window_exists(window_id_of_persistent_shell)) then
-        -- if (last_terminal == nil or 0 ~= os.execute("kitty @ ls | jq '.[].tabs.[].windows.[].title' | grep --quiet sidecar")) then
-        vim.fn.system({'kitty', '@', 'launch', '--cwd', vim.fn.getcwd(), '--location', 'hsplit', '--title', 'sidecar'})
+        -- if (last_terminal == nil or 0 ~= os.execute("kitty @ ls | jq '.[].tabs.[].windows.[].title' | grep --quiet 🏃")) then
+        vim.fn.system({'kitty', '@', 'launch', '--cwd', vim.fn.getcwd(), '--location', 'hsplit', '--title', '🏃'})
         window_id_of_persistent_shell = kitty.get_current_window_id()
       else
         vim.fn.system({'kitty', '@', 'focus-window', '--match', 'id:'..window_id_of_persistent_shell})
