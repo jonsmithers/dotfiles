@@ -34,18 +34,19 @@ obj.mapping = {
   resizeIn = { obj.mash, '-' }
 }
 
+local padding = 0.000
 local units = {
-  right50       = { x = 0.50, y = 0.00, w = 0.50, h = 1.00 },
-  left50        = { x = 0.00, y = 0.00, w = 0.50, h = 1.00 },
-  top50         = { x = 0.00, y = 0.00, w = 1.00, h = 0.50 },
-  bot50         = { x = 0.00, y = 0.50, w = 1.00, h = 0.50 },
-  
-  upleft50      = { x = 0.00, y = 0.00, w = 0.50, h = 0.50 },
-  upright50     = { x = 0.50, y = 0.00, w = 0.50, h = 0.50 },
-  botleft50     = { x = 0.00, y = 0.50, w = 0.50, h = 0.50 },
-  botright50    = { x = 0.50, y = 0.50, w = 0.50, h = 0.50 },
-  
-  maximum       = { x = 0.00, y = 0.00, w = 1.00, h = 1.00 },
+  right50    = { x = 0.5,     y = 0.0,  w = 0.50-padding, h = 1.00 },
+  left50     = { x = padding, y = 0,    w = 0.50-padding, h = 1.00 },
+  top50      = { x = 0.00,    y = 0.00, w = 1.00,         h = 0.50 },
+  bot50      = { x = 0.00,    y = 0.50, w = 1.00,         h = 0.50 },
+
+  upleft50   = { x = padding, y = 0.00, w = 0.50-padding, h = 0.50 },
+  upright50  = { x = 0.50,    y = 0.00, w = 0.50-padding, h = 0.50 },
+  botleft50  = { x = padding, y = 0.50, w = 0.50-padding, h = 0.50 },
+  botright50 = { x = 0.50,    y = 0.50, w = 0.50-padding, h = 0.50 },
+
+  maximum    = { x = padding, y = 0.00, w = 1-2*padding,  h = 1.00 },
 }
 
 function move(unit) hs.window.focusedWindow():move(unit, nil, true, 0) end
