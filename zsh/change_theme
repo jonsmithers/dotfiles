@@ -523,6 +523,6 @@ case $theme in
     echo "\"$theme\" is not a recognized theme"
     ;;
 esac
-if [[ -z "$KITTY_PID" ]]; then
+if [[ -n "$KITTY_PID" ]]; then
   kill -SIGUSR1 "$KITTY_PID"
 fi
