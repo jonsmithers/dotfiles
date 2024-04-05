@@ -34,20 +34,23 @@ obj.mapping = {
   resizeIn = { obj.mash, '-' }
 }
 
-local padding = 0.000
-local units = {
-  right50    = { x = 0.5,     y = 0.0,  w = 0.50-padding, h = 1.00 },
-  left50     = { x = padding, y = 0,    w = 0.50-padding, h = 1.00 },
-  top50      = { x = 0.00,    y = 0.00, w = 1.00,         h = 0.50 },
-  bot50      = { x = 0.00,    y = 0.50, w = 1.00,         h = 0.50 },
+local padding = 0.003
+padding = 0.0
+local units = function() 
+  return {
+    right50    = { x = 0.5,     y = 0.0,  w = 0.50-padding, h = 1.00 },
+    left50     = { x = padding, y = 0,    w = 0.50-padding, h = 1.00 },
+    top50      = { x = 0.00,    y = 0.00, w = 1.00,         h = 0.50 },
+    bot50      = { x = 0.00,    y = 0.50, w = 1.00,         h = 0.50 },
 
-  upleft50   = { x = padding, y = 0.00, w = 0.50-padding, h = 0.50 },
-  upright50  = { x = 0.50,    y = 0.00, w = 0.50-padding, h = 0.50 },
-  botleft50  = { x = padding, y = 0.50, w = 0.50-padding, h = 0.50 },
-  botright50 = { x = 0.50,    y = 0.50, w = 0.50-padding, h = 0.50 },
+    upleft50   = { x = padding, y = 0.00, w = 0.50-padding, h = 0.50 },
+    upright50  = { x = 0.50,    y = 0.00, w = 0.50-padding, h = 0.50 },
+    botleft50  = { x = padding, y = 0.50, w = 0.50-padding, h = 0.50 },
+    botright50 = { x = 0.50,    y = 0.50, w = 0.50-padding, h = 0.50 },
 
-  maximum    = { x = padding, y = 0.00, w = 1-2*padding,  h = 1.00 },
-}
+    maximum    = { x = padding, y = 0.00, w = 1-2*padding,  h = 1.00 },
+  } 
+end
 
 function move(unit) hs.window.focusedWindow():move(unit, nil, true, 0) end
 
@@ -111,16 +114,16 @@ function resizeWindowInSteps(increment)
   hs.window.focusedWindow():move({x=x, y=y, w=w, h=h}, nil, true, 0)
 end
 
-function obj:left() move(units.left50, nil, true, 0) end
-function obj:right() move(units.right50, nil, true, 0) end
-function obj:up() move(units.top50, nil, true, 0) end
-function obj:down() move(units.bot50, nil, true, 0) end
-function obj:upleft() move(units.upleft50, nil, true, 0) end
-function obj:upright() move(units.upright50, nil, true, 0) end
-function obj:botleft() move(units.botleft50, nil, true, 0) end
-function obj:botright() move(units.botright50, nil, true, 0) end
+function obj:left() move(units().left50, nil, true, 0) end
+function obj:right() move(units().right50, nil, true, 0) end
+function obj:up() move(units().top50, nil, true, 0) end
+function obj:down() move(units().bot50, nil, true, 0) end
+function obj:upleft() move(units().upleft50, nil, true, 0) end
+function obj:upright() move(units().upright50, nil, true, 0) end
+function obj:botleft() move(units().botleft50, nil, true, 0) end
+function obj:botright() move(units().botright50, nil, true, 0) end
 
-function obj:maximum() move(units.maximum, nil, true, 0) end
+function obj:maximum() move(units().maximum, nil, true, 0) end
 
 function obj:toggleFullScreen() hs.window.focusedWindow():toggleFullScreen() end
 function obj:toggleZoom() hs.window.focusedWindow():toggleZoom() end
@@ -159,6 +162,14 @@ function obj:bindHotkeys(mapping)
     for k,v in pairs(mapping) do self.mapping[k] = v end
   end
 
+  hs.hotkey.bind(obj.mash, 'h',  function() self:left()     end)
+  hs.hotkey.bind(obj.mash, 'l',  function() self:right()    end)
+  hs.hotkey.bind(obj.mash, 'k',  function() self:up()       end)
+  hs.hotkey.bind(obj.mash, 'j',  function() self:down()     end)
+  hs.hotkey.bind(obj.mash, '/',  function() self:botright() end)
+  hs.hotkey.bind(obj.mash, '.',  function() self:botleft()  end)
+  hs.hotkey.bind(obj.mash, ';',  function() self:upleft()   end)
+  hs.hotkey.bind(obj.mash, '\'', function() self:upright()  end)
   hs.hotkey.bind(self.mapping.left[1], self.mapping.left[2], function() self:left() end)
   hs.hotkey.bind(self.mapping.right[1], self.mapping.right[2], function() self:right() end)
   hs.hotkey.bind(self.mapping.up[1], self.mapping.up[2], function() self:up() end)
