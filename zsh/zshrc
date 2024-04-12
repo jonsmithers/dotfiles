@@ -277,8 +277,7 @@ if [[ "$TERM" = "xterm-kitty" ]]; then
       title="${1:-❌ $prev_cmd}"
     fi
     local body="$2"
-    printf '\x1b]99;i=1:d=0:o=invisible;'"$title"'\x1b\\'
-    # printf '\x1b]99;i=1:d=0;'"$title"'\x1b\\'
+    printf '\x1b]99;i=1:d=0;'"$title"'\x1b\\'
     printf '\x1b]99;i=1:d=1:p=body;'"$body"'\x1b\\'
     printf '\e[?5h'; sleep 0.1 ; printf '\e[?5l'
     return $errcode
