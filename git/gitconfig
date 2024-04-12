@@ -2,10 +2,12 @@
   f = fetch
   w = website
   i = issue
+  p = pull
   ad = add
   br = branch
   cm = commit
   co = checkout
+  cp = cherry-pick
   lg = log
   df = diff
   sh = show
