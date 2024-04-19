@@ -36,7 +36,13 @@ obj.mapping = {
 
 local padding = 0.003
 padding = 0.0
-local units = function() 
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Q", function()
+  padding = padding == 0.0 and 0.003 or 0.0
+  hs.notify.new({title="HaMmErSpOoN", informativeText="padding updated to "..padding}):send()
+  hs.alert.show("changed")
+end)
+
+local units = function()
   return {
     right50    = { x = 0.5,     y = 0.0,  w = 0.50-padding, h = 1.00 },
     left50     = { x = padding, y = 0,    w = 0.50-padding, h = 1.00 },
@@ -49,7 +55,7 @@ local units = function()
     botright50 = { x = 0.50,    y = 0.50, w = 0.50-padding, h = 0.50 },
 
     maximum    = { x = padding, y = 0.00, w = 1-2*padding,  h = 1.00 },
-  } 
+  }
 end
 
 function move(unit) hs.window.focusedWindow():move(unit, nil, true, 0) end
