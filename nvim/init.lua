@@ -30,7 +30,9 @@ require('lazy').setup({
 
   { 'ahmedkhalf/project.nvim',
     config = function()
-      require('project_nvim').setup()
+      require('project_nvim').setup({
+        manual_mode = true
+      })
     end
   },
 
@@ -863,9 +865,9 @@ require('lazy').setup({
   { 'rbong/vim-flog',
     cmd = { 'Flog' },
     init = function()
-      vim.cmd[[
-        command! GV :Flog -path=%<cr>
-      ]]
+      vim.api.nvim_create_user_command('GVF', 'Flog -path=%', {});
+      vim.api.nvim_create_user_command('GV', 'Flog', {});
+      vim.api.nvim_create_user_command('GVFat', 'Flog -format=[%h]\\ {%Cblue%an}\\ %s%n%b', {});
     end
   },
 
@@ -1098,11 +1100,36 @@ require('lazy').setup({
     opts = {
       constrain_cursor = "name",
       skip_confirm_for_simple_edits = true,
-      keymaps = {
-        ["<C-v>"] = "actions.select_vsplit",
-        ["<C-x>"] = "actions.select_split",
-      },
-      use_default_keymaps = true,
+      keymaps = (function()
+
+        local default_keymaps = {
+          ["g?"] = "actions.show_help",
+          ["<CR>"] = "actions.select",
+          ["<C-s>"] = "actions.select_vsplit",
+          ["<C-h>"] = "actions.select_split",
+          ["<C-t>"] = "actions.select_tab",
+          ["<C-p>"] = "actions.preview",
+          ["<C-c>"] = "actions.close",
+          ["<C-l>"] = "actions.refresh",
+          ["-"] = "actions.parent",
+          ["_"] = "actions.open_cwd",
+          ["`"] = "actions.cd",
+          ["~"] = "actions.tcd",
+          ["gs"] = "actions.change_sort",
+          ["gx"] = "actions.open_external",
+          ["g."] = "actions.toggle_hidden",
+          ["g\\"] = "actions.toggle_trash",
+        }
+
+        local result = vim.tbl_extend('force', default_keymaps, {
+          ["<C-v>"] = "actions.select_vsplit",
+          ["<C-x>"] = "actions.select_split",
+          ["gp"] = "actions.preview",
+        })
+        result["<C-p>"] = nil
+        return result
+      end)(),
+      use_default_keymaps = false,
     },
     init = function()
       vim.api.nvim_create_autocmd('FileType', {
