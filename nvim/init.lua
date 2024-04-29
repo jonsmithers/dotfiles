@@ -1140,6 +1140,10 @@ require('lazy').setup({
         end
       })
       vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
+      vim.keymap.set("n", "<leader>ll", "<CMD>rightbelow vnew % | Oil<CR>", { desc = "Open Oil right" })
+      vim.keymap.set("n", "<leader>jj", "<CMD>rightbelow new %  | Oil<CR>", { desc = "Open Oil below" })
+      vim.keymap.set("n", "<leader>kk", "<CMD>leftabove new %   | Oil<CR>", { desc = "Open Oil above" })
+      vim.keymap.set("n", "<leader>hh", "<CMD>leftabove vnew %  | Oil<CR>", { desc = "Open Oil left" })
     end
   },
 
