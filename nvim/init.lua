@@ -33,7 +33,10 @@ require('lazy').setup({
       require('project_nvim').setup({
         manual_mode = true
       })
-    end
+    end,
+    init = function()
+      vim.keymap.set('n', '<leader>gp', '<CMD>Telescope projects<cr>')
+    end,
   },
 
   'bronson/vim-visual-star-search',
@@ -570,6 +573,7 @@ require('lazy').setup({
       ENABLE_FRONTEND_LSPS()
       ENABLE_LSP_SERVER('vimls')
       ENABLE_LSP_SERVER('bashls')
+      ENABLE_LSP_SERVER('rust_analyzer')
       ENABLE_LSP_SERVER('lua_ls', {
         settings = {
           Lua = {
