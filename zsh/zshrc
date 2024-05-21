@@ -86,8 +86,8 @@ if command -v zoxide > /dev/null; then
 fi
 # clock cow
 [[ $print_emojis ]] && echo -n 🐂
-if has exa; then
-  alias ll='exa --long --icons'
+if has lsd; then
+  alias ll='lsd --long'
 else
   alias ll='ls -alF'
 fi
