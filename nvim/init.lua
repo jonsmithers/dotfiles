@@ -886,25 +886,6 @@ require('lazy').setup({
     end
   },
 
-  { 'rest-nvim/rest.nvim',
-    dependencies = "nvim-lua/plenary.nvim",
-    config = function()
-      require('rest-nvim').setup({
-      })
-    end,
-    init = function()
-      vim.api.nvim_create_autocmd('FileType', {
-        group = 'init.lua',
-        pattern = 'http',
-        callback = function()
-          vim.keymap.set('n', '<leader>rr', function()
-            require('rest-nvim').run()
-          end, { buffer = 0 })
-        end,
-      })
-    end
-  },
-
   'rktjmp/lush.nvim',
 
   { 'sindrets/diffview.nvim',
