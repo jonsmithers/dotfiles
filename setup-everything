@@ -97,6 +97,7 @@ install_cmd rg --brew="brew install ripgrep" --dnf="sudo dnf install --assumeyes
 install_cmd git-number --linux="install_git_number_on_linux"
 install_cmd alacritty
 install_cmd bat
+install_cmd delta --brew="brew install git-delta" --dnf="sudo dnf install --assumeyes git-delta"
 install_cmd lsd
 install_cmd node
 install_cmd kitty --brew="curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin" --dnf="curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin" --apt="curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin"

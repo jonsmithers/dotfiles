@@ -39,3 +39,6 @@
 [core]
   editor = nvim
   excludesfile = ~/.gitignore_global
+[delta]
+  line-numbers = true
+  side-by-side = false
