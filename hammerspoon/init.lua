@@ -1,13 +1,15 @@
-local default_browser = "Firefox"
+local default_browser = "Arc"
+-- local default_browser = "Firefox"
 -- local default_browser = "Google Chrome"
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "B", function()
   if (default_browser == "Firefox") then
     default_browser = "Google Chrome"
-    -- hs.alert.show("using Google Chrome")
     io.popen('/opt/homebrew/bin/defaultbrowser chrome')
+  elseif (default_browser == "Google Chrome") then
+    default_browser = "Arc"
+    io.popen('/opt/homebrew/bin/defaultbrowser browser')
   else
     default_browser = "Firefox"
-    -- hs.alert.show("using Firefox")
     io.popen('/opt/homebrew/bin/defaultbrowser firefox')
   end
 end)
