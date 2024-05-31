@@ -115,9 +115,9 @@ require('lazy').setup({
     },
     init = function()
       vim.cmd[[
-       nnoremap [og :ZenMode<cr>
-       nnoremap ]og :ZenMode<cr>
-       nnoremap yog :ZenMode<cr>
+       nnoremap [og :ZenMode<cr>:PencilSoft<cr>
+       nnoremap ]og :ZenMode<cr>:PencilOff<cr>
+       nnoremap yog :ZenMode<cr>:PencilToggle<cr>
        com! -nargs=1 Goyo :lua require('zen-mode').close(); require('zen-mode').open({ window = { width = tonumber(<q-args>) }})
       ]]
     end,
@@ -127,6 +127,10 @@ require('lazy').setup({
       },
       options = {
         number = false,
+      },
+      kitty = {
+        enabled = true,
+        font = "+4", -- font size increment
       },
       on_open = function()
         vim.o.number = false
