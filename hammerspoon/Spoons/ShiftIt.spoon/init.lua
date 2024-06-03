@@ -39,15 +39,16 @@ padding = 0.0
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Q", function()
   padding = padding == 0.0 and 0.003 or 0.0
   hs.notify.new({title="HaMmErSpOoN", informativeText="padding updated to "..padding}):send()
-  hs.alert.show("changed")
+  local word = padding == 0.0 and "disabled" or "enabled"
+  hs.alert.show(word.." padding for sceenshare")
 end)
 
 local units = function()
   return {
-    right50    = { x = 0.5,     y = 0.0,  w = 0.50-padding, h = 1.00 },
-    left50     = { x = padding, y = 0,    w = 0.50-padding, h = 1.00 },
-    top50      = { x = 0.00,    y = 0.00, w = 1.00,         h = 0.50 },
-    bot50      = { x = 0.00,    y = 0.50, w = 1.00,         h = 0.50 },
+    right50 = { x = 0.5,     y = 0.0,  w = 0.50-padding,   h = 1.00 },
+    left50  = { x = padding, y = 0,    w = 0.50-padding,   h = 1.00 },
+    top50   = { x = padding, y = 0.00, w = 1.00-2*padding, h = 0.50 },
+    bot50   = { x = padding, y = 0.50, w = 1.00-2*padding, h = 0.50 },
 
     upleft50   = { x = padding, y = 0.00, w = 0.50-padding, h = 0.50 },
     upright50  = { x = 0.50,    y = 0.00, w = 0.50-padding, h = 0.50 },
