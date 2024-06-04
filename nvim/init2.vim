@@ -1,5 +1,5 @@
 " vim: ts=2 sw=2
-" Last Updated: 2024-02-16
+" Last Updated: 2024-06-04
 
 
 if !exists('s:os')
@@ -18,6 +18,7 @@ endif
 
 nnoremap <leader>; :
 vnoremap <leader>; :
+nnoremap <leader>= :=
 
 " search and replace (works well with Traces.vim)
 vnoremap <c-r>A y:call g:ReplaceAppend()<cr>

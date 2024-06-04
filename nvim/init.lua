@@ -4,6 +4,9 @@
 -- │ URL:    https://github.com/jonsmithers/dotfiles/blob/main/nvim/init.lua │
 -- └─────────────────────────────────────────────────────────────────────────┘
 
+vim.opt.breakindent = true
+vim.opt.undofile = true
+
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
@@ -1200,8 +1203,6 @@ require('lazy').setup({
   'tpope/vim-repeat',
 
   'tpope/vim-rsi',
-
-  'tpope/vim-speeddating',
 
   { 'tpope/vim-surround',
     config = function()
