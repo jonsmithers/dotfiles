@@ -81,21 +81,19 @@ require('lazy').setup({
 
   { 'folke/trouble.nvim',
     dependencies = {
-      'tpope/vim-unimpaired',
+      'tpope/vim-unimpaired', -- for "<Plug>(unimpaired-toggle)" keybindings
     },
-    config = function()
+    config = {
+    },
+    keys = {
+      { '<leader>xq',                  '<cmd>Trouble qflist toggle<cr>',                      desc = 'Quickfix List (Trouble)',      },
+      { '<leader>xx',                  '<cmd>Trouble diagnostics toggle<cr>',                 desc = 'Diagnostics (Trouble)',        },
+      { '<leader>xX',                  '<cmd>Trouble diagnostics toggle filter.buf=0<cr>',    desc = 'Buffer Diagnostics (Trouble)', },
+    },
+    init = function()
       vim.cmd[[
         nnoremap ]t :lua require("trouble").next({skip_groups = true, jump = true})<cr>
         nnoremap [t :lua require("trouble").previous({skip_groups = true, jump = true})<cr>
-        nnoremap <Plug>(unimpaired-disable)t :TroubleClose<cr>
-        nnoremap <Plug>(unimpaired-enable)t :Trouble<cr>
-        nnoremap <Plug>(unimpaired-toggle)t :TroubleToggle<cr>
-        nnoremap <Plug>(unimpaired-disable)a :lua vim.notify('auto-format off', nil, { timeout=100 })<cr>:set fo-=a<cr>
-        nnoremap <Plug>(unimpaired-enable)a :lua vim.notify('auto-format on', nil, { timeout=100 })<cr>:set fo+=a<cr>
-        nnoremap <leader>xx <cmd>TroubleToggle<cr>
-        nnoremap <leader>xw <cmd>TroubleToggle workspace_diagnostics<cr>
-        nnoremap <leader>xd <cmd>TroubleToggle document_diagnostics<cr>
-        nnoremap <leader>xq <cmd>TroubleToggle quickfix<cr>
       ]]
     end
   },
@@ -354,6 +352,7 @@ require('lazy').setup({
           " to not see fzf in the PATH)
           let $PATH=$PATH..":"..expand("~/.fzf/bin")
         endif
+        inoremap <expr> <c-x><c-k> fzf#vim#complete('cat /usr/share/dict/words')
       ]]
     end
   },
@@ -1228,7 +1227,14 @@ require('lazy').setup({
     end
   },
 
-  'tpope/vim-unimpaired',
+  { 'tpope/vim-unimpaired',
+    init = function()
+      vim.cmd[[
+        nnoremap <Plug>(unimpaired-disable)a :lua require('notify')('auto-format off')<cr>:set fo-=a<cr>
+        nnoremap <Plug>(unimpaired-enable)a :lua require('notify')('auto-format on')<cr>:set fo+=a<cr>
+      ]]
+    end
+  },
 
   'tpope/vim-sleuth',
 
