@@ -288,6 +288,9 @@ require('lazy').setup({
     },
     init = function()
       vim.g.fzf_command_prefix = 'Fzf'
+      vim.g.fzf_vim = {
+        grep_multi_line = 2
+      }
     end,
     config = function()
       vim.cmd[[
@@ -308,6 +311,7 @@ require('lazy').setup({
           \ 'spinner': ['fg', 'Label'],
           \ 'header':  ['fg', 'Comment'] }
 
+        " TODO update the new binding to inject history (https://github.com/junegunn/fzf.vim/blob/279e1ec068f526e985ee7e3f62a71f083bbe0196/plugin/fzf.vim#L64)
         function! RipgrepFzf(query, fullscreen, preview)
           " let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case %s | awk --field-separator=: ''{ x=$1; sub("/.*/", "/.../", x); print (x":"$2":"$3":"$4); }'' || true'
           let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case %s || true'
@@ -321,7 +325,7 @@ require('lazy').setup({
 
         command! -nargs=* -bang Rg call RipgrepFzf(<q-args>, <bang>0, 1)
         command! -nargs=* -bang RgNoPreview call RipgrepFzf(<q-args>, <bang>0, 0)
-        :nnoremap <leader>F     :Rg!<Enter>
+        :nnoremap <leader>F     :FzfRg!<Enter>
         :nnoremap <C-F>         :Rg<Enter>
 
         "search for word in working directory
