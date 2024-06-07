@@ -83,7 +83,8 @@ require('lazy').setup({
     dependencies = {
       'tpope/vim-unimpaired', -- for "<Plug>(unimpaired-toggle)" keybindings
     },
-    config = {
+    cmd = "Trouble",
+    opts = {
     },
     keys = {
       { '<leader>xq',                  '<cmd>Trouble qflist toggle<cr>',                      desc = 'Quickfix List (Trouble)',      },
