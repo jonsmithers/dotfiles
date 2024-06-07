@@ -262,6 +262,7 @@ if has direnv; then
 fi
 
 if [[ "$TERM" = "xterm-kitty" ]]; then
+  alias rg='rg --hyperlink-format=kitty'
   [[ $print_emojis ]] && echo -n 🐱
   alias icat="kitty +kitten icat"
   alias hg="kitty +kitten hyperlinked_grep "
