@@ -327,7 +327,7 @@ require('lazy').setup({
 
         command! -nargs=* -bang Rg call RipgrepFzf(<q-args>, <bang>0, 1)
         command! -nargs=* -bang RgNoPreview call RipgrepFzf(<q-args>, <bang>0, 0)
-        :nnoremap <leader>F     :FzfRg!<Enter>
+        :nnoremap <leader>F     :FzfRG!<Enter>
         :nnoremap <C-F>         :Rg<Enter>
 
         "search for word in working directory
@@ -366,6 +366,12 @@ require('lazy').setup({
 
   { 'karb94/neoscroll.nvim',
     opts = {
+      mappings = {                 -- Keys to be mapped to their corresponding default scrolling animation
+        '<C-u>', '<C-d>',
+        '<C-b>', -- '<C-f>',
+        '<C-y>', '<C-e>',
+        'zt', 'zz', 'zb',
+      },
     },
   },
 
