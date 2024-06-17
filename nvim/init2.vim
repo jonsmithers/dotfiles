@@ -330,7 +330,7 @@ augroup END
 
 augroup vimrc_updatetimestamp
   au!
-  autocmd BufWritePre dotphile,en.utf-8.add,git-website,init2.vim,init.lua call s:updateTimeStamp()
+  autocmd BufWritePre dotphile,en.utf-8.add,git-website,git-issue,init2.vim,init.lua call s:updateTimeStamp()
 augroup END
 function! s:updateTimeStamp()
   " ignore for fugitive files
