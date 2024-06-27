@@ -33,6 +33,17 @@ local dev_icons_enabled = os.getenv('VIM_DEVICONS') == '1'
 -- plugins stored in ~/.local/share/nvim/lazy/
 require('lazy').setup({
 
+{
+    "NStefan002/screenkey.nvim",
+    lazy = false,
+    opts = {
+      win_opts = {
+        border='rounded',
+      }
+    },
+    version = "*", -- or branch = "dev", to use the latest commit
+},
+
   { 'ahmedkhalf/project.nvim',
     config = function()
       require('project_nvim').setup({
@@ -553,10 +564,10 @@ require('lazy').setup({
         nnoremap_buffer('<space>oi', '<cmd>lua vim.lsp.buf.execute_command({command = "_typescript.organizeImports", arguments = {vim.fn.expand("%:p")}})<CR>', opts)
         nnoremap_buffer(']g',        '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
         nnoremap_buffer('[g',        '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
-        nnoremap_buffer('gi',        '<cmd>TroubleToggle lsp_implementations<CR>', opts)
-        nnoremap_buffer('gu',        '<cmd>TroubleToggle lsp_references<CR>', opts)
-        nnoremap_buffer('gd',        '<cmd>TroubleToggle lsp_definitions<CR>', opts)
-        nnoremap_buffer('gtd',       '<cmd>TroubleToggle lsp_type_definitions<CR>', opts)
+        nnoremap_buffer('gi',        '<cmd>Trouble lsp_implementations<CR>', opts)
+        nnoremap_buffer('gu',        '<cmd>Trouble lsp_references<CR>', opts)
+        nnoremap_buffer('gd',        '<cmd>Trouble lsp_definitions<CR>', opts)
+        nnoremap_buffer('gtd',       '<cmd>Trouble lsp_type_definitions<CR>', opts)
         nnoremap_buffer('K',         '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
         nnoremap_buffer('<space>lh', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
         nnoremap_buffer('<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
@@ -591,6 +602,7 @@ require('lazy').setup({
 
       ENABLE_FRONTEND_LSPS()
       ENABLE_LSP_SERVER('vimls')
+      ENABLE_LSP_SERVER('gopls')
       ENABLE_LSP_SERVER('bashls')
       ENABLE_LSP_SERVER('rust_analyzer')
       ENABLE_LSP_SERVER('lua_ls', {
@@ -627,6 +639,8 @@ require('lazy').setup({
         " sumnekko_lua
         !npm install --global yaml-language-server
         " yamlls
+        !command -v go && go install golang.org/x/tools/gopls@latest
+        " gopls
       ]])
     end,
   },
@@ -643,7 +657,9 @@ require('lazy').setup({
       extensions = {
         'fugitive',
         'fzf',
+        'lazy',
         'nvim-tree',
+        'oil',
         'quickfix',
         'trouble',
       },
@@ -896,12 +912,10 @@ require('lazy').setup({
 
   { 'rcarriga/nvim-notify',
     config = function()
-      require('notify').setup({
-        render='minimal'
-      })
+      require('notify').setup()
     end,
     init = function()
-      vim.notify = require('notify')
+      -- vim.notify = require('notify')
     end
   },
 
@@ -1126,7 +1140,7 @@ require('lazy').setup({
         }
 
         local result = vim.tbl_extend('force', default_keymaps, {
-          ["<C-v>"] = "actions.select_vsplit",
+          -- ["<C-v>"] = "actions.select_vsplit",
           ["<C-x>"] = "actions.select_split",
           ["gp"] = "actions.preview",
         })
@@ -1165,6 +1179,7 @@ require('lazy').setup({
       'shumphrey/fugitive-gitlab.vim',
     },
     config = function()
+      vim.cmd([[ command! -nargs=1 Browse silent exec '!open "<args>"' ]])
       vim.cmd[[
         nnoremap <Leader>gb :Git blame -w<cr>
         " ~        reblame at hovered commit
@@ -1206,8 +1221,8 @@ require('lazy').setup({
           autocmd FileType fugitive nmap <buffer> cZ cz<space>push --staged --message ""<left>
         augroup END
         com! Gstashes :Gclog -g stash
-        vnoremap <leader>gl :GBrowse!<cr><cr>:lua vim.notify("<c-r>+")<cr>
-        nnoremap <leader>gl :GBrowse!<cr><cr>:lua vim.notify("<c-r>+")<cr>
+        vnoremap <leader>gl :GBrowse!<cr><cr>:lua require('notify')("<c-r>+")<cr>
+        nnoremap <leader>gl :GBrowse!<cr><cr>:lua require('notify')("<c-r>+")<cr>
       ]]
     end
   },

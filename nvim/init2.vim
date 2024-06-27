@@ -1,5 +1,5 @@
 " vim: ts=2 sw=2
-" Last Updated: 2024-06-04
+" Last Updated: 2024-06-17
 
 
 if !exists('s:os')
@@ -46,7 +46,7 @@ inoremap jk <Esc>
 " https://castel.dev/post/lecture-notes-1/
 inoremap <c-l> <c-g>u<Esc>[s1z=`]a<c-g>u
 " clear search
-nnoremap <silent> <leader>sdf :let @/ = ''<cr>
+nnoremap <silent> <leader>sdf :echo 'sdf'<cr>:let @/ = ''<cr>
 
 " horizontal scroll
 nnoremap <C-h> 5zh
@@ -360,5 +360,3 @@ function! s:updateTimeStamp()
   endif
   call winrestview(l:save_view)
 endfunction
-
-let g:fugitive_gitlab_domains = ['https://git.aoc-pathfinder.cloud/']
