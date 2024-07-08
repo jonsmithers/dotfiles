@@ -284,6 +284,14 @@ require('lazy').setup({
     end,
   },
 
+  { 'j-hui/fidget.nvim',
+    setup = function()
+      vim.notify = require('fidget.notification').notify
+    end,
+    opts = {
+    }
+  },
+
   { 'junegunn/vim-easy-align',
     -- <C-p> | toggle "live" interactive
     -- <C-g> | cycle "ignore groups"
@@ -1221,8 +1229,8 @@ require('lazy').setup({
           autocmd FileType fugitive nmap <buffer> cZ cz<space>push --staged --message ""<left>
         augroup END
         com! Gstashes :Gclog -g stash
-        vnoremap <leader>gl :GBrowse!<cr><cr>:lua require('notify')("<c-r>+")<cr>
-        nnoremap <leader>gl :GBrowse!<cr><cr>:lua require('notify')("<c-r>+")<cr>
+        vnoremap <leader>gl :GBrowse!<cr><cr>:lua require('fidget.notification').notify("<c-r>+")<cr>
+        nnoremap <leader>gl :GBrowse!<cr><cr>:lua require('fidget.notification').notify("<c-r>+")<cr>
       ]]
     end
   },
@@ -1260,8 +1268,8 @@ require('lazy').setup({
   { 'tpope/vim-unimpaired',
     init = function()
       vim.cmd[[
-        nnoremap <Plug>(unimpaired-disable)a :lua require('notify')('auto-format off')<cr>:set fo-=a<cr>
-        nnoremap <Plug>(unimpaired-enable)a :lua require('notify')('auto-format on')<cr>:set fo+=a<cr>
+        nnoremap <Plug>(unimpaired-disable)a :lua require('fidget.notification').notify('auto-format off')<cr>:set fo-=a<cr>
+        nnoremap <Plug>(unimpaired-enable)a :lua require('fidget.notification').notify('auto-format on')<cr>:set fo+=a<cr>
       ]]
     end
   },
