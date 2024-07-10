@@ -696,6 +696,9 @@ require('lazy').setup({
       'windwp/nvim-ts-autotag',
       'towolf/vim-helm',
     },
+    build = function()
+      vim.cmd'TSUpdate'
+    end,
     config = function()
       require'nvim-treesitter.configs'.setup {
         -- grr   | smart rename
