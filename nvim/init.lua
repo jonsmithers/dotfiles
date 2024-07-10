@@ -33,8 +33,7 @@ local dev_icons_enabled = os.getenv('VIM_DEVICONS') == '1'
 -- plugins stored in ~/.local/share/nvim/lazy/
 require('lazy').setup({
 
-{
-    "NStefan002/screenkey.nvim",
+  { "NStefan002/screenkey.nvim",
     lazy = false,
     opts = {
       win_opts = {
@@ -42,7 +41,7 @@ require('lazy').setup({
       }
     },
     version = "*", -- or branch = "dev", to use the latest commit
-},
+  },
 
   { 'ahmedkhalf/project.nvim',
     config = function()
@@ -50,9 +49,9 @@ require('lazy').setup({
         manual_mode = true
       })
     end,
-    init = function()
-      vim.keymap.set('n', '<leader>gp', '<CMD>Telescope projects<cr>')
-    end,
+    keys = {
+      { '<leader>gp', '<CMD>Telescope projects<cr>', desc = "Go to Project" }
+    },
   },
 
   'bronson/vim-visual-star-search',
@@ -74,22 +73,24 @@ require('lazy').setup({
     },
     -- stylua: ignore
     keys = {
-      { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
-      { "S", mode = { "n",      "o" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
-      { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
-      { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
-      { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
+      -- { "s", mode = {      "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
+      { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end,              desc = "Flash" },
+      { "S", mode = { "n",      "o" }, function() require("flash").treesitter() end,        desc = "Flash Treesitter" },
+      { "r", mode = "o",               function() require("flash").remote() end,            desc = "Remote Flash" },
+      { "R", mode = { "o", "x" },      function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
+      { "<c-s>", mode = { "c" },       function() require("flash").toggle() end,            desc = "Toggle Flash Search" },
     },
   },
 
   { "folke/persistence.nvim",
     event = "BufReadPre", -- this will only start session saving when an actual file was opened
-    opts = {
-      -- add any custom options here
+    keys = {
+      { '<leader>qs', function() require("persistence").load() end,                desc = 'Load session for directory' },
+      { '<leader>qS', function() require("persistence").select() end,              desc = 'Select session to load' },
+      { '<leader>ql', function() require("persistence").load({ last = true }) end, desc = 'Load the last session' },
     },
-    init = function()
-      vim.api.nvim_set_keymap("n", "<leader>ql", [[<cmd>lua require("persistence").load({ last = true })<cr>]], {})
-    end
+    opts = {
+    },
   },
 
   { 'folke/trouble.nvim',
@@ -99,10 +100,10 @@ require('lazy').setup({
     cmd = "Trouble",
     opts = {
     },
-    keys = {
-      { '<leader>xq',                  '<cmd>Trouble qflist toggle<cr>',                      desc = 'Quickfix List (Trouble)',      },
-      { '<leader>xx',                  '<cmd>Trouble diagnostics toggle<cr>',                 desc = 'Diagnostics (Trouble)',        },
-      { '<leader>xX',                  '<cmd>Trouble diagnostics toggle filter.buf=0<cr>',    desc = 'Buffer Diagnostics (Trouble)', },
+    key = {
+      { '<leader>xq', '<cmd>Trouble qflist toggle<cr>',                   desc = 'Quickfix List (Trouble)',      },
+      { '<leader>xx', '<cmd>Trouble diagnostics toggle<cr>',              desc = 'Diagnostics (Trouble)',        },
+      { '<leader>xX', '<cmd>Trouble diagnostics toggle filter.buf=0<cr>', desc = 'Buffer Diagnostics (Trouble)', },
     },
     init = function()
       vim.cmd[[
@@ -118,7 +119,13 @@ require('lazy').setup({
       vim.o.timeout = true
       vim.o.timeoutlen = 300
     end,
-    enabled = false,
+    enabled = true,
+    config = function()
+      require('which-key').register {
+        ['<leader>q']  = { name = 'Session stuff?', _ = 'which_key_ignore' },
+        ['<leader>bd'] = { name = 'Backups', _ = 'which_key_ignore' },
+      }
+    end,
     opts = {
     }
   },
@@ -494,8 +501,8 @@ require('lazy').setup({
         end
 
         api.config.mappings.default_on_attach(bufnr)
-        vim.keymap.set('n', '[g', api.node.navigate.diagnostics.prev, opts('Prev Diagnostic'))
-        vim.keymap.set('n', ']g', api.node.navigate.diagnostics.next, opts('Next Diagnostic'))
+        vim.keymap.set('n', '[g', api.node.navigate.diagnostics.prev, opts('Go to prev diagnostic'))
+        vim.keymap.set('n', ']g', api.node.navigate.diagnostics.next, opts('Go to next diagnostic'))
       end
     },
   },
@@ -506,31 +513,31 @@ require('lazy').setup({
     opts = {
       on_attach = function(bufnr)
         local gs = package.loaded.gitsigns
-        local function map(mode, l, r, opts)
-          opts = opts or {}
-          opts.buffer = bufnr
-          vim.keymap.set(mode, l, r, opts)
+        local function map(mode, l, r, desc)
+          vim.keymap.set(mode, l, r, { buffer = bufnr, desc = desc or ''})
         end
-        map('n', '<leader>ga', gs.stage_hunk)
-        map('v', '<leader>ga', function() gs.stage_hunk {vim.fn.line('.'), vim.fn.line('v')} end)
-        map('n', '<leader>gr', gs.reset_hunk)
-        map('v', '<leader>gr', function() gs.reset_hunk {vim.fn.line('.'), vim.fn.line('v')} end)
+        map('n', '<leader>ga', gs.stage_hunk, "Stage hunk")
+        map('v', '<leader>ga', function() gs.stage_hunk {vim.fn.line('.'), vim.fn.line('v')} end, "Stage hunk")
+        map('n', '<leader>gr', gs.reset_hunk, "Reset hunk")
+        map('v', '<leader>gr', function() gs.reset_hunk {vim.fn.line('.'), vim.fn.line('v')} end, "Reset hunk")
         -- TODO alternative to fugutive diff???
         -- map('n', '<leader>GD', function() gs.diffthis('~') end)
         -- map('n', '<leader>GD', gs.diffthis)
-        -- map('n', '<leader>GB', function() gs.blame_line{full=true} end)
+        map('n', '<leader>GB', function() gs.blame_line{full=true} end)
         -- map('n', '<leader>GTB', gs.toggle_current_line_blame)
-        map('n', ']c', function()
-          if vim.wo.diff then return ']c' end
-          vim.schedule(function() gs.next_hunk() end)
-          return '<Ignore>'
-        end, {expr=true})
-        map('n', '[c', function()
-          if vim.wo.diff then return '[c' end
-          vim.schedule(function() gs.prev_hunk() end)
-          return '<Ignore>'
-        end, {expr=true})
-        map({'o', 'x'}, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
+        if (string.sub(vim.fn.expand('%'), 0,string.len('fugitive://')) ~= 'fugitive://') then
+          map('n', ']c', function()
+            -- if vim.wo.diff then return ']c' end
+            vim.schedule(function() gs.next_hunk() end)
+            return '<Ignore>'
+          end, 'Go to next change')
+          map('n', '[c', function()
+            -- if vim.wo.diff then return '[c' end
+            vim.schedule(function() gs.prev_hunk() end)
+            return '<Ignore>'
+          end, 'Go to previous change')
+        end
+        map({'o', 'x'}, 'ih', ':<C-U>Gitsigns select_hunk<CR>', 'inner hunk')
       end
     },
   },
@@ -557,34 +564,38 @@ require('lazy').setup({
       local lspconfig = require('lspconfig')
       ---@diagnostic disable-next-line: unused-local
       local ON_LSP_ATTACH = function(client, bufnr)
-        local function nnoremap_buffer(...) vim.api.nvim_buf_set_keymap(bufnr, 'n', ...) end
+        local function nnoremap_buffer(lhs, rhs, desc)
+          vim.keymap.set('n', lhs, rhs, {
+            noremap = true,
+            silent = true,
+            buffer = bufnr,
+            desc = desc,
+          })
+        end
         local function command_buffer(...) vim.api.nvim_buf_create_user_command(bufnr, ...) end
         local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
         -- Enable completion triggered by <c-x><c-o>
         buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
-        -- Mappings.
-        local opts = { noremap=true, silent=true }
-
         -- See `:help vim.lsp.*` for documentation on any of the below functions
-        nnoremap_buffer('<space>le', '<cmd>EslintFixAll<CR>', opts)
-        nnoremap_buffer('<space>oi', '<cmd>lua vim.lsp.buf.execute_command({command = "_typescript.organizeImports", arguments = {vim.fn.expand("%:p")}})<CR>', opts)
-        nnoremap_buffer(']g',        '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
-        nnoremap_buffer('[g',        '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
-        nnoremap_buffer('gi',        '<cmd>Trouble lsp_implementations<CR>', opts)
-        nnoremap_buffer('gu',        '<cmd>Trouble lsp_references<CR>', opts)
-        nnoremap_buffer('gd',        '<cmd>Trouble lsp_definitions<CR>', opts)
-        nnoremap_buffer('gtd',       '<cmd>Trouble lsp_type_definitions<CR>', opts)
-        nnoremap_buffer('K',         '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-        nnoremap_buffer('<space>lh', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-        nnoremap_buffer('<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
-        nnoremap_buffer('<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
-        nnoremap_buffer('<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-        nnoremap_buffer('<space>lr', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-        nnoremap_buffer('<space>la', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-        nnoremap_buffer('<space>e',  '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-        command_buffer('LspFormat',  'lua vim.lsp.buf.format()', {})
+        nnoremap_buffer('<space>lf', '<cmd>!msfix %<CR>',                                                                                                       'MISSION-API CUSTOM ESLINT FIX')
+        nnoremap_buffer('<space>le', '<cmd>EslintFixAll<CR>',                                                                                                   'Eslint Fix')
+        nnoremap_buffer('<space>oi', '<cmd>lua vim.lsp.buf.execute_command({command = "_typescript.organizeImports", arguments = {vim.fn.expand("%:p")}})<CR>', 'Organize imports')
+        nnoremap_buffer(']g',        '<cmd>lua vim.diagnostic.goto_next()<CR>',                                                                                 'Go to next diagnostic')
+        nnoremap_buffer('[g',        '<cmd>lua vim.diagnostic.goto_prev()<CR>',                                                                                 'Go to previous diagnostic')
+        nnoremap_buffer('gi',        '<cmd>Trouble lsp_implementations<CR>',                                                                                    'Go to implementations')
+        nnoremap_buffer('gu',        '<cmd>Trouble lsp_references<CR>',                                                                                         'Go to usages')
+        nnoremap_buffer('gd',        '<cmd>Trouble lsp_definitions<CR>',                                                                                        'Go to definitions')
+        nnoremap_buffer('gtd',       '<cmd>Trouble lsp_type_definitions<CR>',                                                                                   'Go to type definitions')
+        -- nnoremap_buffer('K',         '<cmd>lua vim.lsp.buf.hover()<CR>',                                                                                        'Hover')
+        nnoremap_buffer('<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>',                                                                         'Add workspace folder')
+        nnoremap_buffer('<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>',                                                                      'Remove workspace folder')
+        nnoremap_buffer('<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>',                                                   'List workspace folders')
+        nnoremap_buffer('<space>lr', '<cmd>lua vim.lsp.buf.rename()<CR>',                                                                                       'Lsp Rename')
+        nnoremap_buffer('<space>la', '<cmd>lua vim.lsp.buf.code_action()<CR>',                                                                                  'Lsp Action')
+        nnoremap_buffer('<space>e',  '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>',                                                                 'Lsp Show Line Diagnostic')
+        command_buffer('LspFormat',  'lua vim.lsp.buf.format()',                                                                                                {})
       end
 
       ENABLE_LSP_SERVER = function(name, options)
