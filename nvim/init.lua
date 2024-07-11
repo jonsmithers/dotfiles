@@ -236,9 +236,8 @@ require('lazy').setup({
           format = function(entry, vim_item)
             local kind = require('lspkind').cmp_format({ mode = 'symbol_text', maxwidth = 50 })(entry, vim_item)
             local strings = vim.split(kind.kind, '%s', { trimempty = true })
-            kind.kind = ' ' .. strings[1] .. ' '
-            kind.menu = '    (' .. strings[2] .. ')'
-
+            kind.kind = ' ' .. (strings[1] or 'nil') .. ' '
+            kind.menu = '    (' .. (strings[2] or 'nil') .. ')'
             return kind
           end,
         },
@@ -516,6 +515,11 @@ require('lazy').setup({
         local function map(mode, l, r, desc)
           vim.keymap.set(mode, l, r, { buffer = bufnr, desc = desc or ''})
         end
+        map('n', '<leader>gha', gs.stage_hunk, "Stage hunk")
+        map('n', '<leader>ghu', gs.undo_stage_hunk, "Undo stage hunk")
+        map('n', '<leader>ghr', gs.reset_hunk, "Reset hunk")
+        map('n', '<leader>ghp', gs.preview_hunk_inline, 'Preview hunk (inline)')
+        map('n', '<leader>ghP', gs.preview_hunk, 'Preview hunk (popup)')
         map('n', '<leader>ga', gs.stage_hunk, "Stage hunk")
         map('v', '<leader>ga', function() gs.stage_hunk {vim.fn.line('.'), vim.fn.line('v')} end, "Stage hunk")
         map('n', '<leader>gr', gs.reset_hunk, "Reset hunk")
