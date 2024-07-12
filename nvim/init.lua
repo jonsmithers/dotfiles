@@ -119,11 +119,12 @@ require('lazy').setup({
       vim.o.timeout = true
       vim.o.timeoutlen = 300
     end,
+    dependencies = { 'echasnovski/mini.nvim' },
     enabled = true,
     config = function()
-      require('which-key').register {
-        ['<leader>q']  = { name = 'Session stuff?', _ = 'which_key_ignore' },
-        ['<leader>bd'] = { name = 'Backups', _ = 'which_key_ignore' },
+      require('which-key').add {
+        { '<leader>q', name = 'Session stuff?', _ = 'which_key_ignore' },
+        { '<leader>bd', name = 'Backups', _ = 'which_key_ignore' },
       }
     end,
     opts = {
