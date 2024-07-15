@@ -116,19 +116,21 @@ require('lazy').setup({
   { 'folke/which-key.nvim',
     event = "VeryLazy",
     init = function()
+      require('which-key').setup({
+        preset = 'helix',
+        delay = function(ctx)
+          return ctx.plugin and 0 or 800
+        end,
+      })
       vim.o.timeout = true
       vim.o.timeoutlen = 300
+      require('which-key').add {
+        -- { '<leader>q', name = 'Session stuff?', _ = 'which_key_ignore' },
+        -- { '<leader>bd', name = 'Backups', _ = 'which_key_ignore' },
+      }
     end,
     dependencies = { 'echasnovski/mini.nvim' },
     enabled = true,
-    config = function()
-      require('which-key').add {
-        { '<leader>q', name = 'Session stuff?', _ = 'which_key_ignore' },
-        { '<leader>bd', name = 'Backups', _ = 'which_key_ignore' },
-      }
-    end,
-    opts = {
-    }
   },
 
   { 'folke/zen-mode.nvim',
