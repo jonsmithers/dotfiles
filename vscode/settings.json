@@ -33,4 +33,15 @@
             "after": ["<Esc>"]
         }
     ],
+    "workbench.colorTheme": "Catppuccin Frappé",
+    "open-in-vim.restoreCursorAfterVim": true,
+    "workbench.iconTheme": "catppuccin-frappe",
+    "extensions.experimental.affinity": {
+        "asvetliakov.vscode-neovim": 1
+    },
+    "vscode-neovim.compositeKeys": {
+        "jk": {
+            "command": "vscode-neovim.escape"
+        }
+    }
 }
