@@ -1342,6 +1342,29 @@ vim.cmd[[
 vim.opt.foldlevelstart = tonumber(vim.env['NVIM_OPT_FOLDLEVELSTART']) or 99
 vim.opt.relativenumber = 'true' == vim.env['NVIM_OPT_RELATIVENUMBER']
 
+vim.opt.title = true
+vim.o.titlestring = ""
+vim.api.nvim_create_autocmd({'BufEnter', 'TermEnter'}, {
+  pattern = '*',
+  group = 'init.lua',
+  callback = function()
+    local cwd = "  %{fnamemodify(getcwd(), ':t')}  "
+    if (vim.fn.expand('%') == '') then
+      vim.o.titlestring = cwd..'[scratch]'
+    elseif (vim.o.filetype == 'NvimTree') then
+      vim.o.titlestring = cwd..''
+    elseif (vim.o.filetype == 'oil') then
+      vim.o.titlestring = cwd..''
+    elseif (vim.o.filetype == 'fugitive') then
+      vim.o.titlestring = cwd..''
+    elseif (string.find(vim.fn.expand('%'), 'FZF')) then
+      vim.o.titlestring = cwd..''
+    else
+      vim.o.titlestring = cwd.."%{expand('%:t')}:%l"
+    end
+  end
+})
+
 -- draw a box around text
 -- memonic: "you surround til $ with _"
 vim.keymap.set('n', 'ys$_', function()
