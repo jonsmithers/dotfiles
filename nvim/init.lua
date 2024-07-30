@@ -1375,3 +1375,22 @@ vim.keymap.set('n', 'ys$_', function()
   vim.cmd.normal('p'..x..'|r└lv$hhr─$r┘k')
   vim.cmd.normal('|'..x..'ll')
 end)
+
+if (vim.g.vscode) then
+  vim.cmd[[
+    nnoremap ]d <Cmd>lua require('vscode').action('editor.action.marker.next')<CR>
+    nnoremap [d <Cmd>lua require('vscode').action('editor.action.marker.prev')<CR>
+    nnoremap ]g <Cmd>lua require('vscode').action('editor.action.marker.next')<CR>
+    nnoremap [g <Cmd>lua require('vscode').action('editor.action.marker.prev')<CR>
+    nnoremap gd <Cmd>lua require('vscode').action('editor.action.revealDefinition')<CR>
+    nnoremap gu <Cmd>lua require('vscode').action('editor.action.goToReferences')<CR>
+    nnoremap zz <Cmd>lua require('vscode').action('revealLine', { args = { at = "center", lineNumber = vim.api.nvim_win_get_cursor(0)[1] }})<CR>
+    nnoremap zt <Cmd>lua require('vscode').action('revealLine', { args = { at = "top", lineNumber = vim.api.nvim_win_get_cursor(0)[1] }})<CR>
+    nnoremap zb <Cmd>lua require('vscode').action('revealLine', { args = { at = "bottom", lineNumber = vim.api.nvim_win_get_cursor(0)[1] }})<CR>
+    nnoremap <spacer>sdf <Cmd>lua print('ok there buddy')<CR>
+    " 👇 this doesn't work
+    nnoremap <c-n> <Cmd>lua require('vscode').action('editor.action.addSelectionToNextFindMatch')<CR>
+    vnoremap <c-n> <Cmd>lua require('vscode').action('editor.action.addSelectionToNextFindMatch')<CR>
+    " note: shift-k is in keybindings.json
+  ]]
+end
