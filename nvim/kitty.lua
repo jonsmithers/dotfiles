@@ -106,22 +106,53 @@ end, { nargs = '*', bang = true})
 -- ┌──────────────┐
 -- │ Test runners │
 -- └──────────────┘
+local last_command = ':'
+vim.keymap.set('n', '<leader>rr', function() Run_command_in_kitty_window(last_command, { transient_shell = false }) end)
+vim.keymap.set('n', '<leader>!!', function() Run_command_in_kitty_window('!!\r', { transient_shell = false }) end)
+
 vim.api.nvim_create_autocmd('BufEnter', {
   pattern = {'*.java'},
   group = 'kitty.lua',
   callback = function()
     vim.api.nvim_buf_create_user_command(0, 'TestFile', function()
       vim.cmd.update()
-      Run_command_in_kitty_window(string.format('gw test --tests %s', vim.fn.expand('%:t:r')), { transient_shell = true })
+      last_command = string.format('gw test --offline --tests %s', vim.fn.expand('%:t:r'))
+      Run_command_in_kitty_window(last_command, { transient_shell = true })
     end, { nargs = 0})
     vim.api.nvim_buf_create_user_command(0, 'TestOne', function()
       vim.cmd.update()
-      local cursor_pos = vim.api.nvim_win_get_cursor(0);
+      local cursor_pos = vim.api.nvim_win_get_cursor(0)
       vim.fn.search('@\\(Parameterized\\)\\?Test', 'b')
       vim.fn.search('void ')
       vim.cmd.normal('W')
       local test_name=vim.fn.expand('<cword>')
-      Run_command_in_kitty_window(string.format('gw test --tests %s.%s', vim.fn.expand('%:t:r'), test_name), { transient_shell = true })
+      last_command = string.format('gw test --offline --tests %s.%s', vim.fn.expand('%:t:r'), test_name)
+      Run_command_in_kitty_window(last_command, { transient_shell = true })
+      vim.api.nvim_win_set_cursor(0, cursor_pos)
+    end, { nargs = 0})
+    vim.keymap.set('n', '<leader>rt', ':TestOne<cr>', { buffer = 0 })
+    vim.keymap.set('n', '<leader>rf', ':TestFile<cr>', { buffer = 0 })
+  end
+})
+
+vim.api.nvim_create_autocmd('BufEnter', {
+  pattern = {'*.tsx', '*.ts'},
+  group = 'kitty.lua',
+  callback = function()
+    vim.api.nvim_buf_create_user_command(0, 'TestFile', function()
+      vim.cmd.update()
+      last_command = (vim.env.NVIM_YARN_TEST_PREFIX or 'yarn exec jest --coverage=false') .. string.format(' "%s"', vim.fn.expand('%:t:r'))
+      Run_command_in_kitty_window(last_command, { transient_shell = true })
+    end, { nargs = 0})
+    vim.api.nvim_buf_create_user_command(0, 'TestOne', function()
+      vim.cmd.update()
+      local cursor_pos = vim.api.nvim_win_get_cursor(0);
+      vim.fn.search(' \\(it\\|test\\|describe\\)(', 'b')
+      vim.cmd.normal('l')
+      vim.cmd.normal("yi'")
+      local test_name=vim.fn.getreg('0')
+      last_command = (vim.env.NVIM_YARN_TEST_PREFIX or 'yarn exec jest --coverage=false') .. string.format(' "%s" -t "%s"', vim.fn.expand('%:t:r'), test_name)
+      Run_command_in_kitty_window(last_command, { transient_shell = true })
       vim.api.nvim_win_set_cursor(0, cursor_pos);
     end, { nargs = 0})
     vim.keymap.set('n', '<leader>rt', ':TestOne<cr>', { buffer = 0 })
