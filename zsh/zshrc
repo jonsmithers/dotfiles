@@ -264,6 +264,7 @@ fi
 if [[ "$TERM" = "xterm-kitty" ]]; then
   alias rg='rg --hyperlink-format=kitty'
   [[ $print_emojis ]] && echo -n 🐱
+  alias rg="rg --hyperlink-format=kitty"
   alias icat="kitty +kitten icat"
   alias hg="kitty +kitten hyperlinked_grep "
   compdef hg=rg

@@ -298,8 +298,13 @@ require('lazy').setup({
       vim.notify = require('fidget.notification').notify
     end,
     opts = {
-    }
-  },
+      notification = {
+        window = {
+          border = 'rounded',
+        },
+      },
+    },
+	},
 
   { 'junegunn/vim-easy-align',
     -- <C-p> | toggle "live" interactive
@@ -586,7 +591,6 @@ require('lazy').setup({
         buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
         -- See `:help vim.lsp.*` for documentation on any of the below functions
-        nnoremap_buffer('<space>lf', '<cmd>!msfix %<CR>',                                                                                                       'MISSION-API CUSTOM ESLINT FIX')
         nnoremap_buffer('<space>le', '<cmd>EslintFixAll<CR>',                                                                                                   'Eslint Fix')
         nnoremap_buffer('<space>oi', '<cmd>lua vim.lsp.buf.execute_command({command = "_typescript.organizeImports", arguments = {vim.fn.expand("%:p")}})<CR>', 'Organize imports')
         nnoremap_buffer(']g',        '<cmd>lua vim.diagnostic.goto_next()<CR>',                                                                                 'Go to next diagnostic')
