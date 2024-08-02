@@ -130,7 +130,7 @@ require('lazy').setup({
       }
     end,
     dependencies = { 'echasnovski/mini.nvim' },
-    enabled = true,
+    enabled = not vim.g.vscode,
   },
 
   { 'folke/zen-mode.nvim',
@@ -175,6 +175,7 @@ require('lazy').setup({
       'hrsh7th/cmp-vsnip',
       'hrsh7th/cmp-emoji',
     },
+    enabled = not vim.g.vscode,
     config = function()
       local cmp = require('cmp')
       cmp.setup({
@@ -557,6 +558,7 @@ require('lazy').setup({
   'nanotee/zoxide.vim',
 
   { 'neovim/nvim-lspconfig',
+    enabled = not vim.g.vscode,
     dependencies = {
       'folke/neodev.nvim'
     },

@@ -37,6 +37,16 @@ local kitty = {
   end
 }
 local window_id_of_persistent_shell = nil
+function Create_or_focus_persistent_window()
+  if (window_id_of_persistent_shell == nil or not kitty.window_exists(window_id_of_persistent_shell)) then
+    -- if (last_terminal == nil or 0 ~= os.execute("kitty @ ls | jq '.[].tabs.[].windows.[].title' | grep --quiet 🏃")) then
+    vim.fn.system({'kitty', '@', 'launch', '--cwd', vim.fn.getcwd(), '--location', 'hsplit', '--title', '🏃'})
+    window_id_of_persistent_shell = kitty.get_current_window_id()
+  else
+    vim.fn.system({'kitty', '@', 'focus-window', '--match', 'id:'..window_id_of_persistent_shell})
+  end
+  return window_id_of_persistent_shell
+end
 function Run_command_in_kitty_window(str, opts)
   opts = vim.tbl_extend('force', {
     return_focus = true,
@@ -48,14 +58,7 @@ function Run_command_in_kitty_window(str, opts)
       vim.fn.system({'kitty', '@', 'launch', '--cwd', vim.fn.getcwd(), '--location', 'hsplit', '--title', '🏃'})
       return kitty.get_current_window_id()
     else
-      if (window_id_of_persistent_shell == nil or not kitty.window_exists(window_id_of_persistent_shell)) then
-        -- if (last_terminal == nil or 0 ~= os.execute("kitty @ ls | jq '.[].tabs.[].windows.[].title' | grep --quiet 🏃")) then
-        vim.fn.system({'kitty', '@', 'launch', '--cwd', vim.fn.getcwd(), '--location', 'hsplit', '--title', '🏃'})
-        window_id_of_persistent_shell = kitty.get_current_window_id()
-      else
-        vim.fn.system({'kitty', '@', 'focus-window', '--match', 'id:'..window_id_of_persistent_shell})
-      end
-      return window_id_of_persistent_shell
+      return Create_or_focus_persistent_window();
     end
   end
 
@@ -107,8 +110,8 @@ end, { nargs = '*', bang = true})
 -- │ Test runners │
 -- └──────────────┘
 local last_command = ':'
-vim.keymap.set('n', '<leader>rr', function() Run_command_in_kitty_window(last_command, { transient_shell = false }) end)
-vim.keymap.set('n', '<leader>!!', function() Run_command_in_kitty_window('!!\r', { transient_shell = false }) end)
+vim.keymap.set('n', '<leader>rr', function() Run_command_in_kitty_window(last_command .. '; post_hook_1 ' .. Create_or_focus_persistent_window(), { transient_shell = false }) end)
+vim.keymap.set('n', '<leader>!!', function() Run_command_in_kitty_window('!!; post_hook_1 ' .. Create_or_focus_persistent_window() .. '\n', { transient_shell = false }) end)
 
 vim.api.nvim_create_autocmd('BufEnter', {
   pattern = {'*.java'},
@@ -117,7 +120,7 @@ vim.api.nvim_create_autocmd('BufEnter', {
     vim.api.nvim_buf_create_user_command(0, 'TestFile', function()
       vim.cmd.update()
       last_command = string.format('gw test --offline --tests %s', vim.fn.expand('%:t:r'))
-      Run_command_in_kitty_window(last_command, { transient_shell = true })
+      Run_command_in_kitty_window(last_command, { transient_shell = false })
     end, { nargs = 0})
     vim.api.nvim_buf_create_user_command(0, 'TestOne', function()
       vim.cmd.update()
@@ -127,7 +130,7 @@ vim.api.nvim_create_autocmd('BufEnter', {
       vim.cmd.normal('W')
       local test_name=vim.fn.expand('<cword>')
       last_command = string.format('gw test --offline --tests %s.%s', vim.fn.expand('%:t:r'), test_name)
-      Run_command_in_kitty_window(last_command, { transient_shell = true })
+      Run_command_in_kitty_window(last_command, { transient_shell = false })
       vim.api.nvim_win_set_cursor(0, cursor_pos)
     end, { nargs = 0})
     vim.keymap.set('n', '<leader>rt', ':TestOne<cr>', { buffer = 0 })
@@ -142,7 +145,7 @@ vim.api.nvim_create_autocmd('BufEnter', {
     vim.api.nvim_buf_create_user_command(0, 'TestFile', function()
       vim.cmd.update()
       last_command = (vim.env.NVIM_YARN_TEST_PREFIX or 'yarn exec jest --coverage=false') .. string.format(' "%s"', vim.fn.expand('%:t:r'))
-      Run_command_in_kitty_window(last_command, { transient_shell = true })
+      Run_command_in_kitty_window(last_command, { transient_shell = false })
     end, { nargs = 0})
     vim.api.nvim_buf_create_user_command(0, 'TestOne', function()
       vim.cmd.update()
@@ -152,7 +155,7 @@ vim.api.nvim_create_autocmd('BufEnter', {
       vim.cmd.normal("yi'")
       local test_name=vim.fn.getreg('0')
       last_command = (vim.env.NVIM_YARN_TEST_PREFIX or 'yarn exec jest --coverage=false') .. string.format(' "%s" -t "%s"', vim.fn.expand('%:t:r'), test_name)
-      Run_command_in_kitty_window(last_command, { transient_shell = true })
+      Run_command_in_kitty_window(last_command, { transient_shell = false })
       vim.api.nvim_win_set_cursor(0, cursor_pos);
     end, { nargs = 0})
     vim.keymap.set('n', '<leader>rt', ':TestOne<cr>', { buffer = 0 })
