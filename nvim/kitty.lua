@@ -150,7 +150,7 @@ vim.api.nvim_create_autocmd('BufEnter', {
     vim.api.nvim_buf_create_user_command(0, 'TestOne', function()
       vim.cmd.update()
       local cursor_pos = vim.api.nvim_win_get_cursor(0);
-      vim.fn.search(' \\(it\\|test\\|describe\\)(', 'b')
+      vim.fn.search('^\\s*\\(it\\|test\\|describe\\)(', 'b')
       vim.cmd.normal('l')
       vim.cmd.normal("yi'")
       local test_name=vim.fn.getreg('0')
