@@ -268,12 +268,12 @@ require('lazy').setup({
 
       function EnableCompletion()
         require('cmp').setup.buffer { enabled = true };
-        vim.notify('completion enabled');
+        require('fidget').notify('completion enabled')
         vim.b.completion_enabled = true;
       end
       function DisableCompletion()
         require('cmp').setup.buffer { enabled = false };
-        vim.notify('completion disabled');
+        require('fidget').notify('completion disabled')
         vim.b.completion_enabled = false;
       end
       function ToggleCompletion()
@@ -570,7 +570,7 @@ require('lazy').setup({
             library.enabled = true
             library.plugins = true
           else
-            vim.notify('vim lua development (neodev) is not enabled')
+            require('fidget').notify('vim lua development (neodev) is not enabled')
           end
         end,
       })
@@ -1256,8 +1256,8 @@ require('lazy').setup({
           autocmd FileType fugitive nmap <buffer> cZ cz<space>push --staged --message ""<left>
         augroup END
         com! Gstashes :Gclog -g stash
-        vnoremap <leader>gl :GBrowse!<cr><cr>:lua require('fidget.notification').notify("<c-r>+")<cr>
-        nnoremap <leader>gl :GBrowse!<cr><cr>:lua require('fidget.notification').notify("<c-r>+")<cr>
+        vnoremap <silent> <leader>gl :GBrowse!<cr><cr>:lua require('fidget').notify("📋COPIED <c-r>+")<cr>
+        nnoremap <silent> <leader>gl :GBrowse!<cr><cr>:lua require('fidget').notify("📋COPIED <c-r>+")<cr>
       ]]
     end
   },
@@ -1295,8 +1295,8 @@ require('lazy').setup({
   { 'tpope/vim-unimpaired',
     init = function()
       vim.cmd[[
-        nnoremap <Plug>(unimpaired-disable)a :lua require('fidget.notification').notify('auto-format off')<cr>:set fo-=a<cr>
-        nnoremap <Plug>(unimpaired-enable)a :lua require('fidget.notification').notify('auto-format on')<cr>:set fo+=a<cr>
+        nnoremap <Plug>(unimpaired-disable)a :lua require('fidget').notify('auto-format off')<cr>:set fo-=a<cr>
+        nnoremap <Plug>(unimpaired-enable)a :lua require('fidget').notify('auto-format on')<cr>:set fo+=a<cr>
       ]]
     end
   },
