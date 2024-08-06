@@ -4,7 +4,7 @@ vim.api.nvim_create_augroup('kitty.lua', {})
 -- └────────────────────────────┘
 -- other setup:
 -- - kitty config:
--- - - remote_control_password "<password>"
+-- - - remote_control_password '<password>' *
 -- - - listen_on unix:/tmp/<something>
 -- - environment
 -- - - export KITTY_RC_PASSWORD='<password>'
