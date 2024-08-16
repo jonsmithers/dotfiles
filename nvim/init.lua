@@ -99,6 +99,23 @@ require('lazy').setup({
     },
     cmd = "Trouble",
     opts = {
+      focus = true,
+      auto_refresh = false,
+      win = {
+        position = 'bottom',
+        -- border = 'rounded',
+        -- type = 'float',
+        title_pos = 'center',
+        title = 'Usages',
+        relative = 'editor',
+        size = { width = 0.9, height = 0.3 },
+      },
+      preview = {
+        type = "split",
+        relative = "win",
+        position = "right",
+        size = 0.5,
+      },
     },
     key = {
       { '<leader>xq', '<cmd>Trouble qflist toggle<cr>',                   desc = 'Quickfix List (Trouble)',      },
@@ -305,7 +322,10 @@ require('lazy').setup({
         },
       },
     },
-	},
+    init = function()
+      vim.notify = require('fidget').notify
+    end
+  },
 
   { 'junegunn/vim-easy-align',
     -- <C-p> | toggle "live" interactive
@@ -319,7 +339,7 @@ require('lazy').setup({
   },
 
   { 'junegunn/fzf',
-	  dependencies = {
+    dependencies = {
       'junegunn/fzf.vim'
     },
     init = function()
@@ -600,7 +620,7 @@ require('lazy').setup({
         nnoremap_buffer('gi',        '<cmd>Trouble lsp_implementations<CR>',                                                                                    'Go to implementations')
         nnoremap_buffer('gu',        '<cmd>Trouble lsp_references<CR>',                                                                                         'Go to usages')
         nnoremap_buffer('gd',        '<cmd>Trouble lsp_definitions<CR>',                                                                                        'Go to definitions')
-        nnoremap_buffer('gtd',       '<cmd>Trouble lsp_type_definitions<CR>',                                                                                   'Go to type definitions')
+        nnoremap_buffer('<space>gtd','<cmd>Trouble lsp_type_definitions<CR>',                                                                                   'Go to type definitions')
         -- nnoremap_buffer('K',         '<cmd>lua vim.lsp.buf.hover()<CR>',                                                                                        'Hover')
         nnoremap_buffer('<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>',                                                                         'Add workspace folder')
         nnoremap_buffer('<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>',                                                                      'Remove workspace folder')
@@ -1321,6 +1341,7 @@ require('lazy').setup({
 
   { 'windwp/nvim-autopairs',
     dependencies = { 'hrsh7th/nvim-cmp' },
+    enabled = not vim.g.vscode,
     config = function()
       require('nvim-autopairs').setup {}
       -- automatically add `(` after selecting a function or method
