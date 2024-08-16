@@ -119,17 +119,20 @@ vim.api.nvim_create_autocmd('BufEnter', {
   callback = function()
     vim.api.nvim_buf_create_user_command(0, 'TestFile', function()
       vim.cmd.update()
-      last_command = string.format('gw test --offline --tests %s', vim.fn.expand('%:t:r'))
+      last_command = 'clear\n' .. string.format('gw test --offline --tests %s', vim.fn.expand('%:t:r'))
       Run_command_in_kitty_window(last_command, { transient_shell = false })
     end, { nargs = 0})
     vim.api.nvim_buf_create_user_command(0, 'TestOne', function()
       vim.cmd.update()
       local cursor_pos = vim.api.nvim_win_get_cursor(0)
-      vim.fn.search('@\\(Parameterized\\)\\?Test', 'b')
+      if (0 == vim.fn.search('@\\(Parameterized\\)\\?Test', 'bW')) then
+        require('fidget').notify('No test found', vim.log.levels.ERROR)
+        return
+      end
       vim.fn.search('void ')
       vim.cmd.normal('W')
       local test_name=vim.fn.expand('<cword>')
-      last_command = string.format('gw test --offline --tests %s.%s', vim.fn.expand('%:t:r'), test_name)
+      last_command = 'clear\n' .. string.format('gw test --offline --tests %s.%s', vim.fn.expand('%:t:r'), test_name)
       Run_command_in_kitty_window(last_command, { transient_shell = false })
       vim.api.nvim_win_set_cursor(0, cursor_pos)
     end, { nargs = 0})
@@ -144,17 +147,20 @@ vim.api.nvim_create_autocmd('BufEnter', {
   callback = function()
     vim.api.nvim_buf_create_user_command(0, 'TestFile', function()
       vim.cmd.update()
-      last_command = (vim.env.NVIM_YARN_TEST_PREFIX or 'yarn exec jest --coverage=false') .. string.format(' "%s"', vim.fn.expand('%:t:r'))
+      last_command = 'clear\n' .. (vim.env.NVIM_YARN_TEST_PREFIX or 'yarn exec jest --coverage=false') .. string.format(' "%s"', vim.fn.expand('%:t:r'))
       Run_command_in_kitty_window(last_command, { transient_shell = false })
     end, { nargs = 0})
     vim.api.nvim_buf_create_user_command(0, 'TestOne', function()
       vim.cmd.update()
       local cursor_pos = vim.api.nvim_win_get_cursor(0);
-      vim.fn.search('^\\s*\\(it\\|test\\|describe\\)(', 'b')
+      if (0 == vim.fn.search('^\\s*\\(it\\|test\\|describe\\)(', 'bW')) then
+        require('fidget').notify('No test found', vim.log.levels.ERROR)
+        return
+      end
       vim.cmd.normal('l')
       vim.cmd.normal("yi'")
       local test_name=vim.fn.getreg('0')
-      last_command = (vim.env.NVIM_YARN_TEST_PREFIX or 'yarn exec jest --coverage=false') .. string.format(' "%s" -t "%s"', vim.fn.expand('%:t:r'), test_name)
+      last_command = 'clear\n' .. (vim.env.NVIM_YARN_TEST_PREFIX or 'yarn exec jest --coverage=false') .. string.format(' "%s" -t "%s"', vim.fn.expand('%:t:r'), test_name)
       Run_command_in_kitty_window(last_command, { transient_shell = false })
       vim.api.nvim_win_set_cursor(0, cursor_pos);
     end, { nargs = 0})
