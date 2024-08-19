@@ -117,7 +117,7 @@ require('lazy').setup({
         size = 0.5,
       },
     },
-    key = {
+    keys = {
       { '<leader>xq', '<cmd>Trouble qflist toggle<cr>',                   desc = 'Quickfix List (Trouble)',      },
       { '<leader>xx', '<cmd>Trouble diagnostics toggle<cr>',              desc = 'Diagnostics (Trouble)',        },
       { '<leader>xX', '<cmd>Trouble diagnostics toggle filter.buf=0<cr>', desc = 'Buffer Diagnostics (Trouble)', },
@@ -972,6 +972,45 @@ require('lazy').setup({
     init = function()
       -- vim.notify = require('notify')
     end
+  },
+
+  { 'rgroli/other.nvim',
+    config = function()
+      require('other-nvim').setup({
+        mappings = {
+          {
+            pattern = "(.*)/src/main/java/(.*).java$",
+            target = "%1/src/test/java/%2Test.java",
+            context = "test"
+          },
+          {
+            pattern = "(.*)/src/test/java/(.*)Test.java$",
+            target = "%1/src/main/java/%2.java",
+            context = "source"
+          },
+          {
+            pattern = "(.*)/([a-zA-Z0-9]*).ts$", -- don't include `"."spec`
+            target = "%1/__tests__/%2.spec.ts",
+            context = "test"
+          },
+          {
+            pattern = "(.*)/__tests__/(.*).spec.ts$",
+            target = "%1/%2.ts",
+            context = "source"
+          },
+          {
+            pattern = "(.*)/([a-zA-Z0-9]*).tsx$", -- don't include `"."spec`
+            target = "%1/__tests__/%2.spec.tsx",
+            context = "test"
+          },
+          {
+            pattern = "(.*)/__tests__/(.*).spec.tsx$",
+            target = "%1/%2.tsx",
+            context = "source"
+          }
+        },
+      })
+    end,
   },
 
   'rktjmp/lush.nvim',
