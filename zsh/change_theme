@@ -153,6 +153,7 @@ if [[ -z "$theme" ]]; then
     "Kanagawa Dragon (dark)"
     "Kanagawa Lotus (light)"
     "Kanagawa Wave (dark)"
+    "Neofusion (dark)"
     "Nightfox Nightfox"
     "Nightfox Carbonfox"
     "Nightfox Dayfox"
@@ -330,6 +331,13 @@ case $theme in
     change_vim_colorscheme       kanagawa-wave
     obtain_kitty_theme_from_curl 'Kanagawa Wave' https://raw.githubusercontent.com/rebelot/kanagawa.nvim/master/extras/kanagawa.conf
     change_kitty_theme           'Kanagawa Wave'
+    ;;
+  "Neofusion (dark)")
+    obtain_neovim_theme_from_git neofusion.nvim https://github.com/diegoulloao/neofusion.nvim.git
+    change_vim_background        dark
+    change_vim_colorscheme       neofusion
+    obtain_kitty_theme_from_curl 'neofusion-dark' https://raw.githubusercontent.com/diegoulloao/neofusion.kitty/main/neofusion.conf
+    change_kitty_theme           'neofusion-dark'
     ;;
   "Nightfox Nightfox")
     obtain_neovim_theme_from_git nightfox.nvim git@github.com:EdenEast/nightfox.nvim.git
