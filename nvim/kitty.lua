@@ -47,6 +47,8 @@ function Create_or_focus_persistent_window()
   end
   return window_id_of_persistent_shell
 end
+---@param str string | nil
+---@param opts? { ['return_focus']?: boolean, ['transient_shell']?: boolean, ['directory']?: string }
 function Run_command_in_kitty_window(str, opts)
   opts = vim.tbl_extend('force', {
     return_focus = true,
@@ -64,6 +66,9 @@ function Run_command_in_kitty_window(str, opts)
 
   local window_id = create_or_focus_window()
 
+  if (opts.directory ~= nil) then
+    kitty.send_text(window_id, " :; cd '" .. opts.directory .. '\'\n')
+  end
   if (str ~= nil) then
     if (opts.transient_shell) then
       str = str .. '; post_hook exit_on_success'
@@ -78,7 +83,13 @@ vim.keymap.set('n', '<leader>.t', ':TransientShell ')
 vim.keymap.set('n', '<leader>.T', ':TransientShell! ')
 vim.keymap.set('n', '<leader>.q', function() Run_command_in_kitty_window('exit') end)
 vim.keymap.set('n', '<leader>.>', function() Run_command_in_kitty_window(nil, { return_focus = false}) end)
-vim.keymap.set('n', '<leader>gt', function() Run_command_in_kitty_window(nil, { return_focus = false}) end)
+vim.keymap.set('n', '<leader>gt', function()
+  local path = nil
+  if (vim.bo.filetype == 'oil') then
+    path = string.gsub(vim.fn.expand('%'), '^oil://', '')
+  end
+  Run_command_in_kitty_window(nil, { return_focus = false, directory = path });
+end)
 vim.keymap.set('n', '<leader>.<leader>', ':PersistentShell ')
 vim.api.nvim_create_user_command('TransientShell', function(opts)
   local str = table.concat(opts.fargs, ' ')
