@@ -526,7 +526,7 @@
         "key": "shift+[Escape]"
     },
     {
-        "command": "workbench.action.maximizeEditor",
+        "command": "workbench.action.minimizeOtherEditorsHideSidebar",
         "key": "shift+cmd+f12"
     },
     {
@@ -1221,5 +1221,9 @@
     {
         "key": "ctrl+r",
         "command": "-workbench.action.openRecent"
+    },
+    {
+        "key": "ctrl+[Escape]",
+        "command": "workbench.action.toggleActivityBarVisibility"
     },
 ]
