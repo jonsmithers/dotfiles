@@ -25,8 +25,13 @@ if [[ ! "${ZIM_HOME}/init.zsh" -nt "${ZDOTDIR:-${HOME}}/.zimrc" ]]; then
 fi
 
 zstyle ':zim:termtitle' hooks 'preexec' 'precmd'
-zstyle ':zim:termtitle:preexec' format '${${(A)=1}[1]}'
-zstyle ':zim:termtitle:precmd'  format '%1~'
+if [[ "$TERM" == xterm-kitty ]]; then
+  zstyle ':zim:termtitle:preexec' format '󰚭 ${${(A)=1}[1]}'
+  zstyle ':zim:termtitle:precmd'  format ' %1~'
+else
+  zstyle ':zim:termtitle:preexec' format '${${(A)=1}[1]}'
+  zstyle ':zim:termtitle:precmd'  format '%1~'
+fi
 stty -ixon # needed for fzf-git.sh plugin
 
 # Initialize modules.
