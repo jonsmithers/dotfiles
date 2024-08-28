@@ -1414,7 +1414,8 @@ vim.api.nvim_create_autocmd({'BufEnter', 'TermEnter'}, {
   pattern = '*',
   group = 'init.lua',
   callback = function()
-    local cwd = "  %{fnamemodify(getcwd(), ':t')}  "
+    -- local cwd = "  %{fnamemodify(getcwd(), ':t')}  "
+    local cwd = "  %{fnamemodify(getcwd(), ':t')}/"
     if (vim.fn.expand('%') == '') then
       vim.o.titlestring = cwd..''
     elseif (vim.o.filetype == 'NvimTree') then
@@ -1426,7 +1427,8 @@ vim.api.nvim_create_autocmd({'BufEnter', 'TermEnter'}, {
     elseif (string.find(vim.fn.expand('%'), 'FZF')) then
       vim.o.titlestring = cwd..''
     else
-      vim.o.titlestring = cwd.."%{expand('%:t')}:%l"
+      -- vim.o.titlestring = cwd.."%{expand('%:t')}:%l"
+      vim.o.titlestring = cwd.."%{expand('%:t:r')}"
     end
   end
 })
