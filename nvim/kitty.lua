@@ -40,7 +40,7 @@ local window_id_of_persistent_shell = nil
 function Create_or_focus_persistent_window()
   if (window_id_of_persistent_shell == nil or not kitty.window_exists(window_id_of_persistent_shell)) then
     -- if (last_terminal == nil or 0 ~= os.execute("kitty @ ls | jq '.[].tabs.[].windows.[].title' | grep --quiet 🏃")) then
-    vim.fn.system({'kitty', '@', 'launch', '--cwd', vim.fn.getcwd(), '--location', 'hsplit', '--title', '🏃'})
+    vim.fn.system({'kitty', '@', 'launch', '--cwd', vim.fn.getcwd(), '--location', 'hsplit', '--title', '  '})
     window_id_of_persistent_shell = kitty.get_current_window_id()
   else
     vim.fn.system({'kitty', '@', 'focus-window', '--match', 'id:'..window_id_of_persistent_shell})
