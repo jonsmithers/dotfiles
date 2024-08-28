@@ -1420,7 +1420,7 @@ vim.api.nvim_create_autocmd({'BufEnter', 'TermEnter'}, {
     elseif (vim.o.filetype == 'NvimTree') then
       vim.o.titlestring = cwd..''
     elseif (vim.o.filetype == 'oil') then
-      vim.o.titlestring = cwd..''
+      vim.o.titlestring = cwd..''
     elseif (vim.o.filetype == 'fugitive') then
       vim.o.titlestring = cwd..''
     elseif (string.find(vim.fn.expand('%'), 'FZF')) then
