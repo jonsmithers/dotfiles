@@ -1416,7 +1416,7 @@ vim.api.nvim_create_autocmd({'BufEnter', 'TermEnter'}, {
   callback = function()
     local cwd = "  %{fnamemodify(getcwd(), ':t')}  "
     if (vim.fn.expand('%') == '') then
-      vim.o.titlestring = cwd..'[scratch]'
+      vim.o.titlestring = cwd..''
     elseif (vim.o.filetype == 'NvimTree') then
       vim.o.titlestring = cwd..''
     elseif (vim.o.filetype == 'oil') then
