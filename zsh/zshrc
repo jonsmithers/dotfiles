@@ -231,10 +231,10 @@ fi
 export FZF_DEFAULT_OPTS='
   --info=inline
   --bind ctrl-q:toggle-all
-  --bind ctrl-j:preview-down
+  --bind ctrl-j:preview-down+preview-down+preview-down+preview-down
   --bind ctrl-k:preview-up
-  --bind ctrl-d:preview-page-down
   --bind ctrl-u:preview-page-up
+# --bind ctrl-d:preview-page-down (need this to delete chars)
   --pointer=➜
   --ellipsis=…
   --marker=✓
@@ -251,7 +251,7 @@ export FZF_DEFAULT_OPTS='
 # carot to end          | ctrl-e | :-( not scroll down
 # carot to start        | ctrl-a |
 # preview down          | ctrl-j | :-( not select next
-# preview page down     | ctrl-d | :-( not delete char
+# preview page down     |        |
 # preview page up       | ctrl-u |
 # preview up            | ctrl-k | :-( not kill line :-( not select previous
 # rotate preview layout | alt-Q  |
