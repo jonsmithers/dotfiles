@@ -33,11 +33,16 @@ local dev_icons_enabled = os.getenv('VIM_DEVICONS') == '1'
 -- plugins stored in ~/.local/share/nvim/lazy/
 require('lazy').setup({
 
+  { 'MTDL9/vim-log-highlighting' },
+
   { "NStefan002/screenkey.nvim",
     lazy = false,
     opts = {
       win_opts = {
         border='rounded',
+        height = 1,
+        col = vim.o.columns,
+        row = vim.o.lines - vim.o.cmdheight - 1,
       }
     },
     version = "*", -- or branch = "dev", to use the latest commit
@@ -94,6 +99,11 @@ require('lazy').setup({
   },
 
   { 'folke/trouble.nvim',
+    --[[
+      | P | toggle preview           |
+      | o | open file, close trouble |
+    ]]
+    enabled = true,
     dependencies = {
       'tpope/vim-unimpaired', -- for "<Plug>(unimpaired-toggle)" keybindings
     },
@@ -125,7 +135,7 @@ require('lazy').setup({
     init = function()
       vim.cmd[[
         nnoremap ]t :lua require("trouble").next({skip_groups = true, jump = true})<cr>
-        nnoremap [t :lua require("trouble").previous({skip_groups = true, jump = true})<cr>
+        nnoremap [t :lua require("trouble").prev({skip_groups = true, jump = true})<cr>
       ]]
     end
   },
@@ -146,8 +156,7 @@ require('lazy').setup({
         -- { '<leader>bd', name = 'Backups', _ = 'which_key_ignore' },
       }
     end,
-    dependencies = { 'echasnovski/mini.nvim' },
-    enabled = not vim.g.vscode,
+    enabled = false,
   },
 
   { 'folke/zen-mode.nvim',
@@ -539,6 +548,7 @@ require('lazy').setup({
     -- Gitsigns toggle_word_diff
     -- Gitsigns toggle_current_line_blame
     opts = {
+      current_line_blame = true,
       on_attach = function(bufnr)
         local gs = package.loaded.gitsigns
         local function map(mode, l, r, desc)
@@ -911,6 +921,10 @@ require('lazy').setup({
         end,
       })
     end
+  },
+
+  { 'nvim-telescope/telescope.nvim',
+    dependencies = 'neovim/nvim-lspconfig',
   },
 
   'mg979/vim-visual-multi',
