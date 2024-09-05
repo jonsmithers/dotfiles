@@ -226,6 +226,10 @@ fi
 
 [[ $print_emojis ]] && echo -n 🦩
 
+if has fnm; then
+  eval "$(fnm env --use-on-cd)"
+fi
+
 [[ $print_emojis ]] && echo -n 🦀
 
 [[ -d "$HOME/.cargo" ]] && {
@@ -308,6 +312,39 @@ if [[ "$TERM" = "xterm-kitty" ]]; then
     return $errcode
   }
   alias n=notify
+  function post_hook_1() {
+    local errcode="$?"
+    local kitty_window_id="$1"
+    if [[ "$errcode" != "0" ]]; then
+      kitty @ focus-window --match id:"$kitty_window_id" # kitty seems to only place the overlay on the active window
+      kitty @ action show_last_command_output
+    else
+      echo 'success'
+    fi
+    # browse on exit
+  }
+  function post_hook_0() {
+    local errcode="$?"
+    local title
+    local body
+    local prev_cmd="$(tail -n 1 $HISTFILE | sed 's/^[^;]*;//' | sed 's/; '"$0"'.*$//')"
+    if [[ "$errcode" = "0" ]]; then
+      title="✅ $prev_cmd"
+      body='yay'
+    else
+      title="❌ $prev_cmd"
+      body='crap'
+    fi
+    printf '\x1b]99;i=1:d=0:o=invisible;'"$title"'\x1b\\'
+    printf '\x1b]99;i=1:d=1:p=body;'"$body"'\x1b\\'
+    if [[ "$errcode" = "0" ]]; then
+      exit
+    else
+      printf '\e[?5h'; sleep 0.1 ; printf '\e[?5l'
+      kitty @ focus-window --match id:$KITTY_WINDOW_ID
+      kitty @ launch --cwd=current --stdin-source=@last_cmd_output --type=overlay bat
+    fi
+  }
   rk_mark() {
     kitty @ --password "$KITTY_RC_PASSWORD" create-marker --match all text 3 "$1"
   }

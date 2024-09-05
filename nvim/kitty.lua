@@ -71,7 +71,7 @@ function Run_command_in_kitty_window(str, opts)
   end
   if (str ~= nil) then
     if (opts.transient_shell) then
-      str = str .. '; post_hook exit_on_success'
+      str = str .. '; post_hook_0 exit_on_success'
     end
     kitty.send_text(window_id, str..'\n')
   end
