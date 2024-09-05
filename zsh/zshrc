@@ -67,15 +67,16 @@ function silent_background() {
 [[ -d "$HOME/.local/bin"  ]] && export PATH=$HOME/.local/bin:$PATH # "pip install --user" installs executables to this location
 [[ -d "$HOME/bin"         ]] && export PATH="$HOME/bin:$PATH"
 
+[[ $print_emojis ]] && echo -n 🍸
 # brew autocomplete
-if type brew &>/dev/null
-then
+if type brew &>/dev/null; then
   FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
 
   autoload -Uz compinit
   compinit
 fi
 
+[[ $print_emojis ]] && echo -n 🐘
 setopt complete_aliases
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 if command -v zoxide > /dev/null; then
@@ -92,10 +93,18 @@ fi
 # clock cow
 [[ $print_emojis ]] && echo -n 🐂
 if has lsd; then
+  alias ls=lsd
   alias ll='lsd --long'
+  alias l='lsd --long'
 else
   alias ll='ls -alF'
 fi
+if has delta; then
+  alias d='delta'
+fi
+
+alias estimate_development_cost='docker run --rm -it -v "$PWD:/pwd"  ghcr.io/lhoupert/scc:master scc /pwd'
+
 local vim_cmd=vim
 if has nvim; then
   vim_cmd=nvim
@@ -217,6 +226,8 @@ fi
 
 [[ $print_emojis ]] && echo -n 🦩
 
+[[ $print_emojis ]] && echo -n 🦀
+
 [[ -d "$HOME/.cargo" ]] && {
   export PATH=$HOME/.cargo/bin:$PATH
 }
@@ -269,11 +280,18 @@ fi
 if [[ "$TERM" = "xterm-kitty" ]]; then
   alias rg='rg --hyperlink-format=kitty'
   [[ $print_emojis ]] && echo -n 🐱
-  alias rg="rg --hyperlink-format=kitty"
   alias icat="kitty +kitten icat"
   alias hg="kitty +kitten hyperlinked_grep "
   compdef hg=rg
   # https://www.baeldung.com/linux/background-process-get-exit-code
+
+  b() {
+    local this_window="$KITTY_WINDOW_ID"
+    local other_window="$(kitty @ launch --cwd=current)"
+    kitty @ send-text --match "id:$other_window" " $@"' \\\r && sleep 2 && exit\n'
+    kitty @ focus-window --match "id:$this_window"
+  }
+
   notify() {
     local errcode="$?"
     local title
@@ -302,8 +320,6 @@ fi
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 zstyle ':completion:*:*:make:*' tag-order 'targets'
 
-# clock 4
-# echo -ne '\b\b'
 [[ $print_emojis ]] && echo -ne 🕓
 
 autoload -z edit-command-line
