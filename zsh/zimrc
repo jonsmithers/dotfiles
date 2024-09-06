@@ -14,5 +14,5 @@ zmodule ohmyzsh/ohmyzsh --root plugins/docker -f './completions'
 zmodule ohmyzsh/ohmyzsh --root plugins/npm -f '.'
 zmodule ohmyzsh/ohmyzsh --root plugins/yarn -f '.'
 # zmodule ohmyzsh/ohmyzsh --source plugins/yarn/yarn.plugin.zsh
-zmodule $HOME/.config/zsh/fzf-docker
+[[ -d "$HOME/.config/zsh/fzf-docker" ]] && zmodule $HOME/.config/zsh/fzf-docker
 zmodule junegunn/fzf-git.sh --source fzf-git.sh
