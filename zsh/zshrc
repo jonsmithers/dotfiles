@@ -203,8 +203,9 @@ function gfixup {
 }
 
 if has git-mob && has fzf; then
+  local GIT_MOB_BUT_FASTER="$(has git-mob-but-faster && echo "git-mob-but-faster" || echo "mob")"
   function gmob() {
-    local selected=$(git mob -l \
+    local selected=$($GIT_MOB_BUT_FASTER -l \
       | fzf --multi \
         --layout=reverse \
         --height=11 \
@@ -289,6 +290,13 @@ if [[ "$TERM" = "xterm-kitty" ]]; then
   compdef hg=rg
   # https://www.baeldung.com/linux/background-process-get-exit-code
 
+  if has fzf; then
+    function fzfimg {
+      # https://github.com/junegunn/fzf/pull/3567
+      fzf -q '.png$ | .jpg$ | .gif$' --preview 'kitty icat --clear --transfer-mode=memory --stdin=no --place="${FZF_PREVIEW_COLUMNS}x${FZF_PREVIEW_LINES}@0x0" {}'
+    }
+  fi
+
   b() {
     local this_window="$KITTY_WINDOW_ID"
     local other_window="$(kitty @ launch --cwd=current)"
@@ -328,8 +336,8 @@ if [[ "$TERM" = "xterm-kitty" ]]; then
     local kitty_window_id="$1"
     if [[ "$errcode" != "0" ]]; then
       kitty @ focus-window --match id:"$kitty_window_id" # kitty seems to only place the overlay on the active window
-      kitty @ action show_last_command_output
       kitty @ action move_window_to_top
+      kitty @ action show_last_command_output
       # kitty @ launch --match id:"$kitty_window_id" --cwd=current --stdin-source=@last_cmd_output --type=overlay nvim -c "set relativenumber" -c "set buftype=nofile" -
       # TODO how do I get colors????
       # kitty @ launch --match id:"$kitty_window_id" --cwd=current --stdin-source=@last_cmd_output --type=overlay less -R --use-color
