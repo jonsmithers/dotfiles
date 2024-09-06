@@ -323,6 +323,24 @@ if [[ "$TERM" = "xterm-kitty" ]]; then
     fi
     # browse on exit
   }
+  function post_hook_2() {
+    local errcode="$?"
+    local kitty_window_id="$1"
+    if [[ "$errcode" != "0" ]]; then
+      kitty @ focus-window --match id:"$kitty_window_id" # kitty seems to only place the overlay on the active window
+      kitty @ action show_last_command_output
+      kitty @ action move_window_to_top
+      # kitty @ launch --match id:"$kitty_window_id" --cwd=current --stdin-source=@last_cmd_output --type=overlay nvim -c "set relativenumber" -c "set buftype=nofile" -
+      # TODO how do I get colors????
+      # kitty @ launch --match id:"$kitty_window_id" --cwd=current --stdin-source=@last_cmd_output --type=overlay less -R --use-color
+    else
+      echo
+      echo '✅'
+      echo exiting...
+      sleep 2
+    fi
+    exit
+  }
   function post_hook_0() {
     local errcode="$?"
     local title
