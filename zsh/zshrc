@@ -336,7 +336,7 @@ if [[ "$TERM" = "xterm-kitty" ]]; then
     else
       echo
       echo '✅'
-      echo exiting...
+      echo closing...
       sleep 2
     fi
     exit

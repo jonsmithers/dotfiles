@@ -35,17 +35,16 @@ end
 function kitty.send_text(id, text)
   vim.fn.system({'kitty', '@', 'send-text', '--match', 'id:'..id, text})
 end
----@deprecated
----@comment THIS DOES NOT WORK
----@comment tall:bias=90;full_size=1;mirrored=false
 ---@param layout string
 function kitty.goto_layout(layout)
-  vim.fn.sytem({'kitty', '@', 'set-enabled-layouts', layout})
+  -- vim.fn.sytem({'kitty', '@', 'set-enabled-layouts', layout})
   vim.fn.system({'kitty', '@', 'goto-layout', layout})
 end
+---@param opts? { ['persistent_shell']?: boolean, }
 ---@return number window_id
-function kitty.get_and_focus_window()
-  if (global_opts.single_term_mode) then
+function kitty.get_and_focus_window(opts)
+  opts = vim.tbl_extend('force', {}, opts or {})
+  if (global_opts.single_term_mode or opts.persistent_shell) then
     return Create_or_focus_persistent_window()
   else
     vim.fn.system({'kitty', '@', 'launch', '--cwd', vim.fn.getcwd(), '--location', 'hsplit', '--title', '🏃'})
@@ -57,15 +56,16 @@ end
 function kitty.run_command(str, opts)
   opts = vim.tbl_extend('force', {
     return_focus = true,
+    persistent_shell = false,
   }, opts or {})
 
-  local window_id = kitty.get_and_focus_window()
+  local window_id = kitty.get_and_focus_window({ persistent_shell = opts.persistent_shell })
 
   if (opts.directory ~= nil) then
     kitty.send_text(window_id, " :; cd '" .. opts.directory .. '\'\n')
   end
   if (str ~= nil) then
-    if (opts.transient_shell or not global_opts.single_term_mode) then
+    if (not opts.persistent_shell and (opts.transient_shell or not global_opts.single_term_mode)) then
       -- str = str .. '; post_hook_0 exit_on_success'
       str = str .. '; post_hook_2 ' .. window_id
     end
@@ -76,6 +76,7 @@ function kitty.run_command(str, opts)
   end
 end
 
+---@return number window_id
 function Create_or_focus_persistent_window()
   if (global_state.window_id_of_persistent_shell == nil or not kitty.window_exists(global_state.window_id_of_persistent_shell)) then
     -- if (last_terminal == nil or 0 ~= os.execute("kitty @ ls | jq '.[].tabs.[].windows.[].title' | grep --quiet 🏃")) then
@@ -129,7 +130,7 @@ vim.keymap.set('n', '<leader>gt', function()
   if (vim.bo.filetype == 'oil') then
     path = string.gsub(vim.fn.expand('%'), '^oil://', '')
   end
-  kitty.run_command(nil, { return_focus = false, directory = path });
+  kitty.run_command(nil, { return_focus = false, directory = path, persistent_shell = true });
 end)
 vim.keymap.set('n', '<leader>.<leader>', ':PersistentShell ')
 vim.api.nvim_create_user_command('TransientShell', function(opts)
@@ -161,7 +162,7 @@ end, { nargs = '*', bang = true})
 -- ┌──────────────┐
 -- │ Test runners │
 -- └──────────────┘
-vim.keymap.set('n', '<leader>rr', function() kitty.run_command(global_state.last_command .. '; post_hook_1 ' .. Create_or_focus_persistent_window(), { transient_shell = false }) end)
+vim.keymap.set('n', '<leader>rr', function() kitty.run_command(global_state.last_command) end)
 vim.keymap.set('n', '<leader>!!', function() Run_command_in_kitty_window('!!; post_hook_1 ' .. Create_or_focus_persistent_window() .. '\n', { transient_shell = false }) end)
 
 vim.api.nvim_create_autocmd('BufEnter', {
@@ -171,6 +172,7 @@ vim.api.nvim_create_autocmd('BufEnter', {
     vim.api.nvim_buf_create_user_command(0, 'TestFile', function()
       vim.cmd.update()
       global_state.last_command = 'clear\n' .. string.format('gw test --offline --tests %s', vim.fn.expand('%:t:r'))
+      kitty.goto_layout('fat')
       kitty.run_command(global_state.last_command)
     end, { nargs = 0})
     vim.api.nvim_buf_create_user_command(0, 'TestOne', function()
@@ -184,6 +186,7 @@ vim.api.nvim_create_autocmd('BufEnter', {
       vim.cmd.normal('W')
       local test_name=vim.fn.expand('<cword>')
       global_state.last_command = 'clear\n' .. string.format('gw test --offline --tests %s.%s', vim.fn.expand('%:t:r'), test_name)
+      kitty.goto_layout('fat')
       kitty.run_command(global_state.last_command)
       vim.api.nvim_win_set_cursor(0, cursor_pos)
     end, { nargs = 0})
@@ -199,6 +202,7 @@ vim.api.nvim_create_autocmd('BufEnter', {
     vim.api.nvim_buf_create_user_command(0, 'TestFile', function()
       vim.cmd.update()
       global_state.last_command = 'clear\n' .. (vim.env.NVIM_YARN_TEST_PREFIX or 'yarn exec jest --coverage=false') .. string.format(' "%s"', vim.fn.expand('%:t:r'))
+      kitty.goto_layout('fat')
       kitty.run_command(global_state.last_command)
     end, { nargs = 0})
     vim.api.nvim_buf_create_user_command(0, 'TestOne', function()
@@ -211,7 +215,8 @@ vim.api.nvim_create_autocmd('BufEnter', {
       vim.cmd.normal('l')
       vim.cmd.normal("yi'")
       local test_name=vim.fn.getreg('0')
-      global_state.last_command = 'clear\n' .. (vim.env.NVIM_YARN_TEST_PREFIX or 'yarn exec jest --coverage=false') .. string.format(' "%s" -t "%s"', vim.fn.expand('%:t:r'), test_name)
+      global_state.last_command = 'clear\n' .. (vim.env.NVIM_YARN_TEST_PREFIX or 'yarn exec jest --coverage=false') .. string.format(' "%s" -t "%s"', vim.fn.expand('%:t:r'), vim.fn.escape(test_name, '()'))
+      kitty.goto_layout('fat')
       kitty.run_command(global_state.last_command)
       vim.api.nvim_win_set_cursor(0, cursor_pos);
     end, { nargs = 0})
