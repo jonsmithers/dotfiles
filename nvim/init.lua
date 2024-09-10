@@ -405,24 +405,22 @@ require('lazy').setup({
         :nnoremap <silent> <C-p>         :FzfFiles<Enter>
         :nnoremap <silent> <Leader>or    :FzfHistory<Enter>
         :nnoremap <silent> <Leader>oR    :FzfHistory!<Enter>
-        :nnoremap <silent> <Leader>ft    :FzfFiletypes<enter>
+        :nnoremap <silent> <Leader>ft    :Telescope filetypes<enter>
         :nnoremap <silent> <Leader>f/    :FzfHistory/<Enter>
-        :nnoremap <silent> <Leader>f:    :FzfHistory:<Enter>
+        :nnoremap <silent> <Leader>f:    :Telescope command_history<Enter>
         " (note - you can call histdel("cmd", "regexp") to delete mistaken history items)
 
-        " fuzzy relative filepath completion!
-        inoremap <expr> <c-x><c-f> fzf#vim#complete#path(
-              \ "find . -path '*/\.*' -prune -o -print \| sed '1d;s:^..::'",
-              \ fzf#wrap({'dir': expand('%:p:h')}))
-        inoremap <c-x>F <c-x><c-f>
-              " Ctrl-X Shift-F will provide native c-x c-f functionality
+        :inoremap <c-x><c-k> <plug>(fzf-complete-word)
+        :inoremap <c-x><c-f> <plug>(fzf-complete-path)
+        :inoremap <c-x><c-l> <plug>(fzf-complete-line)
+        :inoremap <c-x>F <c-x><c-f>
+        " Ctrl-X Shift-F will provide native c-x c-f functionality
 
         if (!executable('fzf') && !empty(glob("~/.fzf/bin")))
           " Save fzf from downloading a redundant binary (it's common for GUI vims
           " to not see fzf in the PATH)
           let $PATH=$PATH..":"..expand("~/.fzf/bin")
         endif
-        inoremap <expr> <c-x><c-k> fzf#vim#complete('cat /usr/share/dict/words')
       ]]
     end
   },
