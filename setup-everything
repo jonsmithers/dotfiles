@@ -4,6 +4,40 @@ if prompt "Symlink dotfiles?"; then
   ./dotphile
 fi
 
+if grep --quiet github.com < ~/.ssh/config; then
+  echo -e " ${GREEN}✓${NORMAL} github key present"
+elif prompt " ${RED}✗${NORMAL} missing github key - create?"; then
+  set -eoux pipefail
+  ssh-keygen -t ed25519 -C "jon@smithers.dev" -f "$HOME/.ssh/github"
+  pbcopy < ~/.ssh/github.pub
+  eval "$(ssh-agent -s)"
+
+  (
+    set +x
+    echo
+    echo Key has been copied to clipboard. Add this key to github
+    read -p "(press enter) " -n 1 -r || exit 1; echo
+  )
+  open https://github.com/settings/keys
+
+  touch ~/.ssh/config
+  tee -a ~/.ssh/config <<END
+Host github.com
+  AddKeysToAgent yes
+  UseKeychain yes
+  IdentityFile ~/.ssh/github
+END
+fi
+
+if [[ -f './hammerspoon/Spoons/hs_select_window.spoon/.git' ]]; then
+  echo -e " ${GREEN}✓${NORMAL} git submodule present"
+elif prompt " ${RED}✗${NORMAL} missing git submodule - clone?"; then
+  (
+    set -ex
+    git submodule update --recursive --remote
+  )
+fi
+
 if [[ $(command -v fzf) ]]; then
   echo -e " ${GREEN}✓${NORMAL} fzf installed"
 elif prompt " ${RED}✗${NORMAL} missing fzf - install?"; then
