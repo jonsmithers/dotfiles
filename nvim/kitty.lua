@@ -87,40 +87,6 @@ function Create_or_focus_persistent_window()
   end
   return global_state.window_id_of_persistent_shell
 end
----@deprecated use kitty.run_command
----@param str string | nil
----@param opts? { ['return_focus']?: boolean, ['transient_shell']?: boolean, ['directory']?: string }
-function Run_command_in_kitty_window(str, opts)
-  opts = vim.tbl_extend('force', {
-    return_focus = true,
-    transient_shell = false,
-  }, opts or {})
-
-  ---@deprecated
-  local function create_or_focus_window()
-    if (opts.transient_shell) then
-      vim.fn.system({'kitty', '@', 'launch', '--cwd', vim.fn.getcwd(), '--location', 'hsplit', '--title', '🏃'})
-      return kitty.get_current_window_id()
-    else
-      return Create_or_focus_persistent_window();
-    end
-  end
-
-  local window_id = create_or_focus_window()
-
-  if (opts.directory ~= nil) then
-    kitty.send_text(window_id, " :; cd '" .. opts.directory .. '\'\n')
-  end
-  if (str ~= nil) then
-    if (opts.transient_shell) then
-      str = str .. '; post_hook_0 exit_on_success'
-    end
-    kitty.send_text(window_id, str..'\n')
-  end
-  if (opts.return_focus) then
-    kitty.focus_window_recent()
-  end
-end
 vim.keymap.set('n', '<leader>.t', ':TransientShell ')
 vim.keymap.set('n', '<leader>.T', ':TransientShell! ')
 vim.keymap.set('n', '<leader>.q', function() kitty.run_command('exit') end)
@@ -136,28 +102,12 @@ vim.keymap.set('n', '<leader>.<leader>', ':PersistentShell ')
 vim.api.nvim_create_user_command('TransientShell', function(opts)
   local str = table.concat(opts.fargs, ' ')
   str = str .. ' && exit'
-  Run_command_in_kitty_window(str, {
-    return_focus = not opts.bang,
-    transient_shell = true,
-  })
+  kitty.run_command(str, {persistent_shell = false, return_focus = not opts.bang})
 end, { nargs = '*', bang = true})
 vim.api.nvim_create_user_command('PersistentShell', function(opts)
   local str = table.concat(opts.fargs, ' ')
-  Run_command_in_kitty_window(str, {
-    return_focus = true
-  })
+  kitty.run_command(str, { persistent_shell = true })
 end, { nargs = '*' })
-vim.api.nvim_create_user_command('K', function(opts)
-  local str = table.concat(opts.fargs, ' ')
-  local return_focus = not opts.bang
-  if (not return_focus) then
-    str = str .. '; exit'
-  end
-  Run_command_in_kitty_window(str, {
-    return_focus = return_focus
-  })
-end, { nargs = '*', bang = true})
-
 
 -- ┌──────────────┐
 -- │ Test runners │
