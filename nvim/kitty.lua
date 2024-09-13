@@ -52,7 +52,7 @@ function kitty.get_and_focus_window(opts)
   end
 end
 ---@param str string | nil
----@param opts? { ['return_focus']?: boolean, ['directory']?: string }
+---@param opts? { ['return_focus']?: boolean, ['directory']?: string, ['persistent_shell']?: boolean }
 function kitty.run_command(str, opts)
   opts = vim.tbl_extend('force', {
     return_focus = true,
@@ -163,7 +163,7 @@ end, { nargs = '*', bang = true})
 -- │ Test runners │
 -- └──────────────┘
 vim.keymap.set('n', '<leader>rr', function() kitty.run_command(global_state.last_command) end)
-vim.keymap.set('n', '<leader>!!', function() Run_command_in_kitty_window('!!; post_hook_1 ' .. Create_or_focus_persistent_window() .. '\n', { transient_shell = false }) end)
+vim.keymap.set('n', '<leader>!!', function() kitty.run_command('!!\n', { persistent_shell = true }) end)
 
 vim.api.nvim_create_autocmd('BufEnter', {
   pattern = {'*.java'},
