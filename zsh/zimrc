@@ -15,4 +15,5 @@ zmodule ohmyzsh/ohmyzsh --root plugins/npm -f '.'
 zmodule ohmyzsh/ohmyzsh --root plugins/yarn -f '.'
 # zmodule ohmyzsh/ohmyzsh --source plugins/yarn/yarn.plugin.zsh
 [[ -d "$HOME/.config/zsh/fzf-docker" ]] && zmodule $HOME/.config/zsh/fzf-docker
+[[ -d /opt/homebrew/share/zsh ]] && zmodule /opt/homebrew/share/zsh --fpath site-functions
 zmodule junegunn/fzf-git.sh --source fzf-git.sh

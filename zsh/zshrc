@@ -68,13 +68,6 @@ function silent_background() {
 [[ -d "$HOME/bin"         ]] && export PATH="$HOME/bin:$PATH"
 
 [[ $print_emojis ]] && echo -n 🍸
-# brew autocomplete
-if type brew &>/dev/null; then
-  FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
-
-  autoload -Uz compinit
-  compinit
-fi
 
 [[ $print_emojis ]] && echo -n 🐘
 setopt complete_aliases
