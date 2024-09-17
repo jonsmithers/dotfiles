@@ -11,7 +11,7 @@ zmodule zsh-users/zsh-syntax-highlighting
 zmodule zsh-users/zsh-autosuggestions
 zmodule romkatv/powerlevel10k
 zmodule ohmyzsh/ohmyzsh --root plugins/docker -f './completions'
-zmodule ohmyzsh/ohmyzsh --root plugins/npm -f '.'
+zmodule ohmyzsh/ohmyzsh --root plugins/npm
 zmodule ohmyzsh/ohmyzsh --root plugins/yarn -f '.'
 # zmodule ohmyzsh/ohmyzsh --source plugins/yarn/yarn.plugin.zsh
 [[ -d "$HOME/.config/zsh/fzf-docker" ]] && zmodule $HOME/.config/zsh/fzf-docker
