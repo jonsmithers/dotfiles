@@ -23,56 +23,44 @@ local SWbindings = {
 }
 spoon.hs_select_window:bindHotkeys(SWbindings)
 
--- https://github.com/philc/hammerspoon-config/blob/d2c1046273da4c0140d0b33dd55ee8e637db5e6d/init.lua#L109-L119
-local function myLaunchOrFocus(appName)
-  local app = hs.appfinder.appFromName(appName)
-  if not app then
-    hs.application.launchOrFocus(appName)
-  else
-    local windows = app:allWindows()
-    if windows[1] then
-      windows[1]:focus()
+local SKIP = 'skip'
+
+for _, v in pairs({
+  {'alt', 'C', "Visual Studio Code"},
+  {'alt', 'I', "IntelliJ IDEA"},
+  {'alt', 'T', "kitty"},
+  {'alt', 'V', "MacVim"},
+  {'alt', 'W', "WhatsApp"},
+  {'alt', 'Z', "Zoom"},
+  {'alt', 'B', function() return default_browser end},
+  {'alt', 'M', function()
+    hs.application.launchOrFocus(default_browser)
+    hs.eventtap.keyStroke({"cmd"}, "1")
+    return SKIP
+  end},
+}) do
+  local mod, key, what_do = table.unpack(v);
+  hs.hotkey.bind(mod, key, function()
+    if (type(what_do) == 'string') then
+      hs.application.launchOrFocus(what_do)
+      return
     end
-  end
+    if (type(what_do) == 'function') then
+      local result = what_do()
+      if (result == SKIP) then
+        return
+      end
+      if (type(result) ~= 'string') then
+        hs.alert.show('unexpected type')
+        return
+      end
+      hs.application.launchOrFocus(result)
+    end
+  end)
 end
 
-hs.hotkey.bind({"alt"}, "B", function()
-  hs.application.launchOrFocus(default_browser)
-end)
-hs.hotkey.bind({"alt"}, "C", function()
-  hs.application.launchOrFocus("Visual Studio Code")
-end)
-hs.hotkey.bind({"alt"}, "Z", function()
-  hs.application.launchOrFocus("zoom.us")
-end)
-hs.hotkey.bind({"alt"}, "M", function()
-  hs.application.launchOrFocus(default_browser)
-  hs.eventtap.keyStroke({"cmd"}, "1")
-end)
-hs.hotkey.bind({"alt"}, "T", function()
-  hs.application.launchOrFocus("kitty")
-end)
-hs.hotkey.bind({"alt"}, "N", function()
-  -- myLaunchOrFocus("neovide")
-  hs.application.launchOrFocus("Alacritty")
-  -- hs.application.launchOrFocus("neovide")
-end)
--- hs.hotkey.bind({"alt"}, "C", function()
---   hs.application.launchOrFocus("Google Calendar")
---   -- hs.application.launchOrFocus("Firefox")
---   -- hs.eventtap.keyStroke({"cmd"}, "2")
--- end)
-hs.hotkey.bind({"alt"}, "I", function()
-  -- hs.application.launchOrFocus("Visual Studio Code")
-  hs.application.launchOrFocus("IntelliJ IDEA")
-end)
-hs.hotkey.bind({"alt"}, "V", function()
-  hs.application.launchOrFocus("MacVim")
-end)
-
-
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "W", function()
-  hs.notify.new({title="HaMmErSpOoN", informativeText="Hello World"}):send()
+  hs.notify.new({title="⛽🦄", informativeText="Hello World"}):send()
 end)
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "R", function()
   hs.reload()
