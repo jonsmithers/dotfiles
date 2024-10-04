@@ -111,62 +111,78 @@ end, { nargs = '*' })
 vim.keymap.set('n', '<leader>rr', function() kitty.run_command(global_state.last_command) end)
 vim.keymap.set('n', '<leader>!!', function() kitty.run_command('!!\n', { persistent_shell = true }) end)
 
-vim.api.nvim_create_autocmd('BufEnter', {
-  pattern = {'*.java'},
-  group = 'kitty.lua',
-  callback = function()
-    vim.api.nvim_buf_create_user_command(0, 'TestFile', function()
-      vim.cmd.update()
-      global_state.last_command = 'clear\n' .. string.format('gw test --offline --tests %s', vim.fn.expand('%:t:r'))
-      kitty.goto_layout('fat')
-      kitty.run_command(global_state.last_command)
-    end, { nargs = 0})
-    vim.api.nvim_buf_create_user_command(0, 'TestOne', function()
-      vim.cmd.update()
-      local cursor_pos = vim.api.nvim_win_get_cursor(0)
-      if (0 == vim.fn.search('@\\(Parameterized\\)\\?Test', 'bW')) then
-        require('fidget').notify('No test found', vim.log.levels.ERROR)
-        return
-      end
-      vim.fn.search('void ')
-      vim.cmd.normal('W')
-      local test_name=vim.fn.expand('<cword>')
-      global_state.last_command = 'clear\n' .. string.format('gw test --offline --tests %s.%s', vim.fn.expand('%:t:r'), test_name)
-      kitty.goto_layout('fat')
-      kitty.run_command(global_state.last_command)
-      vim.api.nvim_win_set_cursor(0, cursor_pos)
-    end, { nargs = 0})
-    vim.keymap.set('n', '<leader>rt', ':TestOne<cr>', { buffer = 0 })
-    vim.keymap.set('n', '<leader>rf', ':TestFile<cr>', { buffer = 0 })
-  end
-})
+if (vim.g.vscode) then
 
-vim.api.nvim_create_autocmd('BufEnter', {
-  pattern = {'*.tsx', '*.ts'},
-  group = 'kitty.lua',
-  callback = function()
-    vim.api.nvim_buf_create_user_command(0, 'TestFile', function()
-      vim.cmd.update()
-      global_state.last_command = 'clear\n' .. (vim.env.NVIM_YARN_TEST_PREFIX or 'yarn exec jest --coverage=false') .. string.format(' "%s"', vim.fn.expand('%:t:r'))
-      kitty.goto_layout('fat')
-      kitty.run_command(global_state.last_command)
-    end, { nargs = 0})
-    vim.api.nvim_buf_create_user_command(0, 'TestOne', function()
-      vim.cmd.update()
-      local cursor_pos = vim.api.nvim_win_get_cursor(0);
-      if (0 == vim.fn.search('^\\s*\\(it\\|test\\|describe\\)(', 'bW')) then
-        require('fidget').notify('No test found', vim.log.levels.ERROR)
-        return
-      end
-      vim.cmd.normal('l')
-      vim.cmd.normal("yi'")
-      local test_name=vim.fn.getreg('0')
-      global_state.last_command = 'clear\n' .. (vim.env.NVIM_YARN_TEST_PREFIX or 'yarn exec jest --coverage=false') .. string.format(' "%s" -t "%s"', vim.fn.expand('%:t:r'), vim.fn.escape(test_name, '()'))
-      kitty.goto_layout('fat')
-      kitty.run_command(global_state.last_command)
-      vim.api.nvim_win_set_cursor(0, cursor_pos);
-    end, { nargs = 0})
-    vim.keymap.set('n', '<leader>rt', ':TestOne<cr>', { buffer = 0 })
-    vim.keymap.set('n', '<leader>rf', ':TestFile<cr>', { buffer = 0 })
-  end
-})
+  vim.api.nvim_buf_create_user_command(0, 'TestOne', function()
+    require('vscode').action('testing.runAtCursor', {})
+  end, { nargs = 0})
+  vim.api.nvim_buf_create_user_command(0, 'TestFile', function()
+    require('vscode').action('testing.runCurrentFile', {})
+  end, { nargs = 0})
+
+  vim.keymap.set('n', '<leader>rt', ':TestOne<cr>')
+  vim.keymap.set('n', '<leader>rf', ':TestFile<cr>')
+
+else
+
+  vim.api.nvim_create_autocmd('BufEnter', {
+    pattern = {'*.java'},
+    group = 'kitty.lua',
+    callback = function()
+      vim.api.nvim_buf_create_user_command(0, 'TestFile', function()
+        vim.cmd.update()
+        global_state.last_command = 'clear\n' .. string.format('gw test --offline --tests %s', vim.fn.expand('%:t:r'))
+        kitty.goto_layout('fat')
+        kitty.run_command(global_state.last_command)
+      end, { nargs = 0})
+      vim.api.nvim_buf_create_user_command(0, 'TestOne', function()
+        vim.cmd.update()
+        local cursor_pos = vim.api.nvim_win_get_cursor(0)
+        if (0 == vim.fn.search('@\\(Parameterized\\)\\?Test', 'bW')) then
+          require('fidget').notify('No test found', vim.log.levels.ERROR)
+          return
+        end
+        vim.fn.search('void ')
+        vim.cmd.normal('W')
+        local test_name=vim.fn.expand('<cword>')
+        global_state.last_command = 'clear\n' .. string.format('gw test --offline --tests %s.%s', vim.fn.expand('%:t:r'), test_name)
+        kitty.goto_layout('fat')
+        kitty.run_command(global_state.last_command)
+        vim.api.nvim_win_set_cursor(0, cursor_pos)
+      end, { nargs = 0})
+      vim.keymap.set('n', '<leader>rt', ':TestOne<cr>', { buffer = 0 })
+      vim.keymap.set('n', '<leader>rf', ':TestFile<cr>', { buffer = 0 })
+    end
+  })
+
+  vim.api.nvim_create_autocmd('BufEnter', {
+    pattern = {'*.tsx', '*.ts'},
+    group = 'kitty.lua',
+    callback = function()
+      vim.api.nvim_buf_create_user_command(0, 'TestFile', function()
+        vim.cmd.update()
+        global_state.last_command = 'clear\n' .. (vim.env.NVIM_YARN_TEST_PREFIX or 'yarn exec jest --coverage=false') .. string.format(' "%s"', vim.fn.expand('%:t:r'))
+        kitty.goto_layout('fat')
+        kitty.run_command(global_state.last_command)
+      end, { nargs = 0})
+      vim.api.nvim_buf_create_user_command(0, 'TestOne', function()
+        vim.cmd.update()
+        local cursor_pos = vim.api.nvim_win_get_cursor(0);
+        if (0 == vim.fn.search('^\\s*\\(it\\|test\\|describe\\)(', 'bW')) then
+          require('fidget').notify('No test found', vim.log.levels.ERROR)
+          return
+        end
+        vim.cmd.normal('l')
+        vim.cmd.normal("yi'")
+        local test_name=vim.fn.getreg('0')
+        global_state.last_command = 'clear\n' .. (vim.env.NVIM_YARN_TEST_PREFIX or 'yarn exec jest --coverage=false') .. string.format(' "%s" -t "%s"', vim.fn.expand('%:t:r'), vim.fn.escape(test_name, '()'))
+        kitty.goto_layout('fat')
+        kitty.run_command(global_state.last_command)
+        vim.api.nvim_win_set_cursor(0, cursor_pos);
+      end, { nargs = 0})
+      vim.keymap.set('n', '<leader>rt', ':TestOne<cr>', { buffer = 0 })
+      vim.keymap.set('n', '<leader>rf', ':TestFile<cr>', { buffer = 0 })
+    end
+  })
+
+end
