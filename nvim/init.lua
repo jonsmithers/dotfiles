@@ -166,12 +166,28 @@ require('lazy').setup({
     },
     init = function()
       vim.cmd[[
-       nnoremap [og :ZenMode<cr>:PencilSoft<cr>
-       nnoremap ]og :ZenMode<cr>:PencilOff<cr>
+       " nnoremap [og :ZenMode<cr>:PencilSoft<cr>
+       " nnoremap ]og :ZenMode<cr>:PencilOff<cr>
        nnoremap yog :ZenMode<cr>:PencilToggle<cr>
        com! -nargs=1 Goyo :lua require('zen-mode').close(); require('zen-mode').open({ window = { width = tonumber(<q-args>) }})
       ]]
     end,
+    keys = {
+      { '[og', function()
+        require('zen-mode').open()
+        vim.cmd.PencilSoft()
+        if (vim.env.TERM == "xterm-kitty") then
+          vim.system(vim.split('kitty @ set-spacing padding=16', ' '))
+        end
+        end },
+      { ']og', function()
+        require('zen-mode').close()
+        vim.cmd.PencilOff()
+        if (vim.env.TERM == "xterm-kitty") then
+          vim.system(vim.split('kitty @ set-spacing padding=0', ' '))
+        end
+        end }
+    },
     opts = {
       twilight = {
         enable = false,
