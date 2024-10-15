@@ -670,7 +670,7 @@ require('lazy').setup({
       end
       ENABLE_FRONTEND_LSPS = function()
         if (vim.fn.filereadable('node_modules/.bin/tsserver') == 1) then
-          ENABLE_LSP_SERVER('tsserver')
+          ENABLE_LSP_SERVER('ts_ls')
         end
         if (vim.fn.filereadable('node_modules/.bin/eslint') == 1) then
           ENABLE_LSP_SERVER('eslint')
