@@ -177,6 +177,7 @@ require('lazy').setup({
         require('zen-mode').open()
         vim.cmd.PencilSoft()
         if (vim.env.TERM == "xterm-kitty") then
+          vim.system(vim.split('kitty @ set-font-size -- +4', ' '))
           vim.system(vim.split('kitty @ set-spacing padding=16', ' '))
         end
         end },
@@ -184,14 +185,12 @@ require('lazy').setup({
         require('zen-mode').close()
         vim.cmd.PencilOff()
         if (vim.env.TERM == "xterm-kitty") then
+          vim.system(vim.split('kitty @ set-font-size -- -4', ' '))
           vim.system(vim.split('kitty @ set-spacing padding=0', ' '))
         end
         end }
     },
     opts = {
-      twilight = {
-        enable = false,
-      },
       options = {
         number = false,
       },
@@ -202,8 +201,13 @@ require('lazy').setup({
       on_open = function()
         vim.o.number = false
         vim.o.relativenumber = false
-      end
-    }
+      end,
+      plugins = {
+        twilight = {
+          enabled = false,
+        },
+      },
+    },
   },
 
   { 'hrsh7th/nvim-cmp',
