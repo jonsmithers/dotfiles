@@ -34,16 +34,43 @@ obj.mapping = {
   resizeIn = { obj.mash, '-' }
 }
 
+local enabled = false
 local padding = 0.003
+local originalFrame = nil
 padding = 0.0
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Q", function()
-  padding = padding == 0.0 and 0.003 or 0.0
+  enabled = not enabled
+  padding = enabled and 0.0035 or 0.0
   hs.notify.new({title="HaMmErSpOoN", informativeText="padding updated to "..padding}):send()
-  local word = padding == 0.0 and "disabled" or "enabled"
-  hs.alert.show(word.." padding for sceenshare")
+  local word = enabled and "enabled" or "disabled"
+  hs.alert.show(word.." screenshare mode")
+  local focusedWindow = hs.window.focusedWindow()
+
+  if (focusedWindow) then
+    local matches_screen = focusedWindow:frame():equals(focusedWindow:screen():frame()) or focusedWindow:frame():equals(obj:units().maximum)
+    if (matches_screen) then
+      obj:maximum()
+    end
+  end
+
+  -- https://apple.stackexchange.com/questions/454130/how-to-prevent-zoom-from-hijacking-the-escape-key-during-screen-sharing-with-m#:~:text=However%2C%20if%20you%20press%20the,focus%2C%20which%20is%20quite%20disruptive.
+  local zoomWindow = hs.window.find("zoom share statusbar window")
+  if zoomWindow then
+    if enabled then
+      originalFrame = zoomWindow:frame()
+      local screen = zoomWindow:screen()
+      local frame = zoomWindow:frame()
+      -- frame.x = screen:frame().w + 3000
+      frame.y = -300 -- screen:frame().h + 300
+      zoomWindow:setFrame(frame, 2)
+    else
+      zoomWindow:setFrame(originalFrame, 2)
+      originalFrame = nil
+    end
+  end
 end)
 
-local units = function()
+function obj:units()
   return {
     right50 = { x = 0.5,     y = 0.0,  w = 0.50-padding,   h = 1.00-padding },
     left50  = { x = padding, y = 0,    w = 0.50-padding,   h = 1.00-padding },
@@ -121,16 +148,16 @@ function resizeWindowInSteps(increment)
   hs.window.focusedWindow():move({x=x, y=y, w=w, h=h}, nil, true, 0)
 end
 
-function obj:left() move(units().left50, nil, true, 0) end
-function obj:right() move(units().right50, nil, true, 0) end
-function obj:up() move(units().top50, nil, true, 0) end
-function obj:down() move(units().bot50, nil, true, 0) end
-function obj:upleft() move(units().upleft50, nil, true, 0) end
-function obj:upright() move(units().upright50, nil, true, 0) end
-function obj:botleft() move(units().botleft50, nil, true, 0) end
-function obj:botright() move(units().botright50, nil, true, 0) end
+function obj:left() move(obj:units().left50, nil, true, 0) end
+function obj:right() move(obj:units().right50, nil, true, 0) end
+function obj:up() move(obj:units().top50, nil, true, 0) end
+function obj:down() move(obj:units().bot50, nil, true, 0) end
+function obj:upleft() move(obj:units().upleft50, nil, true, 0) end
+function obj:upright() move(obj:units().upright50, nil, true, 0) end
+function obj:botleft() move(obj:units().botleft50, nil, true, 0) end
+function obj:botright() move(obj:units().botright50, nil, true, 0) end
 
-function obj:maximum() move(units().maximum, nil, true, 0) end
+function obj:maximum() move(obj:units().maximum, nil, true, 0) end
 
 function obj:toggleFullScreen() hs.window.focusedWindow():toggleFullScreen() end
 function obj:toggleZoom() hs.window.focusedWindow():toggleZoom() end
