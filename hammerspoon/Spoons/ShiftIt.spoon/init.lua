@@ -45,17 +45,17 @@ end)
 
 local units = function()
   return {
-    right50 = { x = 0.5,     y = 0.0,  w = 0.50-padding,   h = 1.00 },
-    left50  = { x = padding, y = 0,    w = 0.50-padding,   h = 1.00 },
+    right50 = { x = 0.5,     y = 0.0,  w = 0.50-padding,   h = 1.00-padding },
+    left50  = { x = padding, y = 0,    w = 0.50-padding,   h = 1.00-padding },
     top50   = { x = padding, y = 0.00, w = 1.00-2*padding, h = 0.50 },
     bot50   = { x = padding, y = 0.50, w = 1.00-2*padding, h = 0.50 },
 
     upleft50   = { x = padding, y = 0.00, w = 0.50-padding, h = 0.50 },
     upright50  = { x = 0.50,    y = 0.00, w = 0.50-padding, h = 0.50 },
-    botleft50  = { x = padding, y = 0.50, w = 0.50-padding, h = 0.50 },
-    botright50 = { x = 0.50,    y = 0.50, w = 0.50-padding, h = 0.50 },
+    botleft50  = { x = padding, y = 0.50, w = 0.50-padding, h = 0.50-padding },
+    botright50 = { x = 0.50,    y = 0.50, w = 0.50-padding, h = 0.50-padding },
 
-    maximum    = { x = padding, y = 0.00, w = 1-2*padding,  h = 1.00 },
+    maximum    = { x = padding, y = 0.00, w = 1-2*padding,  h = 1.00-padding },
   }
 end
 
