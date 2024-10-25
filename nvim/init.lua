@@ -210,6 +210,17 @@ require('lazy').setup({
     },
   },
 
+  { 'hedyhli/outline.nvim',
+    lazy = true,
+    cmd = { "Outline", "OutlineOpen" },
+    keys = {
+      { "<leader>go", "<cmd>Outline<CR>", desc = "Toggle outline" },
+    },
+    opts = {
+      -- Your setup opts here
+    },
+  },
+
   { 'hrsh7th/nvim-cmp',
     dependencies = {
       'onsails/lspkind.nvim',
@@ -346,9 +357,6 @@ require('lazy').setup({
     end,
     opts = {
       notification = {
-        window = {
-          border = 'rounded',
-        },
       },
     },
     init = function()
@@ -603,6 +611,14 @@ require('lazy').setup({
     },
   },
 
+  { 'rcarriga/nvim-dap-ui',
+    dependencies = {
+      'mfussenegger/nvim-dap',
+      'nvim-neotest/nvim-nio',
+      'theHamsta/nvim-dap-virtual-text',
+    },
+  },
+
   'nanotee/zoxide.vim',
 
   { 'neovim/nvim-lspconfig',
@@ -645,18 +661,27 @@ require('lazy').setup({
         nnoremap_buffer('<space>oi', '<cmd>lua vim.lsp.buf.execute_command({command = "_typescript.organizeImports", arguments = {vim.fn.expand("%:p")}})<CR>', 'Organize imports')
         nnoremap_buffer(']g',        '<cmd>lua vim.diagnostic.goto_next()<CR>',                                                                                 'Go to next diagnostic')
         nnoremap_buffer('[g',        '<cmd>lua vim.diagnostic.goto_prev()<CR>',                                                                                 'Go to previous diagnostic')
-        nnoremap_buffer('gi',        '<cmd>Trouble lsp_implementations<CR>',                                                                                    'Go to implementations')
+        nnoremap_buffer('gi',        '<cmd>Telescope lsp_implementations<CR>',                                                                                    'Go to implementations')
         nnoremap_buffer('gu',        '<cmd>Trouble lsp_references<CR>',                                                                                         'Go to usages')
-        nnoremap_buffer('gd',        '<cmd>Trouble lsp_definitions<CR>',                                                                                        'Go to definitions')
+        nnoremap_buffer('gd',        '<cmd>Telescope lsp_definitions<CR>',                                                                                        'Go to definitions')
         nnoremap_buffer('<space>gtd','<cmd>Trouble lsp_type_definitions<CR>',                                                                                   'Go to type definitions')
         -- nnoremap_buffer('K',         '<cmd>lua vim.lsp.buf.hover()<CR>',                                                                                        'Hover')
         nnoremap_buffer('<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>',                                                                         'Add workspace folder')
         nnoremap_buffer('<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>',                                                                      'Remove workspace folder')
         nnoremap_buffer('<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>',                                                   'List workspace folders')
-        nnoremap_buffer('<space>lr', '<cmd>lua vim.lsp.buf.rename()<CR>',                                                                                       'Lsp Rename')
+        nnoremap_buffer('<space>lr', '<cmd>lua vim.lsp.buf.rename()<CR>',                                                                                       'Lsp rename')
         nnoremap_buffer('<space>la', '<cmd>lua vim.lsp.buf.code_action()<CR>',                                                                                  'Lsp Action')
         nnoremap_buffer('<space>e',  '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>',                                                                 'Lsp Show Line Diagnostic')
         command_buffer('LspFormat',  'lua vim.lsp.buf.format()',                                                                                                {})
+        vim.keymap.set('n', '<space>lR', function()
+          return ":IncRename "..vim.fn.expand('<cword>')
+        end, {
+          noremap = true,
+          silent = true,
+          buffer = bufnr,
+          desc = "Lsp rename with preview",
+          expr = true,
+        })
       end
 
       ENABLE_LSP_SERVER = function(name, options)
@@ -773,6 +798,15 @@ require('lazy').setup({
     end,
     config = function()
       require'nvim-treesitter.configs'.setup {
+        incremental_selection = {
+          enable = true,
+          keymaps = {
+            init_selection = "gnn", -- set to `false` to disable one of the mappings
+            node_incremental = "grn",
+            scope_incremental = "grc",
+            node_decremental = "grm",
+          },
+        },
         -- grr   | smart rename
         -- {A }A | swap with prev/next argument
         -- [a ]a | move to prev/next argument
@@ -1073,6 +1107,14 @@ require('lazy').setup({
       vim.opt.fillchars:append { diff = "╱" }
       vim.keymap.set('n', '<leader>dv', ':DiffviewFileHistory %<cr>')
       vim.keymap.set('v', '<leader>dv', ':DiffviewFileHistory<cr>')
+    end,
+  },
+
+  { 'smjonas/inc-rename.nvim',
+    config = function()
+      require('inc_rename').setup({
+          input_buffer_type = "dressing",
+      })
     end,
   },
 
@@ -1496,3 +1538,6 @@ if (vim.g.vscode) then
     " note: shift-k is in keybindings.json
   ]]
 end
+
+-- https://www.reddit.com/r/neovim/comments/1ex4tim/my_top_20_neovim_key_bindings_what_are_yours/
+vim.keymap.set("n", "gp", "`[v`]", { desc = "select pasted text" })

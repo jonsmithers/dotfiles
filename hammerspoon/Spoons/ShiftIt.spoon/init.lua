@@ -43,7 +43,12 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Q", function()
   padding = enabled and 0.0035 or 0.0
   hs.notify.new({title="HaMmErSpOoN", informativeText="padding updated to "..padding}):send()
   local word = enabled and "enabled" or "disabled"
-  hs.alert.show(word.." screenshare mode")
+  hs.alert.show(word.." zoom screenshare mode", {
+    radius = 8,
+    textFont = "Helvetica",
+    fillColor = { blue = 1, alpha = 0.85, white = 0},
+    textSize = 18,
+  })
   local focusedWindow = hs.window.focusedWindow()
 
   if (focusedWindow) then
