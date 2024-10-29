@@ -47,14 +47,14 @@ function kitty.get_and_focus_window(opts)
   if (global_opts.single_term_mode or opts.persistent_shell) then
     if (global_state.window_id_of_persistent_shell == nil or not kitty.window_exists(global_state.window_id_of_persistent_shell)) then
       -- if (last_terminal == nil or 0 ~= os.execute("kitty @ ls | jq '.[].tabs.[].windows.[].title' | grep --quiet 🏃")) then
-      vim.fn.system({'kitty', '@', 'launch', '--cwd', vim.fn.getcwd(), '--location', 'hsplit', '--title', '  '})
+      vim.fn.system({'kitty', '@', 'launch', '--cwd', vim.fn.getcwd(), '--location', 'hsplit'}) -- , '--title', '  '})
       global_state.window_id_of_persistent_shell = kitty.get_current_window_id()
     else
       vim.fn.system({'kitty', '@', 'focus-window', '--match', 'id:'..global_state.window_id_of_persistent_shell})
     end
     return global_state.window_id_of_persistent_shell
   else
-    vim.fn.system({'kitty', '@', 'launch', '--cwd', vim.fn.getcwd(), '--location', 'hsplit', '--title', '🏃'})
+    vim.fn.system({'kitty', '@', 'launch', '--cwd', vim.fn.getcwd(), '--location', 'hsplit'}) -- , '--title', '🏃'})
     return kitty.get_current_window_id()
   end
 end
