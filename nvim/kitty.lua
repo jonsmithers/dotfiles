@@ -145,7 +145,7 @@ else
         vim.fn.search('void ')
         vim.cmd.normal('W')
         local test_name=vim.fn.expand('<cword>')
-        global_state.last_command = 'clear\n' .. string.format('gw test --offline --tests %s.%s', vim.fn.expand('%:t:r'), test_name)
+        global_state.last_command = 'clear\n' .. string.format('gw test --offline --tests \'%s*.%s\'', vim.fn.expand('%:t:r'), test_name)
         kitty.goto_layout('fat')
         kitty.run_command(global_state.last_command)
         vim.api.nvim_win_set_cursor(0, cursor_pos)
