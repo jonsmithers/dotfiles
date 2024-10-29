@@ -174,21 +174,31 @@ require('lazy').setup({
     end,
     keys = {
       { '[og', function()
+        if (vim.b.zen_mode == true) then
+          vim.notify("Zen mode is already active active", vim.log.levels.ERROR)
+          return
+        end
+        vim.b.zen_mode = true
         require('zen-mode').open()
         vim.cmd.PencilSoft()
         if (vim.env.TERM == "xterm-kitty") then
-          vim.system(vim.split('kitty @ set-font-size -- +4', ' '))
-          vim.system(vim.split('kitty @ set-spacing padding=16', ' '))
+          vim.system(vim.split('kitty @ set-spacing padding=16', ' ')) --:wait()
+          vim.system(vim.split('kitty @ set-font-size -- +4', ' ')) --:wait()
         end
-        end },
+      end },
       { ']og', function()
+        if (vim.b.zen_mode == nil) then
+          vim.notify("Zen mode is already inactive", vim.log.levels.ERROR)
+          return
+        end
+        vim.b.zen_mode = nil
         require('zen-mode').close()
         vim.cmd.PencilOff()
         if (vim.env.TERM == "xterm-kitty") then
-          vim.system(vim.split('kitty @ set-font-size -- -4', ' '))
-          vim.system(vim.split('kitty @ set-spacing padding=0', ' '))
+          vim.system(vim.split('kitty @ set-spacing padding=0', ' ')) --:wait()
+          vim.system(vim.split('kitty @ set-font-size -- -4', ' ')) --:wait()
         end
-        end }
+      end }
     },
     opts = {
       options = {
