@@ -1551,3 +1551,9 @@ end
 
 -- https://www.reddit.com/r/neovim/comments/1ex4tim/my_top_20_neovim_key_bindings_what_are_yours/
 vim.keymap.set("n", "gp", "`[v`]", { desc = "select pasted text" })
+
+vim.api.nvim_create_user_command("CountOccurences", function()
+  local search_query = vim.fn.getreg('/')
+  local search_count = vim.fn.searchcount({recompute = true, pattern = search_query, maxcount = 0, timeout=0}).total
+  vim.notify("" .. search_count .. " occurences of " .. search_query)
+end, {})
