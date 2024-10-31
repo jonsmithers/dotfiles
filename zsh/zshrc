@@ -292,7 +292,7 @@ if [[ "$TERM" = "xterm-kitty" ]]; then
 
   b() {
     local this_window="$KITTY_WINDOW_ID"
-    local other_window="$(kitty @ launch --cwd=current)"
+    local other_window="$(kitty @ launch --cwd=current --location=hsplit --bias=10)"
     kitty @ send-text --match "id:$other_window" " $@"' \\\r && sleep 2 && exit\n'
     kitty @ focus-window --match "id:$this_window"
   }
