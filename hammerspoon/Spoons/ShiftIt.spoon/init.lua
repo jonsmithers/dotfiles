@@ -153,6 +153,15 @@ function resizeWindowInSteps(increment)
   hs.window.focusedWindow():move({x=x, y=y, w=w, h=h}, nil, true, 0)
 end
 
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "S", function()
+  local win1 = hs.window.orderedWindows()[1]
+  local win2 = hs.window.orderedWindows()[2]
+  obj:right();
+  win2:focus();
+  obj:left();
+  win1:focus();
+end)
+
 function obj:left() move(obj:units().left50, nil, true, 0) end
 function obj:right() move(obj:units().right50, nil, true, 0) end
 function obj:up() move(obj:units().top50, nil, true, 0) end
