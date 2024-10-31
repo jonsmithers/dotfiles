@@ -154,8 +154,16 @@ function resizeWindowInSteps(increment)
 end
 
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "S", function()
-  local win1 = hs.window.orderedWindows()[1]
-  local win2 = hs.window.orderedWindows()[2]
+  local wf = hs.window.filter
+  local windows = wf.new():getWindows({})
+  local win1 = windows[1]
+  local win2 = windows[2]
+  hs.alert.show(tostring(win2:application():title()) .. "🫷🫸" .. tostring(win1:application():title()), {
+    radius = 4,
+    textFont = "Helvetica",
+    textSize = 14,
+    atScreenEdge = 2,
+  })
   obj:right();
   win2:focus();
   obj:left();
