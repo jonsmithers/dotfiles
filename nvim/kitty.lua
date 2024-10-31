@@ -21,6 +21,11 @@ function kitty.get_current_window_id()
   -- return tonumber(io.popen("kitty @ ls --match recent:0 | jq '.[].tabs.[].windows.[].id'"):read('*a'))
   return vim.json.decode(io.popen("kitty @ ls --match recent:0"):read('*a'))[1].tabs[1].windows[1].id
 end
+---@return number
+function kitty.get_neovim_window_id()
+  ---@diagnostic disable-next-line: return-type-mismatch
+  return tonumber(os.getenv("KITTY_WINDOW_ID"))
+end
 
 ---@param id number
 ---@return boolean
@@ -28,17 +33,21 @@ function kitty.window_exists(id)
   return 0 == os.execute("kitty @ ls --match id:"..id.." &> /dev/null")
 end
 function kitty.focus_window_recent()
-  vim.fn.system({'kitty', '@', 'focus-window', '--match', 'recent:1'})
+  vim.system({'kitty', '@', 'focus-window', '--match', 'recent:1'}):wait()
+end
+---@param id number
+function kitty.focus_window(id)
+  vim.system({'kitty', '@', 'focus-window', '--match', 'id:'..id}):wait()
 end
 ---@param id number
 ---@param text string
 function kitty.send_text(id, text)
-  vim.fn.system({'kitty', '@', 'send-text', '--match', 'id:'..id, text})
+  vim.system({'kitty', '@', 'send-text', '--match', 'id:'..id, text}):wait()
 end
 ---@param layout string
 function kitty.goto_layout(layout)
   -- vim.fn.sytem({'kitty', '@', 'set-enabled-layouts', layout})
-  vim.fn.system({'kitty', '@', 'goto-layout', layout})
+  vim.system({'kitty', '@', 'goto-layout', layout}):wait()
 end
 ---@param opts? { ['persistent_shell']?: boolean, }
 ---@return number window_id
@@ -47,20 +56,21 @@ function kitty.get_and_focus_window(opts)
   if (global_opts.single_term_mode or opts.persistent_shell) then
     if (global_state.window_id_of_persistent_shell == nil or not kitty.window_exists(global_state.window_id_of_persistent_shell)) then
       -- if (last_terminal == nil or 0 ~= os.execute("kitty @ ls | jq '.[].tabs.[].windows.[].title' | grep --quiet 🏃")) then
-      vim.fn.system({'kitty', '@', 'launch', '--cwd', vim.fn.getcwd(), '--location', 'hsplit'}) -- , '--title', '  '})
+      vim.system({'kitty', '@', 'launch', '--cwd', vim.fn.getcwd(), '--location', 'hsplit'}):wait() -- , '--title', '  '})
       global_state.window_id_of_persistent_shell = kitty.get_current_window_id()
     else
-      vim.fn.system({'kitty', '@', 'focus-window', '--match', 'id:'..global_state.window_id_of_persistent_shell})
+      vim.system({'kitty', '@', 'focus-window', '--match', 'id:'..global_state.window_id_of_persistent_shell}):wait()
     end
     return global_state.window_id_of_persistent_shell
   else
-    vim.fn.system({'kitty', '@', 'launch', '--cwd', vim.fn.getcwd(), '--location', 'hsplit'}) -- , '--title', '🏃'})
+    vim.system({'kitty', '@', 'launch', '--cwd', vim.fn.getcwd(), '--location', 'hsplit'}):wait() -- , '--title', '🏃'})
     return kitty.get_current_window_id()
   end
 end
 ---@param str string | nil
 ---@param opts? { ['return_focus']?: boolean, ['directory']?: string, ['persistent_shell']?: boolean }
 function kitty.run_command(str, opts)
+  local neovim_window_id = kitty.get_neovim_window_id();
   opts = vim.tbl_extend('force', {
     return_focus = true,
     persistent_shell = false,
@@ -79,7 +89,7 @@ function kitty.run_command(str, opts)
     kitty.send_text(window_id, str..'\n')
   end
   if (opts.return_focus) then
-    kitty.focus_window_recent()
+    kitty.focus_window(neovim_window_id)
   end
 end
 
