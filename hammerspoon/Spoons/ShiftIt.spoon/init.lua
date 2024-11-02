@@ -153,7 +153,7 @@ function resizeWindowInSteps(increment)
   hs.window.focusedWindow():move({x=x, y=y, w=w, h=h}, nil, true, 0)
 end
 
-hs.hotkey.bind({"cmd", "alt", "ctrl"}, "S", function()
+local function split_windows()
   local wf = hs.window.filter
   local windows = wf.new():getWindows({})
   local win1 = windows[1]
@@ -168,7 +168,9 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "S", function()
   win2:focus();
   obj:left();
   win1:focus();
-end)
+end
+hs.hotkey.bind({"alt"}, "S", split_windows)
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "S", split_windows)
 
 function obj:left() move(obj:units().left50, nil, true, 0) end
 function obj:right() move(obj:units().right50, nil, true, 0) end
