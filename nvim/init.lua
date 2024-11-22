@@ -839,6 +839,7 @@ require('lazy').setup({
         ensure_installed = {
           'astro',
           'bash',
+          'css',
           'graphql',
           'groovy',
           'html',
@@ -1023,7 +1024,7 @@ require('lazy').setup({
       'javascriptreact', 'typescriptreact',
       'less', 'scss', 'json', 'graphql',
       'markdown', 'vue', 'svelte', 'yaml',
-      'html', 'prisma',
+      'html', 'prisma', 'astro'
     },
     config = function()
       vim.cmd[[
