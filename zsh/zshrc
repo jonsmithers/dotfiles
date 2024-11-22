@@ -66,6 +66,7 @@ function silent_background() {
 [[ -d "$HOME/.npm-global" ]] && export PATH=$HOME/.npm-global/bin:$PATH
 [[ -d "$HOME/.local/bin"  ]] && export PATH=$HOME/.local/bin:$PATH # "pip install --user" installs executables to this location
 [[ -d "$HOME/bin"         ]] && export PATH="$HOME/bin:$PATH"
+[[ -d "$HOME/.deno/bin"   ]] && export PATH="$HOME/.deno/bin:$PATH"
 
 [[ $print_emojis ]] && echo -n 🍸
 
