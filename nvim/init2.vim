@@ -1,5 +1,5 @@
 " vim: ts=2 sw=2
-" Last Updated: 2024-07-24
+" Last Updated: 2024-11-24
 
 
 if !exists('s:os')
@@ -72,9 +72,9 @@ else
 endif
 
 func! OpenUrl()
-  exec '!python3 -m webbrowser "' . matchstr(getline('.'), 'https\?://[a-zA-Z0-9\./\-?=\&+@,!:_#%*;:~]\+[^,.) \"]').'"' | redraw!
+  exec '!python3 -m webbrowser "' . escape(matchstr(getline('.'), 'https\?://[a-zA-Z0-9\./\-?=\&+@,!:_#%*;:~]\+[^,.) \"]'), '#').'"' | redraw!
 endfu
-com! TestUrl exec 'echom  "'.       matchstr(getline('.'), 'https\?://[a-zA-Z0-9\./\-?=\&+@,!:_#%*;:~]\+[^,.) \"]').'"'
+com! TestUrl exec 'echom  "'.       escape(matchstr(getline('.'), 'https\?://[a-zA-Z0-9\./\-?=\&+@,!:_#%*;:~]\+[^,.) \"]'), '#').'"'
 nnoremap <Leader>ou :call OpenUrl()<Enter>
 
 func! s:HighlightTrailingSpace()
