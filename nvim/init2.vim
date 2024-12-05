@@ -1,5 +1,5 @@
 " vim: ts=2 sw=2
-" Last Updated: 2024-11-24
+" Last Updated: 2024-12-05
 
 
 if !exists('s:os')
@@ -106,10 +106,6 @@ command! -nargs=+ -complete=command Redir call g:Redir(<q-args>)
 " Change Cursor Style Dependent On Mode: https://github.com/mhinz/vim-galore#change-cursor-style-dependent-on-mode {{{
   " https://stackoverflow.com/a/42118416/1480704
   if empty($ITERM_PROFILE)
-    " seems to work everywhere but iTerm
-    let &t_SI = "\e[6 q"
-    let &t_EI = "\e[2 q"
-    let &t_SR = "\e[3 q"
   else
     if empty($TMUX)
       let &t_SI = "\<Esc>]50;CursorShape=1\x7"
