@@ -1,6 +1,6 @@
 {
     "editor.smoothScrolling": true,
-    "open-in-vim.openMethod": "integrated-terminal",
+    "open-in-vim.openMethod": "kitty",
     "open-in-vim.useNeovim": true,
     "vim.leader": " ",
     "vim.surround": true,
@@ -44,4 +44,40 @@
             "command": "vscode-neovim.escape"
         }
     }
+    "[typescriptreact]": {
+        "editor.defaultFormatter": "vscode.typescript-language-features"
+    },
+    "vscode-neovim.ctrlKeysForNormalMode": [
+        "a",
+        "b",
+        "c",
+        "d",
+        "e",
+        "f",
+        "h",
+        "i",
+        "j",
+        "k",
+        "l",
+        "m",
+        "o",
+        "r",
+        "t",
+        "u",
+        "v",
+        "w",
+        "x",
+        "y",
+        "z",
+        "/",
+        "]",
+        "right",
+        "left",
+        "up",
+        "down",
+        "backspace",
+        "delete",
+        "n"
+    ],
+    "editor.fontFamily": "Monaspace Neon, JetBrains, Menlo, Monaco, 'Courier New', monospace",
 }
