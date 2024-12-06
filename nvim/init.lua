@@ -1335,10 +1335,23 @@ require('lazy').setup({
           ["g\\"] = "actions.toggle_trash",
         }
 
+        local show_file_details = nil
         local result = vim.tbl_extend('force', default_keymaps, {
           -- ["<C-v>"] = "actions.select_vsplit",
           ["<C-x>"] = "actions.select_split",
           ["gp"] = "actions.preview",
+          ["gd"] = {
+            desc = "Toggle file detail view",
+            callback = function()
+              show_file_details = not show_file_details
+
+              if show_file_details then
+                require("oil").set_columns({ "icon", "permissions", "size", "mtime" })
+              else
+                require("oil").set_columns({ "icon" })
+              end
+            end,
+          },
         })
         result["<C-p>"] = nil
         return result
