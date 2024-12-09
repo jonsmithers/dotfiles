@@ -1311,6 +1311,9 @@ require('lazy').setup({
   },
 
   { 'stevearc/oil.nvim',
+    dependencies = {
+      'nvim-tree/nvim-web-devicons',
+    },
     opts = {
       constrain_cursor = "name",
       skip_confirm_for_simple_edits = true,
