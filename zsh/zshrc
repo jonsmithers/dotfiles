@@ -26,7 +26,12 @@ fi
 
 zstyle ':zim:termtitle' hooks 'preexec' 'precmd'
 if [[ "$TERM" == xterm-kitty ]]; then
-  zstyle ':zim:termtitle:preexec' format '󰚭 ${${(A)=1}[1]}'
+  # https://dev.to/ifenna__/adding-colors-to-bash-scripts-48g4
+  normal='\033[0m'
+  bold='\033[1m'
+  red='\033[31m'
+  grey='\033[90m'
+  zstyle ':zim:termtitle:preexec' format '󰚭 '"$red"'${${(A)=1}[1]}'"$normal"
   zstyle ':zim:termtitle:precmd'  format ' %1~'
 else
   zstyle ':zim:termtitle:preexec' format '${${(A)=1}[1]}'
