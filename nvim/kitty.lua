@@ -84,7 +84,7 @@ function kitty.run_command(str, opts)
   if (str ~= nil) then
     if (not opts.persistent_shell and (opts.transient_shell or not global_opts.single_term_mode)) then
       -- str = str .. '; post_hook_0 exit_on_success'
-      str = str .. '; post_hook_2 ' .. window_id
+      str = 'set -o pipefail\n' .. str .. ' 2>&1 | tee /tmp/nvim-test-output; post_hook_2 ' .. window_id
     end
     kitty.send_text(window_id, str..'\n')
   end
@@ -141,7 +141,7 @@ else
     callback = function()
       vim.api.nvim_buf_create_user_command(0, 'TestFile', function()
         vim.cmd.update()
-        global_state.last_command = 'clear\n' .. string.format('gw test --offline --tests %s', vim.fn.expand('%:t:r'))
+        global_state.last_command = 'clear\n' .. string.format('gw test --offline --console=rich --tests %s', vim.fn.expand('%:t:r'))
         kitty.goto_layout('fat')
         kitty.run_command(global_state.last_command)
       end, { nargs = 0})
@@ -155,7 +155,7 @@ else
         vim.fn.search('void ')
         vim.cmd.normal('W')
         local test_name=vim.fn.expand('<cword>')
-        global_state.last_command = 'clear\n' .. string.format('gw test --offline --tests \'%s*.%s\'', vim.fn.expand('%:t:r'), test_name)
+        global_state.last_command = 'clear\n' .. string.format('gw test --offline --console=rich --tests \'%s*.%s\'', vim.fn.expand('%:t:r'), test_name)
         kitty.goto_layout('fat')
         kitty.run_command(global_state.last_command)
         vim.api.nvim_win_set_cursor(0, cursor_pos)
@@ -171,7 +171,7 @@ else
     callback = function()
       vim.api.nvim_buf_create_user_command(0, 'TestFile', function()
         vim.cmd.update()
-        global_state.last_command = 'clear\n' .. (vim.env.NVIM_YARN_TEST_PREFIX or 'yarn exec jest --coverage=false') .. string.format(' "%s"', vim.fn.expand('%:t:r'))
+        global_state.last_command = 'clear\n' .. (vim.env.NVIM_YARN_TEST_PREFIX or 'yarn exec jest --coverage=false --colors') .. string.format(' "%s"', vim.fn.expand('%:t:r'))
         kitty.goto_layout('fat')
         kitty.run_command(global_state.last_command)
       end, { nargs = 0})
@@ -185,7 +185,7 @@ else
         vim.cmd.normal('l')
         vim.cmd.normal("yi'")
         local test_name=vim.fn.getreg('0')
-        global_state.last_command = 'clear\n' .. (vim.env.NVIM_YARN_TEST_PREFIX or 'yarn exec jest --coverage=false') .. string.format(' "%s" -t "%s"', vim.fn.expand('%:t:r'), vim.fn.escape(test_name, '()'))
+        global_state.last_command = 'clear\n' .. (vim.env.NVIM_YARN_TEST_PREFIX or 'yarn exec jest --coverage=false --colors') .. string.format(' "%s" -t "%s"', vim.fn.expand('%:t:r'), vim.fn.escape(test_name, '()'))
         kitty.goto_layout('fat')
         kitty.run_command(global_state.last_command)
         vim.api.nvim_win_set_cursor(0, cursor_pos);
