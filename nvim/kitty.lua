@@ -93,6 +93,20 @@ function kitty.run_command(str, opts)
   end
 end
 
+vim.api.nvim_create_user_command('GoToTestFailure', function(opts)
+  local test_output = io.open('/tmp/nvim-test-output', 'r'):read('*a')
+  local result = vim.system({'sed', '-e', 's/\x1b\\[[0-9;]*m//g'}, { stdin = test_output}):wait()
+  local lines = vim.split(result.stdout .. '\n' .. result.stderr .. '\n', '\n')
+  vim.cmd('silent cd '..opts.args)
+  vim.fn.setqflist({}, ' ', {
+    title = 'test failure',
+    lines = lines,
+    efm = '%.%# at %.%#(%f:%l:%c)',
+  })
+  vim.cmd.copen()
+  vim.cmd('silent cd -')
+end, { nargs = 1 })
+
 vim.keymap.set('n', '<leader>.t', ':TransientShell ')
 vim.keymap.set('n', '<leader>.T', ':TransientShell! ')
 vim.keymap.set('n', '<leader>.q', function() kitty.run_command('exit') end)
