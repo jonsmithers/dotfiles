@@ -191,6 +191,19 @@ if has fzf; then
   bindkey B insertBranches
 fi
 
+function frecent-dirs {
+  if [[ $BUFFER != "sudo "* ]]; then
+    blue='\033[34m'
+    lightblue='\033[94m'
+    lightgreen='\033[93m'
+    zi
+    dir="$(pwd)"
+    echo -n "${lightblue} ${dir/"$HOME"/~} ${lightgreen}❯ "
+  fi
+}
+zle -N frecent-dirs
+bindkey '^n' frecent-dirs
+
 function gfixup {
   local commit=$(FZF_PROMPT='Fixup Commit: ' fzfCommit)
   if [[ -z "$commit" ]]; then
