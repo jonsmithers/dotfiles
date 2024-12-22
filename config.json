@@ -10,6 +10,7 @@
     "./nvim/init.lua":                   "~/.config/nvim/init.lua",
     "./nvim/init2.vim":                  "~/.config/nvim/init2.vim",
     "./nvim/kitty.lua":                   "~/.config/nvim/kitty.lua",
+    "./nvim/terminal.lua":               "~/.config/nvim/terminal.lua",
     "./nvim/spell":                      "~/.config/nvim/spell",
     "./tmux/tmux.conf":                  "~/.tmux.conf",
     "./vim/autoload/js_prose.vim":       "~/.vim/autoload/js_prose.vim",
