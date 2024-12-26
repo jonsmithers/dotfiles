@@ -93,7 +93,7 @@ else
         vim.cmd.update()
         local cursor_pos = vim.api.nvim_win_get_cursor(0)
         if (0 == vim.fn.search('@\\(Parameterized\\)\\?Test', 'bW')) then
-          require('fidget').notify('No test found', vim.log.levels.ERROR)
+          vim.notify("No test found", vim.log.levels.ERROR)
           return
         end
         vim.fn.search('void ')
@@ -121,7 +121,7 @@ else
         vim.cmd.update()
         local cursor_pos = vim.api.nvim_win_get_cursor(0);
         if (0 == vim.fn.search('^\\s*\\(it\\|test\\|describe\\)(', 'bW')) then
-          require('fidget').notify('No test found', vim.log.levels.ERROR)
+          vim.notify('No test found', vim.log.levels.ERROR)
           return
         end
         vim.cmd.normal('l')
