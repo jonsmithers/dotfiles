@@ -821,6 +821,16 @@ require('lazy').setup({
         },
       }
     end,
+    init = function()
+      local refresh = function()
+        vim.defer_fn(function()
+          require('lualine').refresh()
+        end, 1)
+      end
+      vim.api.nvim_create_autocmd({'RecordingLeave', 'RecordingEnter'}, {
+        callback = refresh
+      })
+    end,
   },
 
   { 'nvim-treesitter/nvim-treesitter',
