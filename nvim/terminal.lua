@@ -25,18 +25,22 @@ function terminal.run_command(str, opts)
     end
     term:send(str, false)
   end
-  vim.schedule(function()
-    if (opts.return_focus) then
-      vim.api.nvim_set_current_win(current_win)
-    else
-      if term:is_open() then
-        term:focus()
-      else
-        term:open()
+  if (opts.return_focus) then
+    vim.api.nvim_set_current_win(current_win)
+    vim.defer_fn(function()
+      if (vim.api.nvim_get_mode().mode == 'i') then
+        vim.cmd.stopinsert() -- workaround certain occasions where we are left in insert mode 🤷
       end
-      vim.cmd.startinsert()
-    end
-  end)
+    end, 10)
+  else
+    vim.api.nvim_set_current_win(term.window)
+    vim.cmd.startinsert()
+    vim.defer_fn(function()
+      if (vim.api.nvim_get_mode().mode ~= 't') then
+        vim.cmd.startinsert() -- workaround certain occasions where we are reverted to normal ("nt") mode 🤷
+      end
+    end, 10)
+  end
 end
 
 vim.keymap.set('n', '<leader>.t', ':TransientShell ')
