@@ -13,21 +13,30 @@ function terminal.run_command(str, opts)
     persistent_shell = false,
   }, opts or {})
   local term_id = opts.persistent_shell and 1 or math.random(100000,999999)
+  local term = require('toggleterm.terminal').get_or_create_term(term_id)
+  if not term:is_open() then term:open() end
+
   if (opts.directory ~= nil) then
-    vim.cmd({cmd = 'TermExec', args = {"cmd=' :; cd '"..opts.directory.."'"}, count=term_id})
+    term:send(" :; cd '" .. opts.directory .. "'", false)
   end
   if (str ~= nil) then
     if (not opts.persistent_shell and (opts.transient_shell or not global_opts.single_term_mode)) then
       str = str .. " && exit"
     end
-    vim.cmd({cmd = 'TermExec', args = {"cmd='".. str .. "'"}, count=term_id})
-  else
-    -- TODO this dont work
-    vim.cmd({cmd = 'TermExec', args = {"cmd=':'"}, count=term_id})
+    term:send(str, false)
   end
-  if (opts.return_focus) then
-    vim.api.nvim_set_current_win(current_win)
-  end
+  vim.schedule(function()
+    if (opts.return_focus) then
+      vim.api.nvim_set_current_win(current_win)
+    else
+      if term:is_open() then
+        term:focus()
+      else
+        term:open()
+      end
+      vim.cmd.startinsert()
+    end
+  end)
 end
 
 vim.keymap.set('n', '<leader>.t', ':TransientShell ')
@@ -45,7 +54,6 @@ vim.keymap.set('n', '<leader>.<leader>', ':PersistentShell ')
 vim.api.nvim_create_user_command('TransientShell', function(opts)
   local str = table.concat(opts.fargs, ' ')
   terminal.run_command(str, {persistent_shell = false, return_focus = not opts.bang})
-  -- vim.cmd({cmd = 'TermExec', args = {"cmd='"..str.." && exit'"}, count=math.random(100000,999999)})
 end, { nargs = '*', bang = true})
 vim.api.nvim_create_user_command('PersistentShell', function(opts)
   local str = table.concat(opts.fargs, ' ')
