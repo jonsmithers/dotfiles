@@ -598,6 +598,21 @@ require('lazy').setup({
     },
   },
 
+  { 'kylechui/nvim-surround',
+    opts = {
+      surrounds = {
+        ["8"] = {
+          add = { "**", "**" },
+          find = "%*%*.-%*%*",
+          delete = "^(%*%*?)().-(%*%*?)()$",
+          change = {
+            target = "^(%*%*?)().-(%*%*?)()$",
+          },
+        },
+      },
+    },
+  },
+
   { 'lewis6991/gitsigns.nvim',
     -- Gitsigns toggle_word_diff
     -- Gitsigns toggle_current_line_blame
@@ -1469,30 +1484,6 @@ require('lazy').setup({
 
   'tpope/vim-rsi',
 
-  { 'tpope/vim-surround',
-    config = function()
-      vim.cmd[[
-        " NORMAL MODE:
-        "   ds<SURROUND> to delete surround
-        "   cs<SURROUND><SURROUND> to change surround from/to
-        "   ys<TEXT-OBJECT><SURROUND> to surround text object
-        "   yS<TEXT-OBJECT><SURROUND> to surround text object on new line
-        "
-        "   cstt<NEW-TAG> to change tag name!
-        " VISUAL MODE:
-        "   S<SURROUND>
-        " INSERT MODE:
-        "   <C-g>s<SURROUND>
-        let b:surround_{char2nr('b')} = '**\r**'
-        augroup vimrc_surround
-          autocmd!
-          autocmd FileType markdown let b:surround_{char2nr('b')} = '**\r**'
-          " use 'b' to surround something with double asterisks
-        augroup END
-      ]]
-    end
-  },
-
   { 'tpope/vim-unimpaired',
     init = function()
       vim.cmd[[
@@ -1610,6 +1601,10 @@ vim.keymap.set("n", "gp", "`[v`]", { desc = "select pasted text" })
 
 vim.api.nvim_create_user_command("CountOccurences", function()
   local search_query = vim.fn.getreg('/')
+  if (search_query == '') then
+    vim.notify("No search")
+    return
+  end
   local search_count = vim.fn.searchcount({recompute = true, pattern = search_query, maxcount = 0, timeout=0}).total
   vim.notify("" .. search_count .. " occurences of " .. search_query)
 end, {})
