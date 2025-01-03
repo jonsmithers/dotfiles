@@ -165,6 +165,7 @@ if [[ -z "$theme" ]]; then
     "Nightfox Duskfox"
     "Nightfox Nordfox"
     "Nightfox Terafox"
+    "Nordic"
     "One Dark"
     "One Light"
     "Rose Pine"
@@ -419,6 +420,13 @@ case $theme in
     change_vim_colorscheme       terafox
     obtain_kitty_theme_from_curl 'nightfox-terafox' https://raw.githubusercontent.com/EdenEast/nightfox.nvim/main/extra/terafox/nightfox_kitty.conf
     change_kitty_theme           'nightfox-terafox'
+    ;;
+  "Nordic")
+    obtain_neovim_theme_from_git nordic.nvim git@github.com:AlexvZyl/nordic.nvim.git
+    change_vim_background        dark
+    change_vim_colorscheme       nordic
+    obtain_kitty_theme_from_curl 'nordic' https://raw.githubusercontent.com/AlexvZyl/nordic.nvim/refs/heads/main/platforms/kitty/nordic.conf
+    change_kitty_theme           'nordic'
     ;;
   "One Dark")
     obtain_neovim_theme_from_git   onedark.vim git@github.com:joshdick/onedark.vim.git
