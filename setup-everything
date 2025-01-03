@@ -142,4 +142,6 @@ install_cmd zoxide
 # install_cmd tmux
 # install_cmd vint # vimscript linting
 zsh/setup-zsh.sh
-osx/set-defaults.sh
+if [[ "$(uname)" == "Darwin" ]] && prompt "Set MacOS defaults?"; then
+  osx/set-defaults.sh
+fi

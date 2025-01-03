@@ -1,12 +1,25 @@
 #!/bin/bash
+set -e
 cd "$(dirname "$0")"
 
 source ../_helpers.sh
 
 if [[ "$(uname)" == "Darwin" ]]; then
   echo "Setting MacOS defaults"
-  defaults write -g ApplePressAndHoldEnabled -bool false
-  defaults write com.apple.finder QuitMenuItem -bool true # let me quit Finder
+  (
+    set -x
+    defaults write -g ApplePressAndHoldEnabled -bool false
+    defaults write com.apple.finder QuitMenuItem -bool true # let me quit Finder
+  )
+
+  echo "Reducing menubar spacing"
+  (
+    set -x
+    defaults -currentHost write -globalDomain NSStatusItemSpacing -int 6
+    defaults -currentHost write -globalDomain NSStatusItemSelectionPadding -int 3
+  )
+  # defaults -currentHost delete -globalDomain NSStatusItemSpacing
+  # defaults -currentHost delete -globalDomain NSStatusItemSelectionPadding
 else
   echo "Skipping macos defaults because this isn't macos"
 fi
