@@ -149,6 +149,10 @@ if [[ -z "$theme" ]]; then
     "GitHub Light High Contrast"
     "Gruvbox Dark"
     "Gruvbox Light"
+    "Gruvbox Material Dark Hard"
+    "Gruvbox Material Dark Soft"
+    "Gruvbox Material Light Hard"
+    "Gruvbox Material Light Soft"
     "JetBrains Darcula (dark)"
     "Kanagawa Dragon (dark)"
     "Kanagawa Lotus (light)"
@@ -303,6 +307,34 @@ case $theme in
     change_vim_colorscheme         gruvbox
     obtain_kitty_theme_from_kitten 'Gruvbox Light Hard'
     change_kitty_theme             'Gruvbox Light Hard'
+    ;;
+  "Gruvbox Material Dark Hard")
+    obtain_neovim_theme_from_git   gruvbox-material git@github.com:sainnhe/gruvbox-material.git
+    change_vim_background          dark
+    change_vim_colorscheme         gruvbox-material gruvbox_material_background=hard
+    obtain_kitty_theme_from_kitten 'Gruvbox Dark Hard'
+    change_kitty_theme             'Gruvbox Dark Hard'
+    ;;
+  "Gruvbox Material Dark Soft")
+    obtain_neovim_theme_from_git   gruvbox-material git@github.com:sainnhe/gruvbox-material.git
+    change_vim_background          dark
+    change_vim_colorscheme         gruvbox-material gruvbox_material_background=soft
+    obtain_kitty_theme_from_kitten 'Gruvbox Dark Soft'
+    change_kitty_theme             'Gruvbox Dark Soft'
+    ;;
+  "Gruvbox Material Light Hard")
+    obtain_neovim_theme_from_git   gruvbox-material git@github.com:sainnhe/gruvbox-material.git
+    change_vim_background          light
+    change_vim_colorscheme         gruvbox-material gruvbox_material_background=hard
+    obtain_kitty_theme_from_kitten 'Gruvbox Light Hard'
+    change_kitty_theme             'Gruvbox Light Hard'
+    ;;
+  "Gruvbox Material Light Soft")
+    obtain_neovim_theme_from_git   gruvbox-material git@github.com:sainnhe/gruvbox-material.git
+    change_vim_background          light
+    change_vim_colorscheme         gruvbox-material gruvbox_material_background=soft
+    obtain_kitty_theme_from_kitten 'Gruvbox Light Soft'
+    change_kitty_theme             'Gruvbox Light Soft'
     ;;
   "JetBrains Darcula (dark)")
     obtain_neovim_theme_from_git   darcula-solid git@github.com:santos-gabriel-dario/darcula-solid.nvim.git
