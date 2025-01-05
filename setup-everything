@@ -143,5 +143,5 @@ install_cmd zoxide
 # install_cmd vint # vimscript linting
 zsh/setup-zsh.sh
 if [[ "$(uname)" == "Darwin" ]] && prompt "Set MacOS defaults?"; then
-  osx/set-defaults.sh
+  macos/set-defaults.sh
 fi
