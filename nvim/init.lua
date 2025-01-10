@@ -64,6 +64,14 @@ require('lazy').setup({
 
   'bronson/vim-visual-star-search',
 
+  { 'echasnovski/mini.pick',
+    opts = {
+    },
+    keys = {
+      {"<c-p>", mode = "n", ":Pick files<cr>", desc = "Pick file"}
+    },
+  },
+
   { 'folke/flash.nvim',
     event = "VeryLazy",
     enabled = true,
@@ -458,7 +466,7 @@ require('lazy').setup({
           command! -bar -bang -nargs=? -complete=buffer FzfBuffersCustom call fzf#vim#buffers(<q-args>, fzf#vim#with_preview({ "placeholder": "{1}", "options": ['--bind', 'ctrl-k:up', '--bind', 'ctrl-y:preview-up'] }), <bang>0)
 
         :nnoremap <silent> <C-k>         :FzfBuffersCustom<Enter>
-        :nnoremap <silent> <C-p>         :FzfFiles<Enter>
+        " :nnoremap <silent> <C-p>         :FzfFiles<Enter>
         :nnoremap <silent> <Leader>or    :FzfHistory<Enter>
         :nnoremap <silent> <Leader>oR    :FzfHistory!<Enter>
         :nnoremap <silent> <Leader>ft    :Telescope filetypes<enter>
@@ -1096,15 +1104,6 @@ require('lazy').setup({
     end
   },
 
-  { 'rcarriga/nvim-notify',
-    config = function()
-      require('notify').setup()
-    end,
-    init = function()
-      -- vim.notify = require('notify')
-    end
-  },
-
   { 'rgroli/other.nvim',
     config = function()
       require('other-nvim').setup({
@@ -1370,7 +1369,7 @@ require('lazy').setup({
           ["-"] = "actions.parent",
           ["_"] = "actions.open_cwd",
           ["`"] = "actions.cd",
-          ["~"] = "actions.tcd",
+          -- ["~"] = "actions.tcd",
           ["gs"] = "actions.change_sort",
           ["gx"] = "actions.open_external",
           ["g."] = "actions.toggle_hidden",
