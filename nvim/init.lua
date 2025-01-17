@@ -66,9 +66,15 @@ require('lazy').setup({
 
   { 'echasnovski/mini.pick',
     opts = {
+      options = {
+        content_from_bottom = true,
+      },
     },
     keys = {
-      {"<c-p>", mode = "n", ":Pick files<cr>", desc = "Pick file"}
+      {"<c-p>", mode = "n", ":Pick files<cr>", desc = "Pick file"},
+      {"<leader>or", mode = "n", function()
+        require('mini.pick').start({source={items=vim.v.oldfiles}})
+      end, desc = "Pick recent file"},
     },
   },
 
@@ -467,7 +473,7 @@ require('lazy').setup({
 
         :nnoremap <silent> <C-k>         :FzfBuffersCustom<Enter>
         " :nnoremap <silent> <C-p>         :FzfFiles<Enter>
-        :nnoremap <silent> <Leader>or    :FzfHistory<Enter>
+        " :nnoremap <silent> <Leader>or    :FzfHistory<Enter>
         :nnoremap <silent> <Leader>oR    :FzfHistory!<Enter>
         :nnoremap <silent> <Leader>ft    :Telescope filetypes<enter>
         :nnoremap <silent> <Leader>f/    :FzfHistory/<Enter>
