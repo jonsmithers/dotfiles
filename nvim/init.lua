@@ -65,6 +65,7 @@ require('lazy').setup({
   'bronson/vim-visual-star-search',
 
   { 'echasnovski/mini.pick',
+    dependencies = { 'fzf.vim' },
     opts = {
       options = {
         content_from_bottom = true,
@@ -73,7 +74,7 @@ require('lazy').setup({
     keys = {
       {"<c-p>", mode = "n", ":Pick files<cr>", desc = "Pick file"},
       {"<leader>or", mode = "n", function()
-        require('mini.pick').start({source={items=vim.v.oldfiles}})
+        require('mini.pick').start({source={items=vim.fn['fzf#vim#_recent_files']()}})
       end, desc = "Pick recent file"},
     },
   },
