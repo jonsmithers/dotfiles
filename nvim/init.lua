@@ -428,6 +428,25 @@ require('lazy').setup({
         grep_multi_line = 2
       }
     end,
+    keys = function()
+
+      local live_global_search = function(initial_query)
+        -- TODO try to enable history on fzf's rg function
+        local history_file = string.format('/var/tmp/%s.ripgrep.fzf-history',  vim.fn.substitute(vim.fn.getcwd(), '/', '%', 'g'))
+        vim.fn['fzf#vim#grep2']("rg --column --line-number --no-heading --color=always --smart-case -- ", initial_query, vim.fn['fzf#vim#with_preview'](), 0)
+      end
+
+      return {
+        { '<leader>F', function() live_global_search("") end, desc = 'Search' },
+        { '<leader>sw', function() live_global_search(vim.fn.expand('<cword>')) end, desc = "Search current word" },
+        { '<leader>s', function()
+          vim.cmd.normal('"ly')
+          live_global_search(vim.fn.getreg('l'))
+        end, desc = "Search current word", mode='v' },
+
+        { '<leader>oR', ':FzfHistory!<Enter>', 'Recent files'}
+      }
+    end,
     config = function()
       vim.cmd[[
         " <C-/> or <C-_> to toggle preview window
@@ -447,27 +466,6 @@ require('lazy').setup({
           \ 'spinner': ['fg', 'Label'],
           \ 'header':  ['fg', 'Comment'] }
 
-        " TODO update the new binding to inject history (https://github.com/junegunn/fzf.vim/blob/279e1ec068f526e985ee7e3f62a71f083bbe0196/plugin/fzf.vim#L64)
-        function! RipgrepFzf(query, fullscreen, preview)
-          " let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case %s | awk --field-separator=: ''{ x=$1; sub("/.*/", "/.../", x); print (x":"$2":"$3":"$4); }'' || true'
-          let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case %s || true'
-          let initial_command = printf(command_fmt, shellescape(a:query))
-          let reload_command = printf(command_fmt, '{q}')
-          let l:history_file = '/var/tmp/' . substitute(getcwd(), '/', '%', 'g') . '.ripgrep.fzf-history'
-          let spec = {'options': ['--disabled', '--query', a:query, '--bind', 'change:reload:'.reload_command, '--history='.l:history_file ]}
-          let spec = a:preview ? fzf#vim#with_preview(spec) : spec
-          call fzf#vim#grep(initial_command, 1, spec, a:fullscreen)
-        endfunction
-
-        command! -nargs=* -bang Rg call RipgrepFzf(<q-args>, <bang>0, 1)
-        command! -nargs=* -bang RgNoPreview call RipgrepFzf(<q-args>, <bang>0, 0)
-        :nnoremap <leader>F     :FzfRG!<Enter>
-        :nnoremap <C-F>         :Rg<Enter>
-
-        "search for word in working directory
-        :nnoremap <Leader>sw    :FzfRg  <Enter>
-        :vnoremap <Leader>s     y:FzfRg "<Enter>
-
         com! -bang FzfBuffersCustom call fzf#vim#buffers
         " command! -bar -bang -nargs=? -complete=buffer FzfBuffers       call fzf#vim#buffers(<q-args>, fzf#vim#with_preview({ "placeholder": "{1}" }), <bang>0)
           command! -bar -bang -nargs=? -complete=buffer FzfBuffersCustom call fzf#vim#buffers(<q-args>, fzf#vim#with_preview({ "placeholder": "{1}", "options": ['--bind', 'ctrl-k:up', '--bind', 'ctrl-y:preview-up'] }), <bang>0)
@@ -475,7 +473,6 @@ require('lazy').setup({
         :nnoremap <silent> <C-k>         :FzfBuffersCustom<Enter>
         " :nnoremap <silent> <C-p>         :FzfFiles<Enter>
         " :nnoremap <silent> <Leader>or    :FzfHistory<Enter>
-        :nnoremap <silent> <Leader>oR    :FzfHistory!<Enter>
         :nnoremap <silent> <Leader>ft    :Telescope filetypes<enter>
         :nnoremap <silent> <Leader>f/    :FzfHistory/<Enter>
         :nnoremap <silent> <Leader>f:    :Telescope command_history<Enter>
