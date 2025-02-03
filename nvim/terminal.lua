@@ -45,7 +45,7 @@ end
 
 vim.keymap.set('n', '<leader>.t', ':TransientShell ')
 vim.keymap.set('n', '<leader>.T', ':TransientShell! ')
-vim.keymap.set('n', '<leader>.q', function() terminal.run_command('exit') end)
+vim.keymap.set('n', '<leader>.q', function() terminal.run_command('exit', { persistent_shell = true }) end)
 vim.keymap.set('n', '<leader>.>', function() terminal.run_command(nil, { return_focus = false}) end)
 vim.keymap.set('n', '<leader>gt', function()
   local path = nil
@@ -139,7 +139,6 @@ else
       vim.keymap.set('n', '<leader>rf', ':TestFile<cr>', { buffer = 0 })
     end
   })
-
 
   return terminal
 end
