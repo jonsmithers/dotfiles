@@ -298,6 +298,7 @@ augroup vimrc_autocomamnds
 
   autocmd Filetype javascript,html,typescript call s:ftpluginJavascripty()
   autocmd Filetype typescriptreact            call s:ftpluginJavascripty()
+  autocmd Filetype java                       call s:ftpluginJava()
   autocmd Filetype lua                        call s:ftpluginLua()
   autocmd Filetype python                     nnoremap <buffer> <space>py :!python3 %<cr>
   autocmd Filetype python                     set omnifunc=pythoncomplete#Complete
@@ -315,6 +316,12 @@ augroup vimrc_autocomamnds
     nnoremap <buffer> <Leader>gif yiwf{oconsole.group('0');<Esc>]}Oconsole.groupEnd();<Esc>^
     nnoremap <buffer> <Leader>jsxc 0wi{/*<Esc>$a*/}<Esc>
     nnoremap <buffer> <Leader>jsxC :s@{\/\* \?\\| \?\*/}@@g<Enter>
+  endfun
+  fun! s:ftpluginJava()
+    nnoremap <buffer> <Leader>il oSystem.out.println();F)i
+    nnoremap <buffer> <Leader>iL oSystem.out.println();F)i
+    nnoremap <buffer> <Leader>liw yiwoSystem.out.println("0 " + 0);<Esc>
+    nnoremap <buffer> <Leader>lif yiwoSystem.out.println("0()");<Esc>
   endfun
   fun! s:ftpluginLua()
     nnoremap <buffer> <Leader>il ovim.print()i
@@ -356,3 +363,6 @@ function! s:updateTimeStamp()
   endif
   call winrestview(l:save_view)
 endfunction
+
+command DiffOrig vert new | set buftype=nofile | read ++edit # | 0d_
+      \ | diffthis | wincmd p | diffthis
