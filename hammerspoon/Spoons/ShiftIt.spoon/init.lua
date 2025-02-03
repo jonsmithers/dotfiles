@@ -69,7 +69,8 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Q", function()
       frame.y = -300 -- screen:frame().h + 300
       zoomWindow:setFrame(frame, 2)
     else
-      zoomWindow:setFrame(originalFrame, 2)
+      originalFrame.y = 300
+      zoomWindow:setFrame(originalFrame, 1)
       originalFrame = nil
     end
   end
