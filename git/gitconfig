@@ -20,6 +20,7 @@
   dfw = diff --word-diff=color
   lol = log --graph --decorate --oneline
   lola = log --graph --decorate --oneline --all
+  pushh = push --push-option ci.skip
 [user]
   name = Jon Smithers
   email = jon@smithers.dev
