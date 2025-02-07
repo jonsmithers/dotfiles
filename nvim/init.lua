@@ -674,6 +674,28 @@ require('lazy').setup({
     },
   },
 
+  { 'mrjones2014/smart-splits.nvim',
+    build = './kitty/install-kittens.bash',
+    init = function()
+      local smart_splits = require('smart-splits')
+      vim.keymap.set('n', '<A-h>', smart_splits.resize_left)
+      vim.keymap.set('n', '<A-j>', smart_splits.resize_down)
+      vim.keymap.set('n', '<A-k>', smart_splits.resize_up)
+      vim.keymap.set('n', '<A-l>', smart_splits.resize_right)
+      -- moving between splits
+      vim.keymap.set('n', '<c-space><C-h>', smart_splits.move_cursor_left)
+      vim.keymap.set('n', '<c-space><C-j>', smart_splits.move_cursor_down)
+      vim.keymap.set('n', '<c-space><C-k>', smart_splits.move_cursor_up)
+      vim.keymap.set('n', '<c-space><C-l>', smart_splits.move_cursor_right)
+      vim.keymap.set('n', '<c-space><C-\\>', smart_splits.move_cursor_previous)
+      -- swapping buffers between windows
+      vim.keymap.set('n', '<c-space><c-space><c-h>', smart_splits.swap_buf_left)
+      vim.keymap.set('n', '<c-space><c-space><c-j>', smart_splits.swap_buf_down)
+      vim.keymap.set('n', '<c-space><c-space><c-k>', smart_splits.swap_buf_up)
+      vim.keymap.set('n', '<c-space><c-space><c-l>', smart_splits.swap_buf_right)
+    end,
+  },
+
   'nanotee/zoxide.vim',
 
   { 'neovim/nvim-lspconfig',
