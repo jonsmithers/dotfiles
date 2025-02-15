@@ -9,7 +9,7 @@ if [[ "$(uname)" == "Darwin" ]]; then
   (
     set -x
     defaults write -g ApplePressAndHoldEnabled -bool false
-    defaults write com.apple.finder QuitMenuItem -bool true # let me quit Finder
+    # defaults write com.apple.finder QuitMenuItem -bool true # let me quit Finder
   )
 
   echo "Reducing menubar spacing"

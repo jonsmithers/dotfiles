@@ -27,7 +27,7 @@ local SKIP = 'skip'
 
 for _, v in pairs({
   {'alt', 'C', "Visual Studio Code"},
-  {'alt', 'I', "IntelliJ IDEA"},
+  {'alt', 'I', "pycharm CE"},
   {'alt', 'T', "kitty"},
   {'alt', 'V', "MacVim"},
   {'alt', 'W', "WhatsApp"},

@@ -92,7 +92,7 @@ function obj:units()
   }
 end
 
-function move(unit) hs.window.focusedWindow():move(unit, nil, true, 0.2) end
+function move(unit) hs.window.focusedWindow():move(unit, nil, true, 0.4) end
 
 function resizeWindowInSteps(increment)
   screen = hs.window.focusedWindow():screen():frame()

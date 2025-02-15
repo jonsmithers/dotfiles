@@ -216,7 +216,7 @@ require('lazy').setup({
         vim.cmd.PencilSoft()
         if (vim.env.TERM == "xterm-kitty") then
           vim.system(vim.split('kitty @ set-spacing padding=16', ' ')) --:wait()
-          vim.system(vim.split('kitty @ set-font-size -- +4', ' ')) --:wait()
+          vim.system(vim.split('kitty @ set-font-size -- +1', ' ')) --:wait()
         end
       end },
       { ']og', function()
@@ -229,7 +229,7 @@ require('lazy').setup({
         vim.cmd.PencilOff()
         if (vim.env.TERM == "xterm-kitty") then
           vim.system(vim.split('kitty @ set-spacing padding=0', ' ')) --:wait()
-          vim.system(vim.split('kitty @ set-font-size -- -4', ' ')) --:wait()
+          vim.system(vim.split('kitty @ set-font-size -- -1', ' ')) --:wait()
         end
       end }
     },
@@ -782,7 +782,15 @@ require('lazy').setup({
         ENABLE_LSP_SERVER('jsonls')
       end
 
-      ENABLE_FRONTEND_LSPS()
+      local deno_dirs = {
+        -- (insert deno dirs)
+      }
+
+      if (vim.tbl_contains(deno_dirs, vim.fn.getcwd())) then
+        ENABLE_LSP_SERVER('denols')
+      else
+        ENABLE_FRONTEND_LSPS()
+      end
       ENABLE_LSP_SERVER('vimls')
       ENABLE_LSP_SERVER('gopls')
       ENABLE_LSP_SERVER('bashls')
