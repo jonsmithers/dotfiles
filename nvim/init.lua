@@ -264,136 +264,6 @@ require('lazy').setup({
     },
   },
 
-  { 'hrsh7th/nvim-cmp',
-    dependencies = {
-      'onsails/lspkind.nvim',
-      'hrsh7th/cmp-nvim-lsp',
-      'hrsh7th/cmp-buffer',
-      'hrsh7th/cmp-path',
-      'hrsh7th/cmp-cmdline',
-      'hrsh7th/vim-vsnip',
-      'hrsh7th/cmp-vsnip',
-      'hrsh7th/cmp-emoji',
-    },
-    enabled = not vim.g.vscode,
-    config = function()
-      local cmp = require('cmp')
-      cmp.setup({
-        enable = (vim.env.NVIM_DISABLE_AUTOCOMPLETION == nil) and true or false,
-        snippet = {
-          expand = function(args)
-            vim.fn['vsnip#anonymous'](args.body) -- For `vsnip` users.
-          end,
-        },
-        mapping = {
-          ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
-          ['<C-x><C-o>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
-          ['<C-n>'] = cmp.mapping(cmp.mapping.select_next_item()),
-          ['<C-p>'] = cmp.mapping(cmp.mapping.select_prev_item()),
-          ['<C-e>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
-          ['<C-y>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
-          ['<CR>'] = cmp.mapping.confirm({ select = false }),
-          ['<Tab>'] = cmp.mapping(function(fallback)
-            local cursor_col = vim.api.nvim_win_get_cursor(0)[2];
-            local char_preceeding_cursor = string.sub(vim.api.nvim_get_current_line(), cursor_col, cursor_col)
-            if (char_preceeding_cursor == ' ') then
-              fallback()
-              -- cmp.close()
-              return
-            end
-            -- This little snippet will confirm with tab, and if no entry is selected, will confirm the first item
-            if cmp.visible() then
-              local entry = cmp.get_selected_entry()
-              if not entry then
-                cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
-              else
-                cmp.confirm()
-              end
-            else
-              fallback()
-            end
-          end, {'i','s',}),
-        },
-        sources = cmp.config.sources({
-          { name = 'nvim_lsp' },
-          { name = 'vsnip' },
-          { name = 'emoji' },
-          { name = 'path' }
-        }, {
-          { name = 'buffer' },
-        }),
-        window = {
-          completion = {
-            winhighlight = 'Normal:Pmenu,FloatBorder:Pmenu,Search:None',
-            col_offset = -3,
-            side_padding = 0,
-          },
-        },
-        formatting = {
-
-          -- fields = { 'abbr', 'menu', 'kind' },
-          -- format = function(entry, vim_item)
-          --   return require('lspkind').cmp_format({ mode = 'symbol_text', maxwidth = 50 })(entry, vim_item)
-          -- end,
-
-          fields = { 'kind', 'abbr', 'menu' },
-          format = function(entry, vim_item)
-            local kind = require('lspkind').cmp_format({ mode = 'symbol_text', maxwidth = 50 })(entry, vim_item)
-            local strings = vim.split(kind.kind, '%s', { trimempty = true })
-            kind.kind = ' ' .. (strings[1] or 'nil') .. ' '
-            kind.menu = '    (' .. (strings[2] or 'nil') .. ')'
-            return kind
-          end,
-        },
-      })
-      -- cmp.setup.cmdline('/', {
-      --   mapping = cmp.mapping.preset.cmdline(),
-      --   sources = {
-      --     { name = 'buffer' }
-      --   }
-      -- })
-      cmp.setup.cmdline(':', {
-        mapping = cmp.mapping.preset.cmdline(),
-        sources = cmp.config.sources({
-          { name = 'path' }
-        }, {
-          {
-            name = 'cmdline',
-            option = {
-              ignore_cmds = { 'Man', '!' }
-            }
-          }
-        })
-      })
-
-      function EnableCompletion()
-        require('cmp').setup.buffer { enabled = true };
-        require('fidget').notify('completion enabled')
-        vim.b.completion_enabled = true;
-      end
-      function DisableCompletion()
-        require('cmp').setup.buffer { enabled = false };
-        require('fidget').notify('completion disabled')
-        vim.b.completion_enabled = false;
-      end
-      function ToggleCompletion()
-        if vim.b.completion_enabled
-          then DisableCompletion()
-          else EnableCompletion()
-          end
-      end
-      vim.cmd([[
-        imap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
-        smap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
-        imap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
-        smap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
-        nnoremap <Plug>(unimpaired-disable)<Tab> :lua DisableCompletion()<cr>
-        nnoremap <Plug>(unimpaired-enable)<Tab> :lua EnableCompletion()<cr>
-        nnoremap <Plug>(unimpaired-toggle)<Tab> :lua ToggleCompletion()<cr>
-      ]])
-    end,
-  },
-
   { 'j-hui/fidget.nvim',
     setup = function()
       vim.notify = require('fidget.notification').notify
@@ -763,7 +633,6 @@ require('lazy').setup({
 
       ENABLE_LSP_SERVER = function(name, options)
         lspconfig[name].setup(vim.tbl_deep_extend("force", {
-          capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities()),
           on_attach = ON_LSP_ATTACH,
           flags = {
             debounce_text_changes = 150,
@@ -1179,6 +1048,76 @@ require('lazy').setup({
 
   'rktjmp/lush.nvim',
 
+  { 'Saghen/blink.cmp',
+    ---@module 'blink.cmp'
+    ---@type blink.cmp.Config
+    opts = {
+      -- 'default' for mappings similar to built-in completion
+      -- 'super-tab' for mappings similar to vscode (tab to accept, arrow keys to navigate)
+      -- 'enter' for mappings similar to 'super-tab' but with 'enter' to accept
+      -- See the full "keymap" documentation for information on defining your own keymap.
+      keymap = {
+        preset = 'default',
+        ['<Tab>'] = { 'accept', 'fallback' },
+        ['<c-d>'] = { 'scroll_documentation_down', 'fallback' },
+        ['<c-u>'] = { 'scroll_documentation_up', 'fallback' },
+      },
+
+      appearance = {
+        -- Sets the fallback highlight groups to nvim-cmp's highlight groups
+        -- Useful for when your theme doesn't support blink.cmp
+        -- Will be removed in a future release
+        use_nvim_cmp_as_default = true,
+        -- Set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
+        -- Adjusts spacing to ensure icons are aligned
+        nerd_font_variant = 'mono'
+      },
+
+      completion = {
+        documentation = {
+          auto_show = true,
+          auto_show_delay_ms = 500,
+        },
+        menu = {
+          draw = {
+            -- treesitter = { 'lsp' }
+          },
+        },
+      },
+
+      -- Default list of enabled providers defined so that you can extend it
+      -- elsewhere in your config, without redefining it, due to `opts_extend`
+      sources = {
+        default = { 'lsp', 'path', 'snippets', 'buffer' },
+      },
+    },
+    opts_extend = { "sources.default" },
+    -- dependencies = 'rafamadriz/friendly-snippets',
+    init = function()
+      function EnableCompletion()
+        require('blink-cmp').setup({enabled = function() return true end})
+        require('fidget').notify('completion enabled')
+        vim.b.completion_enabled = true;
+      end
+      function DisableCompletion()
+        require('blink-cmp').setup({enabled = function() return false end})
+        require('fidget').notify('completion disabled')
+        vim.b.completion_enabled = false;
+      end
+      function ToggleCompletion()
+        if vim.b.completion_enabled
+          then DisableCompletion()
+          else EnableCompletion()
+          end
+      end
+      vim.cmd([[
+        nnoremap <Plug>(unimpaired-disable)<Tab> :lua DisableCompletion()<cr>
+        nnoremap <Plug>(unimpaired-enable)<Tab> :lua EnableCompletion()<cr>
+        nnoremap <Plug>(unimpaired-toggle)<Tab> :lua ToggleCompletion()<cr>
+      ]])
+    end,
+  },
+
   { 'sindrets/diffview.nvim',
     opts = {
       keymaps = {
@@ -1542,18 +1481,6 @@ require('lazy').setup({
         nmap gJ :TSJJoin<cr>
       ]]
     end
-  },
-
-  { 'windwp/nvim-autopairs',
-    dependencies = { 'hrsh7th/nvim-cmp' },
-    enabled = not vim.g.vscode,
-    config = function()
-      require('nvim-autopairs').setup {}
-      -- automatically add `(` after selecting a function or method
-      local cmp_autopairs = require 'nvim-autopairs.completion.cmp'
-      local cmp = require 'cmp'
-      cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
-    end,
   },
 })
 
