@@ -1049,6 +1049,7 @@ require('lazy').setup({
   'rktjmp/lush.nvim',
 
   { 'Saghen/blink.cmp',
+    version = '*',
     ---@module 'blink.cmp'
     ---@type blink.cmp.Config
     opts = {
