@@ -1062,6 +1062,9 @@ require('lazy').setup({
         ['<c-d>'] = { 'scroll_documentation_down', 'fallback' },
         ['<c-u>'] = { 'scroll_documentation_up', 'fallback' },
       },
+      enabled = function()
+        return not (vim.b['blink-completion-disabled'] or false)
+      end,
 
       appearance = {
         -- Sets the fallback highlight groups to nvim-cmp's highlight groups
@@ -1095,20 +1098,17 @@ require('lazy').setup({
     -- dependencies = 'rafamadriz/friendly-snippets',
     init = function()
       function EnableCompletion()
-        require('blink-cmp').setup({enabled = function() return true end})
+        vim.b['blink-completion-disabled'] = false
         require('fidget').notify('completion enabled')
         vim.b.completion_enabled = true;
       end
       function DisableCompletion()
-        require('blink-cmp').setup({enabled = function() return false end})
+        vim.b['blink-completion-disabled'] = true
         require('fidget').notify('completion disabled')
         vim.b.completion_enabled = false;
       end
       function ToggleCompletion()
-        if vim.b.completion_enabled
-          then DisableCompletion()
-          else EnableCompletion()
-          end
+        vim.b['blink-completion-disabled'] = not (vim.b['blink-completion-disabled'] or false)
       end
       vim.cmd([[
         nnoremap <Plug>(unimpaired-disable)<Tab> :lua DisableCompletion()<cr>
