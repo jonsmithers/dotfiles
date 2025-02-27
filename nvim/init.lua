@@ -1049,6 +1049,9 @@ require('lazy').setup({
   'rktjmp/lush.nvim',
 
   { 'Saghen/blink.cmp',
+    dependencies = {
+      'moyiz/blink-emoji.nvim'
+    },
     version = '*',
     ---@module 'blink.cmp'
     ---@type blink.cmp.Config
@@ -1110,11 +1113,11 @@ require('lazy').setup({
         },
       },
 
-      -- Default list of enabled providers defined so that you can extend it
-      -- elsewhere in your config, without redefining it, due to `opts_extend`
-      sources = {
-        default = { 'lsp', 'path', 'snippets', 'buffer' },
-      },
+      -- -- Default list of enabled providers defined so that you can extend it
+      -- -- elsewhere in your config, without redefining it, due to `opts_extend`
+      -- sources = {
+      --   default = { 'lsp', 'path', 'snippets', 'buffer' },
+      -- },
     },
     opts_extend = { "sources.default" },
     -- dependencies = 'rafamadriz/friendly-snippets',
