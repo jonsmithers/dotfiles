@@ -1064,6 +1064,9 @@ require('lazy').setup({
         ['<c-u>'] = { 'scroll_documentation_up', 'fallback' },
       },
       enabled = function()
+        if (vim.bo.filetype == 'snacks_picker_input') then
+          return false
+        end
         return not (vim.b['blink-completion-disabled'] or false)
       end,
 
