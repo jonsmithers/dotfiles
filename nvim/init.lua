@@ -1067,6 +1067,24 @@ require('lazy').setup({
         return not (vim.b['blink-completion-disabled'] or false)
       end,
 
+      sources = {
+        default = vim.list_extend(
+          { 'lsp', 'buffer', 'snippets', 'path' }, -- default list
+          { 'emoji' }
+        ),
+        providers = {
+          emoji = {
+            module = "blink-emoji",
+            name = "Emoji",
+            score_offset = 15,
+            opts = { insert = true },
+            should_show_items = function()
+              return true
+            end,
+          }
+        },
+      },
+
       appearance = {
         -- Sets the fallback highlight groups to nvim-cmp's highlight groups
         -- Useful for when your theme doesn't support blink.cmp
