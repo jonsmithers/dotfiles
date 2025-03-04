@@ -64,21 +64,6 @@ require('lazy').setup({
 
   'bronson/vim-visual-star-search',
 
-  { 'echasnovski/mini.pick',
-    dependencies = { 'fzf.vim' },
-    opts = {
-      options = {
-        content_from_bottom = true,
-      },
-    },
-    keys = {
-      {"<c-p>", mode = "n", ":Pick files<cr>", desc = "Pick file"},
-      {"<leader>or", mode = "n", function()
-        require('mini.pick').start({source={items=vim.fn['fzf#vim#_recent_files']()}})
-      end, desc = "Pick recent file"},
-    },
-  },
-
   { 'folke/flash.nvim',
     event = "VeryLazy",
     enabled = true,
@@ -127,7 +112,24 @@ require('lazy').setup({
       notifier = { enabled = true },
       quickfile = { enabled = true },
       statuscolumn = { enabled = false },
+      picker = {
+      },
       words = { enabled = true },
+    },
+    keys = {
+      {"<c-p>", mode = "n", function() Snacks.picker.files() end, desc = "Pick file"},
+      {"<leader>or", mode = "n", function() Snacks.picker.recent({
+        layout={
+          reverse=true,
+          preview='main',
+        },
+      }) end, desc = "Pick recent file"},
+      {"<c-k>", mode = "n", function() Snacks.picker.buffers({
+        layout={
+          reverse=true,
+          preview='main',
+        },
+      }) end, desc = "Pick recent file"},
     },
   },
 
@@ -1534,7 +1536,9 @@ vim.api.nvim_create_autocmd({'BufEnter', 'TermEnter'}, {
   callback = function()
     -- local cwd = "  %{fnamemodify(getcwd(), ':t')}  "
     local cwd = "  %{fnamemodify(getcwd(), ':t')}/"
-    if (vim.fn.expand('%') == '') then
+    if (vim.o.filetype == 'snacks_picker_input') then
+      vim.o.titlestring = cwd..''
+    elseif (vim.fn.expand('%') == '') then
       vim.o.titlestring = cwd..''
     elseif (vim.o.filetype == 'NvimTree') then
       vim.o.titlestring = cwd..''
