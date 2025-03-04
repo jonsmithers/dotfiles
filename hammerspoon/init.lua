@@ -17,12 +17,6 @@ end)
 hs.loadSpoon("ShiftIt")
 spoon.ShiftIt:bindHotkeys({})
 
-hs.loadSpoon("hs_select_window")
-local SWbindings = {
-   all_windows =  { {"alt"}, "w"},
-}
-spoon.hs_select_window:bindHotkeys(SWbindings)
-
 local SKIP = 'skip'
 
 for _, v in pairs({
