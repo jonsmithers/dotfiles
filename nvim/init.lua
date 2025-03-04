@@ -109,6 +109,8 @@ require('lazy').setup({
       -- or leave it empty to use the default settings
       -- refer to the configuration section below
       bigfile = { enabled = true },
+      image = {
+      },
       notifier = { enabled = true },
       quickfile = { enabled = true },
       statuscolumn = { enabled = false },
