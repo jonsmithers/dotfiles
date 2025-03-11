@@ -70,11 +70,6 @@
         "when": "editorTextFocus && foldingEnabled"
     },
     {
-        "command": "editor.fold",
-        "key": "cmd+[Minus]",
-        "when": "editorTextFocus && foldingEnabled"
-    },
-    {
         "command": "editor.foldRecursively",
         "key": "cmd+alt+[NumpadSubtract]",
         "when": "editorTextFocus && foldingEnabled"
@@ -399,11 +394,6 @@
     {
         "command": "editor.unfold",
         "key": "cmd+[NumpadAdd]",
-        "when": "editorTextFocus && foldingEnabled"
-    },
-    {
-        "command": "editor.unfold",
-        "key": "cmd+[Equal]",
         "when": "editorTextFocus && foldingEnabled"
     },
     {
