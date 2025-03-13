@@ -1,10 +1,5 @@
 // Place your key bindings in this file to override the defaults
 [
-    {
-        "key": "shift+k",
-        "command": "editor.action.showHover",
-        "when": "editorTextFocus"
-    },
     // begin intellij import
     {
         "command": "editor.action.clipboardCopyAction",

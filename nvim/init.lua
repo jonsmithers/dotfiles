@@ -1584,6 +1584,7 @@ if (vim.g.vscode) then
     " 👇 this doesn't work
     nnoremap <c-n> <Cmd>lua require('vscode').action('editor.action.addSelectionToNextFindMatch')<CR>
     vnoremap <c-n> <Cmd>lua require('vscode').action('editor.action.addSelectionToNextFindMatch')<CR>
+    nnoremap K <Cmd>lua require('vscode').action('editor.action.showHover')<CR>
     " note: shift-k is in keybindings.json
   ]]
 end
