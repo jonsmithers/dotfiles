@@ -348,21 +348,21 @@ case $theme in
     obtain_neovim_theme_from_git kanagawa.nvim git@github.com:rebelot/kanagawa.nvim.git
     change_vim_background        dark
     change_vim_colorscheme       kanagawa-dragon
-    obtain_kitty_theme_from_curl 'Kanagawa Dragon' https://raw.githubusercontent.com/rebelot/kanagawa.nvim/master/extras/kanagawa_dragon.conf
+    obtain_kitty_theme_from_curl 'Kanagawa Dragon' https://raw.githubusercontent.com/rebelot/kanagawa.nvim/refs/heads/master/extras/kitty/kanagawa_dragon.conf
     change_kitty_theme           'Kanagawa Dragon'
     ;;
   "Kanagawa Lotus (light)")
     obtain_neovim_theme_from_git kanagawa.nvim git@github.com:rebelot/kanagawa.nvim.git
     change_vim_background        light
     change_vim_colorscheme       kanagawa-lotus
-    obtain_kitty_theme_from_curl 'Kanagawa Lotus' https://raw.githubusercontent.com/rebelot/kanagawa.nvim/master/extras/kanagawa_light.conf
+    obtain_kitty_theme_from_curl 'Kanagawa Lotus' https://raw.githubusercontent.com/rebelot/kanagawa.nvim/refs/heads/master/extras/kitty/kanagawa_light.conf
     change_kitty_theme           'Kanagawa Lotus'
     ;;
   "Kanagawa Wave (dark)")
     obtain_neovim_theme_from_git kanagawa.nvim git@github.com:rebelot/kanagawa.nvim.git
     change_vim_background        dark
     change_vim_colorscheme       kanagawa-wave
-    obtain_kitty_theme_from_curl 'Kanagawa Wave' https://raw.githubusercontent.com/rebelot/kanagawa.nvim/master/extras/kanagawa.conf
+    obtain_kitty_theme_from_curl 'Kanagawa Wave' https://raw.githubusercontent.com/rebelot/kanagawa.nvim/refs/heads/master/extras/kitty/kanagawa.conf
     change_kitty_theme           'Kanagawa Wave'
     ;;
   "Neofusion (dark)")

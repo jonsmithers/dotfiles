@@ -23,6 +23,7 @@ if [[ "$(uname)" == "Darwin" ]]; then
 else
   echo "Skipping macos defaults because this isn't macos"
 fi
+defaults write com.microsoft.VSCode ApplePressAndHoldEnabled -bool false
 
 # https://github.com/herrbischoff/awesome-osx-command-line/
 

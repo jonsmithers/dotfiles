@@ -1056,6 +1056,7 @@ require('lazy').setup({
     dependencies = {
       'moyiz/blink-emoji.nvim'
     },
+    enabled = not vim.g.vscode,
     version = '*',
     ---@module 'blink.cmp'
     ---@type blink.cmp.Config
