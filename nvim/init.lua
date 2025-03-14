@@ -688,23 +688,21 @@ require('lazy').setup({
       ENABLE_LSP_SERVER('yamlls')
     end,
     build = function()
-      vim.cmd([[
-        echom "manually installing LSP servers"
-        !npm install --global typescript-language-server
-        " tsserver
-        !npm install --global vim-language-server
-        " vimls
-        !npm install --global vscode-langservers-extracted
-        " html, eslint, jsonls, cssls
-        !npm install --global bash-language-server
-        " bashls
-        !brew install lua-language-server
-        " sumnekko_lua
-        !npm install --global yaml-language-server
-        " yamlls
-        !command -v go && go install golang.org/x/tools/gopls@latest
-        " gopls
-      ]])
+      vim.cmd.tabnew()
+      vim.cmd.TransientShell('npm install --global typescript-language-server')
+      vim.cmd.TransientShell('npm install --global vim-language-server')
+        -- vimls
+      vim.cmd.TransientShell('npm install --global vscode-langservers-extracted')
+        -- html, eslint, jsonls, cssls
+      vim.cmd.TransientShell('npm install --global bash-language-server')
+        -- bashls
+      vim.cmd.TransientShell('brew install lua-language-server')
+        -- sumnekko_lua
+      vim.cmd.TransientShell('npm install --global yaml-language-server')
+        -- yamlls
+      vim.cmd.TransientShell('command -v go && go install golang.org/x/tools/gopls@latest')
+        -- gopls
+      vim.cmd.tabprevious()
     end,
   },
 
