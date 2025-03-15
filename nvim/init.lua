@@ -220,7 +220,7 @@ require('lazy').setup({
         vim.cmd.PencilSoft()
         if (vim.env.TERM == "xterm-kitty") then
           vim.system(vim.split('kitty @ set-spacing padding=16', ' ')) --:wait()
-          vim.system(vim.split('kitty @ set-font-size -- +1', ' ')) --:wait()
+          -- vim.system(vim.split('kitty @ set-font-size -- +1', ' ')) --:wait()
         end
       end },
       { ']og', function()
@@ -233,7 +233,7 @@ require('lazy').setup({
         vim.cmd.PencilOff()
         if (vim.env.TERM == "xterm-kitty") then
           vim.system(vim.split('kitty @ set-spacing padding=0', ' ')) --:wait()
-          vim.system(vim.split('kitty @ set-font-size -- -1', ' ')) --:wait()
+          -- vim.system(vim.split('kitty @ set-font-size -- -1', ' ')) --:wait()
         end
       end }
     },
