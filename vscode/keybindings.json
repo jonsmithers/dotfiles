@@ -1211,4 +1211,18 @@
         "key": "ctrl+[Escape]",
         "command": "workbench.action.toggleActivityBarVisibility"
     },
+  {
+    "key": "alt+k",
+    "command": "-editor.action.accessibilityHelpConfigureKeybindings",
+    "when": "accessibilityHelpIsShown && accessibleViewHasUnassignedKeybindings"
+  },
+  {
+    "key": "alt+k",
+    "command": "workbench.action.decreaseViewHeight",
+    "when": "!editorTextFocus && !isAuxiliaryWindowFocusedContext && !terminalFocus && neovim.mode != 'cmdline'"
+  },
+  {
+    "key": "alt+j",
+    "command": "workbench.action.increaseViewHeight"
+  }
 ]
