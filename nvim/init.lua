@@ -644,9 +644,9 @@ require('lazy').setup({
         }, options or {}))
       end
       ENABLE_FRONTEND_LSPS = function()
-        if (vim.fn.filereadable('node_modules/.bin/tsserver') == 1) then
-          ENABLE_LSP_SERVER('ts_ls')
-        end
+        -- if (vim.fn.filereadable('node_modules/.bin/tsserver') == 1) then
+        --   ENABLE_LSP_SERVER('ts_ls')
+        -- end
         if (vim.fn.filereadable('node_modules/.bin/eslint') == 1) then
           ENABLE_LSP_SERVER('eslint')
         end
@@ -980,6 +980,11 @@ require('lazy').setup({
         !brew install gnu-sed
       ]]
     end
+  },
+
+  { 'pmizio/typescript-tools.nvim',
+    dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+    opts = {},
   },
 
   { 'prettier/vim-prettier',
