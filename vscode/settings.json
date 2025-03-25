@@ -1,83 +1,83 @@
 {
-    "editor.smoothScrolling": true,
-    "open-in-vim.openMethod": "kitty",
-    "open-in-vim.useNeovim": true,
-    "vim.leader": " ",
-    "vim.surround": true,
-    "vim.hlsearch": true,
-    "vim.normalModeKeyBindings": [
-        {
-            "before": ["[", "g"],
-            "commands": ["editor.action.marker.prev"]
-        },
-        {
-            "before": ["]", "g"],
-            "commands": ["editor.action.marker.next"]
-        },
-        {
-            "before": ["<leader>", "s", "d", "f"],
-            "commands": [":nohl"]
-        },
-        {
-            "before": ["<space>", "<space>"],
-            "commands": [":w"]
-        },
-        {
-            "before": ["<space>", "r", "r"],
-            "commands": ["testing.reRunLastRun"]
-        }
-    ],
-    "vim.insertModeKeyBindings": [
-        {
-            "before": ["j", "k"],
-            "after": ["<Esc>"]
-        }
-    ],
-    "workbench.colorTheme": "Catppuccin Frappé",
-    "open-in-vim.restoreCursorAfterVim": true,
-    "workbench.iconTheme": "catppuccin-frappe",
-    "extensions.experimental.affinity": {
-        "asvetliakov.vscode-neovim": 1
+  "editor.smoothScrolling": true,
+  "open-in-vim.openMethod": "kitty",
+  "open-in-vim.useNeovim": true,
+  "vim.leader": " ",
+  "vim.surround": true,
+  "vim.hlsearch": true,
+  "vim.normalModeKeyBindings": [
+    {
+      "before": ["[", "g"],
+      "commands": ["editor.action.marker.prev"]
     },
-    "vscode-neovim.compositeKeys": {
-        "jk": {
-            "command": "vscode-neovim.escape"
-        }
+    {
+      "before": ["]", "g"],
+      "commands": ["editor.action.marker.next"]
+    },
+    {
+      "before": ["<leader>", "s", "d", "f"],
+      "commands": [":nohl"]
+    },
+    {
+      "before": ["<space>", "<space>"],
+      "commands": [":w"]
+    },
+    {
+      "before": ["<space>", "r", "r"],
+      "commands": ["testing.reRunLastRun"]
     }
-    "[typescriptreact]": {
-        "editor.defaultFormatter": "vscode.typescript-language-features"
-    },
-    "vscode-neovim.ctrlKeysForNormalMode": [
-        "a",
-        "b",
-        "c",
-        "d",
-        "e",
-        "f",
-        "h",
-        "i",
-        "j",
-        "k",
-        "l",
-        "m",
-        "o",
-        "r",
-        "t",
-        "u",
-        "v",
-        "w",
-        "x",
-        "y",
-        "z",
-        "/",
-        "]",
-        "right",
-        "left",
-        "up",
-        "down",
-        "backspace",
-        "delete",
-        "n"
-    ],
-    "editor.fontFamily": "Monaspace Neon, JetBrains, Menlo, Monaco, 'Courier New', monospace",
+  ],
+  "vim.insertModeKeyBindings": [
+    {
+      "before": ["j", "k"],
+      "after": ["<Esc>"]
+    }
+  ],
+  "workbench.colorTheme": "Catppuccin Frappé",
+  "open-in-vim.restoreCursorAfterVim": true,
+  "workbench.iconTheme": "catppuccin-frappe",
+  "extensions.experimental.affinity": {
+    "asvetliakov.vscode-neovim": 1
+  },
+  "vscode-neovim.compositeKeys": {
+    "jk": {
+      "command": "vscode-neovim.escape"
+    }
+  }
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "vscode-neovim.ctrlKeysForNormalMode": [
+    "a",
+    "b",
+    "c",
+    "d",
+    "e",
+    "f",
+    "h",
+    "i",
+    "j",
+    "k",
+    "l",
+    "m",
+    "o",
+    "r",
+    "t",
+    "u",
+    "v",
+    "w",
+    "x",
+    "y",
+    "z",
+    "/",
+    "]",
+    "right",
+    "left",
+    "up",
+    "down",
+    "backspace",
+    "delete",
+    "n"
+  ],
+  "editor.fontFamily": "Monaspace Neon, JetBrains, Menlo, Monaco, 'Courier New', monospace",
 }
