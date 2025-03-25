@@ -345,13 +345,6 @@ require('lazy').setup({
           \ 'spinner': ['fg', 'Label'],
           \ 'header':  ['fg', 'Comment'] }
 
-        com! -bang FzfBuffersCustom call fzf#vim#buffers
-        " command! -bar -bang -nargs=? -complete=buffer FzfBuffers       call fzf#vim#buffers(<q-args>, fzf#vim#with_preview({ "placeholder": "{1}" }), <bang>0)
-          command! -bar -bang -nargs=? -complete=buffer FzfBuffersCustom call fzf#vim#buffers(<q-args>, fzf#vim#with_preview({ "placeholder": "{1}", "options": ['--bind', 'ctrl-k:up', '--bind', 'ctrl-y:preview-up'] }), <bang>0)
-
-        :nnoremap <silent> <C-k>         :FzfBuffersCustom<Enter>
-        " :nnoremap <silent> <C-p>         :FzfFiles<Enter>
-        " :nnoremap <silent> <Leader>or    :FzfHistory<Enter>
         :nnoremap <silent> <Leader>ft    :Telescope filetypes<enter>
         :nnoremap <silent> <Leader>f/    :FzfHistory/<Enter>
         :nnoremap <silent> <Leader>f:    :Telescope command_history<Enter>
