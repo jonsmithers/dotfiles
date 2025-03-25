@@ -115,6 +115,10 @@ require('lazy').setup({
       -- refer to the configuration section below
       bigfile = { enabled = true },
       image = {
+        doc = {
+          inline = false,
+          float = false,
+        },
       },
       notifier = { enabled = true },
       quickfile = { enabled = true },
@@ -124,6 +128,7 @@ require('lazy').setup({
       words = { enabled = true },
     },
     keys = {
+      {"<leader>oi", mode = "n", function() Snacks.image.hover() end, desc = "Preview image" },
       {"<c-p>", mode = "n", function() Snacks.picker.files() end, desc = "Pick file"},
       {"<leader>or", mode = "n", function() Snacks.picker.recent({
         layout={
