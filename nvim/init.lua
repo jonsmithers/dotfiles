@@ -28,6 +28,11 @@ vim.cmd.source(vim.env.HOME .. '/.config/nvim/terminal.lua')
 vim.api.nvim_create_augroup('init.lua', {})
 local dev_icons_enabled = os.getenv('VIM_DEVICONS') == '1'
 
+local deno_dirs = {
+  -- (insert deno dirs)
+}
+local is_deno_dir = vim.tbl_contains(deno_dirs, vim.fn.getcwd());
+
 -- ┌─────────┐
 -- │ PLUGINS │
 -- └─────────┘
@@ -655,11 +660,7 @@ require('lazy').setup({
         ENABLE_LSP_SERVER('jsonls')
       end
 
-      local deno_dirs = {
-        -- (insert deno dirs)
-      }
-
-      if (vim.tbl_contains(deno_dirs, vim.fn.getcwd())) then
+      if (is_deno_dir) then
         ENABLE_LSP_SERVER('denols')
       else
         ENABLE_FRONTEND_LSPS()
@@ -983,6 +984,7 @@ require('lazy').setup({
   },
 
   { 'pmizio/typescript-tools.nvim',
+    enabled = not is_deno_dir,
     dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
     opts = {},
   },
