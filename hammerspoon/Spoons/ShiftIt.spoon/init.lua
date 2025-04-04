@@ -170,18 +170,18 @@ local function split_windows()
   if (focused_window == nil) then
     return
   end
-  local win_left = last_focused_window
-  local win_right = focused_window
+  local win_left = focused_window
+  local win_right = last_focused_window
   hs.alert.show(tostring(win_left:application():title()) .. "🫷🫸" .. tostring(win_right:application():title()), {
     radius = 4,
     textFont = "Helvetica",
     textSize = 14,
     atScreenEdge = 2,
   })
-  obj:right();
-  win_left:focus();
   obj:left();
   win_right:focus();
+  obj:right();
+  win_left:focus();
 end
 hs.hotkey.bind({"alt"}, "S", split_windows)
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "S", split_windows)
