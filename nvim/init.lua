@@ -578,9 +578,11 @@ require('lazy').setup({
   { 'neovim/nvim-lspconfig',
     enabled = not vim.g.vscode,
     dependencies = {
-      'folke/neodev.nvim'
+      'folke/neodev.nvim',
+      'yioneko/nvim-vtsls',
     },
     config = function()
+      require("lspconfig.configs").vtsls = require("vtsls").lspconfig
       require("neodev").setup({
         override = function(root_dir, library)
           local tail_dir = string.match(root_dir, '[^/]+/?$')
@@ -650,6 +652,7 @@ require('lazy').setup({
         -- if (vim.fn.filereadable('node_modules/.bin/tsserver') == 1) then
         --   ENABLE_LSP_SERVER('ts_ls')
         -- end
+        ENABLE_LSP_SERVER('vtsls')
         if (vim.fn.filereadable('node_modules/.bin/eslint') == 1) then
           ENABLE_LSP_SERVER('eslint')
         end
@@ -688,8 +691,8 @@ require('lazy').setup({
     end,
     build = function()
       vim.cmd.tabnew()
-      vim.cmd.TransientShell('npm install --global typescript-language-server')
       vim.cmd.TransientShell('npm install --global vim-language-server')
+      vim.cmd.TransientShell('npm install --global @vtsls/language-server')
         -- vimls
       vim.cmd.TransientShell('npm install --global vscode-langservers-extracted')
         -- html, eslint, jsonls, cssls
@@ -979,12 +982,6 @@ require('lazy').setup({
         !brew install gnu-sed
       ]]
     end
-  },
-
-  { 'pmizio/typescript-tools.nvim',
-    enabled = not is_deno_dir,
-    dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
-    opts = {},
   },
 
   { 'prettier/vim-prettier',
