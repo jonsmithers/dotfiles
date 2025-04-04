@@ -154,21 +154,34 @@ function resizeWindowInSteps(increment)
   hs.window.focusedWindow():move({x=x, y=y, w=w, h=h}, nil, true, 0)
 end
 
+local log = hs.logger.new('mymodule','debug')
+local wf_all = hs.window.filter.new()
+local focused_window = nil
+local last_focused_window = nil
+wf_all:subscribe(hs.window.filter.windowFocused, function(w)
+  -- log.i("FOCUSED WINDOW" .. tostring(w:title()))
+  last_focused_window = focused_window
+  focused_window = w
+end)
 local function split_windows()
-  local wf = hs.window.filter
-  local windows = wf.new():getWindows({})
-  local win1 = windows[1]
-  local win2 = windows[2]
-  hs.alert.show(tostring(win2:application():title()) .. "🫷🫸" .. tostring(win1:application():title()), {
+  if (last_focused_window == nil) then
+    return
+  end
+  if (focused_window == nil) then
+    return
+  end
+  local win_left = last_focused_window
+  local win_right = focused_window
+  hs.alert.show(tostring(win_left:application():title()) .. "🫷🫸" .. tostring(win_right:application():title()), {
     radius = 4,
     textFont = "Helvetica",
     textSize = 14,
     atScreenEdge = 2,
   })
   obj:right();
-  win2:focus();
+  win_left:focus();
   obj:left();
-  win1:focus();
+  win_right:focus();
 end
 hs.hotkey.bind({"alt"}, "S", split_windows)
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "S", split_windows)
