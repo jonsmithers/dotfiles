@@ -185,6 +185,26 @@ local function split_windows()
 end
 hs.hotkey.bind({"alt"}, "S", split_windows)
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "S", split_windows)
+hs.hotkey.bind({"alt", "shift"}, "S", function()
+  if (last_focused_window == nil) then
+    return
+  end
+  if (focused_window == nil) then
+    return
+  end
+  local win_bot = last_focused_window
+  local win_top = focused_window
+  hs.alert.show(tostring(win_top:application():title()) .. "👆👇" .. tostring(win_bot:application():title()), {
+    radius = 4,
+    textFont = "Helvetica",
+    textSize = 14,
+    atScreenEdge = 2,
+  })
+  obj:up();
+  win_bot:focus();
+  obj:down();
+  win_top:focus();
+end)
 
 function obj:left() move(obj:units().left50, nil, true, 0) end
 function obj:right() move(obj:units().right50, nil, true, 0) end
