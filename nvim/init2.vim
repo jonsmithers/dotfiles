@@ -162,7 +162,7 @@ com! -nargs=1 LocalTab setlocal tabstop=<args> | setlocal shiftwidth=<args> "| s
 
 " set wildignore=**/node_modules/**
 set directory=/var/tmp//,/tmp//,.
-if (has('nvim'))
+if (has('nvim') && !exists('g:vscode'))
   set cmdheight=0
   let $GIT_EDITOR='nvim'
   let $EDITOR='nvim'
