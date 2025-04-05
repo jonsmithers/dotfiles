@@ -612,9 +612,15 @@ require('lazy').setup({
         -- Enable completion triggered by <c-x><c-o>
         buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
-        -- See `:help vim.lsp.*` for documentation on any of the below functions
-        nnoremap_buffer('<space>le', '<cmd>EslintFixAll<CR>',                                                                                                   'Eslint Fix')
-        nnoremap_buffer('<space>oi', '<cmd>lua vim.lsp.buf.execute_command({command = "_typescript.organizeImports", arguments = {vim.fn.expand("%:p")}})<CR>', 'Organize imports')
+        if (vim.tbl_contains({
+          'javascript',
+          'javascriptreact',
+          'typescript',
+          'typescriptreact',
+        }, vim.bo.filetype)) then
+          nnoremap_buffer('<space>le', '<cmd>EslintFixAll<CR>',                                                                                                   'Eslint Fix')
+          nnoremap_buffer('<space>oi', '<cmd>VtsExec organize_imports<CR>',                                                                                       'Organize imports')
+        end
         nnoremap_buffer(']g',        '<cmd>lua vim.diagnostic.goto_next()<CR>',                                                                                 'Go to next diagnostic')
         nnoremap_buffer('[g',        '<cmd>lua vim.diagnostic.goto_prev()<CR>',                                                                                 'Go to previous diagnostic')
         nnoremap_buffer('gi',        '<cmd>Telescope lsp_implementations<CR>',                                                                                    'Go to implementations')
