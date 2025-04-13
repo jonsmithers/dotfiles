@@ -162,13 +162,6 @@ com! -nargs=1 LocalTab setlocal tabstop=<args> | setlocal shiftwidth=<args> "| s
 
 " set wildignore=**/node_modules/**
 set directory=/var/tmp//,/tmp//,.
-if (has('nvim') && !exists('g:vscode'))
-  set cmdheight=0
-  let $GIT_EDITOR='nvim'
-  let $EDITOR='nvim'
-  " Avoid launching vim from within neovim, because neovim has a bug where
-  " it sets environment vars that cause vim to print errors on startup.
-endif
 
 if (s:os !=# 'Windows')
 
