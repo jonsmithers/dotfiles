@@ -559,6 +559,10 @@ require('lazy').setup({
       vim.keymap.set('n', '<A-j>', smart_splits.resize_down)
       vim.keymap.set('n', '<A-k>', smart_splits.resize_up)
       vim.keymap.set('n', '<A-l>', smart_splits.resize_right)
+      vim.keymap.set('t', '<A-h>', smart_splits.resize_left)
+      vim.keymap.set('t', '<A-j>', smart_splits.resize_down)
+      vim.keymap.set('t', '<A-k>', smart_splits.resize_up)
+      vim.keymap.set('t', '<A-l>', smart_splits.resize_right)
       -- moving between splits
       vim.keymap.set('n', '<c-space><C-h>', smart_splits.move_cursor_left)
       vim.keymap.set('n', '<c-space><C-j>', smart_splits.move_cursor_down)
