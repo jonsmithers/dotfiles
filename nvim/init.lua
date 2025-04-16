@@ -107,6 +107,7 @@ require('lazy').setup({
   },
 
   { "folke/snacks.nvim",
+    enabled = not vim.g.vscode,
     priority = 1000,
     lazy = false,
     opts = {
@@ -627,9 +628,9 @@ require('lazy').setup({
         end
         nnoremap_buffer(']g',        '<cmd>lua vim.diagnostic.goto_next()<CR>',                                                                                 'Go to next diagnostic')
         nnoremap_buffer('[g',        '<cmd>lua vim.diagnostic.goto_prev()<CR>',                                                                                 'Go to previous diagnostic')
-        nnoremap_buffer('gi',        '<cmd>Telescope lsp_implementations<CR>',                                                                                    'Go to implementations')
+        nnoremap_buffer('gi',        function() Snacks.picker.lsp_implementations() end,                                                                        'Go to implementations')
         nnoremap_buffer('gu',        '<cmd>Trouble lsp_references<CR>',                                                                                         'Go to usages')
-        nnoremap_buffer('gd',        '<cmd>Telescope lsp_definitions<CR>',                                                                                        'Go to definitions')
+        nnoremap_buffer('gd',        '<cmd>Trouble lsp_definitions<CR>',                                                                                         'Go to definitions')
         nnoremap_buffer('<space>gtd','<cmd>Trouble lsp_type_definitions<CR>',                                                                                   'Go to type definitions')
         -- nnoremap_buffer('K',         '<cmd>lua vim.lsp.buf.hover()<CR>',                                                                                        'Hover')
         nnoremap_buffer('<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>',                                                                         'Add workspace folder')
@@ -1548,6 +1549,9 @@ vim.api.nvim_create_autocmd({'BufEnter', 'TermEnter'}, {
   pattern = '*',
   group = 'init.lua',
   callback = function()
+    if (vim.g.vscode) then
+      return
+    end
     -- local cwd = "  %{fnamemodify(getcwd(), ':t')}  "
     local cwd = "  %{fnamemodify(getcwd(), ':t')}/"
     if (vim.o.filetype == 'snacks_picker_input') then
@@ -1564,7 +1568,9 @@ vim.api.nvim_create_autocmd({'BufEnter', 'TermEnter'}, {
       vim.o.titlestring = cwd..''
     else
       -- vim.o.titlestring = cwd.."%{expand('%:t')}:%l"
-      vim.o.titlestring = cwd.."%{expand('%:t:r')}"
+      local icon = require'nvim-web-devicons'.get_icon(vim.fn.expand('%:t:r'), vim.fn.expand('%:t:e'))
+      local maybe_space = (icon and ' ' or '')
+      vim.o.titlestring = cwd.."%{expand('%:t:r')}"..maybe_space..(icon or '')..(maybe_space)
     end
   end
 })
