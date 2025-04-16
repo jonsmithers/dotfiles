@@ -1484,6 +1484,8 @@ require('lazy').setup({
           autocmd FileType fugitive setlocal relativenumber
           " stash staged files
           autocmd FileType fugitive nmap <buffer> cZ cz<space>push --staged --message ""<left>
+          autocmd FileType fugitive nmap <buffer> g<space> :TransientShell git 
+          autocmd FileType fugitive nmap <buffer> c<space> :TransientShell git commit 
         augroup END
         com! Gstashes :Gclog -g stash
         vnoremap <silent> <leader>gl :GBrowse!<cr><cr>:lua require('fidget').notify("📋COPIED <c-r>+")<cr>
