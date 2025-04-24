@@ -1,12 +1,15 @@
 [alias]
   f = fetch
+  fm = fetch origin main:main
   w = website
+  wip = commit -m wip --no-verify
   i = issue
   p = pull
   ad = add
   br = branch
   cm = commit
   co = checkout
+  ce = commit --amend --no-edit # ce for fugitive.vim's "ce" mapping
   cp = cherry-pick
   lg = log
   df = diff
@@ -20,7 +23,8 @@
   dfw = diff --word-diff=color
   lol = log --graph --decorate --oneline
   lola = log --graph --decorate --oneline --all
-  pushh = push --push-option ci.skip
+  pushh = push --push-option ci.skip # shhhhhh
+  cleanhard = clean -dfx
 [user]
   name = Jon Smithers
   email = jon@smithers.dev
