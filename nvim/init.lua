@@ -307,6 +307,12 @@ require('lazy').setup({
     dependencies = {
       'junegunn/fzf.vim'
     },
+    init = function()
+      vim.g.fzf_command_prefix = 'Fzf'
+      vim.g.fzf_vim = {
+        grep_multi_line = 2
+      }
+    end,
     keys = function()
       local live_global_search = function(initial_query)
         -- TODO try to enable history on fzf's rg function
@@ -333,28 +339,22 @@ require('lazy').setup({
       }
     end,
     config = function()
-      vim.g.fzf_command_prefix = 'Fzf'
-      vim.g.fzf_vim = {
-        grep_multi_line = 2
+      vim.g.fzf_colors = {
+          ['fg']      = {'fg', 'Normal'},
+          ['bg']      = {'bg', 'Normal'},
+          ['hl']      = {'fg', 'Comment'},
+          ['fg+']     = {'fg', 'CursorLine', 'CursorColumn', 'Normal'},
+          ['bg+']     = {'bg', 'CursorLine', 'CursorColumn'},
+          ['hl+']     = {'fg', 'Statement'},
+          ['info']    = {'fg', 'PreProc'},
+          ['border']  = {'fg', 'Ignore'},
+          ['prompt']  = {'fg', 'Conditional'},
+          ['pointer'] = {'fg', 'Exception'},
+          ['marker']  = {'fg', 'Keyword'},
+          ['spinner'] = {'fg', 'Label'},
+          ['header']  = {'fg', 'Comment'}
       }
       vim.cmd[[
-        " <C-/> or <C-_> to toggle preview window
-        " customize fzf colors to match color scheme
-        let g:fzf_colors =
-        \ { 'fg':      ['fg', 'Normal'],
-          \ 'bg':      ['bg', 'Normal'],
-          \ 'hl':      ['fg', 'Comment'],
-          \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-          \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-          \ 'hl+':     ['fg', 'Statement'],
-          \ 'info':    ['fg', 'PreProc'],
-          \ 'border':  ['fg', 'Ignore'],
-          \ 'prompt':  ['fg', 'Conditional'],
-          \ 'pointer': ['fg', 'Exception'],
-          \ 'marker':  ['fg', 'Keyword'],
-          \ 'spinner': ['fg', 'Label'],
-          \ 'header':  ['fg', 'Comment'] }
-
         if (!executable('fzf') && !empty(glob("~/.fzf/bin")))
           " Save fzf from downloading a redundant binary (it's common for GUI vims
           " to not see fzf in the PATH)
