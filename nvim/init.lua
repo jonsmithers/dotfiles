@@ -307,14 +307,7 @@ require('lazy').setup({
     dependencies = {
       'junegunn/fzf.vim'
     },
-    init = function()
-      vim.g.fzf_command_prefix = 'Fzf'
-      vim.g.fzf_vim = {
-        grep_multi_line = 2
-      }
-    end,
     keys = function()
-
       local live_global_search = function(initial_query)
         -- TODO try to enable history on fzf's rg function
         local history_file = string.format('/var/tmp/%s.ripgrep.fzf-history',  vim.fn.substitute(vim.fn.getcwd(), '/', '%', 'g'))
@@ -322,6 +315,9 @@ require('lazy').setup({
       end
 
       return {
+        { '<leader>ft', ':Telescope filetypes<enter>' },
+        { '<Leader>f/', ':FzfHistory/<Enter>' },
+        { '<Leader>f:', ':Telescope command_history<Enter>' }, -- (note - you can call histdel("cmd", "regexp") to delete mistaken history items)
         { '<leader>F', function() live_global_search("") end, desc = 'Search' },
         { '<leader>sw', function() live_global_search(vim.fn.expand('<cword>')) end, desc = "Search current word" },
         { '<leader>s', function()
@@ -329,10 +325,18 @@ require('lazy').setup({
           live_global_search(vim.fn.getreg('l'))
         end, desc = "Search current word", mode='v' },
 
-        { '<leader>oR', ':FzfHistory!<Enter>', 'Recent files'}
+        { '<leader>oR', ':FzfHistory!<Enter>', 'Recent files'},
+        { '<c-x><c-k>', '<plug>(fzf-complete-word)', mode = 'i' },
+        { '<c-x><c-f>', '<plug>(fzf-complete-path)', mode = 'i' },
+        { '<c-x><c-l>', '<plug>(fzf-complete-line)', mode = 'i' },
+        { '<c-x>F', '<c-x><c-f>', mode = 'i' }, -- remap native keybinding
       }
     end,
     config = function()
+      vim.g.fzf_command_prefix = 'Fzf'
+      vim.g.fzf_vim = {
+        grep_multi_line = 2
+      }
       vim.cmd[[
         " <C-/> or <C-_> to toggle preview window
         " customize fzf colors to match color scheme
@@ -350,17 +354,6 @@ require('lazy').setup({
           \ 'marker':  ['fg', 'Keyword'],
           \ 'spinner': ['fg', 'Label'],
           \ 'header':  ['fg', 'Comment'] }
-
-        :nnoremap <silent> <Leader>ft    :Telescope filetypes<enter>
-        :nnoremap <silent> <Leader>f/    :FzfHistory/<Enter>
-        :nnoremap <silent> <Leader>f:    :Telescope command_history<Enter>
-        " (note - you can call histdel("cmd", "regexp") to delete mistaken history items)
-
-        :inoremap <c-x><c-k> <plug>(fzf-complete-word)
-        :inoremap <c-x><c-f> <plug>(fzf-complete-path)
-        :inoremap <c-x><c-l> <plug>(fzf-complete-line)
-        :inoremap <c-x>F <c-x><c-f>
-        " Ctrl-X Shift-F will provide native c-x c-f functionality
 
         if (!executable('fzf') && !empty(glob("~/.fzf/bin")))
           " Save fzf from downloading a redundant binary (it's common for GUI vims
