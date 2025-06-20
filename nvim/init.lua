@@ -1437,8 +1437,28 @@ require('lazy').setup({
     dependencies = {
       'tpope/vim-rhubarb',
       'shumphrey/fugitive-gitlab.vim',
+      'lewis6991/gitsigns.nvim',
     },
     config = function()
+
+      -- Auto-update Fugitive
+      local maybe_update_fugitive = function()
+        if vim.fn.exists("*FugitiveDidChange") then
+          vim.fn.FugitiveDidChange()
+        end
+      end
+      vim.api.nvim_create_autocmd({
+        'BufWritePost',
+        'TermClose',
+      }, {
+        callback = maybe_update_fugitive
+      })
+      vim.api.nvim_create_autocmd('User', {
+        pattern = 'GitSignsChanged',
+        callback = maybe_update_fugitive
+      })
+
+      -- https://github.com/tpope/vim-fugitive/issues/2205
       vim.cmd([[ command! -nargs=1 Browse silent exec '!open "<args>"' ]])
       vim.cmd[[
         nnoremap <Leader>gb :Git blame -w<cr>
