@@ -672,21 +672,23 @@ require('lazy').setup({
         })
       end
 
-      ENABLE_LSP_SERVER = function(name, options)
-        lspconfig[name].setup(vim.tbl_deep_extend("force", {
-          on_attach = ON_LSP_ATTACH,
-          flags = {
-            debounce_text_changes = 150,
-          },
-        }, options or {}))
+      ENABLE_LSP_SERVER = function(name, options, on_attach)
+        vim.lsp.enable(name);
+        vim.lsp.config(name, vim.tbl_deep_extend("force", {
+          on_attach = function(client, bufnr)
+            ON_LSP_ATTACH(client, bufnr)
+          end,
+        }, options or {}));
       end
       ENABLE_FRONTEND_LSPS = function()
-        -- if (vim.fn.filereadable('node_modules/.bin/tsserver') == 1) then
-        --   ENABLE_LSP_SERVER('ts_ls')
-        -- end
         ENABLE_LSP_SERVER('vtsls')
         if (vim.fn.filereadable('node_modules/.bin/eslint') == 1) then
-          ENABLE_LSP_SERVER('eslint')
+          -- TODO migrate from legacy setup
+          lspconfig['eslint'].setup({
+            on_attach = function(client, bufnr)
+              ON_LSP_ATTACH(client, bufnr)
+            end,
+          })
         end
         ENABLE_LSP_SERVER('html')
         ENABLE_LSP_SERVER('cssls')
