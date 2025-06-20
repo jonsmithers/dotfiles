@@ -146,6 +146,32 @@ require('lazy').setup({
     },
   },
 
+  { 'folke/todo-comments.nvim',
+    opts = {
+    },
+    init = function()
+      -- https://github.com/folke/todo-comments.nvim/issues/264#issuecomment-2254810084
+      vim.api.nvim_create_autocmd('BufEnter', {
+          desc = 'Enable todo-comments for text',
+          group = vim.api.nvim_create_augroup('user.todo.text', { clear = true }),
+          callback = function(ev)
+              local config = require 'todo-comments.config'
+
+              local comments_only = string.match(ev.file, '%.md$') == nil
+                  and string.match(ev.file, '%.txt$') == nil
+                  and string.match(ev.file, '%.adoc$') == nil
+                  and string.match(ev.file, '%.asciidoc$') == nil
+              if (config.options.highlight ~= nil) then
+                config.options.highlight.comments_only = comments_only
+              end
+              if (config.options.keywords ~= nil) then
+                config.options.keywords.TODO.icon=''
+              end
+          end,
+      })
+    end
+  },
+
   { 'folke/trouble.nvim',
     --[[
       | P | toggle preview           |
