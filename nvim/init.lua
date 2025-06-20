@@ -314,7 +314,7 @@ require('lazy').setup({
       }
     end,
     keys = function()
-      local live_global_search = function(initial_query)
+      Live_global_search = function(initial_query)
         -- TODO try to enable history on fzf's rg function
         local history_file = string.format('/var/tmp/%s.ripgrep.fzf-history',  vim.fn.substitute(vim.fn.getcwd(), '/', '%', 'g'))
         vim.fn['fzf#vim#grep2']("rg --column --line-number --no-heading --color=always --smart-case -- ", initial_query, vim.fn['fzf#vim#with_preview'](), 0)
@@ -324,11 +324,11 @@ require('lazy').setup({
         { '<leader>ft', ':Telescope filetypes<enter>' },
         { '<Leader>f/', ':FzfHistory/<Enter>' },
         { '<Leader>f:', ':Telescope command_history<Enter>' }, -- (note - you can call histdel("cmd", "regexp") to delete mistaken history items)
-        { '<leader>F', function() live_global_search("") end, desc = 'Search' },
-        { '<leader>sw', function() live_global_search(vim.fn.expand('<cword>')) end, desc = "Search current word" },
+        { '<leader>F', function() Live_global_search("") end, desc = 'Search' },
+        { '<leader>sw', function() Live_global_search(vim.fn.expand('<cword>')) end, desc = "Search current word" },
         { '<leader>s', function()
           vim.cmd.normal('"ly')
-          live_global_search(vim.fn.getreg('l'))
+          Live_global_search(vim.fn.getreg('l'))
         end, desc = "Search current word", mode='v' },
 
         { '<leader>oR', ':FzfHistory!<Enter>', 'Recent files'},
@@ -354,6 +354,8 @@ require('lazy').setup({
           ['spinner'] = {'fg', 'Label'},
           ['header']  = {'fg', 'Comment'}
       }
+
+      vim.api.nvim_create_user_command('LiveGlobalSearch', function(input) Live_global_search(input.args) end, {nargs=1});
       vim.cmd[[
         if (!executable('fzf') && !empty(glob("~/.fzf/bin")))
           " Save fzf from downloading a redundant binary (it's common for GUI vims
