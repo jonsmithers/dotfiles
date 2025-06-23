@@ -24,6 +24,7 @@
     "./vim/profile.vim":                 "~/.profile.vim",
     "./vscode/settings.json":            "~/Library/Application Support/Code/User/settings.json",
     "./vscode/keybindings.json":         "~/Library/Application Support/Code/User/keybindings.json",
+    "./vscode/tasks.json":               "~/Library/Application Support/Code/User/tasks.json",
     "./hammerspoon":                     "~/.hammerspoon",
     "./zsh/change_theme":                "~/bin/change_theme",
     "./zsh/p10k.zsh":                    "~/.p10k.zsh",

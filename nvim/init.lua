@@ -1650,6 +1650,10 @@ if (vim.g.vscode) then
     nnoremap K <Cmd>lua require('vscode').action('editor.action.showHover')<CR>
     " note: shift-k is in keybindings.json
   ]]
+  vim.keymap.set('n', '<leader>gi', function()
+    vim.cmd.echo('"opening in neovim"')
+    require('vscode').action('workbench.action.tasks.runTask', {args = {'open in neovim'}})
+  end);
 end
 
 -- https://www.reddit.com/r/neovim/comments/1ex4tim/my_top_20_neovim_key_bindings_what_are_yours/

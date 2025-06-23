@@ -1,0 +1,20 @@
+{
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "open in neovim",
+      "type": "shell",
+      "command": "echo 'opening' && nvim --server 127.0.0.1:6666 --remote '${file}' && echo 'opened file'; nvim --server 127.0.0.1:6666 --remote-send '${lineNumber}G${columnNumber}|' && /Users/jsmithers/Applications/kitty.app/Contents/MacOS/kitty @ focus-window && echo done",
+      "presentation": {
+        "echo": false,
+        "focus": false,
+        "panel": "dedicated",
+        "showReuseMessage": false,
+        "reveal": "never",
+        "clear": true
+      }
+    }
+  ]
+}
