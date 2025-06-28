@@ -33,6 +33,8 @@ local deno_dirs = {
 }
 local is_deno_dir = vim.tbl_contains(deno_dirs, vim.fn.getcwd());
 
+vim.g.maplocalleader = '\\'
+
 -- ┌─────────┐
 -- │ PLUGINS │
 -- └─────────┘
@@ -68,6 +70,20 @@ require('lazy').setup({
   { 'akinsho/toggleterm.nvim', opts = {}},
 
   'bronson/vim-visual-star-search',
+
+  { 'Exafunction/windsurf.nvim',
+    dependencies = { "nvim-lua/plenary.nvim", },
+    opts = {
+        enable_chat = true,
+        enable_cmp_source = false,
+        virtual_text = {
+          enabled = true
+        },
+    },
+    config = function(_, opts)
+      require('codeium').setup(opts)
+    end,
+  },
 
   { 'folke/flash.nvim',
     event = "VeryLazy",
@@ -572,6 +588,8 @@ require('lazy').setup({
       'theHamsta/nvim-dap-virtual-text',
     },
   },
+
+  { 'MagicDuck/grug-far.nvim' },
 
   { 'mrjones2014/smart-splits.nvim',
     build = './kitty/install-kittens.bash',
