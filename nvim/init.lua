@@ -1686,3 +1686,26 @@ vim.api.nvim_create_user_command("CountOccurences", function()
   local search_count = vim.fn.searchcount({recompute = true, pattern = search_query, maxcount = 0, timeout=0}).total
   vim.notify("" .. search_count .. " occurences of " .. search_query)
 end, {})
+
+vim.api.nvim_create_autocmd('FileType', {
+  group = 'init.lua',
+  pattern = 'javascripreact,typescriptreact',
+  callback = function()
+    -- TODO I would like to be able to use this:
+    -- > require("nvim-treesitter.ts_utils").update_selection(0, '@function.outer', 'v')
+    vim.api.nvim_buf_create_user_command(0, 'ReactSurroundUseCallback', function()
+      vim.cmd.normal('ysam)')
+      vim.cmd.normal('h')
+      vim.api.nvim_paste('useCallback', false, -1)
+      vim.cmd.normal('h')
+      vim.schedule(function()
+        vim.cmd.normal('f(%')
+        vim.cmd.normal('h')
+        vim.api.nvim_paste(', []', false, -1)
+        vim.schedule(function()
+          vim.cmd.normal('')
+        end)
+      end)
+    end, {})
+  end,
+})
