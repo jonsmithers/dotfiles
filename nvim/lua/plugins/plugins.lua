@@ -31,6 +31,7 @@ return {
   'bronson/vim-visual-star-search',
 
   { 'Exafunction/windsurf.nvim',
+    enabled = false,
     dependencies = { "nvim-lua/plenary.nvim", },
     opts = {
         enable_chat = true,
