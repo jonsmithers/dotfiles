@@ -7,6 +7,11 @@
 vim.opt.breakindent = true
 vim.opt.undofile = true
 
+vim.opt.spellfile = {
+  vim.env.HOME .. '/.config/nvim/spell/en.utf-8.add',
+  -- insert machine-specific spell files below
+}
+
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({

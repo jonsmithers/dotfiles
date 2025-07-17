@@ -1,5 +1,5 @@
 # Author:       Jon Smithers <jon@smithers.dev>
-# Last Updated: 2025-02-15
+# Last Updated: 2025-07-17
 # URL:          https://github.com/jonsmithers/dotfiles/blob/master/nvim/en.utf-8.add
 
 4WD
@@ -24,6 +24,7 @@ Giesler
 GitLab
 GitLab's
 GoPro
+Grafana
 GraphQL
 Graz
 Gret
@@ -32,6 +33,7 @@ Gret's
 Hafelekar
 Hafelekarspitze
 Havasu Falls
+Helvetica
 Hirsh
 IntelliJ
 Ipsan
@@ -70,11 +72,14 @@ Ngurah Rai
 PADI
 PII
 PTSD
+Palantir
 Peled
 PlanetScale
 Railay
 Ramzi
 Redux
+Resium
+Resium's
 SPG
 Schmidter
 Tough Mudder
@@ -102,25 +107,35 @@ carabiners
 chai
 changelist
 chorizo
+cli
 colorscheme
+commandable
+composability
 config
 ctrl
+deconfliction
 demeter
 deserialized
 distrustingly
+dns
 dotfile
 dotfiles
+drilldown
 e2e
 enum
 eslint
+filesystem
 frontend
 fzf
 github
 gitlab
 gradle
+grafana
 graphql
+grpc
 hashcode
 headspace
+https
 improv
 incentivizes
 incongruent
@@ -129,6 +144,7 @@ javascript
 jonsmithers
 json
 junegunn
+k8s
 kafka
 ketamine
 keychain
@@ -179,6 +195,7 @@ usmtf
 vaadin
 vimscript
 vite
+whiteboarded
 windspeed
 xml
 youtube
