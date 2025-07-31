@@ -492,6 +492,16 @@ return {
   { 'kylechui/nvim-surround',
     opts = {
       surrounds = {
+        ["M"] = {
+          add = function()
+            return { { "useMemo(() => (" }, { "), [])" } } -- surrounds with useMemo and an empty dependency array
+          end,
+        },
+        ["C"] = {
+          add = function()
+            return { { "useCallback(() => (" }, { "), [])" } } -- surrounds with useMemo and an empty dependency array
+          end,
+        },
         ["8"] = {
           add = { "**", "**" },
           find = "%*%*.-%*%*",
