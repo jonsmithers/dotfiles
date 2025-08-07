@@ -1526,7 +1526,7 @@ return {
           " stash staged files
           autocmd FileType fugitive nmap <buffer> cZ cz<space>push --staged --message ""<left>
           autocmd FileType fugitive nmap <buffer> g<space> :TransientShell git 
-          autocmd FileType fugitive nmap <buffer> c<space> :TransientShell git commit 
+          autocmd FileType fugitive nmap <buffer> c<space> :TransientShell git commit -m ""<left>
           autocmd FileType fugitive nmap <buffer> ce :TransientShell git commit --amend --no-edit<cr>
         augroup END
         com! Gstashes :Gclog -g stash
