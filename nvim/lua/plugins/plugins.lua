@@ -696,9 +696,9 @@ return {
         mode = 'topline',
       }
       vim.cmd([[
-        nnoremap <Plug>(unimpaired-enable)C :TSContextEnable<cr>
-        nnoremap <Plug>(unimpaired-disable)C :TSContextDisable<cr>
-        nnoremap <Plug>(unimpaired-toggle)C :TSContextToggle<cr>
+        nnoremap <Plug>(unimpaired-enable)C :TSContext enable<cr>
+        nnoremap <Plug>(unimpaired-disable)C :TSContext disable<cr>
+        nnoremap <Plug>(unimpaired-toggle)C :TSContext toggle<cr>
       ]])
       vim.cmd([[
         autocmd BufRead,BufEnter *.astro set filetype=astro
@@ -926,7 +926,7 @@ return {
           },
           {
             "n", "c<space>",
-            ":Git commit ",
+            ":Git commit -m ''",
             { desc = "Populate command line with \":Git commit \"" },
           },
         },
