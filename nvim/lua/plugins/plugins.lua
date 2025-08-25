@@ -37,7 +37,11 @@ return {
         enable_chat = true,
         enable_cmp_source = false,
         virtual_text = {
-          enabled = true
+          enabled = true,
+          filetypes = {
+            [""] = false,
+            ["snacks_picker_input"] = false,
+          },
         },
     },
     config = function(_, opts)
@@ -277,6 +281,11 @@ return {
   { 'kylechui/nvim-surround',
     opts = {
       surrounds = {
+        ["m"] = {
+          add = function()
+            return { { "memo(" }, { ")" } } -- surrounds with memo
+          end,
+        },
         ["M"] = {
           add = function()
             return { { "useMemo(() => (" }, { "), [])" } } -- surrounds with useMemo and an empty dependency array
@@ -284,7 +293,7 @@ return {
         },
         ["C"] = {
           add = function()
-            return { { "useCallback(() => (" }, { "), [])" } } -- surrounds with useMemo and an empty dependency array
+            return { { "useCallback(" }, { ", [])" } } -- surrounds with useCallback and an empty dependency array
           end,
         },
         ["8"] = {
@@ -816,7 +825,8 @@ return {
 
   { 'Saghen/blink.cmp',
     dependencies = {
-      'moyiz/blink-emoji.nvim'
+      'moyiz/blink-emoji.nvim',
+      'Exafunction/windsurf.nvim',
     },
     enabled = not vim.g.vscode,
     version = '*',
@@ -834,7 +844,10 @@ return {
         ['<c-u>'] = { 'scroll_documentation_up', 'fallback' },
       },
       enabled = function()
-        if (vim.bo.filetype == 'snacks_picker_input') then
+        if (vim.tbl_contains({
+          '',
+          'snacks_picker_input',
+        }, vim.bo.filetype)) then
           return false
         end
         return not (vim.b['blink-completion-disabled'] or false)
@@ -842,10 +855,15 @@ return {
 
       sources = {
         default = vim.list_extend(
-          { 'lsp', 'buffer', 'snippets', 'path' }, -- default list
+          { 'lsp', 'buffer', 'snippets', 'path', 'codeium' }, -- default list
           { 'emoji' }
         ),
         providers = {
+          codeium = {
+            name = 'Codeium',
+            module = 'codeium.blink',
+            async = true,
+          },
           emoji = {
             module = "blink-emoji",
             name = "Emoji",
