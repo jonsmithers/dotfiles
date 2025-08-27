@@ -40,6 +40,7 @@ return {
           enabled = true,
           filetypes = {
             [""] = false,
+            ["oil"] = false,
             ["snacks_picker_input"] = false,
           },
         },
@@ -846,6 +847,7 @@ return {
       enabled = function()
         if (vim.tbl_contains({
           '',
+          'oil',
           'snacks_picker_input',
         }, vim.bo.filetype)) then
           return false
