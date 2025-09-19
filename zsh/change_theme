@@ -495,8 +495,8 @@ case $theme in
     obtain_neovim_theme_from_git   tokyonight.nvim git@github.com:folke/tokyonight.nvim.git
     change_vim_background          dark
     change_vim_colorscheme         tokyonight-moon
-    obtain_kitty_theme_from_kitten "Tokyo Night Storm"
-    change_kitty_theme             "Tokyo Night Storm"
+    obtain_kitty_theme_from_kitten "Tokyo Night Moon"
+    change_kitty_theme             "Tokyo Night Moon"
     ;;
   "TokyoNight Storm")
     obtain_neovim_theme_from_git   tokyonight.nvim git@github.com:folke/tokyonight.nvim.git
