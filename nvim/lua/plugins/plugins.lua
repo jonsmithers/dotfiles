@@ -40,6 +40,7 @@ return {
           enabled = true,
           filetypes = {
             [""] = false,
+            ["DressingInput"] = false,
             ["oil"] = false,
             ["snacks_picker_input"] = false,
           },
@@ -295,6 +296,11 @@ return {
         ["C"] = {
           add = function()
             return { { "useCallback(" }, { ", [])" } } -- surrounds with useCallback and an empty dependency array
+          end,
+        },
+        ["F"] = {
+          add = function()
+            return { { '<FormattedMessage defaultMessage=' }, { ' description="" />' } }
           end,
         },
         ["8"] = {
@@ -847,6 +853,7 @@ return {
       enabled = function()
         if (vim.tbl_contains({
           '',
+          "DressingInput",
           'oil',
           'snacks_picker_input',
         }, vim.bo.filetype)) then
