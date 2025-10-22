@@ -437,7 +437,7 @@ return {
           'typescript',
           'typescriptreact',
         }, vim.bo.filetype)) then
-          nnoremap_buffer('<space>le', '<cmd>EslintFixAll<CR>',                                                                                                   'Eslint Fix')
+          nnoremap_buffer('<space>le', '<cmd>LspEslintFixAll<CR>',                                                                                                   'Eslint Fix')
           nnoremap_buffer('<space>oi', '<cmd>VtsExec organize_imports<CR>',                                                                                       'Organize imports')
         end
         nnoremap_buffer(']g',        '<cmd>lua vim.diagnostic.goto_next()<CR>',                                                                                 'Go to next diagnostic')
@@ -469,20 +469,19 @@ return {
         vim.lsp.enable(name);
         vim.lsp.config(name, vim.tbl_deep_extend("force", {
           on_attach = function(client, bufnr)
+            if (on_attach ~= nil) then
+              on_attach(client, bufnr)
+            end
             ON_LSP_ATTACH(client, bufnr)
           end,
         }, options or {}));
       end
+      local eslint_base_attach = vim.lsp.config.eslint.on_attach
       ENABLE_FRONTEND_LSPS = function()
         ENABLE_LSP_SERVER('vtsls')
-        if (vim.fn.filereadable('node_modules/.bin/eslint') == 1) then
-          -- TODO migrate from legacy setup
-          lspconfig['eslint'].setup({
-            on_attach = function(client, bufnr)
-              ON_LSP_ATTACH(client, bufnr)
-            end,
-          })
-        end
+        ENABLE_LSP_SERVER('eslint', {}, function(client, bufnr)
+          eslint_base_attach(client, bufnr)
+        end)
         ENABLE_LSP_SERVER('html')
         ENABLE_LSP_SERVER('cssls')
         ENABLE_LSP_SERVER('jsonls')
