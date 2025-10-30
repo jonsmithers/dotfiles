@@ -571,10 +571,6 @@
     "key": "ctrl+[ArrowLeft]"
   },
   {
-    "command": "workbench.action.selectTheme",
-    "key": "ctrl+[Backquote]"
-  },
-  {
     "command": "editor.action.previewDeclaration",
     "key": "alt+[Space]"
   },
@@ -1224,5 +1220,14 @@
   {
     "key": "alt+j",
     "command": "workbench.action.increaseViewHeight"
+  },
+  {
+    "key": "ctrl+`",
+    "command": "workbench.action.terminal.toggleTerminal"
+  },
+  {
+    "key": "ctrl+`",
+    "command": "-workbench.action.terminal.toggleTerminal",
+    "when": "terminal.active"
   }
 ]
