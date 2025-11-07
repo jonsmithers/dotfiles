@@ -1,3 +1,4 @@
+local constants = require("utils.constants")
 return {
 
   { 'MTDL9/vim-log-highlighting' },
@@ -111,23 +112,30 @@ return {
       words = { enabled = true },
       zen = { },
     },
-    keys = {
-      {"<leader>oi", mode = "n", function() Snacks.image.hover() end, desc = "Preview image" },
-      {"<c-p>", mode = "n", function() Snacks.picker.files() end, desc = "Pick file"},
-      {"<leader>or", mode = "n", function() Snacks.picker.recent({
-        layout={
-          reverse=true,
-          preview='main',
-        },
-      }) end, desc = "Pick recent file"},
-      {"<c-k>", mode = "n", function() Snacks.picker.buffers({
-        layout={
-          reverse=true,
-          preview='main',
-        },
-      }) end, desc = "Pick recent file"},
-      {"<leader>Z", mode = "n", function() Snacks.zen.zoom() end },
-    },
+    keys = function()
+      local keys = {
+        {"<leader>oi", mode = "n", function() Snacks.image.hover() end, desc = "Preview image" },
+        {"<leader>or", mode = "n", function() Snacks.picker.recent({
+          layout={
+            reverse=true,
+            preview='main',
+          },
+        }) end, desc = "Pick recent file"},
+        {"<c-k>", mode = "n", function() Snacks.picker.buffers({
+          layout={
+            reverse=true,
+            preview='main',
+          },
+        }) end, desc = "Pick recent file"},
+        {"<leader>Z", mode = "n", function() Snacks.zen.zoom() end },
+      }
+      if (constants.FILE_PICKER == 'snacks') then
+        vim.list_extend(keys, {
+          {"<c-p>", mode = "n", function() Snacks.picker.files() end, desc = "Pick file"},
+        })
+      end
+      return keys
+    end,
   },
 
   { 'folke/todo-comments.nvim',

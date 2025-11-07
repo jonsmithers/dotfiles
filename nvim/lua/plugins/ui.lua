@@ -1,3 +1,4 @@
+local constants = require("utils.constants")
 return {
   { 'folke/trouble.nvim',
     --[[
@@ -261,6 +262,22 @@ return {
       vim.api.nvim_create_autocmd({'RecordingLeave', 'RecordingEnter'}, {
         callback = refresh
       })
+    end,
+  },
+
+  {
+    'nvim-mini/mini.pick',
+    opts = {
+    },
+    keys = function()
+      local keys = {
+      }
+      if (constants.FILE_PICKER == 'mini') then
+        vim.list_extend(keys, {
+          {"<c-p>", mode = "n", function() MiniPick.builtin.files({ tool = 'git' }) end, desc = "Pick file"},
+        })
+      end
+      return keys
     end,
   },
 
