@@ -1,4 +1,5 @@
 local constants = require("utils.constants")
+local dev_icons_enabled = os.getenv('VIM_DEVICONS') == '1'
 return {
   { 'folke/trouble.nvim',
     --[[
@@ -215,6 +216,7 @@ return {
   },
 
   { 'nvim-lualine/lualine.nvim',
+    enabled = not vim.g.vscode,
     dependencies = dev_icons_enabled and {
       'nvim-tree/nvim-web-devicons'
     } or {},

@@ -108,6 +108,8 @@ end)
 
 if (vim.g.vscode) then
   vim.cmd[[
+    nnoremap ]c <Cmd>lua require('vscode').action('workbench.action.editor.nextChange')<CR>
+    nnoremap [c <Cmd>lua require('vscode').action('workbench.action.editor.previousChange')<CR>
     nnoremap ]d <Cmd>lua require('vscode').action('editor.action.marker.next')<CR>
     nnoremap [d <Cmd>lua require('vscode').action('editor.action.marker.prev')<CR>
     nnoremap ]g <Cmd>lua require('vscode').action('editor.action.marker.next')<CR>
