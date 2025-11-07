@@ -1,0 +1,24 @@
+# ghostty +list-keybinds
+
+keybind = option+shift+q=toggle_quick_terminal
+keybind = super+h=toggle_quick_terminal
+
+# navigate splits
+keybind = super+j>super+j=goto_split:down
+keybind = super+h>super+h=goto_split:left
+keybind = super+k>super+k=goto_split:up
+keybind = super+l>super+l=goto_split:right
+
+# create splits
+keybind = super+j>super+b=new_split:down
+keybind = super+h>super+b=new_split:left
+keybind = super+k>super+b=new_split:up
+keybind = super+l>super+b=new_split:right
+keybind = super+j>space=new_split:down
+keybind = super+h>space=new_split:left
+keybind = super+k>space=new_split:up
+keybind = super+l>space=new_split:right
+
+keybind = ctrl+shift+g=text:TODO - make this view scrollback?
+
+keybind = super+shift+w=close_tab:this

@@ -1,6 +1,6 @@
 {
   "links": {
-
+    "./ghostty":                         "~/.config/ghostty",
     "./git/git-issue":                   "~/bin/git-issue",
     "./git/git-website":                 "~/bin/git-website",
     "./git/gitconfig":                   "~/.gitconfig",
