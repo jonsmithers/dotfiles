@@ -129,7 +129,7 @@ return {
         }) end, desc = "Pick recent file"},
         {"<leader>Z", mode = "n", function() Snacks.zen.zoom() end },
       }
-      if (constants.FILE_PICKER == 'snacks') then
+      if (constants.FILE_PICKER == constants.FILE_PICKERS.snacks) then
         vim.list_extend(keys, {
           {"<c-p>", mode = "n", function() Snacks.picker.files() end, desc = "Pick file"},
         })

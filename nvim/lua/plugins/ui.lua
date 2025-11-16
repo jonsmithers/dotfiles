@@ -274,7 +274,7 @@ return {
     keys = function()
       local keys = {
       }
-      if (constants.FILE_PICKER == 'mini') then
+      if (constants.FILE_PICKER == constants.FILE_PICKERS.mini) then
         vim.list_extend(keys, {
           {"<c-p>", mode = "n", function() MiniPick.builtin.files({ tool = 'git' }) end, desc = "Pick file"},
         })
