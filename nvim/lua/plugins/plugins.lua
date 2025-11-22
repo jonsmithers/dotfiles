@@ -950,23 +950,30 @@ return {
     -- <tab>     | next file
     -- <s-tab>   | prev file
     enabled = not vim.g.vscode,
-    opts = {
-      keymaps = {
-        view = {
-          { "n", "<leader>dc", ':DiffviewClose<cr>' },
-          { "n", "<leader><tab>", function() vim.notify('disabled in diffview') end },
-        },
-        file_panel = {
-          { "n", "<leader>dc", ':DiffviewClose<cr>' },
-          { "n", "<leader><tab>", function() vim.notify('disabled in diffview') end },
-          {
-            "n", "c<space>",
-            ":TransientShell git commit -m \"\"<Left>",
-            { desc = "Populate cmd line with 'git commit '" },
+    opts = function()
+      local actions = require("diffview.actions")
+      return {
+        keymaps = {
+          view = {
+            { "n", "<leader>dc", ':DiffviewClose<cr>' },
+            { "n", "<leader><tab>", function() vim.notify('disabled in diffview') end },
+            { "n", "]f", actions.select_next_entry,           { desc = "Open the diff for the next file" } },
+            { "n", "[f", actions.select_prev_entry,           { desc = "Open the diff for the previous file" } },
           },
-        },
+          file_panel = {
+            { "n", "<leader>dc", ':DiffviewClose<cr>' },
+            { "n", "<leader><tab>", function() vim.notify('disabled in diffview') end },
+            { "n", "]f", actions.select_next_entry,           { desc = "Open the diff for the next file" } },
+            { "n", "[f", actions.select_prev_entry,           { desc = "Open the diff for the previous file" } },
+            {
+              "n", "c<space>",
+              ":TransientShell git commit -m \"\"<Left>",
+              { desc = "Populate cmd line with 'git commit '" },
+            },
+          },
+        }
       }
-    },
+    end,
     keys = function()
       local keys = {
         { '<leader>dv', ':DiffviewFileHistory %<cr>' },
@@ -1311,7 +1318,7 @@ return {
         " http://vimcasts.org/episodes/fugitive-vim-working-with-the-git-index/
         " c-n, c-p jumps to files
         " -        stages/unstages
-        nnoremap <leader>gd :Gvdiffsplit<cr>
+        "Git diff split--
         "          (left is index (staged), right is working)
         "          dp      diffput
         "          do      diffget (think "obtain")
