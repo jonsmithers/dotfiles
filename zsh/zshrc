@@ -417,14 +417,12 @@ bindkey "^X^E" edit-command-line
 # echo -e "\033[1K"
 [[ $print_emojis ]] && echo -ne 🍑
 
-alias unquarantine='xattr -d com.apple.quarantine'
-if has ffmpeg; then
-  function mov_half() {
-    if [[ -z "$1" ]]; then
-      echo 'mov_half <input> [output]'
-      return 1
-    fi
-    ffmpeg -i "$1" -vf "scale=iw/2:ih/2" "${2:-output.mp4}"
-  }
-fi
+has xattr && alias unquarantine='xattr -d com.apple.quarantine'
+has ffmpeg && function mov_half() {
+  if [[ -z "$1" ]]; then
+    echo 'mov_half <input> [output]'
+    return 1
+  fi
+  ffmpeg -i "$1" -vf "scale=iw/2:ih/2" "${2:-output.mp4}"
+}
 
