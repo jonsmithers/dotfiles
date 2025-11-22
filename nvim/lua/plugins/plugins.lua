@@ -945,31 +945,60 @@ return {
   },
 
   { 'sindrets/diffview.nvim',
+    -- <leader>b | toggle files
+    -- <leader>e | focus files
+    -- <tab>     | next file
+    -- <s-tab>   | prev file
+    enabled = not vim.g.vscode,
     opts = {
       keymaps = {
+        view = {
+          { "n", "<leader>dc", ':DiffviewClose<cr>' },
+          { "n", "<leader><tab>", function() vim.notify('disabled in diffview') end },
+        },
         file_panel = {
-          {
-            "n", "cc",
-            "<Cmd>Git commit <bar> wincmd J<CR>",
-            { desc = "Commit staged changes" },
-          },
-          {
-            "n", "ca",
-            "<Cmd>Git commit --amend <bar> wincmd J<CR>",
-            { desc = "Amend the last commit" },
-          },
+          { "n", "<leader>dc", ':DiffviewClose<cr>' },
+          { "n", "<leader><tab>", function() vim.notify('disabled in diffview') end },
           {
             "n", "c<space>",
-            ":Git commit -m ''",
-            { desc = "Populate command line with \":Git commit \"" },
+            ":TransientShell git commit -m \"\"<Left>",
+            { desc = "Populate cmd line with 'git commit '" },
           },
         },
       }
     },
+    keys = function()
+      local keys = {
+        { '<leader>dv', ':DiffviewFileHistory %<cr>' },
+        { '<leader>dv', mode = 'v', ':DiffviewFileHistory<cr>', },
+      }
+      if (constants.GIT_STATUS == constants.GIT_STATUSES.diffview) then
+        vim.list_extend(keys, {
+          {"<leader>gs", mode = "n", ':DiffviewOpen<cr>', desc = "Git status"},
+          {"<leader>gd", mode = "n", function()
+            local line = vim.fn.line('.')
+            local col = vim.fn.col('.')
+            vim.cmd('DiffviewOpen -- %')
+            vim.cmd('DiffviewToggleFiles')
+            vim.loop.new_timer():start(200, 0, vim.schedule_wrap(function()
+              vim.fn.cursor(line, col)
+              vim.cmd('normal zz')
+            end))
+
+          end, desc = "Git diff file"},
+        })
+      end
+      return keys
+    end,
     init = function()
       vim.opt.fillchars:append { diff = "╱" }
-      vim.keymap.set('n', '<leader>dv', ':DiffviewFileHistory %<cr>')
-      vim.keymap.set('v', '<leader>dv', ':DiffviewFileHistory<cr>')
+      vim.api.nvim_create_autocmd({'BufEnter'}, {
+        pattern = 'DiffviewFiles',
+        group = 'init.lua',
+        callback = function()
+          -- PLACEHOLDER
+        end
+      })
     end,
   },
 
@@ -1229,6 +1258,12 @@ return {
       'shumphrey/fugitive-gitlab.vim',
       'lewis6991/gitsigns.nvim',
     },
+    init = function()
+      if (constants.GIT_STATUS == constants.GIT_STATUSES.fugitive) then
+        vim.keymap.set('n', '<leader>gs', ":0Git<cr>:normal gU<cr>")
+        vim.keymap.set('n', '<leader>gd', ":Gvdiffsplit<cr>")
+      end
+    end,
     config = function()
 
       -- Auto-update Fugitive
@@ -1258,7 +1293,7 @@ return {
         " p        preview commit
         " o        open commit in split
         " O        open commit in tab
-        nnoremap <leader>gs :0Git<cr>:normal gU<cr>
+        "Git Status --
         " ri  - Rebase Interactive
         " rw  - Rebase reWord
         " rm  - Rebase Modify
