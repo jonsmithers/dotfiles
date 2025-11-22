@@ -949,11 +949,18 @@ return {
     -- <leader>e | focus files
     -- <tab>     | next file
     -- <s-tab>   | prev file
+    -- -         | stage/unstage
     enabled = not vim.g.vscode,
     opts = function()
       local actions = require("diffview.actions")
       return {
         keymaps = {
+          file_history_panel = {
+            { "n", "<leader>dc", ':DiffviewClose<cr>' },
+            { "n", "<leader><tab>", function() vim.notify('disabled in diffview') end },
+            { "n", "]f", actions.select_next_entry,           { desc = "Open the diff for the next file" } },
+            { "n", "[f", actions.select_prev_entry,           { desc = "Open the diff for the previous file" } },
+          },
           view = {
             { "n", "<leader>dc", ':DiffviewClose<cr>' },
             { "n", "<leader><tab>", function() vim.notify('disabled in diffview') end },
