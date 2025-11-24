@@ -951,6 +951,7 @@ return {
     -- <s-tab>   | prev file
     -- -         | stage/unstage
     enabled = not vim.g.vscode,
+    cmd = { 'DiffviewOpen' },
     opts = function()
       local actions = require("diffview.actions")
       return {

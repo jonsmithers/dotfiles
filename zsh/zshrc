@@ -119,7 +119,8 @@ if command -v git-number > /dev/null; then
   alias gim="git-number -c $vim_cmd"
   alias giff="git-number -c $vim_cmd +Gvdiff"
 fi
-alias gs="$vim_cmd"' +0Git "+normal gU"'
+# alias gs="$vim_cmd"' +0Git "+normal gU"'
+alias gs="nvim +DiffviewOpen"
 alias v="$vim_cmd"
 alias V="$vim_cmd ."
 unset vim_cmd
