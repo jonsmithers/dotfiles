@@ -20,18 +20,14 @@ spoon.ShiftIt:bindHotkeys({})
 local SKIP = 'skip'
 
 for _, v in pairs({
-  {'alt', 'C', "Visual Studio Code"},
-  {'alt', 'I', "pycharm CE"},
+  {'alt', 'I', "Visual Studio Code"},
   {'alt', 'T', "kitty"},
+  -- {'alt', 'T', "Ghostty"},
   {'alt', 'V', "MacVim"},
   {'alt', 'W', "WhatsApp"},
   {'alt', 'Z', "Zoom"},
   {'alt', 'B', function() return default_browser end},
-  {'alt', 'M', function()
-    hs.application.launchOrFocus(default_browser)
-    hs.eventtap.keyStroke({"cmd"}, "1")
-    return SKIP
-  end},
+  {'alt', 'M', "Slack"},
 }) do
   local mod, key, what_do = table.unpack(v);
   hs.hotkey.bind(mod, key, function()
