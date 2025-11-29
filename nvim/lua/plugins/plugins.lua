@@ -132,7 +132,7 @@ return {
       if (constants.FILE_PICKER == constants.FILE_PICKERS.snacks) then
         vim.list_extend(keys, {
           {"<c-p>", mode = "n", function() Snacks.picker.files() end, desc = "Pick file"},
-        })
+      })
       end
       return keys
     end,
@@ -952,6 +952,28 @@ return {
     -- -         | stage/unstage
     enabled = not vim.g.vscode,
     cmd = { 'DiffviewOpen' },
+    init = function()
+      vim.opt.fillchars:append { diff = "╱" }
+      vim.api.nvim_create_autocmd({'FileType'}, {
+        pattern = 'DiffviewFiles',
+        group = 'init.lua',
+        callback = function()
+          vim.keymap.set('n', 'ca', ':TransientShell git commit --amend<cr>', {buffer = true,  desc = "Git commit --amend"  })
+          vim.keymap.set('n', 'cZ', ':TransientShell git stash push --staged --message ""<left>', {buffer = true,  desc = "Open the diff for the previous file"  })
+          vim.keymap.set('n', 'c<space>', ":TransientShell git commit -m \"\"<Left>", {buffer = true,  desc = "Populate cmd line with 'git commit '" })
+        end
+      })
+      vim.api.nvim_create_autocmd({'User'}, {
+        pattern = 'DiffviewDiffBufWinEnter',
+        group = 'init.lua',
+        callback = function()
+          -- vim.notify('> ' .. vim.fn.expand('%'))
+          vim.keymap.set('n', 'ca', ':TransientShell git commit --amend<cr>', {buffer = true,  desc = "Git commit --amend"  })
+          vim.keymap.set('n', 'cZ', ':TransientShell git stash push --staged --message ""<left>', {buffer = true,  desc = "Open the diff for the previous file"  })
+          vim.keymap.set('n', 'c<space>', ":TransientShell git commit -m \"\"<Left>", {buffer = true,  desc = "Populate cmd line with 'git commit '" })
+        end
+      })
+    end,
     opts = function()
       local actions = require("diffview.actions")
       return {
@@ -967,21 +989,12 @@ return {
             { "n", "<leader><tab>", function() vim.notify('disabled in diffview') end },
             { "n", "]f", actions.select_next_entry,           { desc = "Open the diff for the next file" } },
             { "n", "[f", actions.select_prev_entry,           { desc = "Open the diff for the previous file" } },
-            { "n", "cZ", ':TransientShell git stash push --staged --message ""<left>', { desc = "Open the diff for the previous file" } },
-            { "n", "ca", ':TransientShell git commit --amend<cr>', { desc = "Git commit --amend" } },
           },
           file_panel = {
             { "n", "<leader>dc", ':DiffviewClose<cr>' },
             { "n", "<leader><tab>", function() vim.notify('disabled in diffview') end },
             { "n", "]f", actions.select_next_entry,           { desc = "Open the diff for the next file" } },
             { "n", "[f", actions.select_prev_entry,           { desc = "Open the diff for the previous file" } },
-            { "n", "cZ", ':TransientShell git stash push --staged --message ""<left>', { desc = "Open the diff for the previous file" } },
-            { "n", "ca", ':TransientShell git commit --amend<cr>', { desc = "Git commit --amend" } },
-            {
-              "n", "c<space>",
-              ":TransientShell git commit -m \"\"<Left>",
-              { desc = "Populate cmd line with 'git commit '" },
-            },
           },
         }
       }
@@ -1008,16 +1021,6 @@ return {
         })
       end
       return keys
-    end,
-    init = function()
-      vim.opt.fillchars:append { diff = "╱" }
-      vim.api.nvim_create_autocmd({'BufEnter'}, {
-        pattern = 'DiffviewFiles',
-        group = 'init.lua',
-        callback = function()
-          -- PLACEHOLDER
-        end
-      })
     end,
   },
 
