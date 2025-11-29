@@ -871,7 +871,7 @@ return {
 
       sources = {
         default = vim.list_extend(
-          { 'lsp', 'buffer', 'snippets', 'path', 'codeium' }, -- default list
+          { 'lsp', 'buffer', 'snippets', 'path' }, -- default list
           { 'emoji' }
         ),
         providers = {
@@ -967,12 +967,16 @@ return {
             { "n", "<leader><tab>", function() vim.notify('disabled in diffview') end },
             { "n", "]f", actions.select_next_entry,           { desc = "Open the diff for the next file" } },
             { "n", "[f", actions.select_prev_entry,           { desc = "Open the diff for the previous file" } },
+            { "n", "cZ", ':TransientShell git stash push --staged --message ""<left>', { desc = "Open the diff for the previous file" } },
+            { "n", "ca", ':TransientShell git commit --amend<cr>', { desc = "Git commit --amend" } },
           },
           file_panel = {
             { "n", "<leader>dc", ':DiffviewClose<cr>' },
             { "n", "<leader><tab>", function() vim.notify('disabled in diffview') end },
             { "n", "]f", actions.select_next_entry,           { desc = "Open the diff for the next file" } },
             { "n", "[f", actions.select_prev_entry,           { desc = "Open the diff for the previous file" } },
+            { "n", "cZ", ':TransientShell git stash push --staged --message ""<left>', { desc = "Open the diff for the previous file" } },
+            { "n", "ca", ':TransientShell git commit --amend<cr>', { desc = "Git commit --amend" } },
             {
               "n", "c<space>",
               ":TransientShell git commit -m \"\"<Left>",
