@@ -1364,12 +1364,11 @@ return {
   'tpope/vim-rsi',
 
   { 'tpope/vim-unimpaired',
-    init = function()
-      vim.cmd[[
-        nnoremap <Plug>(unimpaired-disable)a :lua require('fidget').notify('auto-format off')<cr>:set fo-=a<cr>
-        nnoremap <Plug>(unimpaired-enable)a :lua require('fidget').notify('auto-format on')<cr>:set fo+=a<cr>
-      ]]
-    end
+    lazy = false,
+    keys = {
+      { '<Plug>(unimpaired-disable)a', ":lua require('fidget').notify('auto-format off')<cr>:set fo-=a<cr>", },
+      { '<Plug>(unimpaired-enable)a', ":lua require('fidget').notify('auto-format on')<cr>:set fo+=a<cr>", },
+    },
   },
 
   'tpope/vim-sleuth',
