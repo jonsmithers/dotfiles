@@ -139,6 +139,18 @@ fi
 [[ $print_emojis ]] && echo -ne 🐭
 
 if has fzf; then
+
+  emoji() {
+    # https://www.thenegation.com/posts/nix-fzf-script-tutorial/
+    [[ -f /tmp/emoji.json ]] || curl -sSL "https://raw.githubusercontent.com/github/gemoji/0eca75db9301421efc8710baf7a7576793ae452a/db/emoji.json" > /tmp/emoji.json
+    cat /tmp/emoji.json |
+      jq -r '.[] | (.emoji + " :" + .aliases[0] + ": "+ .category + " » " + .description)' |
+      fzf \
+        --delimiter " " \
+        --bind 'enter:become(printf {1} | pbcopy)' \
+        --bind 'ctrl-c:become(printf {2} | pbcopy)'
+  }
+
   fzfCommit() {
     local FZF_PROMPT="${FZF_PROMPT:=Commit: }"
     git log --oneline | fzf --border --prompt="$FZF_PROMPT" --height=10         --preview="git show {+1} --color=always" --no-sort --reverse | cut -d' ' -f1 | tr '\n' ' ' | sed 's/[[:space:]]$//';
