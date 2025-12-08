@@ -884,7 +884,13 @@ return {
             module = "blink-emoji",
             name = "Emoji",
             score_offset = 15,
-            opts = { insert = true },
+            opts = {
+              insert = true,
+              ---@type string|table|fun():table
+              trigger = function()
+                return { ":" }
+              end,
+            },
             should_show_items = function()
               return true
             end,
