@@ -79,5 +79,12 @@
     "delete",
     "n"
   ],
-  "editor.fontFamily": "Monaspace Neon, JetBrains, Menlo, Monaco, 'Courier New', monospace",
+  "editor.fontFamily": "Monaspace Neon Var, JetBrains, Menlo, Monaco, 'Courier New', monospace",
+  "git.blame.editorDecoration.enabled": false,
+  "workbench.editor.showTabIndex": true,
+  "workbench.editor.tabSizingFixedMinWidth": 100,
+  "workbench.editor.enablePreviewFromQuickOpen": true,
+  "workbench.editor.pinnedTabsOnSeparateRow": true,
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "javascript.updateImportsOnFileMove.enabled": "always"
 }
