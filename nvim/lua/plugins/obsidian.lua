@@ -18,6 +18,12 @@ return {
     ---@module 'obsidian'
     ---@type obsidian.config
     opts = {
+      callbacks = {
+        enter_note = function(ev)
+          vim.keymap.del("n", "]o", { buffer = true })
+          vim.keymap.del("n", "[o", { buffer = true })
+        end
+      },
       legacy_commands = false,
       workspaces = {
         {
