@@ -25,6 +25,7 @@
   lola = log --graph --decorate --oneline --all
   pushh = push --push-option ci.skip # shhhhhh
   cleanhard = clean -dfx
+  sha = rev-parse HEAD
 [user]
   name = Jon Smithers
   email = jon@smithers.dev
@@ -47,3 +48,5 @@
 [delta]
   line-numbers = true
   side-by-side = false
+[push]
+  autoSetupRemote = true
