@@ -9,6 +9,7 @@ M.FILE_PICKER = M.FILE_PICKERS.snacks
 M.GIT_STATUSES = {
   fugitive = 'fugitive',
   diffview = 'diffview',
+  codediff = 'codediff',
 }
 M.GIT_STATUS = M.GIT_STATUSES.diffview
 

@@ -31,6 +31,15 @@ return {
 
   'bronson/vim-visual-star-search',
 
+  { 'esmuellert/codediff.nvim',
+    enabled = not vim.g.vscode and (constants.GIT_STATUS == constants.GIT_STATUSES.codediff),
+    dependencies = { "MunifTanjim/nui.nvim" },
+    init = function()
+      vim.cmd.echo('hi')
+    end,
+    cmd = "CodeDiff",
+  },
+
   { 'Exafunction/windsurf.nvim',
     enabled = false,
     dependencies = { "nvim-lua/plenary.nvim", },
