@@ -418,7 +418,11 @@ return {
       'yioneko/nvim-vtsls',
     },
     config = function()
-      require("lspconfig.configs").vtsls = require("vtsls").lspconfig
+      local isvtsls = constants.TSSERVER == constants.TSSERVERS.vtsls
+      if (isvtsls) then
+        require("lspconfig.configs").vtsls = require("vtsls").lspconfig
+      end
+
       require("neodev").setup({
         override = function(root_dir, library)
           local tail_dir = string.match(root_dir, '[^/]+/?$')
@@ -455,7 +459,9 @@ return {
           'typescriptreact',
         }, vim.bo.filetype)) then
           nnoremap_buffer('<space>le', '<cmd>LspEslintFixAll<CR>',                                                                                                   'Eslint Fix')
-          nnoremap_buffer('<space>oi', '<cmd>VtsExec organize_imports<CR>',                                                                                       'Organize imports')
+          if (isvtsls) then
+            nnoremap_buffer('<space>oi', '<cmd>VtsExec organize_imports<CR>',                                                                                       'Organize imports')
+          end
         end
         nnoremap_buffer(']g',        '<cmd>lua vim.diagnostic.goto_next()<CR>',                                                                                 'Go to next diagnostic')
         nnoremap_buffer('[g',        '<cmd>lua vim.diagnostic.goto_prev()<CR>',                                                                                 'Go to previous diagnostic')
@@ -495,7 +501,35 @@ return {
       end
       local eslint_base_attach = vim.lsp.config.eslint.on_attach
       ENABLE_FRONTEND_LSPS = function()
-        ENABLE_LSP_SERVER('vtsls')
+        if (isvtsls) then
+          ENABLE_LSP_SERVER('vtsls')
+        else
+          local configs = require "lspconfig.configs"
+          if not configs.tsgo then
+            configs.tsgo = {
+              default_config = {
+                cmd = { "tsgo", "--lsp", "--stdio" },
+                filetypes = {
+                  "javascript",
+                  "javascriptreact",
+                  "javascript.jsx",
+                  "typescript",
+                  "typescriptreact",
+                  "typescript.tsx",
+                },
+                root_dir = lspconfig.util.root_pattern(
+                  "tsconfig.json",
+                  "jsconfig.json",
+                  "package.json",
+                  ".git",
+                  "tsconfig.base.json"
+                ),
+                settings = {},
+              },
+            }
+          end
+          ENABLE_LSP_SERVER('tsgo')
+        end
         ENABLE_LSP_SERVER('eslint', {}, function(client, bufnr)
           eslint_base_attach(client, bufnr)
         end)

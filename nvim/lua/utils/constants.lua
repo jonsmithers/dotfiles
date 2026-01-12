@@ -12,5 +12,10 @@ M.GIT_STATUSES = {
   codediff = 'codediff',
 }
 M.GIT_STATUS = M.GIT_STATUSES.diffview
+M.TSSERVERS = {
+  vtsls = 'vtsls',
+  tsgo = 'tsgo',
+}
+M.TSSERVER = M.TSSERVERS.tsgo
 
 return M
