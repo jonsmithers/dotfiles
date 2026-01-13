@@ -431,11 +431,22 @@ bindkey "^X^E" edit-command-line
 [[ $print_emojis ]] && echo -ne 🍑
 
 has xattr && alias unquarantine='xattr -d com.apple.quarantine'
-has ffmpeg && function mov_half() {
+has ffmpeg && function mov_half_res() {
   if [[ -z "$1" ]]; then
     echo 'mov_half <input> [output]'
     return 1
   fi
-  ffmpeg -i "$1" -vf "scale=iw/2:ih/2" "${2:-output.mp4}"
+  ( set -x; ffmpeg -i "$1" -vf "scale=iw/2:ih/2" "${2:-output.mp4}" )
+}
+has ffmpeg && function mov_double_speed() {
+  if [[ -z "$1" ]]; then
+    echo 'mov_half <input> [output]'
+    return 1
+  fi
+  ( set -x; ffmpeg -i "$1" -filter:v "setpts=PTS/2,fps=24" -an "${2:-output.mp4}" )
+  # setpts=PTS/2 devides each frame's presentation timestamp by 2
+  # fps=24 outputs 24 frames per second
+  # -an removes audio
+  # (https://superuser.com/questions/1261678/how-do-i-speed-up-a-video-by-60x-in-ffmpeg)
 }
 
