@@ -66,12 +66,14 @@ function silent_background() {
   disown &>/dev/null
 }
 
+# Installed Softwares
 [[ -d "/opt/homebrew/bin" ]] && export PATH=/opt/homebrew/bin/:$PATH
-[[ -d "$HOME/.local/bin"  ]] && export PATH=$HOME/.local/bin:$PATH
-[[ -d "$HOME/.npm-global" ]] && export PATH=$HOME/.npm-global/bin:$PATH
-[[ -d "$HOME/.local/bin"  ]] && export PATH=$HOME/.local/bin:$PATH # "pip install --user" installs executables to this location
 [[ -d "$HOME/bin"         ]] && export PATH="$HOME/bin:$PATH"
 [[ -d "$HOME/.deno/bin"   ]] && export PATH="$HOME/.deno/bin:$PATH"
+[[ -d "$HOME/.cargo"      ]] && . "$HOME/.cargo/env"
+[[ -d "$HOME/Applications/Ghostty.app/" ]] && export PATH="$HOME/Applications/Ghostty.app/Contents/MacOS/":$PATH
+[[ -d "$HOME/Library/Application Support/fnm" ]] && export PATH="/Users/jsmithers/Library/Application Support/fnm:$PATH"
+[[ -d "$HOME/Library/Application Support/fnm" ]] && eval "`fnm env`"
 
 [[ $print_emojis ]] && echo -n 🍸
 
