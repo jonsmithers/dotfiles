@@ -1,5 +1,6 @@
 {
   "links": {
+    "./atuin/config.toml":               "~/.config/atuin/config.toml",
     "./ghostty":                         "~/.config/ghostty",
     "./git/git-issue":                   "~/bin/git-issue",
     "./git/git-website":                 "~/bin/git-website",
