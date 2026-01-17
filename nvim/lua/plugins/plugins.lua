@@ -34,10 +34,18 @@ return {
   { 'esmuellert/codediff.nvim',
     enabled = not vim.g.vscode and (constants.GIT_STATUS == constants.GIT_STATUSES.codediff),
     dependencies = { "MunifTanjim/nui.nvim" },
-    init = function()
-      vim.cmd.echo('hi')
-    end,
     cmd = "CodeDiff",
+    keys = function()
+      if (constants.GIT_STATUS == constants.GIT_STATUSES.codediff) then
+        return {
+          {"<leader>gs", mode = "n", ':CodeDiff<cr>', desc = "Git status"},
+          {"<leader>gd", mode = "n", function()
+            vim.notify('not impl')
+          end, desc = "Git diff file"},
+        }
+      end
+      return {}
+    end,
   },
 
   { 'Exafunction/windsurf.nvim',
