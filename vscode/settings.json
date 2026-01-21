@@ -3,47 +3,80 @@
   "open-in-vim.openMethod": "kitty",
   "open-in-vim.useNeovim": true,
   "vim.leader": " ",
+  "vim.visualStaor": true,
+  "vim.incsearch": true,
+  "vim.sneak": true,
   "vim.surround": true,
   "vim.hlsearch": true,
-  "vim.normalModeKeyBindings": [
+  "vim.normalModeKeyBindingsNonRecursive": [
+    {
+      "before": ["K"],
+      "commands": ["editor.action.showHover"],
+    },
+    {
+      "before": [" ", "l", "e"],
+      "commands": ["eslint.executeAutofix"],
+    },
+    {
+      "before": [" ", "o", "i"],
+      "commands": ["editor.action.organizeImports"],
+    },
+    {
+      "before": ["]", " "],
+      "after": ["o", "<esc>"],
+    },
+    {
+      "before": ["[", " "],
+      "after": ["O", "<esc>"],
+    },
+    {
+      "before": ["]", "e"],
+      "after": ["d", "d", "p"],
+    },
+    {
+      "before": ["[", "e"],
+      "after": ["k", "d", "d", "p", "k"],
+    },
     {
       "before": ["[", "g"],
-      "commands": ["editor.action.marker.prev"]
+      "commands": ["editor.action.marker.prev"],
     },
     {
       "before": ["]", "g"],
-      "commands": ["editor.action.marker.next"]
+      "commands": ["editor.action.marker.next"],
     },
     {
       "before": ["<leader>", "s", "d", "f"],
-      "commands": [":nohl"]
+      "commands": [":nohl"],
     },
     {
       "before": ["<space>", "<space>"],
-      "commands": [":w"]
+      "commands": [":w"],
     },
     {
       "before": ["<space>", "r", "r"],
-      "commands": ["testing.reRunLastRun"]
-    }
+      "commands": ["testing.reRunLastRun"],
+    },
   ],
   "vim.insertModeKeyBindings": [
     {
       "before": ["j", "k"],
-      "after": ["<Esc>"]
-    }
+      "after": ["<Esc>"],
+    },
   ],
   "workbench.colorTheme": "Catppuccin Frappé",
-  "open-in-vim.restoreCursorAfterVim": true,
   "workbench.iconTheme": "catppuccin-frappe",
+  "open-in-vim.restoreCursorAfterVim": true,
+  // To improve performance
   "extensions.experimental.affinity": {
-    "asvetliakov.vscode-neovim": 1
+    "asvetliakov.vscode-neovim": 1,
+    "vscodevim.vim": 1
   },
   "vscode-neovim.compositeKeys": {
     "jk": {
-      "command": "vscode-neovim.escape"
-    }
-  }
+      "command": "vscode-neovim.escape",
+    },
+  },
   "[typescriptreact]": {
     "editor.defaultFormatter": "vscode.typescript-language-features"
   },

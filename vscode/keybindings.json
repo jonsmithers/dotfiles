@@ -1229,5 +1229,15 @@
     "key": "ctrl+`",
     "command": "-workbench.action.terminal.toggleTerminal",
     "when": "terminal.active"
+  },
+  {
+    "key": "cmd+g cmd+d",
+    "command": "git.openChange",
+    "when": "!isInDiffEditor"
+  },
+  {
+    "key": "cmd+g cmd+d",
+    "command": "git.openFile",
+    "when": "isInDiffEditor"
   }
 ]
