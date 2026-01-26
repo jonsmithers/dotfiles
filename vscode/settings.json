@@ -14,6 +14,10 @@
       "commands": ["editor.action.showHover"],
     },
     {
+      "before": ["<space>", "g", "s"],
+      "commands": ["workbench.view.scm"],
+    },
+    {
       "before": [" ", "l", "e"],
       "commands": ["eslint.executeAutofix"],
     },
@@ -57,6 +61,62 @@
       "before": ["<space>", "r", "r"],
       "commands": ["testing.reRunLastRun"],
     },
+    {
+      "before": ["<space>", "i", "l"],
+      "after": [
+        "o",
+        "c",
+        "o",
+        "n",
+        "s",
+        "o",
+        "l",
+        "e",
+        ".",
+        "l",
+        "o",
+        "g",
+        "(",
+        ")",
+        ";",
+        "<esc>",
+        "F",
+        ")",
+        "i",
+      ],
+    },
+    {
+      "before": ["<space>", "l", "i", "w"],
+      "after": [
+        "y",
+        "i",
+        "w",
+        "o",
+        "c",
+        "o",
+        "n",
+        "s",
+        "o",
+        "l",
+        "e",
+        ".",
+        "l",
+        "o",
+        "g",
+        "(",
+        "'",
+        "<c-r>",
+        "0",
+        "'",
+        ",",
+        " ",
+        "<c-r>",
+        "0",
+        ")",
+        ";",
+        "<Esc>",
+      ],
+    },
   ],
   "vim.insertModeKeyBindings": [
     {
@@ -70,7 +130,7 @@
   // To improve performance
   "extensions.experimental.affinity": {
     "asvetliakov.vscode-neovim": 1,
-    "vscodevim.vim": 1
+    "vscodevim.vim": 1,
   },
   "vscode-neovim.compositeKeys": {
     "jk": {
