@@ -29,15 +29,6 @@ Host github.com
 END
 fi
 
-if [[ -f './hammerspoon/Spoons/hs_select_window.spoon/.git' ]]; then
-  echo -e " ${GREEN}✓${NORMAL} git submodule present"
-elif prompt " ${RED}✗${NORMAL} missing git submodule - clone?"; then
-  (
-    set -ex
-    git submodule update --recursive --remote
-  )
-fi
-
 if [[ $(command -v fzf) ]]; then
   echo -e " ${GREEN}✓${NORMAL} fzf installed"
 elif prompt " ${RED}✗${NORMAL} missing fzf - install?"; then
@@ -126,10 +117,9 @@ function install_git_number_on_linux() {
   );
 }
 
-install_cmd zsh --not="/bin/zsh"
+install_cmd zsh # --not="/bin/zsh"
 install_cmd rg --brew="brew install ripgrep" --dnf="sudo dnf install --assumeyes ripgrep"
 install_cmd git-number --linux="install_git_number_on_linux"
-install_cmd alacritty
 install_cmd bat
 install_cmd delta --brew="brew install git-delta" --dnf="sudo dnf install --assumeyes git-delta"
 install_cmd lsd
@@ -137,6 +127,7 @@ install_cmd node
 install_cmd kitty --brew="curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin" --dnf="curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin" --apt="curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin"
 install_cmd direnv
 install_cmd zoxide
+install_cmd atuin
 # install_cmd fish
 # install_cmd shellcheck --dnf="sudo dnf install --assumeyes ShellCheck"
 # install_cmd tmux
