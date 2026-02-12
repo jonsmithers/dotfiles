@@ -480,4 +480,13 @@ has ffmpeg && function mov_double_speed() {
   # -an removes audio
   # (https://superuser.com/questions/1261678/how-do-i-speed-up-a-video-by-60x-in-ffmpeg)
 }
+has ffmpeg && function mov_speed_up() {
+  if [[ -z "$2" ]]; then
+    echo 'mov_half <input> <speed multiplier> [output]'
+    echo
+    echo 'This will speed up <input> by <speed multiplier>x.'
+    return 1
+  fi
+  ( set -x; ffmpeg -i "$1" -filter:v "setpts=PTS/${2},fps=24" -an "${3:-output.mp4}" )
+}
 
