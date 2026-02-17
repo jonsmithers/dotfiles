@@ -37,6 +37,19 @@ elif prompt " ${RED}✗${NORMAL} missing fzf - install?"; then
   echo_and_run ~/.fzf/install --all
 fi
 
+# install_cmd <cmd> [options]
+#
+# OPTIONS
+#   --apt
+#       Command to install this software using apt
+#   --brew <cmd>
+#       Command to install this software using homebrew (macos).
+#   --dnf <cmd>
+#       Command to install this software using dnf (fedora).
+#   --linux <cmd>
+#       Command to install this software on any linux (not macos).
+#   --not <path>
+#       Do not consider software "installed" if it is installed at this path.
 function install_cmd() {
   local dnf=''
   local brew=''
