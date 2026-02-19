@@ -1034,6 +1034,9 @@ return {
     opts = function()
       local actions = require("diffview.actions")
       return {
+        file_panel = {
+          listing_style = 'list',
+        },
         keymaps = {
           file_history_panel = {
             { "n", "<leader>dc", ':DiffviewClose<cr>' },
