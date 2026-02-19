@@ -1,5 +1,11 @@
 " vim: ts=2 sw=2
-" Last Updated: 2025-08-06
+" Last Updated: 2026-02-19
+
+" ┌───────────┐
+" │ init2.vim │
+" └───────────┘
+" More init code, but in vimscript instead of lua. Everything here could be
+" migrated to "init.lua".
 
 
 if !exists('s:os')
