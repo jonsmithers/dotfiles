@@ -73,7 +73,8 @@ function silent_background() {
 [[ -d "$HOME/.cargo"      ]] && . "$HOME/.cargo/env"
 [[ -d "$HOME/Applications/Ghostty.app/" ]] && export PATH="$HOME/Applications/Ghostty.app/Contents/MacOS/":$PATH
 [[ -d "$HOME/Library/Application Support/fnm" ]] && export PATH="/Users/jsmithers/Library/Application Support/fnm:$PATH"
-[[ -d "$HOME/Library/Application Support/fnm" ]] && eval "`fnm env`"
+has atuin && eval "$(atuin init zsh --disable-up-arrow)"
+has fnm   && eval "$(fnm env --use-on-cd)" > /dev/null
 
 [[ $print_emojis ]] && echo -n 🍸
 
@@ -283,15 +284,8 @@ fi
 
 [[ $print_emojis ]] && echo -n 🦩
 
-if has fnm; then
-  eval "$(fnm env --use-on-cd)"
-fi
-
 [[ $print_emojis ]] && echo -n 🦀
 
-[[ -d "$HOME/.cargo" ]] && {
-  export PATH=$HOME/.cargo/bin:$PATH
-}
 if [[ -f /proc/version ]] && grep -q Microsoft /proc/version; then
   echo 'this is windows'
 fi
