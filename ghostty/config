@@ -22,3 +22,4 @@ keybind = super+l>space=new_split:right
 keybind = ctrl+shift+g=text:TODO - make this view scrollback?
 
 keybind = super+shift+w=close_tab:this
+custom-shader = shaders/cursor_smear_original.glsl
