@@ -18,6 +18,10 @@ keybind = super+j>space=new_split:down
 keybind = super+h>space=new_split:left
 keybind = super+k>space=new_split:up
 keybind = super+l>space=new_split:right
+keybind = opt+l=resize_split:right,30
+keybind = opt+h=resize_split:left,30
+keybind = opt+k=resize_split:up,30
+keybind = opt+j=resize_split:down,30
 
 keybind = ctrl+shift+g=text:TODO - make this view scrollback?
 
