@@ -62,6 +62,14 @@
       "commands": ["testing.reRunLastRun"],
     },
     {
+      "before": ["[", "o", "r"],
+      "after": [":","s","e","t"," ","r","e","l","a","t","i","v","e","n","u","m","b","e","r", "<cr>"],
+    },
+    {
+      "before": ["]", "o", "r"],
+      "after": [":","s","e","t"," ","n","o","r","e","l","a","t","i","v","e","n","u","m","b","e","r","<cr>"],
+    },
+    {
       "before": ["<space>", "i", "l"],
       "after": [
         "o",
