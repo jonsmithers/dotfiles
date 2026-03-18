@@ -334,6 +334,19 @@ if has direnv; then
   eval "$(direnv hook zsh)"
 fi
 
+if [[ "$TERM" = "xterm-ghostty" && "$(uname -s)" = "Darwin" ]]; then
+  function b_str() {
+    osascript <<EOF
+tell application "Ghostty"
+	set currentTerm to focused terminal of selected tab of front window
+	set newTerm to split currentTerm direction down
+	input text "${@} && exit\r" to newTerm
+                    focus currentTerm
+end tell
+EOF
+  }
+
+fi
 if [[ "$TERM" = "xterm-kitty" ]]; then
   alias rg='rg --hyperlink-format=kitty'
   [[ $print_emojis ]] && echo -n 🐱
