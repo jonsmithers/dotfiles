@@ -60,11 +60,13 @@ vim.cmd[[
   nnoremap <silent> <leader>dc :silent CloseFloatingWindows<cr>
 ]]
 
+local is_kitty = vim.env.TERM == 'xterm-kitty'
+
 vim.opt.foldlevelstart = tonumber(vim.env['NVIM_OPT_FOLDLEVELSTART']) or 99
 vim.opt.relativenumber = 'true' == vim.env['NVIM_OPT_RELATIVENUMBER']
 
 vim.opt.title = true
-vim.o.titlestring = ""
+vim.o.titlestring = is_kitty and "" or "nvim"
 vim.api.nvim_create_autocmd({'BufEnter', 'TermEnter'}, {
   pattern = '*',
   group = 'init.lua',
@@ -73,24 +75,24 @@ vim.api.nvim_create_autocmd({'BufEnter', 'TermEnter'}, {
       return
     end
     -- local cwd = "  %{fnamemodify(getcwd(), ':t')}  "
-    local cwd = "  %{fnamemodify(getcwd(), ':t')}/"
+    local cwd = is_kitty and "  %{fnamemodify(getcwd(), ':t')}/" or "NVIM  %{fnamemodify(getcwd(), ':t')}/"
     if (vim.o.filetype == 'snacks_picker_input') then
-      vim.o.titlestring = cwd..''
+      vim.o.titlestring = cwd..(is_kitty and '' or "search")
     elseif (vim.fn.expand('%') == '') then
-      vim.o.titlestring = cwd..''
+      vim.o.titlestring = cwd..(is_kitty and '' or "scratch")
     elseif (vim.o.filetype == 'NvimTree') then
-      vim.o.titlestring = cwd..''
+      vim.o.titlestring = cwd..(is_kitty and '' or "tree")
     elseif (vim.o.filetype == 'oil') then
-      vim.o.titlestring = cwd..''
+      vim.o.titlestring = cwd..(is_kitty and '' or '')
     elseif (vim.o.filetype == 'fugitive') then
-      vim.o.titlestring = cwd..''
+      vim.o.titlestring = cwd..(is_kitty and '' or 'git')
     elseif (string.find(vim.fn.expand('%'), 'FZF')) then
-      vim.o.titlestring = cwd..''
+      vim.o.titlestring = cwd..(is_kitty and '' or 'search')
     else
       -- vim.o.titlestring = cwd.."%{expand('%:t')}:%l"
       local icon = require'nvim-web-devicons'.get_icon(vim.fn.expand('%:t:r'), vim.fn.expand('%:t:e'))
       local maybe_space = (icon and ' ' or '')
-      vim.o.titlestring = cwd.."%{expand('%:t:r')}"..maybe_space..(icon or '')..(maybe_space)
+      vim.o.titlestring = cwd.."%{expand('%:t:r')}"..maybe_space..(is_kitty and icon or '')..(maybe_space)
     end
   end
 })
