@@ -23,7 +23,19 @@ keybind = opt+h=resize_split:left,30
 keybind = opt+k=resize_split:up,30
 keybind = opt+j=resize_split:down,30
 
-keybind = ctrl+shift+g=text:TODO - make this view scrollback?
+keybind = ctrl+cmd+up=jump_to_prompt:-1
+keybind = ctrl+cmd+down=jump_to_prompt:1
+keybind = ctrl+shift+g=jump_to_prompt:-1
 
 keybind = super+shift+w=close_tab:this
 custom-shader = shaders/cursor_smear_original.glsl
+
+macos-titlebar-style = tabs
+
+notify-on-command-finish = unfocused
+notify-on-command-finish-action = no-bell,notify
+notify-on-command-finish-after = 0s
+
+# begin auto-generated ghostty theme setting
+theme = Rose Pine
+# end auto-generated ghostty theme setting
