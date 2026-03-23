@@ -119,8 +119,12 @@ if (vim.g.vscode) then
     nnoremap gd <Cmd>lua require('vscode').action('editor.action.revealDefinition')<CR>
     nnoremap gu <Cmd>lua require('vscode').action('editor.action.goToReferences')<CR>
     nnoremap zz <Cmd>lua require('vscode').action('revealLine', { args = { at = "center", lineNumber = vim.api.nvim_win_get_cursor(0)[1] }})<CR>
+    vnoremap zz <Cmd>lua require('vscode').action('revealLine', { args = { at = "center", lineNumber = vim.api.nvim_win_get_cursor(0)[1] }})<CR>
     nnoremap zt <Cmd>lua require('vscode').action('revealLine', { args = { at = "top", lineNumber = vim.api.nvim_win_get_cursor(0)[1] }})<CR>
+    vnoremap zt <Cmd>lua require('vscode').action('revealLine', { args = { at = "top", lineNumber = vim.api.nvim_win_get_cursor(0)[1] }})<CR>
     nnoremap zb <Cmd>lua require('vscode').action('revealLine', { args = { at = "bottom", lineNumber = vim.api.nvim_win_get_cursor(0)[1] }})<CR>
+    vnoremap zb <Cmd>lua require('vscode').action('revealLine', { args = { at = "bottom", lineNumber = vim.api.nvim_win_get_cursor(0)[1] }})<CR>
+    nnoremap <space>gs <Cmd>lua require('vscode').action('workbench.view.scm')<CR>
     nnoremap <spacer>sdf <Cmd>lua print('ok there buddy')<CR>
     " 👇 this doesn't work
     nnoremap <c-n> <Cmd>lua require('vscode').action('editor.action.addSelectionToNextFindMatch')<CR>
