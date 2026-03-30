@@ -18,10 +18,12 @@ keybind = super+j>space=new_split:down
 keybind = super+h>space=new_split:left
 keybind = super+k>space=new_split:up
 keybind = super+l>space=new_split:right
-keybind = opt+l=resize_split:right,30
-keybind = opt+h=resize_split:left,30
-keybind = opt+k=resize_split:up,30
-keybind = opt+j=resize_split:down,30
+keybind = opt+r=activate_key_table:resize
+keybind = resize/opt+l=resize_split:right,30
+keybind = resize/opt+h=resize_split:left,30
+keybind = resize/opt+k=resize_split:up,30
+keybind = resize/opt+j=resize_split:down,30
+keybind = resize/opt+r=deactivate_key_table
 
 # tabs 
 keybind = ctrl+shift+comma=move_tab:-1
@@ -29,6 +31,7 @@ keybind = ctrl+shift+period=move_tab:1
 keybind = cmd+b>cmd+z=toggle_split_zoom
 
 # shell integration
+keybind = ctrl+shift+z=jump_to_prompt:-1
 keybind = ctrl+cmd+up=jump_to_prompt:-1
 keybind = ctrl+cmd+down=jump_to_prompt:1
 keybind = ctrl+shift+g=jump_to_prompt:-1
