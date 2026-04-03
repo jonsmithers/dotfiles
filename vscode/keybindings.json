@@ -473,11 +473,6 @@
     "key": "shift+cmd+o"
   },
   {
-    "command": "editor.action.goToImplementation",
-    "key": "cmd+alt+b",
-    "when": "editorHasImplementationProvider && editorTextFocus && !isInEmbeddedEditor"
-  },
-  {
     "command": "workbench.action.gotoLine",
     "key": "cmd+l"
   },
@@ -1239,5 +1234,9 @@
     "key": "cmd+g cmd+d",
     "command": "git.openFile",
     "when": "isInDiffEditor"
+  },
+  {
+    "key": "cmd+b",
+    "command": "workbench.action.toggleSidebarVisibility"
   }
 ]

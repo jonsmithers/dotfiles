@@ -32,6 +32,7 @@ if [[ "$TERM" == xterm-kitty ]]; then
   red='\033[31m'
   grey='\033[90m'
   zstyle ':zim:termtitle:preexec' format '󰚭 '"$red"'${${(A)=1}[1]}'"$normal"
+  zstyle ':zim:termtitle:preexec' format '󰚭 ${${(A)=1}[1]}'"$normal"
   zstyle ':zim:termtitle:precmd'  format ' %1~'
 else
   zstyle ':zim:termtitle:preexec' format '${${(A)=1}[1]}'
@@ -126,6 +127,7 @@ if command -v git-number > /dev/null; then
 fi
 # alias gs="$vim_cmd"' +0Git "+normal gU"'
 alias gs="nvim +DiffviewOpen"
+alias fugitive="$vim_cmd"' +0Git "+normal gU"'
 alias v="$vim_cmd"
 alias V="$vim_cmd ."
 unset vim_cmd
@@ -383,11 +385,28 @@ if [[ "$TERM" = "xterm-kitty" ]]; then
     done
     echo "$str"
 
-    local this_window="$KITTY_WINDOW_ID"
+    # the currently-focused window id (which is different from the current window id $KITTY_WINDOW_ID)
+    local this_window="$(kitty @ ls | jq '.[] | select(.is_focused) | .tabs.[] | select(.is_focused) | .windows.[] | select(.is_focused) | .id')"
+    # this_window="${this_window:-$KITTY_WINDOW_ID}"
     local other_window="$(kitty @ launch --cwd=current --location=hsplit --bias=10)"
     # kitty @ send-text --match "id:$other_window" " $@"' \\\r && sleep 2 && exit\n'
     kitty @ send-text --match "id:$other_window" "$str"' \\\r && sleep 2 && exit\n'
-    kitty @ focus-window --match "id:$this_window"
+    [[ -n "$other_window" ]] && kitty @ focus-window --match "id:$this_window"
+  }
+  b_str() {
+    # the currently-focused window id (which is different from the current window id $KITTY_WINDOW_ID)
+    local this_window="$(kitty @ ls | jq '.[] | select(.is_focused) | .tabs.[] | select(.is_focused) | .windows.[] | select(.is_focused) | .id')"
+    if [[ -z "$this_window" ]]; then
+      set -x
+      echo "no focused window"
+      echo "see ~/error.txt"
+      echo "$(kitty @ ls | jq '.[] | .tabs.[] | .windows.[]')" > ~/error.txt
+    fi
+    # this_window="${this_window:-$KITTY_WINDOW_ID}"
+    local other_window="$(kitty @ launch --cwd=current --location=hsplit --bias=10)"
+    kitty @ send-text --match "id:$other_window" " $@"' \\\r && sleep 2 && exit\n'
+    [[ -n "$other_window" && -n "$this_window" ]] && kitty @ focus-window --match "id:$this_window"
+    set +x
   }
 
   notify() {
