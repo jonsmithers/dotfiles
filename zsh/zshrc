@@ -263,6 +263,45 @@ function gfixup {
   git rebase --interactive "$commit"~ --autosquash || return 1
 }
 
+function gcleanup {
+  local branches
+  branches=$(git for-each-ref --sort=committerdate refs/heads/ \
+    --format='%(committerdate:relative)|%(refname:short)' \
+    | grep -v "^.*|$(git rev-parse --abbrev-ref HEAD)$" \
+    | column -t -s'|' \
+    | fzf --multi --no-sort --border --prompt='Delete branches: ' --height=60% \
+      --header='TAB to select, ENTER to delete' \
+      --preview='git log --oneline --graph --max-count=20 {NF}' \
+    | awk '{print $NF}')
+  if [[ -z "$branches" ]]; then
+    return 0
+  fi
+  echo "$branches" | while read -r branch; do
+    (set -x; git branch -D "$branch" )
+  done
+}
+
+function gcleanup-remote {
+  local remote="${1:-origin}"
+  git fetch "$remote" --prune
+  local branches
+  branches=$(git for-each-ref --sort=committerdate "refs/remotes/$remote/" \
+    --format='%(committerdate:relative)|%(refname:lstrip=3)' \
+    | grep -v "^.*|HEAD$" \
+    | grep -v "^.*|$(git rev-parse --abbrev-ref HEAD)$" \
+    | column -t -s'|' \
+    | fzf --multi --no-sort --border --prompt="Delete $remote branches: " --height=60% \
+      --header='TAB to select, ENTER to delete' \
+      --preview="git log --oneline --graph --max-count=20 $remote/{NF}" \
+    | awk '{print $NF}')
+  if [[ -z "$branches" ]]; then
+    return 0
+  fi
+  echo "$branches" | while read -r branch; do
+    (set -x; git push "$remote" --delete "$branch" )
+  done
+}
+
 if has git-mob && has fzf; then
   local GIT_MOB_BUT_FASTER="$(has git-mob-but-faster && echo "git-mob-but-faster" || echo "mob")"
   function gmob() {
