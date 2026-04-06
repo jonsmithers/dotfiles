@@ -634,7 +634,8 @@ return {
   },
 
   { 'nvim-treesitter/nvim-treesitter',
-    dependencies = {
+    branch = vim.fn.has('nvim-0.12.0') and 'main' or nil,
+    dependencies = vim.fn.has('nvim-0.12.0') and {} or {
       'nvim-treesitter/nvim-treesitter-textobjects',
       'nvim-treesitter/playground',
       'nvim-treesitter/nvim-treesitter-context',
@@ -646,7 +647,7 @@ return {
       vim.cmd'TSUpdate'
     end,
     config = function()
-      require'nvim-treesitter.configs'.setup {
+      require'nvim-treesitter'.setup {
         incremental_selection = {
           enable = true,
           keymaps = {
@@ -764,47 +765,49 @@ return {
           },
         },
       }
-      require'treesitter-context'.setup {
-        enable = false, -- Enable this plugin (Can be enabled/disabled later via commands)
-        max_lines = 0, -- How many lines the window should span. Values <= 0 mean no limit.
-        trim_scope = 'outer', -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
-        patterns = { -- Match patterns for TS nodes. These get wrapped to match at word boundaries.
-        -- For all filetypes
-        -- Note that setting an entry here replaces all other patterns for this entry.
-        -- By setting the 'default' entry below, you can control which nodes you want to
-        -- appear in the context window.
-        default = {
-          'class',
-          'function',
-          'method',
-          -- 'for', -- These won't appear in the context
-          -- 'while',
-          -- 'if',
-          -- 'switch',
-          -- 'case',
-        },
-        yaml = {
-          'block_mapping_pair'
-        },
-        -- Example for a specific filetype.
-        -- If a pattern is missing, *open a PR* so everyone can benefit.
-        --   rust = {
-          --       'impl_item',
-          --   },
-        },
-        exact_patterns = {
-          -- Example for a specific filetype with Lua patterns
-          -- Treat patterns.rust as a Lua pattern (i.e "^impl_item$" will
-          -- exactly match "impl_item" only)
-          -- rust = true,
-        },
+      if not vim.fn.has('nvim-0.12.0') then
+        require'treesitter-context'.setup {
+          enable = false, -- Enable this plugin (Can be enabled/disabled later via commands)
+          max_lines = 0, -- How many lines the window should span. Values <= 0 mean no limit.
+          trim_scope = 'outer', -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
+          patterns = { -- Match patterns for TS nodes. These get wrapped to match at word boundaries.
+            -- For all filetypes
+            -- Note that setting an entry here replaces all other patterns for this entry.
+            -- By setting the 'default' entry below, you can control which nodes you want to
+            -- appear in the context window.
+            default = {
+              'class',
+              'function',
+              'method',
+              -- 'for', -- These won't appear in the context
+              -- 'while',
+              -- 'if',
+              -- 'switch',
+              -- 'case',
+            },
+            yaml = {
+              'block_mapping_pair'
+            },
+            -- Example for a specific filetype.
+            -- If a pattern is missing, *open a PR* so everyone can benefit.
+            --   rust = {
+              --       'impl_item',
+              --   },
+          },
+          exact_patterns = {
+            -- Example for a specific filetype with Lua patterns
+            -- Treat patterns.rust as a Lua pattern (i.e "^impl_item$" will
+            -- exactly match "impl_item" only)
+            -- rust = true,
+          },
 
-        -- [!] The options below are exposed but shouldn't require your attention,
-        --     you can safely ignore them.
+          -- [!] The options below are exposed but shouldn't require your attention,
+          --     you can safely ignore them.
 
-        separator = nil, -- Separator between context and content. Should be a single character string, like '-'.
-        mode = 'topline',
-      }
+          separator = nil, -- Separator between context and content. Should be a single character string, like '-'.
+          mode = 'topline',
+        }
+      end
       vim.cmd([[
         nnoremap <Plug>(unimpaired-enable)C :TSContext enable<cr>
         nnoremap <Plug>(unimpaired-disable)C :TSContext disable<cr>
@@ -825,8 +828,6 @@ return {
           -- set foldexpr=nvim_treesitter#foldexpr()
         end,
       })
-      -- this doesnt work 🙍‍♂️ 
-      local parser_configs = require('nvim-treesitter.parsers').get_parser_configs()
       vim.treesitter.language.register('json5', 'json')
     end
   },
