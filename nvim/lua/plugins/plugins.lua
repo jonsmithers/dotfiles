@@ -452,6 +452,7 @@ return {
     },
     config = function()
       local isvtsls = constants.TSSERVER == constants.TSSERVERS.vtsls
+      local istsgo = constants.TSSERVER == constants.TSSERVERS.tsgo
       if (isvtsls) then
         require("lspconfig.configs").vtsls = require("vtsls").lspconfig
       end
@@ -634,8 +635,8 @@ return {
   },
 
   { 'nvim-treesitter/nvim-treesitter',
-    branch = vim.fn.has('nvim-0.12.0') and 'main' or nil,
-    dependencies = vim.fn.has('nvim-0.12.0') and {} or {
+    branch = (vim.fn.has('nvim-0.12.0') == 1) and 'main' or 'master',
+    dependencies = (vim.fn.has('nvim-0.12.0') == 1) and {} or {
       'nvim-treesitter/nvim-treesitter-textobjects',
       'nvim-treesitter/playground',
       'nvim-treesitter/nvim-treesitter-context',
