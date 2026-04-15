@@ -1039,7 +1039,7 @@ return {
     end,
   },
 
-  { 'sindrets/diffview.nvim',
+  { 'dlyongemallo/diffview.nvim',
     -- <leader>b | toggle files
     -- <leader>e | focus files
     -- <tab>     | next file
