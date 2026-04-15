@@ -1302,6 +1302,15 @@ return {
       'nvim-tree/nvim-web-devicons',
     },
     opts = {
+      view_options = {
+        sort = {
+          -- sort order can be "asc" or "desc"
+          -- see :help oil-columns to see which columns are sortable
+          { "type", "asc" },
+          { "mtime", "desc" },
+          -- { "name", "asc" },
+        },
+      },
       constrain_cursor = "name",
       skip_confirm_for_simple_edits = true,
       keymaps = (function()
