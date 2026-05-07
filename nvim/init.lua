@@ -150,6 +150,16 @@ vim.api.nvim_create_user_command("CountOccurences", function()
   local search_count = vim.fn.searchcount({recompute = true, pattern = search_query, maxcount = 0, timeout=0}).total
   vim.notify("" .. search_count .. " occurences of " .. search_query)
 end, {})
+vim.api.nvim_create_user_command('Filepath', function()
+  local filepath = vim.fn.expand('%:.')
+  vim.fn.setreg('+', filepath)
+  print(filepath)
+end, {});
+vim.api.nvim_create_user_command('FilepathAbsolute', function()
+  local filepath = vim.fn.expand('%:p')
+  vim.fn.setreg('+', filepath)
+  print(filepath)
+end, {});
 
 vim.api.nvim_create_autocmd('FileType', {
   group = 'init.lua',
