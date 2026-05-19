@@ -67,20 +67,14 @@ function silent_background() {
   disown &>/dev/null
 }
 
-# Installed Softwares
+# PATH
 [[ -d "/opt/homebrew/bin" ]] && export PATH=/opt/homebrew/bin/:$PATH
 [[ -d "$HOME/bin"         ]] && export PATH="$HOME/bin:$PATH"
 [[ -d "$HOME/.deno/bin"   ]] && export PATH="$HOME/.deno/bin:$PATH"
-[[ -f "$HOME/.cargo/env"  ]] && . "$HOME/.cargo/env"
 [[ -d "$HOME/Applications/Ghostty.app/" ]] && export PATH="$HOME/Applications/Ghostty.app/Contents/MacOS/":$PATH
 [[ -d "$HOME/Library/Application Support/fnm" ]] && export PATH="/Users/jsmithers/Library/Application Support/fnm:$PATH"
 [[ -d "$HOME/.docker/bin" ]] && export PATH="$HOME/.docker/bin:$PATH"
 [[ -d "$HOME/go/bin"      ]] && export PATH="$HOME/go/bin:$PATH"
-[[ -f ~/.fzf.zsh ]] && source ~/.fzf.zsh
-has atuin && eval "$(atuin init zsh --disable-up-arrow)"
-has fnm   && eval "$(fnm env --use-on-cd)" > /dev/null
-
-[[ $print_emojis ]] && echo -n 🍸
 
 [[ $print_emojis ]] && echo -n 🐘
 setopt complete_aliases
@@ -603,3 +597,9 @@ has ffmpeg && function mov_speed_up() {
   ( set -x; ffmpeg -i "$1" -filter:v "setpts=PTS/${2},fps=24" -an "${3:-output.mp4}" )
 }
 
+
+# Source installed softwares
+[[ -f "$HOME/.cargo/env"  ]] && . "$HOME/.cargo/env"
+[[ -f ~/.fzf.zsh          ]] && source ~/.fzf.zsh
+has atuin && eval "$(atuin init zsh --disable-up-arrow)"
+has fnm   && eval "$(fnm env --use-on-cd)" > /dev/null
