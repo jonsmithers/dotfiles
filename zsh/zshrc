@@ -331,29 +331,6 @@ git-prune-worktrees() {
   done
 }
 
-if has git-mob && has fzf; then
-  local GIT_MOB_BUT_FASTER="$(has git-mob-but-faster && echo "git-mob-but-faster" || echo "mob")"
-  function gmob() {
-    local selected=$($GIT_MOB_BUT_FASTER -l \
-      | fzf --multi \
-        --layout=reverse \
-        --height=11 \
-        --border=rounded \
-        --prompt='🦜 Pair with ' \
-      | awk '{print $1;}' \
-      | tr '\n' ' ' \
-      | sed 's/,//g' )
-    [[ -n "$selected" ]] && git mob $(echo $selected)
-  }
-fi
-
-if has _fzf_git_each_ref; then
-  function gco() {
-    local selected=$(_fzf_git_each_ref --no-multi)
-    [[ -n "$selected" ]] && echo git checkout "$selected"
-  }
-fi
-
 [[ $print_emojis ]] && echo -n 🦩
 
 [[ $print_emojis ]] && echo -n 🦀
