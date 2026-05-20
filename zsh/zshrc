@@ -139,6 +139,7 @@ fi
 
 [[ $print_emojis ]] && echo -ne 🐭
 
+[[ -f ~/.fzf.zsh ]] && source ~/.fzf.zsh
 if has fzf; then
 
   emoji() {
@@ -614,6 +615,5 @@ _fzf_complete_caffeinate_post() {
 
 # Source installed softwares
 [[ -f "$HOME/.cargo/env"  ]] && . "$HOME/.cargo/env"
-[[ -f ~/.fzf.zsh          ]] && source ~/.fzf.zsh
 has atuin && eval "$(atuin init zsh --disable-up-arrow)"
 has fnm   && eval "$(fnm env --use-on-cd)" > /dev/null
