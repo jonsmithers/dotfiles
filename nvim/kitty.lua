@@ -83,8 +83,7 @@ function kitty.run_command(str, opts)
   end
   if (str ~= nil) then
     if (not opts.persistent_shell and (opts.transient_shell or not global_opts.single_term_mode)) then
-      -- str = str .. '; post_hook_0 exit_on_success'
-      str = 'set -o pipefail\n' .. str .. ' 2>&1 | tee /tmp/nvim-test-output; post_hook_2 ' .. window_id
+      str = 'set -o pipefail\n' .. str .. ' 2>&1 | tee /tmp/nvim-test-output; nvim_kitty_post_hook_2 ' .. window_id
     end
     kitty.send_text(window_id, str..'\n')
   end
