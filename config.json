@@ -31,6 +31,7 @@
     "./zsh/change_theme":                "~/bin/change_theme",
     "./zsh/p10k.zsh":                    "~/.p10k.zsh",
     "./zsh/zimrc":                       "~/.zimrc",
+    "./zsh/config":                      "~/.config/zsh",
     "./zsh/zshrc":                       "~/.zshrc"
   }
 }
