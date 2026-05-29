@@ -154,6 +154,18 @@ function resizeWindowInSteps(increment)
   hs.window.focusedWindow():move({x=x, y=y, w=w, h=h}, nil, true, 0)
 end
 
+local function windows_on_same_space(w1, w2)
+  local spaces1 = hs.spaces.windowSpaces(w1)
+  local spaces2 = hs.spaces.windowSpaces(w2)
+  if not spaces1 or not spaces2 then return false end
+  for _, s1 in ipairs(spaces1) do
+    for _, s2 in ipairs(spaces2) do
+      if s1 == s2 then return true end
+    end
+  end
+  return false
+end
+
 local log = hs.logger.new('mymodule','debug')
 local wf_all = hs.window.filter.new()
 local focused_window = nil
@@ -168,6 +180,15 @@ local function split_windows()
     return
   end
   if (focused_window == nil) then
+    return
+  end
+  if not windows_on_same_space(focused_window, last_focused_window) then
+    hs.alert.show("other window is on different space", {
+      radius = 4,
+      textFont = "Helvetica",
+      textSize = 14,
+      atScreenEdge = 2,
+    })
     return
   end
   local win_left = focused_window
@@ -190,6 +211,15 @@ hs.hotkey.bind({"alt", "shift"}, "S", function()
     return
   end
   if (focused_window == nil) then
+    return
+  end
+  if not windows_on_same_space(focused_window, last_focused_window) then
+    hs.alert.show("other window is on different space", {
+      radius = 4,
+      textFont = "Helvetica",
+      textSize = 14,
+      atScreenEdge = 2,
+    })
     return
   end
   local win_bot = last_focused_window
