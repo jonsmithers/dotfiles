@@ -167,3 +167,29 @@ vim.api.nvim_create_autocmd('FileType', {
   callback = function()
   end,
 })
+
+vim.api.nvim_create_autocmd('FileType', {
+  group = 'init.lua',
+  pattern = 'markdown',
+  callback = function()
+    vim.keymap.set('n', '<leader>X', function()
+      local line = vim.api.nvim_get_current_line()
+      if line:match('%- %[ %]') then
+        vim.api.nvim_set_current_line((line:gsub('%- %[ %]', '- [x]', 1)))
+      elseif line:match('%- %[x%]') or line:match('%- %[X%]') then
+        vim.api.nvim_set_current_line((line:gsub('%- %[[xX]%]', '- [ ]', 1)))
+      end
+    end, { buffer = true, desc = 'toggle markdown checkbox' })
+  end,
+})
+
+vim.api.nvim_create_user_command('PadDashes', function()
+  local line = vim.api.nvim_get_current_line()
+  local width = 80
+  local padded = ' ' .. line .. ' '
+  local remaining = width - #padded
+  if remaining <= 0 then return end
+  local left = math.floor(remaining / 2)
+  local right = remaining - left
+  vim.api.nvim_set_current_line(string.rep('-', left) .. padded .. string.rep('-', right))
+end, {})
