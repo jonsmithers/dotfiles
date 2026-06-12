@@ -276,6 +276,8 @@ git-prune-worktrees() {
 }
 
 [[ $print_emojis ]] && echo -n 🦩
+ 
+[[ -f "$HOME/.config/zsh/git-maintain.zsh"  ]] && source "$HOME/.config/zsh/git-maintain.zsh"  
 
 [[ $print_emojis ]] && echo -n 🦀
 
