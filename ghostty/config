@@ -29,7 +29,12 @@ keybind = resize/escape=deactivate_key_table
 # tabs 
 keybind = ctrl+shift+comma=move_tab:-1
 keybind = ctrl+shift+period=move_tab:1
+
+# zoom
+split-preserve-zoom = navigation
 keybind = cmd+b>cmd+z=toggle_split_zoom
+keybind = cmd+z=toggle_split_zoom
+# 👆 cmux uses cmd+b
 
 # shell integration
 keybind = cmd+up=jump_to_prompt:-2
@@ -40,6 +45,8 @@ keybind = ctrl+shift+g=jump_to_prompt:-1
 
 keybind = super+shift+w=close_tab:this
 custom-shader = shaders/cursor_smear_original.glsl
+
+shell-integration-features = no-title
 
 macos-titlebar-style = tabs
 
