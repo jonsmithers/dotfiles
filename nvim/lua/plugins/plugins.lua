@@ -858,6 +858,9 @@ return {
     end
   },
 
+  { 'preservim/vim-pencil' },
+
+
   { 'prettier/vim-prettier',
     build = {
       'yarn install',
