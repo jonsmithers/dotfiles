@@ -325,6 +325,12 @@ if has direnv; then
   eval "$(direnv hook zsh)"
 fi
 
+if [[ "$TERM" = "xterm-ghostty" ]]; then
+  alias change_theme='~/git/dotfiles/zsh/change_theme.py; source ~/.zshenv'
+elif [[ "$TERM" = "xterm-kitty" ]]; then
+  alias change_theme='~/git/dotfiles/zsh/change_theme; source ~/.zshenv'
+fi
+
 if [[ "$TERM" = "xterm-ghostty" && "$(uname -s)" = "Darwin" ]]; then
   b() {
     osascript <<EOF
