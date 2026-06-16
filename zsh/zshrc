@@ -333,7 +333,33 @@ elif [[ "$TERM" = "xterm-kitty" ]]; then
   alias change_theme='~/git/dotfiles/zsh/change_theme; source ~/.zshenv'
 fi
 
-if [[ "$TERM" = "xterm-ghostty" && "$(uname -s)" = "Darwin" ]]; then
+if [[ -n $CMUX_WORKSPACE_ID ]]; then
+  b() {
+    local surface_ref=$(cmux new-split down --json | jq  '.surface_ref' --raw-output )
+    cmux send --surface "$surface_ref" "${@} && exit\n"
+  }
+  b_str() {
+    local surface_ref=$(cmux new-split down --json | jq  '.surface_ref' --raw-output )
+    cmux send --surface "$surface_ref" "${@} && exit\n"
+  }
+  n() {
+    local errcode="$?"
+    local title
+    local prev_cmd="$(tail -n 1 $HISTFILE | sed 's/^[^;]*;//')"
+    if [[ "$prev_cmd" = "n" ]]; then
+      # get SECOND last command
+      prev_cmd="$(tail -n 2 $HISTFILE | head -n 1 | sed 's/^[^;]*;//')"
+    fi
+    if [[ "$errcode" = "0" ]]; then
+      title="${1:-✅ $prev_cmd}"
+    else
+      title="${1:-❌ $prev_cmd}"
+    fi
+    local body="$2"
+    cmux notify --title "$title" --body "${body:-errcode $errcode}"
+    return $errcode
+  }
+elif [[ "$TERM" = "xterm-ghostty" && "$(uname -s)" = "Darwin" ]]; then
   b() {
     osascript <<EOF
 tell application "Ghostty"
