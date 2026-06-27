@@ -132,51 +132,10 @@ fi
 
 [[ $print_emojis ]] && echo -ne 🐭
 
+bindkey -e # needs to go before fzf for some reason
+[[ -f ~/.fzf.zsh ]] && source ~/.config/zsh/fzf-setup-pre.zsh
 [[ -f ~/.fzf.zsh ]] && source ~/.fzf.zsh
-if has fzf; then
-
-  emoji() {
-    # https://www.thenegation.com/posts/nix-fzf-script-tutorial/
-    [[ -f /tmp/emoji.json ]] || curl -sSL "https://raw.githubusercontent.com/github/gemoji/0eca75db9301421efc8710baf7a7576793ae452a/db/emoji.json" > /tmp/emoji.json
-    cat /tmp/emoji.json |
-      jq -r '.[] | (.emoji + " :" + .aliases[0] + ": "+ .category + " » " + .description)' |
-      fzf \
-        --delimiter " " \
-        --bind 'enter:become(printf {1} | pbcopy)' \
-        --bind 'ctrl-c:become(printf {2} | pbcopy)'
-  }
-
-  source "$HOME/.config/zsh/fzf-git-widgets.zsh"
-
-  if true; then
-    # https://blog.jez.io/fzf-bazel/
-    _fzf_complete_bazel_test() {
-      _fzf_complete '-m' "$@" < <(command bazel query "kind('(test|test_suite) rule', //...)")
-    }
-
-    _fzf_complete_bazel() {
-      if ! has bazel; then
-        return
-      fi
-      local tokens
-      tokens=(${(z)LBUFFER})
-
-      if [ ${#tokens[@]} -ge 3 ] && [ "${tokens[2]}" = "test" ]; then
-        _fzf_complete_bazel_test "$@"
-      else
-        # Might be able to make this better someday, by listing all repositories
-        # that have been configured in a WORKSPACE.
-        # See https://stackoverflow.com/questions/46229831/ or just run
-        #     bazel query //external:all
-        # This is the reason why things like @ruby_2_6//:ruby.tar.gz don't show up
-        # in the output: they're not a dep of anything in //..., but they are deps
-        # of @ruby_2_6//...
-        # _fzf_complete '-m' "$@" < <(command bazel query --keep_going --noshow_progress "kind('(binary rule)|(generated file)', deps(//...))" 2> /dev/null)
-        _fzf_complete '-m' "$@" < <(command bazel query "executables(//...)")
-      fi
-    }
-  fi
-fi
+[[ -f ~/.fzf.zsh ]] && source ~/.config/zsh/fzf-setup-post.zsh
 
 function frecent-dirs {
   if [[ $BUFFER != "sudo "* ]]; then
@@ -191,90 +150,6 @@ function frecent-dirs {
 zle -N frecent-dirs
 bindkey '^n' frecent-dirs
 
-function gfixup {
-  local commit=$(FZF_PROMPT='Fixup Commit: ' fzfCommit)
-  if [[ -z "$commit" ]]; then
-    return 1
-  fi
-  set -x
-  git commit --fixup "$commit" --allow-empty > /dev/null || return 1
-  git rebase --interactive "$commit"~ --autosquash || return 1
-}
-
-function gcleanup {
-  local branches
-  branches=$(git for-each-ref --sort=committerdate refs/heads/ \
-    --format='%(committerdate:relative)|%(refname:short)' \
-    | grep -v "^.*|$(git rev-parse --abbrev-ref HEAD)$" \
-    | column -t -s'|' \
-    | fzf --multi --no-sort --border --prompt='Delete branches: ' --height=60% \
-      --header='TAB to select, ENTER to delete' \
-      --preview='git log --oneline --graph --max-count=20 {NF}' \
-    | awk '{print $NF}')
-  if [[ -z "$branches" ]]; then
-    return 0
-  fi
-  echo "$branches" | while read -r branch; do
-    (set -x; git branch -D "$branch" )
-  done
-}
-
-function gcleanup-remote {
-  local remote="${1:-origin}"
-  git fetch "$remote" --prune
-  local branches
-  branches=$(git for-each-ref --sort=committerdate "refs/remotes/$remote/" \
-    --format='%(committerdate:relative)|%(refname:lstrip=3)' \
-    | grep -v "^.*|HEAD$" \
-    | grep -v "^.*|$(git rev-parse --abbrev-ref HEAD)$" \
-    | column -t -s'|' \
-    | fzf --multi --no-sort --border --prompt="Delete $remote branches: " --height=60% \
-      --header='TAB to select, ENTER to delete' \
-      --preview="git log --oneline --graph --max-count=20 $remote/{NF}" \
-    | awk '{print $NF}')
-  if [[ -z "$branches" ]]; then
-    return 0
-  fi
-  echo "$branches" | while read -r branch; do
-    (set -x; git push "$remote" --delete "$branch" )
-  done
-}
-
-git-prune-worktrees() {
-  local gone_branches worktrees selected                                                                                                                                                                                                                                                                                                              
-                                                                                                                                   
-  # gone_branches=$(git branch -vv | awk '/: gone\]/{print $1}')                                                                                                                                                                                                                                                                                        
-  gone_branches=$(git branch -vv | awk '/: gone\]/{sub(/^[* +]+/, ""); print $1}')
-  if [[ -z "$gone_branches" ]]; then                                                                                               
-    echo "No branches with gone upstreams found."
-    return 0
-  fi
-
-  worktrees=$(git worktree list | while IFS= read -r line; do
-    branch=$(echo "$line" | sed 's/.*\[//;s/\].*//');
-    for gb in ${(f)gone_branches}; do
-      [[ "$branch" == "$gb" ]] && echo "$line"
-    done
-  done)
-
-  if [[ -z "$worktrees" ]]; then
-    echo "No worktrees with gone upstreams found."
-    return 0
-  fi
-
-  selected=$(echo "$worktrees" | fzf --reverse --header-border=rounded --height=8 --multi --header="The following worktrees have branches with missing upstreams")
-  if [[ -z "$selected" ]]; then
-    echo "No worktrees selected."
-    return 0
-  fi
-
-  echo "$selected" | while IFS= read -r line; do
-    wt_path=$(echo "$line" | awk '{print $1}')
-    echo "Removing worktree: $wt_path"
-    (set -x; git worktree remove "$wt_path" )
-  done
-}
-
 [[ $print_emojis ]] && echo -n 🦩
  
 [[ -f "$HOME/.config/zsh/git-maintain.zsh"  ]] && source "$HOME/.config/zsh/git-maintain.zsh"  
@@ -284,43 +159,6 @@ git-prune-worktrees() {
 if [[ -f /proc/version ]] && grep -q Microsoft /proc/version; then
   echo 'this is windows'
 fi
-
-if has rg; then
-  export FZF_DEFAULT_COMMAND="rg --hidden --files --glob !.git"
-  export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-fi
-export FZF_DEFAULT_OPTS='
-  --info=inline
-  --bind ctrl-q:toggle-all
-  --bind ctrl-j:preview-down+preview-down+preview-down+preview-down
-  --bind ctrl-k:preview-up
-  --bind ctrl-u:preview-page-up
-# --bind ctrl-d:preview-page-down (need this to delete chars)
-  --pointer=➜
-  --ellipsis=…
-  --marker=✓
-  --bind ctrl-'"\\\\\\"':toggle-preview
-  --bind '"'"'alt-q:change-preview-window(right,70%|down,40%,border-horizontal|hidden|right)'"'"'
-  --bind '"'"'alt-Q:change-preview-window(right|hidden|down,40%,border-horizontal|right,70%)'"'"'
-  --bind ctrl-y:preview-up
-  --bind ctrl-r:prev-history
-  --bind ctrl-t:next-history
-  --bind ctrl-p:up
-  --bind ctrl-n:down
-  '
-# select previous       | ctrl-p | :-( not show previous history search
-# carot to end          | ctrl-e | :-( not scroll down
-# carot to start        | ctrl-a |
-# preview down          | ctrl-j | :-( not select next
-# preview page down     |        |
-# preview page up       | ctrl-u |
-# preview up            | ctrl-k | :-( not kill line :-( not select previous
-# rotate preview layout | alt-Q  |
-# rotate preview layout | alt-q  |
-# toggle all items      | alt-a  |
-# toggle all items      | ctrl-q |
-# toggle preview        | ctrl-/ | ??? doesn't work in kitty/nvim
-# toggle preview        | ctrl-\ |
 
 [[ $print_emojis ]] && echo -ne 🐶
 if has direnv; then
@@ -480,7 +318,6 @@ zstyle ':completion:*:*:make:*' tag-order 'targets'
 
 [[ $print_emojis ]] && echo -ne 🕓
 
-bindkey -e
 autoload -z edit-command-line
 zle -N edit-command-line
 bindkey "^X^E" edit-command-line
@@ -517,44 +354,6 @@ has ffmpeg && function mov_speed_up() {
     return 1
   fi
   ( set -x; ffmpeg -i "$1" -filter:v "setpts=PTS/${2},fps=24" -an "${3:-output.mp4}" )
-}
-
-# https://github.com/junegunn/fzf/blob/d1f037059ab57aa1c70abe124b2b72a710f4a28f/shell/completion.zsh#L352-L388
-_fzf_complete_caffeinate() {
-  local transformer
-  transformer='
-    if [[ $FZF_KEY =~ ctrl|alt|shift ]] && [[ -n $FZF_NTH ]]; then
-      nths=( ${FZF_NTH//,/ } )
-      new_nths=()
-      found=0
-      for nth in ${nths[@]}; do
-        if [[ $nth = $FZF_CLICK_HEADER_NTH ]]; then
-          found=1
-        else
-          new_nths+=($nth)
-        fi
-      done
-      [[ $found = 0 ]] && new_nths+=($FZF_CLICK_HEADER_NTH)
-      new_nths=${new_nths[*]}
-      new_nths=${new_nths// /,}
-      echo "change-nth($new_nths)+change-prompt($new_nths> )"
-    else
-      if [[ $FZF_NTH = $FZF_CLICK_HEADER_NTH ]]; then
-        echo "change-nth()+change-prompt(> )"
-      else
-        echo "change-nth($FZF_CLICK_HEADER_NTH)+change-prompt($FZF_CLICK_HEADER_WORD> )"
-      fi
-    fi
-  '
-  _fzf_complete -m --header-lines=1 --no-preview --wrap --color fg:dim,nth:regular \
-    --bind "click-header:transform:$transformer" -- "$@" < <(
-    command ps -eo user,pid,ppid,start,time,command 2> /dev/null ||
-      command ps -eo user,pid,ppid,time,args 2> /dev/null || # For BusyBox
-      command ps --everyone --full --windows # For cygwin
-  )
-}
-_fzf_complete_caffeinate_post() {
-  __fzf_exec_awk '{print $2}'
 }
 
 # Source installed softwares
