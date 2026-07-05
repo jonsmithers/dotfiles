@@ -165,10 +165,13 @@ if has direnv; then
   eval "$(direnv hook zsh)"
 fi
 
+local dotfiles_repo
+[[ -d "$HOME/git/dotfiles" ]] && dotfiles_repo="$HOME/git/dotfiles"
+[[ -d "$HOME/workspace/dotfiles" ]] && dotfiles_repo="$HOME/workspace/dotfiles"
 if [[ "$TERM" = "xterm-ghostty" ]]; then
-  alias change_theme='~/git/dotfiles/zsh/change_theme.py; source ~/.zshenv'
+  alias change_theme="${dotfiles_repo}/zsh/change_theme.py; source ~/.zshenv"
 elif [[ "$TERM" = "xterm-kitty" ]]; then
-  alias change_theme='~/git/dotfiles/zsh/change_theme; source ~/.zshenv'
+  alias change_theme="${dotfiles_repo}/zsh/change_theme; source ~/.zshenv"
 fi
 
 if [[ -n $CMUX_WORKSPACE_ID ]]; then
