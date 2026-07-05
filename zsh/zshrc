@@ -218,7 +218,20 @@ tell application "Ghostty"
 end tell
 EOF
   }
-
+  notify() {
+    local errcode="$?"
+    local title
+    local prev_cmd="$(tail -n 1 $HISTFILE | sed 's/^[^;]*;//')"
+    if [[ "$errcode" = "0" ]]; then
+      title="${1:-✅ $prev_cmd}"
+    else
+      title="${1:-❌ $prev_cmd}"
+    fi
+    local body="$2"
+    printf "\033]777;notify;$title;$body\033\\"
+    return $errcode
+  }
+  alias n=notify
 fi
 if [[ "$TERM" = "xterm-kitty" ]]; then
   alias rg='rg --hyperlink-format=kitty'
