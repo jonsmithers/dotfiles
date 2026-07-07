@@ -74,27 +74,6 @@ return {
     end,
   },
 
-  { 'Exafunction/windsurf.nvim',
-    enabled = false,
-    dependencies = { "nvim-lua/plenary.nvim", },
-    opts = {
-        enable_chat = true,
-        enable_cmp_source = false,
-        virtual_text = {
-          enabled = true,
-          filetypes = {
-            [""] = false,
-            ["DressingInput"] = false,
-            ["oil"] = false,
-            ["snacks_picker_input"] = false,
-          },
-        },
-    },
-    config = function(_, opts)
-      require('codeium').setup(opts)
-    end,
-  },
-
   { 'folke/flash.nvim',
     event = "VeryLazy",
     enabled = true,
@@ -998,7 +977,6 @@ return {
   { 'Saghen/blink.cmp',
     dependencies = {
       'moyiz/blink-emoji.nvim',
-      'Exafunction/windsurf.nvim',
     },
     enabled = not vim.g.vscode,
     version = '*',
@@ -1033,11 +1011,6 @@ return {
           { 'emoji' }
         ),
         providers = {
-          codeium = {
-            name = 'Codeium',
-            module = 'codeium.blink',
-            async = true,
-          },
           emoji = {
             module = "blink-emoji",
             name = "Emoji",
