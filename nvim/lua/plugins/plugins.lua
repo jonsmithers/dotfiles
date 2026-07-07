@@ -636,7 +636,10 @@ return {
 
   { 'nvim-treesitter/nvim-treesitter',
     branch = (vim.fn.has('nvim-0.12.0') == 1) and 'main' or 'master',
-    dependencies = (vim.fn.has('nvim-0.12.0') == 1) and {} or {
+    dependencies = (vim.fn.has('nvim-0.12.0') == 1) and {
+      { 'nvim-treesitter/nvim-treesitter-textobjects', branch = 'main' },
+      'nvim-treesitter/nvim-treesitter-context',
+    } or {
       'nvim-treesitter/nvim-treesitter-textobjects',
       'nvim-treesitter/playground',
       'nvim-treesitter/nvim-treesitter-context',
@@ -648,6 +651,9 @@ return {
       vim.cmd'TSUpdate'
     end,
     config = function()
+      local is012 = vim.fn.has('nvim-0.12.0') == 1
+
+      if not is012 then
       require'nvim-treesitter'.setup {
         incremental_selection = {
           enable = true,
@@ -766,69 +772,130 @@ return {
           },
         },
       }
-      if not vim.fn.has('nvim-0.12.0') then
-        require'treesitter-context'.setup {
-          enable = false, -- Enable this plugin (Can be enabled/disabled later via commands)
-          max_lines = 0, -- How many lines the window should span. Values <= 0 mean no limit.
-          trim_scope = 'outer', -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
-          patterns = { -- Match patterns for TS nodes. These get wrapped to match at word boundaries.
-            -- For all filetypes
-            -- Note that setting an entry here replaces all other patterns for this entry.
-            -- By setting the 'default' entry below, you can control which nodes you want to
-            -- appear in the context window.
-            default = {
-              'class',
-              'function',
-              'method',
-              -- 'for', -- These won't appear in the context
-              -- 'while',
-              -- 'if',
-              -- 'switch',
-              -- 'case',
-            },
-            yaml = {
-              'block_mapping_pair'
-            },
-            -- Example for a specific filetype.
-            -- If a pattern is missing, *open a PR* so everyone can benefit.
-            --   rust = {
-              --       'impl_item',
-              --   },
-          },
-          exact_patterns = {
-            -- Example for a specific filetype with Lua patterns
-            -- Treat patterns.rust as a Lua pattern (i.e "^impl_item$" will
-            -- exactly match "impl_item" only)
-            -- rust = true,
-          },
-
-          -- [!] The options below are exposed but shouldn't require your attention,
-          --     you can safely ignore them.
-
-          separator = nil, -- Separator between context and content. Should be a single character string, like '-'.
-          mode = 'topline',
-        }
-      end
-      vim.cmd([[
-        nnoremap <Plug>(unimpaired-enable)C :TSContext enable<cr>
-        nnoremap <Plug>(unimpaired-disable)C :TSContext disable<cr>
-        nnoremap <Plug>(unimpaired-toggle)C :TSContext toggle<cr>
-      ]])
-      vim.cmd([[
-        autocmd BufRead,BufEnter *.astro set filetype=astro
-      ]])
       vim.api.nvim_create_autocmd('FileType', {
         group = vim.api.nvim_create_augroup('nvim_init_treesitter', {}),
         pattern = 'lua,typescriptreact',
         callback = function()
           vim.wo.foldmethod='expr'
           vim.wo.foldexpr='nvim_treesitter#foldexpr()'
-          -- vim.o.foldmethod='expr'
-          -- vim.o.foldexpr='nvim_treesitter#foldexpr()'
-          -- set foldmethod=expr
-          -- set foldexpr=nvim_treesitter#foldexpr()
         end,
       })
+      else
+        ---- main branch (nvim 0.12+): the setup{} module table above is ignored ----
+        local nts = require('nvim-treesitter')
+
+        -- ensure_installed/auto_install are gone on main; install missing parsers ourselves
+        local ensure_installed = {
+          'astro', 'bash', 'css', 'html', 'java',
+          'javascript', 'tsx', 'typescript', 'json5', 'json', 'http',
+          'lua', 'markdown', 'markdown_inline',
+          'vim', 'vimdoc', 'yaml',
+        }
+        local installed = nts.get_installed()
+        local missing = vim.tbl_filter(function(lang)
+          return not vim.tbl_contains(installed, lang)
+        end, ensure_installed)
+        if #missing > 0 then
+          nts.install(missing)
+        end
+
+        require('nvim-treesitter-textobjects').setup {
+          select = {
+            lookahead = true, -- jump forward to textobj, similar to targets.vim
+            selection_modes = {
+              ['@parameter.outer'] = 'v', -- charwise
+              ['@function.outer']  = 'v', -- charwise
+              ['@class.outer']     = '<c-v>', -- blockwise
+            },
+          },
+          move = { set_jumps = true },
+        }
+
+        local ts_select = require('nvim-treesitter-textobjects.select')
+        local ts_move   = require('nvim-treesitter-textobjects.move')
+        local ts_swap   = require('nvim-treesitter-textobjects.swap')
+
+        ---- text objects ----  a | argument   m | method   c | class
+        for lhs, obj in pairs({
+          ['am'] = '@function.outer',  ['im'] = '@function.inner',
+          ['ac'] = '@class.outer',     ['ic'] = '@class.inner',
+          ['ia'] = '@parameter.inner', ['aa'] = '@parameter.outer',
+        }) do
+          vim.keymap.set({ 'x', 'o' }, lhs, function()
+            ts_select.select_textobject(obj, 'textobjects')
+          end, { desc = 'Select ' .. obj })
+        end
+
+        -- [m ]m | prev/next method   [a ]a | prev/next argument
+        vim.keymap.set({ 'n', 'x', 'o' }, ']m', function() ts_move.goto_next_start('@function.outer', 'textobjects') end,      { desc = 'Next method start' })
+        vim.keymap.set({ 'n', 'x', 'o' }, ']a', function() ts_move.goto_next_start('@parameter.inner', 'textobjects') end,     { desc = 'Next argument' })
+        vim.keymap.set({ 'n', 'x', 'o' }, ']M', function() ts_move.goto_next_end('@function.outer', 'textobjects') end,        { desc = 'Next method end' })
+        vim.keymap.set({ 'n', 'x', 'o' }, '[m', function() ts_move.goto_previous_start('@function.outer', 'textobjects') end,  { desc = 'Prev method start' })
+        vim.keymap.set({ 'n', 'x', 'o' }, '[a', function() ts_move.goto_previous_start('@parameter.inner', 'textobjects') end, { desc = 'Prev argument' })
+        vim.keymap.set({ 'n', 'x', 'o' }, '[M', function() ts_move.goto_previous_end('@function.outer', 'textobjects') end,    { desc = 'Prev method end' })
+
+        -- {A }A | swap with prev/next argument
+        vim.keymap.set('n', '}A', function() ts_swap.swap_next('@parameter.inner') end,     { desc = 'Swap with next argument' })
+        vim.keymap.set('n', '{A', function() ts_swap.swap_previous('@parameter.inner') end, { desc = 'Swap with previous argument' })
+
+        -- main branch does not auto-start treesitter; do it ourselves so that
+        -- highlighting, folds, and the textobjects above are all active
+        local aug = vim.api.nvim_create_augroup('nvim_init_treesitter', {})
+        vim.api.nvim_create_autocmd('FileType', {
+          group = aug,
+          callback = function(ev)
+            local lang = vim.treesitter.language.get_lang(vim.bo[ev.buf].filetype)
+            if lang and vim.tbl_contains(nts.get_installed(), lang) then
+              pcall(vim.treesitter.start, ev.buf, lang)
+            end
+          end,
+        })
+        vim.api.nvim_create_autocmd('FileType', {
+          group = aug,
+          pattern = 'lua,typescriptreact',
+          callback = function()
+            vim.wo.foldmethod = 'expr'
+            vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+          end,
+        })
+      end
+
+      -- sticky context header: standalone plugin, works on both master and main
+      require('treesitter-context').setup {
+        enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
+        max_lines = 3, -- How many lines the window should span. Values <= 0 mean no limit.
+        trim_scope = 'outer', -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
+        patterns = { -- Match patterns for TS nodes. These get wrapped to match at word boundaries.
+          -- For all filetypes
+          -- Note that setting an entry here replaces all other patterns for this entry.
+          -- By setting the 'default' entry below, you can control which nodes you want to
+          -- appear in the context window.
+          default = {
+            'class',
+            'function',
+            'method',
+            -- 'for', -- These won't appear in the context
+            -- 'while',
+            -- 'if',
+            -- 'switch',
+            -- 'case',
+          },
+          yaml = {
+            'block_mapping_pair'
+          },
+        },
+        separator = nil, -- Separator between context and content. Should be a single character string, like '-'.
+        mode = 'topline',
+      }
+      vim.cmd([[
+        nnoremap <Plug>(unimpaired-enable)C :TSContext enable<cr>
+        nnoremap <Plug>(unimpaired-disable)C :TSContext disable<cr>
+        nnoremap <Plug>(unimpaired-toggle)C :TSContext toggle<cr>
+      ]])
+
+      vim.cmd([[
+        autocmd BufRead,BufEnter *.astro set filetype=astro
+      ]])
       vim.treesitter.language.register('json5', 'json')
     end
   },
