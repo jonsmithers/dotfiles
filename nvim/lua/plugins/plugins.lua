@@ -1,4 +1,5 @@
 local constants = require("utils.constants")
+local is012 = vim.fn.has('nvim-0.12.0') == 1
 return {
 
   { 'MTDL9/vim-log-highlighting' },
@@ -635,8 +636,8 @@ return {
   },
 
   { 'nvim-treesitter/nvim-treesitter',
-    branch = (vim.fn.has('nvim-0.12.0') == 1) and 'main' or 'master',
-    dependencies = (vim.fn.has('nvim-0.12.0') == 1) and {
+    branch = is012 and 'main' or 'master',
+    dependencies = is012 and {
       { 'nvim-treesitter/nvim-treesitter-textobjects', branch = 'main' },
       'nvim-treesitter/nvim-treesitter-context',
     } or {
@@ -651,8 +652,6 @@ return {
       vim.cmd'TSUpdate'
     end,
     config = function()
-      local is012 = vim.fn.has('nvim-0.12.0') == 1
-
       if not is012 then
       require'nvim-treesitter'.setup {
         incremental_selection = {
