@@ -15,14 +15,19 @@
 --   "auto"          -- detect the best method from the environment (see below)
 --   "nvim"          -- use nvim's built-in terminal in a vertical split
 --   "ghostty-macos" -- use Ghostty's AppleScript to create a new terminal split (macOS only)
+--   "kitty"         -- use kitty's remote control to create a new terminal split
 local TERMINAL_SPLIT_METHOD = 'auto'
 
 -- Resolve "auto" to a concrete method: prefer Ghostty's AppleScript split when
--- running inside Ghostty on macOS, otherwise fall back to nvim's terminal.
+-- running inside Ghostty on macOS, use kitty's remote control when running
+-- inside kitty, otherwise fall back to nvim's terminal.
 if TERMINAL_SPLIT_METHOD == 'auto' then
   local is_ghostty = vim.env.TERM == 'xterm-ghostty' or vim.env.GHOSTTY_RESOURCES_DIR ~= nil
+  local is_kitty = vim.env.TERM == 'xterm-kitty' or vim.env.KITTY_WINDOW_ID ~= nil
   if is_ghostty and vim.fn.has('mac') == 1 then
     TERMINAL_SPLIT_METHOD = 'ghostty-macos'
+  elseif is_kitty then
+    TERMINAL_SPLIT_METHOD = 'kitty'
   else
     TERMINAL_SPLIT_METHOD = 'nvim'
   end
@@ -45,6 +50,24 @@ tell application "Ghostty"
 end tell
 ]], applescript_cmd)
     vim.fn.system({ 'osascript', '-e', script })
+  elseif TERMINAL_SPLIT_METHOD == 'kitty' then
+    -- Use kitty's remote control to open a new split running the command.
+    -- Launch a shell that runs the command then stays open, so the claude
+    -- session (and its scrollback) remains after it exits.
+    local nvim_window_id = vim.env.KITTY_WINDOW_ID
+    -- Run through the user's interactive login shell so PATH (and thus the
+    -- `claude` executable) is resolved, then keep the shell open afterwards.
+    local shell = vim.env.SHELL or 'sh'
+    vim.fn.system({
+      'kitty', '@', 'launch',
+      '--cwd', 'current',
+      '--location', 'vsplit',
+      shell, '-i', '-c', cmd .. '; exec ' .. shell .. ' -i',
+    })
+    -- Re-focus nvim, since the new split steals focus.
+    if nvim_window_id then
+      vim.fn.system({ 'kitty', '@', 'focus-window', '--match', 'id:' .. nvim_window_id })
+    end
   else
     vim.cmd.vsplit()
     vim.cmd.terminal(cmd)
