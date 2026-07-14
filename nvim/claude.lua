@@ -133,6 +133,11 @@ vim.api.nvim_create_user_command('Claude', function(opts)
   -- When invoked with a visual selection (opts.range > 0), append the selected
   -- line numbers to the file reference so claude focuses on that range.
   local file = vim.fn.expand('%:p')
+  -- Save the current file first so claude reads the on-disk contents that match
+  -- what's in the buffer (update only writes if the buffer is modified).
+  if file ~= '' then
+    vim.cmd('silent! update')
+  end
   local ref = file
   if file ~= '' and opts.range > 0 then
     if opts.line1 == opts.line2 then
