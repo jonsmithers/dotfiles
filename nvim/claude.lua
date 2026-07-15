@@ -33,8 +33,44 @@ if TERMINAL_SPLIT_METHOD == 'auto' then
   end
 end
 
+-- A reference to a file (and optional line range) that gets prepended to the
+-- claude prompt. Encapsulates the "@file#Lx-y" format so only to_string() knows
+-- what a file reference looks like; the rest of the code passes the object around.
+--   line1/line2 both nil        -> whole file
+--   line1 == line2              -> single line ("#L5")
+--   line1 ~= line2              -> range ("#L5-10")
+---@class FileRef
+---@field filepath string
+---@field line1? integer
+---@field line2? integer
+local FileRef = {}
+FileRef.__index = FileRef
+
+---@param filepath string
+---@param line1? integer
+---@param line2? integer
+---@return FileRef
+function FileRef.new(filepath, line1, line2)
+  return setmetatable({ filepath = filepath, line1 = line1, line2 = line2 }, FileRef)
+end
+
+---@return string
+function FileRef:to_string()
+  if not self.filepath or self.filepath == '' then
+    return ''
+  end
+  if not self.line1 then
+    return self.filepath
+  end
+  if self.line1 == self.line2 then
+    return self.filepath .. '#L' .. self.line1
+  end
+  return self.filepath .. '#L' .. self.line1 .. '-' .. self.line2
+end
+
 -- Open the given shell command in a terminal split, using the method resolved
 -- above (TERMINAL_SPLIT_METHOD).
+---@param cmd string
 local function open_terminal_split(cmd)
   if TERMINAL_SPLIT_METHOD == 'ghostty-macos' then
     -- Use Ghostty's AppleScript to open the command in a new terminal split.
@@ -76,10 +112,13 @@ end tell
 end
 
 -- Build the final prompt (file reference + user text) and launch claude in a
--- terminal split. `ref` is the "@file#Lx-y" reference (may be empty); `str` is
--- the free-form prompt text, which may contain newlines.
-local function launch_claude(ref, str)
-  local prompt = ref ~= '' and ('@' .. ref) or ''
+-- terminal split. `ref` is a FileRef (or nil for no reference); `str` is the
+-- free-form prompt text, which may contain newlines.
+---@param file_ref? FileRef
+---@param str string
+local function launch_claude(file_ref, str)
+  local ref_str = file_ref and file_ref:to_string() or ''
+  local prompt = ref_str ~= '' and ('@' .. ref_str) or ''
   if str ~= '' then
     prompt = prompt ~= '' and (prompt .. '\n' .. str) or str
   end
@@ -96,12 +135,24 @@ end
 -- Open a floating scratch window (via Snacks.win) for composing a true
 -- multiline prompt. Press <CR> in normal mode to send it to claude, or q/<Esc>
 -- to cancel.
-local function open_prompt_buffer(ref)
-  -- Seed with the file reference as a comment-y first line for context, but the
-  -- reference is added by launch_claude() so the user only types their prompt.
-  local seed = {}
-  if ref ~= '' then
-    seed = { '# ' .. ref .. ' (reference — do not edit)', '', '' }
+---@param file_ref? FileRef
+local function open_prompt_buffer(file_ref)
+  -- Build the file-reference header shown above the prompt. We render it as
+  -- virtual lines (an extmark) rather than real buffer text so it can't be
+  -- edited, moved, or deleted -- the buffer holds only the user's prompt, so
+  -- there's nothing to strip back off when sending.
+  local header = {}
+  if file_ref and file_ref.filepath and file_ref.filepath ~= '' then
+    header[#header + 1] = 'File: ' .. file_ref.filepath
+    if file_ref.line1 then
+      local line_label
+      if file_ref.line1 == file_ref.line2 then
+        line_label = tostring(file_ref.line1)
+      else
+        line_label = file_ref.line1 .. '-' .. file_ref.line2
+      end
+      header[#header + 1] = 'Line: ' .. line_label
+    end
   end
 
   local win = require('snacks').win({
@@ -112,10 +163,8 @@ local function open_prompt_buffer(ref)
     title_pos = 'center',
     width = 0.6,
     height = 0.4,
-    text = seed,
     bo = { buftype = 'nofile', bufhidden = 'wipe', swapfile = false, filetype = 'markdown' },
     wo = { wrap = true },
-    start_insert = true,
     enter = true,
     keys = {
       q = 'close',
@@ -123,25 +172,41 @@ local function open_prompt_buffer(ref)
         '<CR>',
         function(self)
           local lines = vim.api.nvim_buf_get_lines(self.buf, 0, -1, false)
-          -- Drop the reference/instruction line we seeded above.
-          if ref ~= '' and lines[1] and lines[1]:match('%(reference') then
-            table.remove(lines, 1)
-          end
           local str = vim.trim(table.concat(lines, '\n'))
           self:close()
-          launch_claude(ref, str)
+          launch_claude(file_ref, str)
         end,
         mode = 'n',
       },
     },
   })
 
-  -- Place the cursor below the seeded reference line, then enter insert mode so
-  -- the user can start typing their prompt immediately.
-  if ref ~= '' then
-    vim.api.nvim_win_set_cursor(win.win, { 3, 0 })
-  end
-  vim.cmd('startinsert')
+  -- Anchor the header above buffer line 1 (index 1). Neovim won't paint
+  -- virt_lines above line 0 (the top screen line), so we seed a blank line 0 for
+  -- the header to hang beneath and put the cursor on line 1 for the user to type.
+  vim.schedule(function()
+    if not (win.buf and vim.api.nvim_buf_is_valid(win.buf)) then
+      return
+    end
+    if #header > 0 then
+      vim.api.nvim_buf_set_lines(win.buf, 0, -1, false, { '', '' })
+      local ns = vim.api.nvim_create_namespace('claude_prompt_header')
+      local virt_lines = {}
+      for _, line in ipairs(header) do
+        virt_lines[#virt_lines + 1] = { { line, 'Comment' } }
+      end
+      -- Blank virtual line for spacing between the header and the prompt text.
+      virt_lines[#virt_lines + 1] = { { '', 'Comment' } }
+      vim.api.nvim_buf_set_extmark(win.buf, ns, 1, 0, {
+        virt_lines = virt_lines,
+        virt_lines_above = true,
+      })
+      if win.win and vim.api.nvim_win_is_valid(win.win) then
+        vim.api.nvim_win_set_cursor(win.win, { 2, 0 })
+      end
+    end
+    vim.cmd('startinsert')
+  end)
 end
 
 vim.keymap.set('n', '<leader>ac', ':Claude<cr>')
@@ -161,20 +226,20 @@ vim.api.nvim_create_user_command('Claude', function(opts)
   if file ~= '' then
     vim.cmd('silent! update')
   end
-  local ref = file
-  if file ~= '' and opts.range > 0 then
-    if opts.line1 == opts.line2 then
-      ref = file .. '#L' .. opts.line1
+  local file_ref = nil
+  if file ~= '' then
+    if opts.range > 0 then
+      file_ref = FileRef.new(file, opts.line1, opts.line2)
     else
-      ref = file .. '#L' .. opts.line1 .. '-' .. opts.line2
+      file_ref = FileRef.new(file)
     end
   end
 
   -- With no prompt text, open a scratch buffer for composing a full multiline
   -- prompt; otherwise launch directly with the (possibly \n-expanded) text.
   if str == '' then
-    open_prompt_buffer(ref)
+    open_prompt_buffer(file_ref)
   else
-    launch_claude(ref, str)
+    launch_claude(file_ref, str)
   end
 end, { nargs = '*', range = true })
