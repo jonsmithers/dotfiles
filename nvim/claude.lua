@@ -137,22 +137,21 @@ end
 -- to cancel.
 ---@param file_ref? FileRef
 local function open_prompt_buffer(file_ref)
-  -- Build the file-reference header shown above the prompt. We render it as
-  -- virtual lines (an extmark) rather than real buffer text so it can't be
-  -- edited, moved, or deleted -- the buffer holds only the user's prompt, so
-  -- there's nothing to strip back off when sending.
-  local header = {}
+  -- Build the file-reference label shown in the window footer. Putting it in the
+  -- footer (rather than as buffer text or a virtual line above line 1) keeps the
+  -- buffer as a single empty line with the cursor at the top -- no leading blank
+  -- line to strip on send, and nothing the user can accidentally edit or delete.
+  local footer = ' Claude '
   if file_ref and file_ref.filepath and file_ref.filepath ~= '' then
-    header[#header + 1] = 'File: ' .. file_ref.filepath
+    footer = ' File: ' .. vim.fn.fnamemodify(file_ref.filepath, ':t')
     if file_ref.line1 then
-      local line_label
       if file_ref.line1 == file_ref.line2 then
-        line_label = tostring(file_ref.line1)
+        footer = footer .. '#L' .. file_ref.line1
       else
-        line_label = file_ref.line1 .. '-' .. file_ref.line2
+        footer = footer .. '#L' .. file_ref.line1 .. '-' .. file_ref.line2
       end
-      header[#header + 1] = 'Line: ' .. line_label
     end
+    footer = footer .. ' '
   end
 
   local win = require('snacks').win({
@@ -161,6 +160,8 @@ local function open_prompt_buffer(file_ref)
     border = 'rounded',
     title = ' Claude prompt ',
     title_pos = 'center',
+    footer = footer,
+    footer_pos = 'center',
     width = 0.6,
     height = 0.4,
     bo = { buftype = 'nofile', bufhidden = 'wipe', swapfile = false, filetype = 'markdown' },
@@ -168,6 +169,8 @@ local function open_prompt_buffer(file_ref)
     enter = true,
     keys = {
       q = 'close',
+      -- <C-c> in insert mode closes the window without sending.
+      ['<C-c>'] = { '<C-c>', 'close', mode = 'i' },
       send = {
         '<CR>',
         function(self)
@@ -181,31 +184,10 @@ local function open_prompt_buffer(file_ref)
     },
   })
 
-  -- Anchor the header above buffer line 1 (index 1). Neovim won't paint
-  -- virt_lines above line 0 (the top screen line), so we seed a blank line 0 for
-  -- the header to hang beneath and put the cursor on line 1 for the user to type.
   vim.schedule(function()
-    if not (win.buf and vim.api.nvim_buf_is_valid(win.buf)) then
-      return
+    if win.buf and vim.api.nvim_buf_is_valid(win.buf) then
+      vim.cmd('startinsert')
     end
-    if #header > 0 then
-      vim.api.nvim_buf_set_lines(win.buf, 0, -1, false, { '', '' })
-      local ns = vim.api.nvim_create_namespace('claude_prompt_header')
-      local virt_lines = {}
-      for _, line in ipairs(header) do
-        virt_lines[#virt_lines + 1] = { { line, 'Comment' } }
-      end
-      -- Blank virtual line for spacing between the header and the prompt text.
-      virt_lines[#virt_lines + 1] = { { '', 'Comment' } }
-      vim.api.nvim_buf_set_extmark(win.buf, ns, 1, 0, {
-        virt_lines = virt_lines,
-        virt_lines_above = true,
-      })
-      if win.win and vim.api.nvim_win_is_valid(win.win) then
-        vim.api.nvim_win_set_cursor(win.win, { 2, 0 })
-      end
-    end
-    vim.cmd('startinsert')
   end)
 end
 
