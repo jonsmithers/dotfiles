@@ -146,9 +146,9 @@ local function open_prompt_buffer(file_ref)
     footer = ' File: ' .. vim.fn.fnamemodify(file_ref.filepath, ':t')
     if file_ref.line1 then
       if file_ref.line1 == file_ref.line2 then
-        footer = footer .. '#L' .. file_ref.line1
+        footer = footer .. ', Line:' .. file_ref.line1
       else
-        footer = footer .. '#L' .. file_ref.line1 .. '-' .. file_ref.line2
+        footer = footer .. ', Lines:' .. file_ref.line1 .. '-' .. file_ref.line2
       end
     end
     footer = footer .. ' '
@@ -203,6 +203,11 @@ vim.api.nvim_create_user_command('Claude', function(opts)
   -- When invoked with a visual selection (opts.range > 0), append the selected
   -- line numbers to the file reference so claude focuses on that range.
   local file = vim.fn.expand('%:p')
+  -- Only treat the buffer as a real file claude can read. Skips plugin/scheme
+  -- buffers (oil://, fugitive://, term://, help, quickfix, prompt, scratch, …).
+  if vim.bo.buftype ~= '' or (file ~= '' and vim.fn.filereadable(file) == 0) then
+    file = ''
+  end
   -- Save the current file first so claude reads the on-disk contents that match
   -- what's in the buffer (update only writes if the buffer is modified).
   if file ~= '' then
