@@ -42,6 +42,14 @@
       "after": ["k", "d", "d", "p", "k"],
     },
     {
+      "before": ["[", "d"],
+      "commands": ["editor.action.marker.prev"],
+    },
+    {
+      "before": ["]", "d"],
+      "commands": ["editor.action.marker.next"],
+    },
+    {
       "before": ["[", "g"],
       "commands": ["editor.action.marker.prev"],
     },
