@@ -488,8 +488,9 @@ return {
             end, 'Oganize imports')
           end
         end
-        nnoremap_buffer(']g',        '<cmd>lua vim.diagnostic.goto_next()<CR>',                                                                                 'Go to next diagnostic')
-        nnoremap_buffer('[g',        '<cmd>lua vim.diagnostic.goto_prev()<CR>',                                                                                 'Go to previous diagnostic')
+        -- nnoremap_buffer(']g',        '<cmd>lua vim.diagnostic.jump({count=1})<CR>',                                                                             'Go to next diagnostic')
+        -- nnoremap_buffer('[g',        '<cmd>lua vim.diagnostic.jump({count=-1})<CR>',                                                                            'Go to previous diagnostic')
+        -- 👆🏻 replaced by ]d [d
         nnoremap_buffer('gi',        function() Snacks.picker.lsp_implementations() end,                                                                        'Go to implementations')
         nnoremap_buffer('gu',        '<cmd>Trouble lsp_references<CR>',                                                                                         'Go to usages')
         nnoremap_buffer('gd',        '<cmd>Trouble lsp_definitions<CR>',                                                                                         'Go to definitions')
