@@ -157,7 +157,7 @@ def replace_or_add_lines(file: str, start_pattern: str, end_pattern: str, replac
     # print(file_content)
     # print("LINES END")
     pattern = re.compile(rf"{start_pattern}.*?{end_pattern}", re.DOTALL)
-    new_content=re.sub(pattern, f"{start_pattern}\n{replacement}\n{end_pattern}\n", file_content)
+    new_content=re.sub(pattern, f"{start_pattern}\n{replacement}\n{end_pattern}", file_content)
     with open(path.expanduser(file), 'w') as fw:
       # print('NEW CONTENT')
       # print(new_content)
